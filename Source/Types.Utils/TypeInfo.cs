@@ -5,7 +5,7 @@
 using System;
 using System.Reflection;
 
-namespace doLittle.Types
+namespace doLittle.Types.Utils
 {
     /// <summary>
     /// Represents an implementation of <see cref="ITypeInfo"/>

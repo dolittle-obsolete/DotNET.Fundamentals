@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace doLittle.Types
+namespace doLittle.Types.Utils
 {
 	/// <summary>
 	/// Provides a set of methods for working with <see cref="Type">types</see>

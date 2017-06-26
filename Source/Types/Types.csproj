@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Types.Utils\Types.Utils.csproj" />
     <ProjectReference Include="..\Assemblies\Assemblies.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
   </ItemGroup>
