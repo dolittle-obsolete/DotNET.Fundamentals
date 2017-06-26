@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.DependencyInversion
+namespace doLittle.Execution
 {
     /// <summary>
     /// Indicates that a class is Singleton and should be treated as such
