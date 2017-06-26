@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\DependencyInversion.Conventions\DependencyInversion.Conventions.csproj" />
+    <ProjectReference Include="..\..\Source\Execution\Execution.csproj" />
   </ItemGroup>
 
 </Project>
