@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using Machine.Specifications;
 
-namespace doLittle.Specifications.Specifications.for_Negative
+namespace doLittle.Specifications.Specs.for_Negative
 {
     [Subject(typeof(Specification<>))]
     public class when_applying_a_not_rule_against_a_satisfying_instance : given.rules_and_colored_shapes

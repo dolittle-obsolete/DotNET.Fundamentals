@@ -5,7 +5,7 @@
 using System.Linq;
 using Machine.Specifications;
 
-namespace doLittle.Specifications.Specifications.given
+namespace doLittle.Specifications.Specs.given
 {
     public class colored_shapes
     {

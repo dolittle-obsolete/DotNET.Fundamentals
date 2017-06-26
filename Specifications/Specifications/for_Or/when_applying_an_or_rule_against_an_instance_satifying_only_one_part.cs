@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using Machine.Specifications;
 
-namespace doLittle.Specifications.Specifications.for_Or
+namespace doLittle.Specifications.Specs.for_Or
 {
     [Subject(typeof(Specification<>))]
     public class when_applying_an_or_rule_against_an_instance_satifying_only_one_part : given.rules_and_colored_shapes

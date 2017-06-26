@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using Machine.Specifications;
 
-namespace doLittle.Specifications.Specifications.given
+namespace doLittle.Specifications.Specs.given
 {
     public class rules_and_colored_shapes : colored_shapes
     {

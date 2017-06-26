@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using Machine.Specifications;
 
-namespace doLittle.Specifications.Specifications.for_Specification
+namespace doLittle.Specifications.Specs.for_Specification
 {
     [Subject(typeof (Specification<>))]
     public class when_applying_a_simple_rule_against_a_satisfying_instance : given.rules_and_colored_shapes
