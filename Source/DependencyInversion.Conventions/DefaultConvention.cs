@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using doLittle.Types;
+using doLittle.Types.Utils;
 
 namespace doLittle.DependencyInversion.Conventions
 {
@@ -21,7 +21,7 @@ namespace doLittle.DependencyInversion.Conventions
     public class DefaultConvention : BindingConvention
     {
         /// <summary>
-        /// Initializes a new instance of <see creF="DefaultConvention">DefaultConvention</see>
+        /// Initializes a new instance of <see cref="DefaultConvention">DefaultConvention</see>
         /// </summary>
         public DefaultConvention()
         {

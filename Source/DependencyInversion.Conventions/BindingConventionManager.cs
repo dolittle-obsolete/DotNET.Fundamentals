@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using doLittle.Types;
+using doLittle.Execution;
 
 namespace doLittle.DependencyInversion.Conventions
 {
