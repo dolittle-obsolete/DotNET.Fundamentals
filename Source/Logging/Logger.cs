@@ -18,7 +18,7 @@ namespace doLittle.Logging
         /// <summary>
         /// Internal logger for those scenarios where it can't be or it is inconvenient to get it injected
         /// </summary>
-        internal static ILogger Internal => _internal;
+        public static ILogger Internal => _internal;
 
         static Logger()
         {
