@@ -10,17 +10,12 @@ namespace doLittle.DependencyInversion
     public enum BindingLifecycle
     {
         /// <summary>
-        /// Scoped as a singleton within the Ninject kernel
+        /// Scoped as a singleton
         /// </summary>
         Singleton,
 
         /// <summary>
-        /// Scoped as per request - tied into the current WebRequest
-        /// </summary>
-        Request,
-
-        /// <summary>
-        /// Scoped to null
+        /// Scoped to transient lifecycle
         /// </summary>
         Transient,
 
