@@ -6,9 +6,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/Samples/SimpleWeb/bin/Debug/netcoreapp1.1/SimpleWeb.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}/Samples/SimpleWeb",
+            "program": "dotnet",
+            "args": ["test"],
+            "cwd": "${workspaceRoot}/Specifications/Types.Utils",
             "externalConsole": false,
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart"

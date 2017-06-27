@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace doLittle.Types.Utils
@@ -21,9 +22,13 @@ namespace doLittle.Types.Utils
         TypeInfo()
         {
             var type = typeof(T); 
+            var typeInfo = type.GetTypeInfo();
+
+            var defaultConstructor = typeInfo.DeclaredConstructors.Any(c=>c.GetParameters().Length == 0);
+            
             HasDefaultConstructor = 
-                type.GetTypeInfo().IsValueType ||
-                type.HasDefaultConstructor();
+                typeInfo.IsValueType ||
+                defaultConstructor;
         }
 
         /// <inheritdoc/>

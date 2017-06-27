@@ -8,14 +8,14 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": ["${workspaceRoot}/Specifications/Types"],
+            "args": ["${workspaceRoot}/Specifications/Types.Utils"],
             "isBuildCommand": true,
             "showOutput": "always",
             "problemMatcher": "$msCompile"
         },
         {
             "taskName": "test",
-            "args": ["${workspaceRoot}/Specifications/Types/Types.csproj"],
+            "args": ["${workspaceRoot}/Specifications/Types.Utils/Types.Utils.csproj"],
             "isTestCommand": true,
             "problemMatcher": "$msCompile"
         }

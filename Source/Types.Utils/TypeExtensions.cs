@@ -9,15 +9,15 @@ using System.Reflection;
 
 namespace doLittle.Types.Utils
 {
-	/// <summary>
-	/// Provides a set of methods for working with <see cref="Type">types</see>
-	/// </summary>
-	public static class TypeExtensions
-	{
+    /// <summary>
+    /// Provides a set of methods for working with <see cref="Type">types</see>
+    /// </summary>
+    public static class TypeExtensions
+    {
         static HashSet<Type> AdditionalPrimitiveTypes = new HashSet<Type>
             {
                 typeof(decimal),typeof(string),typeof(Guid),typeof(DateTime),typeof(DateTimeOffset),typeof(TimeSpan)
-            }; 
+            };
 
         static HashSet<Type> NumericTypes = new HashSet<Type>
         {
@@ -30,7 +30,9 @@ namespace doLittle.Types.Utils
         static ITypeInfo GetTypeInfo(Type type)
         {
             var typeInfoType = typeof(TypeInfo<>).MakeGenericType(type);
-            return typeInfoType.GetRuntimeFields().Where(f => f.Name == "Instance" && f.IsStatic && f.IsPublic).Single().GetValue(null) as ITypeInfo;
+            var instanceField = typeInfoType.GetRuntimeFields().Where(f => f.Name == "Instance" && f.IsStatic && f.IsPublic).Single();
+            var typeInfo = instanceField.GetValue(null) as ITypeInfo;
+            return typeInfo;
         }
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace doLittle.Types.Utils
         /// <returns>True if type is a date, false if not</returns>
         public static bool IsDate(this Type type)
         {
-            return type == typeof (DateTime) || Nullable.GetUnderlyingType(type) == typeof (DateTime);
+            return type == typeof(DateTime) || Nullable.GetUnderlyingType(type) == typeof(DateTime);
         }
 
         /// <summary>
@@ -82,7 +84,7 @@ namespace doLittle.Types.Utils
         /// <returns>True if type is a boolean, false if not</returns>
         public static bool IsBoolean(this Type type)
         {
-            return type == typeof (Boolean) || Nullable.GetUnderlyingType(type) == typeof (Boolean);
+            return type == typeof(Boolean) || Nullable.GetUnderlyingType(type) == typeof(Boolean);
         }
 
         /// <summary>
@@ -128,17 +130,17 @@ namespace doLittle.Types.Utils
         }
 
 
-		/// <summary>
-		/// Check if a type implements a specific interface
-		/// </summary>
-		/// <typeparam name="T">Interface to check for</typeparam>
-		/// <param name="type">Type to check</param>
-		/// <returns>True if the type implements the interface, false if not</returns>
-		public static bool HasInterface<T>(this Type type)
-		{
-		    var hasInterface = type.HasInterface(typeof (T));
-			return hasInterface;
-		}
+        /// <summary>
+        /// Check if a type implements a specific interface
+        /// </summary>
+        /// <typeparam name="T">Interface to check for</typeparam>
+        /// <param name="type">Type to check</param>
+        /// <returns>True if the type implements the interface, false if not</returns>
+        public static bool HasInterface<T>(this Type type)
+        {
+            var hasInterface = type.HasInterface(typeof(T));
+            return hasInterface;
+        }
 
         /// <summary>
         /// Check if a type implements a specific interface
@@ -148,7 +150,7 @@ namespace doLittle.Types.Utils
         /// <returns>True if the type implements the interface, false if not</returns>
         public static bool HasInterface(this Type type, Type interfaceType)
         {
-            var hasInterface = type.GetTypeInfo().ImplementedInterfaces.Where(t => t.FullName == interfaceType.FullName).Count() == 1;
+            var hasInterface = type.GetTypeInfo().ImplementedInterfaces.Where(t => $"{t.Namespace}.{t.Name}" == $"{interfaceType.Namespace}.{interfaceType.Name}").Count() == 1;
             return hasInterface;
         }
 
@@ -181,13 +183,12 @@ namespace doLittle.Types.Utils
         /// <returns></returns>
         public static bool ImplementsOpenGeneric(this Type type, Type openGenericType)
         {
-
             var openGenericTypeInfo = openGenericType.GetTypeInfo();
             var typeInfo = type.GetTypeInfo();
 
             return typeInfo.GetInterfaces()
-                .Where(i => i.GetTypeInfo().IsGenericType) 
-                .Where(i => i.GetTypeInfo().GetGenericTypeDefinition().Equals(openGenericTypeInfo))
+                .Where(i => i.GetTypeInfo().IsGenericType)
+                .Where(i => i.GetTypeInfo().GetGenericTypeDefinition().GetTypeInfo() == openGenericTypeInfo)
                 .Any();
         }
         /// <summary>
@@ -198,7 +199,8 @@ namespace doLittle.Types.Utils
         /// <returns>True if a "primitive"</returns>
         public static bool IsAPrimitiveType(this Type type)
         {
-            return type.GetTypeInfo().IsPrimitive; 
+            return type.GetTypeInfo().IsPrimitive
+                    || type.IsNullable() || AdditionalPrimitiveTypes.Contains(type) || type == typeof(decimal);
         }
 
 
@@ -223,26 +225,26 @@ namespace doLittle.Types.Utils
             return type.BaseTypes()
                 .Concat(type.GetTypeInfo().GetInterfaces())
                 .SelectMany(ThisAndMaybeOpenType)
-                .Where(t=>t != type && t != typeof(Object));
+                .Where(t => t != type && t != typeof(Object));
         }
 
-	    static IEnumerable<Type> BaseTypes(this Type type)
-	    {
-	        var currentType = type;
+        static IEnumerable<Type> BaseTypes(this Type type)
+        {
+            var currentType = type;
             while (currentType != null)
-	        {
-	            yield return currentType;
-	            currentType = currentType.GetTypeInfo().BaseType;
-	        }
-	    }
+            {
+                yield return currentType;
+                currentType = currentType.GetTypeInfo().BaseType;
+            }
+        }
 
-	    static IEnumerable<Type> ThisAndMaybeOpenType(Type type)
-	    {
-	        yield return type;
-	        if (type.GetTypeInfo().IsGenericType && !type.GetTypeInfo().ContainsGenericParameters)
-	        {
-	            yield return type.GetGenericTypeDefinition();
-	        }
-	    }
-	}
+        static IEnumerable<Type> ThisAndMaybeOpenType(Type type)
+        {
+            yield return type;
+            if (type.GetTypeInfo().IsGenericType && !type.GetTypeInfo().ContainsGenericParameters)
+            {
+                yield return type.GetGenericTypeDefinition();
+            }
+        }
+    }
 }
