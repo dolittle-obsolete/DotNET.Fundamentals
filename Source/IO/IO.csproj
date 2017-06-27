@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <AssemblyName>doLittle.IO</AssemblyName>
+  </PropertyGroup>
+  <Import Project="../../Build/MSBuild/default.props" />
+</Project>
