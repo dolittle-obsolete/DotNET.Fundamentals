@@ -2,7 +2,9 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-namespace doLittle.Assemblies.Rules
+using doLittle.Assemblies.Rules;
+
+namespace doLittle.Assemblies.Configuration
 {
     /// <summary>
     /// Represents a builder for building configuration used by <see cref="Assemblies"/>

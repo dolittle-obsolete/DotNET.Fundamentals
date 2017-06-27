@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using doLittle.Specifications;
 
-namespace doLittle.Assemblies.Rules
+namespace doLittle.Assemblies.Configuration
 {
     /// <summary>
     /// Represents the configuration for Assemblies
