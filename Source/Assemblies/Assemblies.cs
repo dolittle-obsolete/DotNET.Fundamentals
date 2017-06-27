@@ -1,32 +1,29 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) 2008-2017 doLittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using doLittle.Execution;
 
 namespace doLittle.Assemblies
 {
     /// <summary>
     /// Represents a <see cref="IAssemblies"/>
     /// </summary>
+    [Singleton]
     public class Assemblies : IAssemblies
     {
-        IAssemblyProvider _assemblyProvider;
         IEnumerable<Assembly> _assemblies;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Assemblies"/>
         /// </summary>
         public Assemblies(IAssemblyProvider assemblyProvider)
-        {
-            _assemblyProvider = assemblyProvider;
-            _assemblies = assemblyProvider
-                .GetAllByName()
-                .Select(assemblyName=>assemblyProvider.Load(assemblyName)).ToArray();
+        {   
+            _assemblies = assemblyProvider.GetAll();
         }
-
 
         /// <inheritdoc/>
         public IEnumerable<Assembly> GetAll()

@@ -14,7 +14,6 @@ namespace doLittle.Assemblies.Specs.for_Assemblies.given
     {
         protected static IEnumerable<AssemblyName>   assembly_names;
         protected static Assemblies assemblies;
-
         protected static AssemblyName first_assembly_name;
         protected static AssemblyName second_assembly_name;
         protected static Mock<Assembly> first_assembly_mock;
@@ -44,9 +43,7 @@ namespace doLittle.Assemblies.Specs.for_Assemblies.given
                 second_assembly_mock.Object
             };
 
-            assembly_provider_mock.Setup(a => a.GetAllByName()).Returns(assembly_names);
-            assembly_provider_mock.Setup(a => a.Load(first_assembly_name)).Returns(first_assembly_mock.Object);
-            assembly_provider_mock.Setup(a => a.Load(second_assembly_name)).Returns(second_assembly_mock.Object);
+            assembly_provider_mock.Setup(a => a.GetAll()).Returns(loaded_assemblies);
             assemblies = new Assemblies(assembly_provider_mock.Object); 
         };
     }

@@ -9,6 +9,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Execution\Execution.csproj" />
+    <ProjectReference Include="..\IO\IO.csproj" />
+    <ProjectReference Include="..\Logging\Logging.csproj" />
+    <ProjectReference Include="..\Types.Utils\Types.Utils.csproj" />
     <ProjectReference Include="..\Specifications\Specifications.csproj" />
   </ItemGroup>
   <Import Project="../../Build/MSBuild/default.props" />

@@ -1,7 +1,10 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
+ *  Copyright (c) 2008-2017 doLittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using doLittle.Assemblies.Configuration;
+using doLittle.Types;
+
 namespace doLittle.Assemblies
 {
     /// <summary>
@@ -9,7 +12,9 @@ namespace doLittle.Assemblies
     /// </summary>
     /// <remarks>
     /// Typically used by implementations of <see cref="IAssemblies"/> to 
-    /// get the correct assemblies located 
+    /// get the correct assemblies located.
+    /// An application can implement any number of these conventions.
+    /// Implementing classes must have a default constructor.
     /// </remarks>
     public interface ICanSpecifyAssemblies
     {

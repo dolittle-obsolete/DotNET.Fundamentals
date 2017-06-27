@@ -8,14 +8,20 @@ using System.Reflection;
 namespace doLittle.Assemblies
 {
     /// <summary>
-    /// Defines a system that can provide <see cref="Assembly">assemblies</see>
+    /// Represents a comparer for comparing assemblies, typically used in Distinct() 
     /// </summary>
-    public interface IAssemblyProvider
+    public class AssemblyComparer : IEqualityComparer<Assembly>
     {
-        /// <summary>
-        /// Get all the <see cref="Assembly">assemblies</see> that can be provided
-        /// </summary>
-        /// <returns><see cref="IEnumerable{Assembly}">Assemblies</see> provided</returns>
-        IEnumerable<Assembly> GetAll();
+        /// <inheritdoc/>
+        public bool Equals(Assembly x, Assembly y)
+        {
+            return x.FullName == y.FullName;
+        }
+
+        /// <inheritdoc/>
+        public int GetHashCode(Assembly obj)
+        {
+            return obj.GetHashCode();
+        }
     }
 }
