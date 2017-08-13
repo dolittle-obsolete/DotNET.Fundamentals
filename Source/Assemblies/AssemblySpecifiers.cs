@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using doLittle.Assemblies.Configuration;
 using doLittle.Collections;
+using doLittle.Logging;
 using doLittle.Types.Utils;
 
 namespace doLittle.Assemblies
@@ -17,14 +18,17 @@ namespace doLittle.Assemblies
     public class AssemblySpecifiers : IAssemblySpecifiers
     {
         readonly IAssemblyRuleBuilder _assemblyRuleBuilder;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblySpecifiers"/>
         /// </summary>
         /// <param name="assemblyRuleBuilder"><see cref="IAssemblyRuleBuilder"/> used for building the rules for assemblies</param>
-        public AssemblySpecifiers(IAssemblyRuleBuilder assemblyRuleBuilder)
+        /// <param name="logger"><see cref="ILogger"/> to use for logging</param>
+        public AssemblySpecifiers(IAssemblyRuleBuilder assemblyRuleBuilder, ILogger logger)
         {
             _assemblyRuleBuilder = assemblyRuleBuilder;
+            _logger = logger;
         }
 
         /// <inheritdoc/>
@@ -37,6 +41,7 @@ namespace doLittle.Assemblies
                 .Where(type => type.HasDefaultConstructor())
                 .ForEach(type =>
                 {
+                    _logger.Information($"Specifying from type {type.AssemblyQualifiedName}");
                     var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
                     specifier.Specify(_assemblyRuleBuilder);
                 });
