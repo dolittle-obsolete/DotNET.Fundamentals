@@ -21,7 +21,9 @@ namespace doLittle.Types.Utils
 
         TypeInfo()
         {
-            var type = typeof(T); 
+            var type = typeof(T);
+            Console.WriteLine($"Getting TypeInfo for '{type.AssemblyQualifiedName}");
+
             var typeInfo = type.GetTypeInfo();
 
             var defaultConstructor = typeInfo.DeclaredConstructors.Any(c=>c.GetParameters().Length == 0);
