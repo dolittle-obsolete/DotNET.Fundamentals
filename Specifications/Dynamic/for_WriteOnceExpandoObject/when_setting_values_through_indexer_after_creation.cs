@@ -1,8 +1,7 @@
 ﻿using System;
-using doLittle.Execution;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Execution.for_WriteOnceExpandoObject
+namespace doLittle.Dynamic.Specs.Execution.for_WriteOnceExpandoObject
 {
     [Subject(typeof(WriteOnceExpandoObject))]
     public class when_setting_values_through_indexer_after_creation : given.a_write_once_expando_object_without_values

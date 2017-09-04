@@ -1,7 +1,6 @@
 ﻿using Machine.Specifications;
-using doLittle.Execution;
 
-namespace doLittle.Specs.Execution.for_WriteOnceExpandoObject
+namespace doLittle.Dynamic.Specs.Execution.for_WriteOnceExpandoObject
 {
     [Subject(typeof(WriteOnceExpandoObject))]
     public class when_creating

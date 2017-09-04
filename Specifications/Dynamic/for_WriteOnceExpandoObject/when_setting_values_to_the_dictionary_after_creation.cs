@@ -1,8 +1,7 @@
 ﻿using System;
 using Machine.Specifications;
-using doLittle.Execution;
 
-namespace doLittle.Specs.Execution.for_WriteOnceExpandoObject
+namespace doLittle.Dynamic.Specs.Execution.for_WriteOnceExpandoObject
 {
     [Subject(typeof(WriteOnceExpandoObject))]
     public class when_setting_values_to_the_dictionary_after_creation : given.a_write_once_expando_object_without_values

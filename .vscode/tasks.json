@@ -8,14 +8,14 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": ["${workspaceRoot}/Source/Mapping", "--no-restore"],
+            "args": ["${workspaceRoot}/Source/Dynamic", "--no-restore"],
             "isBuildCommand": true,
             "showOutput": "always",
             "problemMatcher": "$msCompile"
         },
         {
             "taskName": "test",
-            "args": ["${workspaceRoot}/Specifications/Mapping/Mapping.csproj", "--no-restore"],
+            "args": ["${workspaceRoot}/Specifications/Dynamic/Dynamic.csproj", "--no-restore"],
             "isTestCommand": true,
             "problemMatcher": "$msCompile"
         }
