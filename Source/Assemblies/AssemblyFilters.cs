@@ -22,11 +22,10 @@ namespace doLittle.Assemblies
             _assembliesConfiguration = assembliesConfiguration;
         }
 
-#pragma warning disable 1591 // Xml Comments
+        /// <inheritdoc/>
         public bool ShouldInclude(string filename)
         {
             return _assembliesConfiguration.Specification.IsSatisfiedBy(filename);
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }
