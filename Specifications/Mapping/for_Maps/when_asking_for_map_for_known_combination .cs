@@ -2,7 +2,7 @@
 using doLittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Mapping.for_Maps
+namespace doLittle.Mapping.Specs.for_Maps
 {
     public class when_asking_for_map_for_known_combination : given.map_for_source_and_target_in_system
     {

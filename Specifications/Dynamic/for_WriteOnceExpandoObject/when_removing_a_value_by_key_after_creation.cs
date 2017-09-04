@@ -1,7 +1,7 @@
 ﻿using System;
 using Machine.Specifications;
 
-namespace doLittle.Dynamic.Specs.Execution.for_WriteOnceExpandoObject
+namespace doLittle.Dynamic.Specs.for_WriteOnceExpandoObject
 {
     [Subject(typeof(WriteOnceExpandoObject))]
     public class when_removing_a_value_by_key_after_creation : given.a_write_once_expando_object_with_values

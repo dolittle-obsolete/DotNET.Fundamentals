@@ -2,7 +2,7 @@
 using doLittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Mapping.for_MappingTargets.given
+namespace doLittle.Mapping.Specs.for_MappingTargets.given
 {
     public class mapping_target_for_string : all_dependencies
     {

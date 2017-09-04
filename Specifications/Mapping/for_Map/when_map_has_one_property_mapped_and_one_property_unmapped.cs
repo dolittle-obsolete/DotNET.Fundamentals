@@ -2,7 +2,7 @@
 using doLittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Mapping.for_Map
+namespace doLittle.Mapping.Specs.for_Map
 {
     public class when_map_has_one_property_mapped_and_one_property_unmapped
     {

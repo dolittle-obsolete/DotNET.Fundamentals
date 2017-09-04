@@ -1,5 +1,5 @@
 ﻿
-namespace doLittle.Specs.Mapping.for_Mapper.given
+namespace doLittle.Mapping.Specs.for_Mapper.given
 {
     public class all_dependencies
     {

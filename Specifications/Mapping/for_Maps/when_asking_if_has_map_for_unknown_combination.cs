@@ -2,7 +2,7 @@
 using doLittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Mapping.for_Maps
+namespace doLittle.Mapping.Specs.for_Maps
 {
     public class when_asking_if_has_map_for_unknown_combination : given.no_maps
     {

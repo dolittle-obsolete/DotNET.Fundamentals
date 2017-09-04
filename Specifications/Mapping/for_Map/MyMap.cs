@@ -1,6 +1,6 @@
 ﻿using doLittle.Mapping;
 
-namespace doLittle.Specs.Mapping.for_Map
+namespace doLittle.Mapping.Specs.for_Map
 {
     public class MyMap : Map<Source, Target>
     {

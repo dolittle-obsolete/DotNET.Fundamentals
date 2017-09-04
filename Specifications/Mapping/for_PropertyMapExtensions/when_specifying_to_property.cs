@@ -2,7 +2,7 @@
 using doLittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Mapping.for_PropertyMapExtensions
+namespace doLittle.Mapping.Specs.for_PropertyMapExtensions
 {
     public class when_specifying_to_property
     {

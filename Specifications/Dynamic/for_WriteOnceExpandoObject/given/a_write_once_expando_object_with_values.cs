@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace doLittle.Dynamic.Specs.Execution.for_WriteOnceExpandoObject.given
+namespace doLittle.Dynamic.Specs.for_WriteOnceExpandoObject.given
 {
     public class a_write_once_expando_object_with_values
     {

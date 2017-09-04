@@ -1,7 +1,7 @@
 ﻿using System;
 using Machine.Specifications;
 
-namespace doLittle.Dynamic.Specs.Execution.for_WriteOnceExpandoObject
+namespace doLittle.Dynamic.Specs.for_WriteOnceExpandoObject
 {
     [Behaviors]
     public class a_read_only_container

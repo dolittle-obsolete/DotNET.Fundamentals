@@ -1,7 +1,7 @@
 ﻿using doLittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Mapping.for_MappingTargetFor
+namespace doLittle.Mapping.Specs.for_MappingTargetFor
 {
     public class when_asking_for_target_type
     {

@@ -2,7 +2,7 @@
 using Machine.Specifications;
 using System.Linq;
 
-namespace doLittle.Specs.Mapping.for_Maps.given
+namespace doLittle.Mapping.Specs.for_Maps.given
 {
     public class no_maps : all_dependencies
     {

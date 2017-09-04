@@ -3,7 +3,7 @@ using System.Reflection;
 using doLittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Mapping.for_Map
+namespace doLittle.Mapping.Specs.for_Map
 {
     public class when_map_has_not_mapped_any_properties
     {

@@ -3,7 +3,7 @@ using doLittle.Types;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Specs.Mapping.for_Maps.given
+namespace doLittle.Mapping.Specs.for_Maps.given
 {
     public class all_dependencies
     {

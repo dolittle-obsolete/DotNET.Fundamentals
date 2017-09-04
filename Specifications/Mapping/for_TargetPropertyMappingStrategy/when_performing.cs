@@ -4,7 +4,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Specs.Mapping.for_TargetPropertyMappingStrategy
+namespace doLittle.Mapping.Specs.for_TargetPropertyMappingStrategy
 {
     public class when_performing
     {

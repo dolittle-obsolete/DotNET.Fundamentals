@@ -1,5 +1,5 @@
 ﻿
-namespace doLittle.Specs.Mapping.for_TargetPropertyMappingStrategy
+namespace doLittle.Mapping.Specs.for_TargetPropertyMappingStrategy
 {
     public class Target
     {
