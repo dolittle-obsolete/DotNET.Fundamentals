@@ -58,7 +58,7 @@ namespace doLittle.Assemblies
             {
                 var assembliesToInclude = provider.AvailableAssemblies.Where(
                     a => 
-                        _assemblyFilters.ShouldInclude(a.FileName) && 
+                        _assemblyFilters.ShouldInclude(a.Name) && 
                         _assemblyUtility.IsAssembly(a)
                     );
                 assembliesToInclude.Select(provider.Get).ForEach(AddAssembly);
