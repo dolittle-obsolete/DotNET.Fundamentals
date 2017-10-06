@@ -13,7 +13,6 @@ namespace doLittle.Concepts.Serialization.Json.Specs.for_Serializer
 
         Establish context = () =>
                                 {
-                                    while( !System.Diagnostics.Debugger.IsAttached );
                                     serialized_version = serializer.ToJson(to_serialize);
                                 };
 
