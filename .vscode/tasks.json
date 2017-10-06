@@ -1,23 +1,64 @@
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
-    "version": "0.1.0",
-    "command": "dotnet",
-    "isShellCommand": true,
-    "args": [],
+    "version": "2.0.0",
     "tasks": [
         {
             "taskName": "build",
-            "args": ["${workspaceRoot}/Source/Concepts.Serialization.Json", "--no-restore"],
-            "isBuildCommand": true,
-            "showOutput": "always",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceRoot}/Source/Concepts.Serialization.Json", 
+                "--no-restore"],
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            
             "problemMatcher": "$msCompile"
         },
         {
             "taskName": "test",
-            "args": ["${workspaceRoot}/Specifications/Dynamic/Dynamic.csproj", "--no-restore"],
-            "isTestCommand": true,
+            "command": "dotnet",
+            "args": [
+                "test",
+                "${workspaceRoot}/Specifications/Concepts.Serialization.Json", 
+                "--no-restore"],
+            "type": "shell",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "debug test",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "${workspaceRoot}/Specifications/Concepts.Serialization.Json", 
+                "--no-restore"],
+            "type": "shell",
+            "group": "test",
+            "presentation": {
+                "reveal": "always"
+            },
+            "options": {
+                "env": {
+                    "VSTEST_HOST_DEBUG": "1"
+                }
+            },
+            
             "problemMatcher": "$msCompile"
         }
+        
     ]
 }
