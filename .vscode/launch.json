@@ -8,7 +8,7 @@
             "preLaunchTask": "build",
             "program": "dotnet",
             "args": ["test"],
-            "cwd": "${workspaceRoot}/Specifications/Types.Utils",
+            "cwd": "${workspaceRoot}/Specifications/Serialization.Json",
             "externalConsole": false,
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart"

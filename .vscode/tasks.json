@@ -8,7 +8,7 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": ["${workspaceRoot}/Source/Dynamic", "--no-restore"],
+            "args": ["${workspaceRoot}/Source/Concepts.Serialization.Json", "--no-restore"],
             "isBuildCommand": true,
             "showOutput": "always",
             "problemMatcher": "$msCompile"
