@@ -13,6 +13,7 @@ namespace doLittle.Concepts.Serialization.Json.Specs.for_Serializer
 
         Establish context = () =>
                                 {
+                                    to_serialize = Guid.NewGuid();
                                     serialized_version = serializer.ToJson(to_serialize);
                                 };
 
