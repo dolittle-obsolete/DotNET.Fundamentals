@@ -67,10 +67,9 @@ namespace doLittle.Serialization.Json
 
                     if (type.HasDefaultConstructor())
                     {
-                        object value = null;
                         try
                         {
-                            value = serializer.Deserialize(reader, type);
+                            var value = serializer.Deserialize(reader, type);
                             if (value == null || value.GetType() != type)
                             {
                                 var converter = serializer.Converters.SingleOrDefault(c => c.CanConvert(type) && c.CanRead);
