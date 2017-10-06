@@ -65,6 +65,21 @@ namespace doLittle.Serialization.Json
                 {
                     object instance;
 
+                    if (type.HasDefaultConstructor())
+                    {
+                        object value = null;
+                        try
+                        {
+                            value = serializer.Deserialize(reader, type);
+                            if (value == null || value.GetType() != type)
+                            {
+                                var converter = serializer.Converters.SingleOrDefault(c => c.CanConvert(type) && c.CanRead);
+                                if (converter != null) return converter.ReadJson(reader, type, null, serializer);
+                            } else return value;
+                        } catch {}
+
+                    }
+
                     if (type.GetTypeInfo().IsValueType ||
                         type.HasInterface<IEnumerable>())
                         instance = serializer.Deserialize(reader, type);

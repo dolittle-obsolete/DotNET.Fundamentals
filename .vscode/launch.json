@@ -2,22 +2,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        },
+        {
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "program": "dotnet",
-            "args": ["test"],
-            "cwd": "${workspaceRoot}/Specifications/Serialization.Json",
+            "args": ["test","--no-build"],
+            "cwd": "${workspaceRoot}/Specifications/Concepts.Serialization.Json",
             "externalConsole": false,
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command.pickProcess}"
         }
     ]
 }
