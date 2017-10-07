@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>doLittle.Configuration</RootNamespace>
+    <AssemblyName>doLittle.Configuration</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Concepts\Concepts.csproj" />
+  </ItemGroup>
+
+</Project>
