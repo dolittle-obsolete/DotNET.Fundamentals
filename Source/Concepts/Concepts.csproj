@@ -5,6 +5,8 @@
     <AssemblyName>doLittle.Concepts</AssemblyName>
   </PropertyGroup>
 
+  <Import Project="../../Build/MSBuild/default.props"/>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
@@ -13,6 +15,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Reflection\Reflection.csproj" />
   </ItemGroup>
-
-  <Import Project="../../Build/MSBuild/default.props"/>
 </Project>
