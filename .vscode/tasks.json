@@ -8,13 +8,38 @@
             "command": "dotnet",
             "args": [
                 "build",
-                "${workspaceRoot}/Source/Concepts.Serialization.Json", 
-                "--no-restore"],
+                "--no-restore",
+                "$(node ${workspaceRoot}/find.js /root:${workspaceRoot} /type:build)"
+            ],
             "type": "shell",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "build current",
+            "dependsOn": "set current",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-dependencies",
+                "--no-restore",
+                "$(node ${workspaceRoot}/find.js /root:${workspaceRoot} /type:build)"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "type": "shell",
+            "group": "build",
             "presentation": {
                 "reveal": "always"
             },
@@ -24,14 +49,20 @@
         {
             "taskName": "test",
             "command": "dotnet",
+            "dependsOn": "build",
             "args": [
                 "test",
-                "${workspaceRoot}/Specifications/Concepts.Serialization.Json", 
-                "--no-restore"],
+                "--no-build",
+                "--no-restore",
+                "$(node ${workspaceRoot}/find.js /root:${workspaceRoot} /type:test)"
+            ],
             "type": "shell",
             "group": {
                 "kind": "test",
                 "isDefault": true
+            },
+            "options": {
+                "cwd": "${fileDirname}"
             },
             "presentation": {
                 "reveal": "always"
@@ -40,18 +71,66 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "taskName": "debug test",
+            "taskName": "tests for",
             "command": "dotnet",
+            "dependsOn": "build",
             "args": [
                 "test",
-                "${workspaceRoot}/Specifications/Concepts.Serialization.Json", 
-                "--no-restore"],
+                "--no-build",
+                "--no-restore",
+                "$(node ${workspaceRoot}/find.js /root:${workspaceRoot} /type:build /specsFor)"
+            ],
+            "type": "shell",
+            "group": "test",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            
+            "problemMatcher": "$msCompile"
+        },
+
+        {
+            "taskName": "tests rerun",
+            "command": "dotnet",
+            "dependsOn": "build",
+            "args": [
+                "test",
+                "--no-build",
+                "--no-restore",
+                "$(node ${workspaceRoot}/find.js /root:${workspaceRoot} /type:test /specsFor /rerun)"
+            ],
+            "type": "shell",
+            "group": "test",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            
+            "problemMatcher": "$msCompile"
+        },
+        
+        {
+            "taskName": "test debug",
+            "command": "dotnet",
+            "dependsOn": "build",
+            "args": [
+                "test",
+                "--no-build",
+                "--no-restore",
+                "$(node ${workspaceRoot}/find.js /root:${workspaceRoot} /type:test)"
+            ],
             "type": "shell",
             "group": "test",
             "presentation": {
                 "reveal": "always"
             },
             "options": {
+                "cwd": "${fileDirname}",
                 "env": {
                     "VSTEST_HOST_DEBUG": "1"
                 }
