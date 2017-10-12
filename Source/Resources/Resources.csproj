@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <RootNamespace>doLittle.Resources</RootNamespace>
+    <AssemblyName>doLittle.Resources</AssemblyName>
+  </PropertyGroup>
+
+  <Import Project="../../Build/MSBuild/default.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Types\Types.csproj" />
+  </ItemGroup>
+
+</Project>
