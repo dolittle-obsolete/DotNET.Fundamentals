@@ -2,15 +2,16 @@
  *  Copyright (c) 2008-2017 doLittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
-
-namespace doLittle.Configuration.Elements
+namespace doLittle.Configuration
 {
     /// <summary>
-    /// Represents a <see cref="SecureConfigurationValue{String}"/> for a connection string
+    /// Defines a configurable value
     /// </summary>
-    public abstract class ConnectionString : SecureConfigurationValue<string>
+    public interface IConfigurationValue
     {
-        
+        /// <summary>
+        /// Gets the value
+        /// </summary>
+        object Value { get; }
     }
 }

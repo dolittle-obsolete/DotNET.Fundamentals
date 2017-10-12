@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Concepts\Concepts.csproj" />
+    <ProjectReference Include="..\Rules\Rules.csproj" />
   </ItemGroup>
 
 </Project>

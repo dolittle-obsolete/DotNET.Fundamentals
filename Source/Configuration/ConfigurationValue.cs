@@ -9,7 +9,8 @@ namespace doLittle.Configuration
     /// <summary>
     /// Represents a configuration element
     /// </summary>
-    public abstract class ConfigurationValue<T> : ConceptAs<T>
+    public abstract class ConfigurationValue<T> : ConceptAs<T>, IConfigurationValue
     {
+        object IConfigurationValue.Value => base.Value;
     }
 }

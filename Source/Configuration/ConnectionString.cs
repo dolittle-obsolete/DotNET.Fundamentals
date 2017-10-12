@@ -2,21 +2,15 @@
  *  Copyright (c) 2008-2017 doLittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
+
 namespace doLittle.Configuration
 {
     /// <summary>
-    /// Defines the requirements for a configuration
+    /// Represents a <see cref="SecureConfigurationValue{String}"/> for a connection string
     /// </summary>
-    public interface IConfigurationRequirements
+    public abstract class ConnectionString : SecureConfigurationValue<string>
     {
-        /// <summary>
-        /// 
-        /// </summary>
-         void Require<T>();
-
-         /// <summary>
-         /// 
-         /// </summary>
-         void Optional<T>();
+        
     }
 }
