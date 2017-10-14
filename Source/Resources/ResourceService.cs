@@ -6,7 +6,6 @@ using System;
 
 namespace doLittle.Resources
 {
-
     /// <summary>
     /// Represents the configuration for a specific service for a resource
     /// </summary>

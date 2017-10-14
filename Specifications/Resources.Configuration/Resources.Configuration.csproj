@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>doLittle.Resources.Configuration.Specs</AssemblyName>
+  </PropertyGroup>
+
+  <Import Project="../../Build/MSBuild/specs.props"></Import>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Resources.Configuration\Resources.Configuration.csproj" />
+  </ItemGroup>
+</Project>
