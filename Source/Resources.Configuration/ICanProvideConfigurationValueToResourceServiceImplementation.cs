@@ -2,10 +2,10 @@
  *  Copyright (c) 2008-2017 doLittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 using System;
+using doLittle.Configuration;
 
-namespace doLittle.Configuration.Resources
+namespace doLittle.Resources.Configuration
 {
     /// <summary>
     /// Defines a system that is capable of providing configuration value to a service implementation
