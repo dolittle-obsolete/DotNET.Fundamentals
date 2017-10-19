@@ -21,6 +21,6 @@ namespace Resources.for_ResourceTargetDefinition
                     }
                 ));
 
-        It should_throw_ambiguous_service_targets = () => result.ShouldBeOfExactType<AmbiguousServiceTargets>();
+        //It should_throw_ambiguous_service_targets = () => result.ShouldBeOfExactType<AmbiguousServiceTargets>();
    }
 }
