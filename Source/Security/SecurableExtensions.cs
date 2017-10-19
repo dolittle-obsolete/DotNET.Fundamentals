@@ -18,7 +18,9 @@ namespace doLittle.Security
         /// <returns>The <see cref="ISecurable"/> chain</returns>
         public static ISecurityActor User(this ISecurable securable)
         {
-            throw new NotImplementedException();
+            var actor = new UserSecurityActor(null);
+            securable.AddActor(actor);
+            return actor;
         }
     }
 }
