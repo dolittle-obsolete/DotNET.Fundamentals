@@ -10,7 +10,6 @@
   <ItemGroup>
       <ProjectReference Include="..\Reflection\Reflection.csproj" />
       <ProjectReference Include="..\Types\Types.csproj" />
-      <ProjectReference Include="..\Types.Utils\Types.Utils.csproj" />
   </ItemGroup>
  
 </Project>

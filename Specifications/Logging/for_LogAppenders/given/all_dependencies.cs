@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using doLittle.Types;
 using doLittle.Logging;
 using Machine.Specifications;
 using Moq;

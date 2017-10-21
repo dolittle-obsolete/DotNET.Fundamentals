@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using doLittle.Types.Utils;
+using doLittle.Reflection;
 
 namespace doLittle.DependencyInversion.Conventions
 {

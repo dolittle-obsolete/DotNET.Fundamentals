@@ -26,7 +26,7 @@ namespace doLittle.Reflection
             typeof(ushort), typeof(uint), typeof(ulong),
             typeof(double), typeof(decimal), typeof(Single)
         };
-#pragma warning disable 1591 // Xml Comments
+
         static ITypeInfo GetTypeInfo(Type type)
         {
             var typeInfoType = typeof(TypeInfo<>).MakeGenericType(type);
@@ -34,7 +34,7 @@ namespace doLittle.Reflection
             var typeInfo =  instanceField.GetValue(null) as ITypeInfo;
             return typeInfo;
         }
-#pragma warning restore 1591 // Xml Comments
+
 
         /// <summary>
         /// Check if a type has an attribute associated with it

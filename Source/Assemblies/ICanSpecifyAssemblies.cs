@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using doLittle.Assemblies.Configuration;
-using doLittle.Types;
 
 namespace doLittle.Assemblies
 {

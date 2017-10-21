@@ -8,7 +8,7 @@ using System.Reflection;
 using doLittle.Assemblies.Configuration;
 using doLittle.Collections;
 using doLittle.Logging;
-using doLittle.Types.Utils;
+using doLittle.Reflection;
 
 namespace doLittle.Assemblies
 {

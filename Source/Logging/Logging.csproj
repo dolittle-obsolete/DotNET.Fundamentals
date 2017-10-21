@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Types.Utils\Types.Utils.csproj" />
+    <ProjectReference Include="..\Reflection\Reflection.csproj" />
     <ProjectReference Include="..\Execution\Execution.csproj" />
     <ProjectReference Include="..\Collections\Collections.csproj" />
   </ItemGroup>

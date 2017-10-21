@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using doLittle.Collections;
-using doLittle.Types.Utils;
+using doLittle.Reflection;
 
 namespace doLittle.Logging
 {

@@ -1,7 +1,6 @@
-﻿using doLittle.Types.Utils;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 
-namespace doLittle.Types.Utils.Specs.Extensions.for_TypeExtensions
+namespace doLittle.Reflection.Specs.for_TypeExtensions
 {
     public class when_asking_a_type_with_a_default_and_a_non_default_constructor_if_it_has_a_non_default_constructor
     {

@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
-using doLittle.Types.Utils;
 using Machine.Specifications;
 
-namespace doLittle.Types.Utils.Specs.Extensions.for_TypeExtensions
+namespace doLittle.Reflection.Specs.for_TypeExtensions
 {
     public class when_getting_non_default_constructor_from_type_with_non_default_and_default_constructor
     {

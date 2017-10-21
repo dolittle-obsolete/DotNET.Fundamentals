@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Types\Types.csproj" />
-    <ProjectReference Include="..\Types.Utils\Types.Utils.csproj" />
+    <ProjectReference Include="..\Reflection\Reflection.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\Execution\Execution.csproj" />
   </ItemGroup>
