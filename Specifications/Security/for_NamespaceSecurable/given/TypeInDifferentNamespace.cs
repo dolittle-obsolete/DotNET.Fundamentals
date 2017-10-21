@@ -1,4 +1,4 @@
-namespace doLittle.Security.Specs.for_NamespaceSecurable.given.DifferentNamespace
+namespace TotallyDifferentNamespace
 {
     public class TypeInDifferentNamespace
     {

@@ -27,12 +27,11 @@ namespace doLittle.Security
         /// </summary>
         public string Namespace { get; private set; }
 
-#pragma warning disable 1591
+        /// <inheritdoc/>
         public override bool CanAuthorize(object actionToAuthorize)
         {
             return actionToAuthorize != null && actionToAuthorize.GetType().Namespace.StartsWith(Namespace,
                 StringComparison.Ordinal);
         }
-#pragma warning restore 1591
     }
 }

@@ -11,7 +11,7 @@ namespace doLittle.Security.Specs.for_NamespaceSecurable.given
         public a_namespace_securable()
         {
             action_with_namespace_match = new SomeType();
-            action_within_another_namespace = new DifferentNamespace.TypeInDifferentNamespace();
+            action_within_another_namespace = new TotallyDifferentNamespace.TypeInDifferentNamespace();
 
             namespace_securable = new NamespaceSecurable(typeof(SomeType).Namespace);
         }
