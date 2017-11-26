@@ -30,6 +30,18 @@ namespace doLittle.Artifacts
         /// <inheritdoc/>
         public IEnumerable<IArtifactType> All => _all;
 
+        /// <inheritdoc/>
+        public bool Exists(string identifier)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public IArtifactType GetByIdentifier(string identifier)
+        {
+            throw new NotImplementedException();
+        }
+
         void ThrowIfMultipleArtifactTypesWithSameIdentifier()
         {
             var grouped = _all.GroupBy(artifactType => artifactType.Identifier);

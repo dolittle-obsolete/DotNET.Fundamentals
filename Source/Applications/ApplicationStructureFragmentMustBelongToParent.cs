@@ -18,7 +18,7 @@ namespace doLittle.Applications
         /// <param name="parent">Parent <see cref="Type"/></param>
         /// <param name="child">Parent <see cref="Type"/></param>
         public ApplicationStructureFragmentMustBelongToParent(Type parent, Type child) 
-            : base($"Type '{child.AssemblyQualifiedName}' needs to implement the '{typeof(IBelongToAnApplicationLocationFragmentTypeOf<>).AssemblyQualifiedName}' for parent type '{parent.AssemblyQualifiedName}'")
+            : base($"Type '{child.AssemblyQualifiedName}' needs to implement the '{typeof(IBelongToAnApplicationLocationSegmentTypeOf<>).AssemblyQualifiedName}' for parent type '{parent.AssemblyQualifiedName}'")
         {
         }
     }

@@ -21,8 +21,8 @@ namespace doLittle.Artifacts
         }
 
         /// <inheritdoc/>
-
         public ArtifactName Name { get; }
+        
         /// <inheritdoc/>
         public IArtifactType Type { get; }
     }

@@ -8,7 +8,7 @@ namespace doLittle.Applications
 {
     /// <summary>
     /// Exception that gets thrown when a parent <see cref="IApplicationStructureFragment"/> can't
-    /// hold specific <see cref="IApplicationLocationFragment"/>
+    /// hold specific <see cref="IApplicationLocationSegment"/>
     /// </summary>
     public class ParentApplicationStructureFragmentMustBeAbleToHoldType : Exception
     {
@@ -18,7 +18,7 @@ namespace doLittle.Applications
         /// <param name="parent"></param>
         /// <param name="child"></param>
         public ParentApplicationStructureFragmentMustBeAbleToHoldType(Type parent, Type child)
-            : base($"Parent '{parent.AssemblyQualifiedName}' is not able to hold '{child.AssemblyQualifiedName}' - make sure parent implements {typeof(ICanHoldApplicationLocationFragmentsOfType<>).AssemblyQualifiedName}")
+            : base($"Parent '{parent.AssemblyQualifiedName}' is not able to hold '{child.AssemblyQualifiedName}' - make sure parent implements {typeof(ICanHoldApplicationLocationSegmentsOfType<>).AssemblyQualifiedName}")
         {
         }
     }

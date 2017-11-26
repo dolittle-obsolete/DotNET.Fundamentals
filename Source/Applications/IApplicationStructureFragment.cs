@@ -13,17 +13,17 @@ namespace doLittle.Applications
     public interface IApplicationStructureFragment
     {
         /// <summary>
-        /// Gets the type of segment - must be a type of <see cref="IApplicationLocationFragment"/>
+        /// Gets the type of segment - must be a type of <see cref="IApplicationLocationSegment"/>
         /// </summary>
         Type Type { get; }
 
         /// <summary>
-        /// Gets whether or not the <see cref="IApplicationLocationFragment"/> is required
+        /// Gets whether or not the <see cref="IApplicationLocationSegment"/> is required
         /// </summary>
         bool Required { get; }
 
         /// <summary>
-        /// Gets whether or not the <see cref="IApplicationLocationFragment"/> can be recursive in the structure
+        /// Gets whether or not the <see cref="IApplicationLocationSegment"/> can be recursive in the structure
         /// </summary>
         bool Recursive { get; }
 

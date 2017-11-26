@@ -17,7 +17,7 @@ namespace doLittle.Applications
         /// </summary>
         /// <param name="prefixes"></param>
         /// <returns><see cref="IApplicationBuilder"/> to continue building</returns>
-        IApplicationBuilder PrefixedWith(params IApplicationLocationFragment[] prefixes);
+        IApplicationBuilder PrefixLocationsWith(params IApplicationLocationSegment[] prefixes);
 
         /// <summary>
         /// Start building the structure

@@ -13,7 +13,7 @@ namespace doLittle.Applications
     public class ApplicationBuilder : IApplicationBuilder
     {
         readonly ApplicationName _name;
-        readonly IEnumerable<IApplicationLocationFragment> _prefixes;
+        readonly IEnumerable<IApplicationLocationSegment> _prefixes;
         readonly IApplicationStructureBuilder _applicationStructureBuilder;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace doLittle.Applications
         public ApplicationBuilder(ApplicationName name) 
             : this(
                 name, 
-                new IApplicationLocationFragment[0], 
+                new IApplicationLocationSegment[0], 
                 new NullApplicationStructureBuilder()
             )
         {
@@ -32,11 +32,11 @@ namespace doLittle.Applications
         /// Initializes a new instance of <see cref="ApplicationBuilder"/>
         /// </summary>
         /// <param name="name">Name of the <see cref="ApplicationName"/> <see cref="IApplication"/>></param>
-        /// <param name="prefixes"><see cref="IApplicationLocationFragment">Application location fragments</see> to be as prefixes</param>
+        /// <param name="prefixes"><see cref="IApplicationLocationSegment">Application location fragments</see> to be as prefixes</param>
         /// <param name="applicationStructureBuilder">The <see cref="IApplicationStructureBuilder"/> for building the structure</param>
         public ApplicationBuilder(
             ApplicationName name,
-            IEnumerable<IApplicationLocationFragment> prefixes,
+            IEnumerable<IApplicationLocationSegment> prefixes,
             IApplicationStructureBuilder applicationStructureBuilder)
         {
             _name = name;
@@ -46,7 +46,7 @@ namespace doLittle.Applications
 
 
         /// <inheritdoc/>
-        public IApplicationBuilder PrefixedWith(params IApplicationLocationFragment[] prefixes)
+        public IApplicationBuilder PrefixLocationsWith(params IApplicationLocationSegment[] prefixes)
         {
             return new ApplicationBuilder(_name, prefixes, _applicationStructureBuilder);
         }

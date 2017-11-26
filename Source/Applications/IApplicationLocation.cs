@@ -13,8 +13,8 @@ namespace doLittle.Applications
     public interface IApplicationLocation : IEquatable<IApplicationLocation>, IComparable, IComparable<IApplicationLocation>
     {
         /// <summary>
-        /// Gets the <see cref="IApplicationLocationFragment">segments</see> for the <see cref="IApplicationLocation"/>
+        /// Gets the <see cref="IApplicationLocationSegment">segments</see> for the <see cref="IApplicationLocation"/>
         /// </summary>
-        IEnumerable<IApplicationLocationFragment>    Segments { get; }
+        IEnumerable<IApplicationLocationSegment>    Segments { get; }
     }
 }

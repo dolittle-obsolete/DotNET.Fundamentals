@@ -20,7 +20,7 @@ namespace doLittle.Applications
 
         NullApplicationStructureFragment()
         {
-            Type = typeof(IApplicationLocationFragment);
+            Type = typeof(IApplicationLocationSegment);
             Parent = this;
             Required = false;
             Recursive = false;
