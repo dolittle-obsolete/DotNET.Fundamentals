@@ -49,7 +49,7 @@ namespace doLittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
             artifact_type = new Mock<IArtifactType>();
             artifact_type.SetupGet(a => a.Identifier).Returns(artifact_type_name);
 
-            artifact_types.Setup(a => a.GetByIdentifier(artifact_type_name)).Returns(artifact_type.Object);
+            artifact_types.Setup(a => a.GetFor(artifact_type_name)).Returns(artifact_type.Object);
 
             converter = new ApplicationArtifactIdentifierStringConverter(application.Object, artifact_types.Object);
         };
