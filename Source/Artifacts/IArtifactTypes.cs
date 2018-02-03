@@ -28,6 +28,6 @@ namespace doLittle.Artifacts
         /// </summary>
         /// <param name="identifier">Name of the <see cref="IArtifactType"/></param>
         /// <returns><see cref="IArtifactType"/> found</returns>
-        IArtifactType GetByIdentifier(string identifier);
+        IArtifactType GetFor(string identifier);
     }
 }

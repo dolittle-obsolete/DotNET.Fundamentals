@@ -37,7 +37,7 @@ namespace doLittle.Artifacts
         }
 
         /// <inheritdoc/>
-        public IArtifactType GetByIdentifier(string identifier)
+        public IArtifactType GetFor(string identifier)
         {
             throw new NotImplementedException();
         }
