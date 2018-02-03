@@ -103,7 +103,7 @@ namespace doLittle.Applications
 
             var segments = GetSegmentsFromLocations(locations);
 
-            var artifactType = _artifactTypes.GetByIdentifier(artifactTypeIdentifier);
+            var artifactType = _artifactTypes.GetFor(artifactTypeIdentifier);
             var artifact = new Artifact(artifactName, artifactType);
 
             var applicationArtifactIdentifier = new ApplicationArtifactIdentifier(
