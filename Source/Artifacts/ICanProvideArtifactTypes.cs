@@ -12,9 +12,9 @@ namespace doLittle.Artifacts
     public interface ICanProvideArtifactTypes
     {
         /// <summary>
-        /// 
+        /// Provide <see cref="IArtifactType">artifact types</see>
         /// </summary>
-        /// <returns></returns>
+        /// <returns><see cref="IEnumerable{IArtifactType}">Artifact types</see></returns>
          IEnumerable<IArtifactType> Provide();
     }
 }
