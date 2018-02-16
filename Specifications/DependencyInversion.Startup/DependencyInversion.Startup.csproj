@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-    <AssemblyName>doLittle.DependencyInversion.Conventions.Specs</AssemblyName>
+    <AssemblyName>doLittle.DependencyInversion.Startup.Specs</AssemblyName>
   </PropertyGroup>
 
   <Import Project="../../Build/MSBuild/specs.props"></Import>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\DependencyInversion.Conventions\DependencyInversion.Conventions.csproj" />
+    <ProjectReference Include="..\..\Source\DependencyInversion.Startup\DependencyInversion.Startup.csproj" />
   </ItemGroup>
 
 </Project>
