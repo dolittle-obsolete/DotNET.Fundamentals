@@ -3,12 +3,12 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using doLittle.Types;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using doLittle.Reflection;
+using doLittle.Types;
 
 namespace doLittle.DependencyInversion.Conventions
 {
@@ -39,21 +39,21 @@ namespace doLittle.DependencyInversion.Conventions
             var allTypes = _typeFinder.All;
 
             var conventionTypes = _typeFinder.FindMultiple<IBindingConvention>();
-            Parallel.ForEach(conventionTypes, conventionType => 
+            Parallel.ForEach(conventionTypes, conventionType =>
             {
                 ThrowIfBindingConventionIsMissingDefaultConstructor(conventionType);
-                var convention = Activator.CreateInstance(conventionType) as IBindingConvention;
+                var convention = Activator.CreateInstance(conventionType)as IBindingConvention;
                 var servicesToResolve = allTypes.Where(service => convention.CanResolve(service));
 
                 var bindings = new ConcurrentBag<Binding>();
-                Parallel.ForEach(servicesToResolve, service => 
+                Parallel.ForEach(servicesToResolve, service =>
                 {
                     var bindingBuilder = new BindingBuilder(Binding.For(service));
                     convention.Resolve(service, bindingBuilder);
                     bindings.Add(bindingBuilder.Build());
                 });
 
-                var bindingCollection = new BindingCollection(bindings.ToArray());
+                var bindingCollection = new BindingCollection(bindings);
                 bindingCollections.Add(bindingCollection);
             });
 
@@ -63,7 +63,7 @@ namespace doLittle.DependencyInversion.Conventions
 
         static void ThrowIfBindingConventionIsMissingDefaultConstructor(Type bindingProvider)
         {
-            if (!bindingProvider.HasDefaultConstructor()) throw new BindingConventionMustHaveADefaultConstructor(bindingProvider);
+            if (!bindingProvider.HasDefaultConstructor())throw new BindingConventionMustHaveADefaultConstructor(bindingProvider);
         }
     }
 }
