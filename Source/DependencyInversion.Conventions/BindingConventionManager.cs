@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using doLittle.Types;
-using doLittle.Execution;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using doLittle.Reflection;
 
 namespace doLittle.DependencyInversion.Conventions
 {
@@ -16,74 +18,52 @@ namespace doLittle.DependencyInversion.Conventions
     [Singleton]
     public class BindingConventionManager : IBindingConventionManager
     {
-        readonly IContainer _container;
         readonly ITypeFinder _typeFinder;
         readonly List<Type> _conventions;
 
         /// <summary>
         /// Initializes a new instance <see cref="BindingConventionManager"/>
         /// </summary>
-        /// <param name="container">The <see cref="IContainer"/> that bindings are resolved to</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> to discover binding conventions with</param>
-        public BindingConventionManager(IContainer container, ITypeFinder typeFinder)
+        public BindingConventionManager(ITypeFinder typeFinder)
         {
-            _container = container;
             _typeFinder = typeFinder;
             _conventions = new List<Type>();
         }
 
         /// <inheritdoc/>
-        public void Add(Type type)
+        public IBindingCollection DiscoverAndSetupBindings()
         {
-            if( !_conventions.Contains(type))
-                _conventions.Add(type);
-        }
-
-        /// <inheritdoc/>
-        public void Add<T>() where T : IBindingConvention
-        {
-            Add(typeof(T));
-        }
-
-        /// <inheritdoc/>
-        public void Initialize()
-        {
-            var boundServices = _container.GetBoundServices();
-            var existingBindings = new Dictionary<Type, Type>();
-
-            foreach (var boundService in boundServices)
-                existingBindings[boundService] = boundService;
+            var bindingCollections = new ConcurrentBag<IBindingCollection>();
 
             var allTypes = _typeFinder.All;
-            var services = allTypes.Where(t => !existingBindings.ContainsKey(t)).ToList();
 
-            var resolvedServices = new List<Type>();
-
-            foreach( var conventionType in _conventions )
+            var conventionTypes = _typeFinder.FindMultiple<IBindingConvention>();
+            Parallel.ForEach(conventionTypes, conventionType => 
             {
-                var convention = _container.Get(conventionType) as IBindingConvention;
-                if( convention != null )
-                {
-                    var servicesToResolve = services.Where(s => convention.CanResolve(_container, s) && !_container.HasBindingFor(s));
+                ThrowIfBindingConventionIsMissingDefaultConstructor(conventionType);
+                var convention = Activator.CreateInstance(conventionType) as IBindingConvention;
+                var servicesToResolve = allTypes.Where(service => convention.CanResolve(service));
 
-                    foreach (var service in servicesToResolve)
-                    {
-                        convention.Resolve(_container, service);
-                        resolvedServices.Add(service);
-                    }
-                    resolvedServices.ForEach(t => services.Remove(t));
-                }
-            }
+                var bindings = new ConcurrentBag<Binding>();
+                Parallel.ForEach(servicesToResolve, service => 
+                {
+                    var bindingBuilder = new BindingBuilder(Binding.For(service));
+                    convention.Resolve(service, bindingBuilder);
+                    bindings.Add(bindingBuilder.Build());
+                });
+
+                var bindingCollection = new BindingCollection(bindings.ToArray());
+                bindingCollections.Add(bindingCollection);
+            });
+
+            var aggregatedBindingCollection = new BindingCollection(bindingCollections.ToArray());
+            return aggregatedBindingCollection;
         }
 
-        /// <inheritdoc/>
-        public void DiscoverAndInitialize()
+        static void ThrowIfBindingConventionIsMissingDefaultConstructor(Type bindingProvider)
         {
-            var conventionTypes = _typeFinder.FindMultiple<IBindingConvention>();
-            foreach( var conventionType in conventionTypes )
-                Add(conventionType);
-
-            Initialize();
+            if (!bindingProvider.HasDefaultConstructor()) throw new BindingConventionMustHaveADefaultConstructor(bindingProvider);
         }
     }
 }

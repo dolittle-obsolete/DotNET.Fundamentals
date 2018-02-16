@@ -18,32 +18,21 @@ namespace doLittle.DependencyInversion.Conventions
     /// with the same name in the same namespace but without the prefix I, will automatically
     /// be resolved with this convention.
     /// </remarks>
-    public class DefaultConvention : BindingConvention
+    public class DefaultConvention : IBindingConvention
     {
-        /// <summary>
-        /// Initializes a new instance of <see cref="DefaultConvention">DefaultConvention</see>
-        /// </summary>
-        public DefaultConvention()
-        {
-            DefaultScope = BindingLifecycle.Transient;
-        }
-
         /// <inheritdoc/>
-        public override bool CanResolve(IContainer container, Type service)
+        public bool CanResolve(Type service)
         {
             var type = GetServiceInstanceType(service);
-            return type != null && !container.HasBindingFor(type);
+            return type != null;
         }
 
         /// <inheritdoc/>
-        public override void Resolve(IContainer container, Type service)
+        public void Resolve(Type service, IBindingBuilder builder)
         {
             var serviceInstanceType = GetServiceInstanceType(service);
             if (serviceInstanceType != null )
-            {
-                var scope = GetScopeForTarget(serviceInstanceType);
-                container.Bind(service,serviceInstanceType, scope);
-            }
+                builder.To(serviceInstanceType);
         }
 
         static Type GetServiceInstanceType(Type service)
@@ -56,11 +45,9 @@ namespace doLittle.DependencyInversion.Conventions
                 if (null != serviceInstanceType &&
                     serviceInstanceType.GetTypeInfo().GetConstructors().Any(c=>c.IsPublic) &&
                     IsAssignableFrom(service,serviceInstanceType) &&
-                    !HasMultipleImplementationInSameNamespace(service) &&
-                    !serviceInstanceType.HasAttribute<IgnoreDefaultConventionAttribute>())
+                    !HasMultipleImplementationInSameNamespace(service))
                 {
                     if (serviceInstanceType.GetTypeInfo().IsAbstract) return null;
-
                     return serviceInstanceType;
                 }
             }
