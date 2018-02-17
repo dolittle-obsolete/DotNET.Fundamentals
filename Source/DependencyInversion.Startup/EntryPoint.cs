@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using doLittle.Assemblies;
 using doLittle.DependencyInversion.Conventions;
 using doLittle.Reflection;
 using doLittle.Types;
@@ -19,15 +20,16 @@ namespace doLittle.DependencyInversion.Startup
         /// <summary>
         /// Initialize the entire DependencyInversion pipeline
         /// </summary>
+        /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
         /// <returns>Configured <see cref="IContainer"/></returns>
-        public static IContainer Initialize(ITypeFinder typeFinder)
+        public static IContainer Initialize(IAssemblies assemblies, ITypeFinder typeFinder)
         {
             var bindingConventionManager = new BindingConventionManager(typeFinder);
             var bindingsFromConventions = bindingConventionManager.DiscoverAndSetupBindings();
             var bindingsFromProviders = DiscoverBindingProvidersAndGetBindings(typeFinder);
             var bindingCollection = new BindingCollection(bindingsFromConventions, bindingsFromProviders);
-            var container = DiscoverAndConfigureContainer(typeFinder, bindingCollection);
+            var container = DiscoverAndConfigureContainer(assemblies, typeFinder, bindingCollection);
             return container;
         }
 
@@ -49,13 +51,13 @@ namespace doLittle.DependencyInversion.Startup
             return bindingCollection;
         }
 
-        static IContainer DiscoverAndConfigureContainer(ITypeFinder typeFinder, IBindingCollection bindingCollection)
+        static IContainer DiscoverAndConfigureContainer(IAssemblies assemblies, ITypeFinder typeFinder, IBindingCollection bindingCollection)
         {
             var containerProviderType = typeFinder.FindSingle<ICanProvideContainer>();
             ThrowIfMissingContainerProvider(containerProviderType);
             var containerProvider = Activator.CreateInstance(containerProviderType) as ICanProvideContainer;
 
-            var container = containerProvider.Provide(bindingCollection);
+            var container = containerProvider.Provide(assemblies, bindingCollection);
             return container;
         }
 

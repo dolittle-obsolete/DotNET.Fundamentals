@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using doLittle.Assemblies;
 
 namespace doLittle.DependencyInversion
 {
@@ -14,8 +15,9 @@ namespace doLittle.DependencyInversion
         /// <summary>
         /// Provide the container prebuilt with the given bindings
         /// </summary>
+        /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
         /// <param name="bindings"><see cref="IBindingCollection">Bindings</see> provided</param>
         /// <returns><see cref="IContainer"/></returns>
-        IContainer Provide(IBindingCollection bindings);
+        IContainer Provide(IAssemblies assemblies, IBindingCollection bindings);
     }
 }
