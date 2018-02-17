@@ -15,7 +15,7 @@ namespace doLittle.DependencyInversion.Strategies
         /// Initializes a new instance of <see cref="Callback"/>
         /// </summary>
         /// <param name="target">The callback target</param>
-        public Callback(Func<System.Type, object> target)
+        public Callback(Func<object> target)
         {
             Target = target;
         }
@@ -23,7 +23,7 @@ namespace doLittle.DependencyInversion.Strategies
         /// <summary>
         /// Gets the target
         /// </summary>
-        public Func<System.Type,object> Target { get; }
+        public Func<object> Target { get; }
 
 
         /// <inheritdoc/>
@@ -43,7 +43,7 @@ namespace doLittle.DependencyInversion.Strategies
         /// </summary>
         /// <param name="target"></param>
         public Callback(Func<T> target)
-            : base((t) => target())
+            : base(() => target())
         {
        }
     }
