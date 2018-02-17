@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
 using System.Reflection;
+using doLittle.Execution;
 using doLittle.Reflection;
 
 namespace doLittle.DependencyInversion

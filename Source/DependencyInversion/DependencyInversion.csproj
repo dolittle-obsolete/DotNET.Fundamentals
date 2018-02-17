@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Assemblies\Assemblies.csproj" />
     <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\Reflection\Reflection.csproj" />
+    <ProjectReference Include="..\Execution\Execution.csproj" />
   </ItemGroup>  
 
 </Project>
