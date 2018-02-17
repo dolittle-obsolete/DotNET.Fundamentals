@@ -6,7 +6,7 @@ namespace doLittle.DependencyInversion.for_BindingBuilder
     public class when_binding_to_callback : given.a_null_binding
     {
         static Binding result;
-        static Func<Type, object> callback = (Type type) => "result";
+        static Func<object> callback = () => "result";
 
         Because of = () => 
         {

@@ -5,13 +5,13 @@ namespace doLittle.DependencyInversion.Strategies.for_Callback
 {
     public class when_asking_for_target_type
     {
-        static Func<System.Type, object>   underlying_callback;
+        static Func<object>   underlying_callback;
         static Callback callback;
         static System.Type result;
 
         Establish context = () =>
         {
-            underlying_callback = (System.Type type) => "Fourty Two";
+            underlying_callback = () => "Fourty Two";
             callback = new Callback(underlying_callback);
         };
 
