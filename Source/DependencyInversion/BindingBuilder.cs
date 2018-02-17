@@ -68,7 +68,7 @@ namespace doLittle.DependencyInversion
         }
 
         /// <inheritdoc/>
-        public IBindingScopeBuilder To(Func<Type, object> callback)
+        public IBindingScopeBuilder To(Func<object> callback)
         {
             _binding = new Binding(
                 _binding.Service,

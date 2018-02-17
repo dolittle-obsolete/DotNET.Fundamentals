@@ -34,7 +34,7 @@ namespace doLittle.DependencyInversion
         /// Bind to a callback
         /// </summary>
         /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
-        IBindingScopeBuilder To(Func<Type, object> callback);
+        IBindingScopeBuilder To(Func<object> callback);
 
         /// <summary>
         /// Builds the Binding
