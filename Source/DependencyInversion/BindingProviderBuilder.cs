@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace doLittle.DependencyInversion
 {
@@ -12,28 +13,30 @@ namespace doLittle.DependencyInversion
     /// </summary>
     public class BindingProviderBuilder : IBindingProviderBuilder
     {
-        readonly List<Binding>    _bindings = new List<Binding>();
+        readonly List<BindingBuilder>    _bindings = new List<BindingBuilder>();
 
         /// <inheritdoc/>
         public IBindingBuilder<T> Bind<T>()
         {
             var binding = new Binding(typeof(T),new Strategies.Null(), new Scopes.Transient());
-            _bindings.Add(binding);
-            return new BindingBuilder<T>(binding);
+            var bindingBuilder = new BindingBuilder<T>(binding);
+            _bindings.Add(bindingBuilder);
+            return bindingBuilder;
         }
 
         /// <inheritdoc/>
         public IBindingBuilder Bind(Type type)
         {
             var binding = new Binding(type,new Strategies.Null(), new Scopes.Transient());
-            _bindings.Add(binding);
-            return new BindingBuilder(binding);
+            var bindingBuilder = new BindingBuilder(binding);
+            _bindings.Add(bindingBuilder);
+            return bindingBuilder;
         }
 
         /// <inheritdoc/>
         public IBindingCollection Build()
         {
-            return new BindingCollection(_bindings);
+            return new BindingCollection(_bindings.Select(_ => _.Build()));
         }
     }
 }
