@@ -11,6 +11,12 @@ namespace doLittle.Applications
     /// </summary>
     public class BoundedContextName : ConceptAs<string>, IApplicationLocationSegmentName
     {
+        /// <summary>
+        /// Gets the <see cref="BoundedContextName"/> representing an undefined name
+        /// </summary>
+        public static readonly BoundedContextName NotSet = "[Not Set]";
+
+
         /// <inheritdoc/>
         public string AsString()
         {
