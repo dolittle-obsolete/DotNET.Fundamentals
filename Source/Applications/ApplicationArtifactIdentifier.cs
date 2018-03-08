@@ -61,7 +61,7 @@ namespace doLittle.Applications
         /// <inheritdoc/>
         public bool Equals(IApplicationArtifactIdentifier other)
         {
-            if (Location != other.Location) return false;
+            if (!Location.Equals(other.Location)) return false;
 
             if (((string) Application.Name) != ((string) other.Application.Name)) return false;
             if (((string) Artifact.Name) != ((string) other.Artifact.Name)) return false;
