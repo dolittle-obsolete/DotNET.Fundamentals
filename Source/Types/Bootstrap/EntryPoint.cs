@@ -5,7 +5,7 @@
 using System.Reflection;
 using doLittle.Assemblies;
 
-namespace doLittle.Types.Startup
+namespace doLittle.Types.Bootstrap
 {
     /// <summary>
     /// Represents the entrypoint for starting up and initialization for an app using the Type system
