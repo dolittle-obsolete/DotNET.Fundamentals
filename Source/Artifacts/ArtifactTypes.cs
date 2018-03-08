@@ -16,6 +16,7 @@ namespace doLittle.Artifacts
     public class ArtifactTypes : IArtifactTypes
     {   
         readonly List<IArtifactType> _all = new List<IArtifactType>();
+        Dictionary<string, IArtifactType> _artifactTypesByIdentifier = new Dictionary<string, IArtifactType>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="ArtifactTypes"/>
@@ -25,6 +26,8 @@ namespace doLittle.Artifacts
         {
             artifactTypesProviders.ForEach(provider => _all.AddRange(provider.Provide()));
             ThrowIfMultipleArtifactTypesWithSameIdentifier();
+
+            _artifactTypesByIdentifier = _all.ToDictionary(artifactType => artifactType.Identifier, artifactType => artifactType);
         }
 
         /// <inheritdoc/>
@@ -33,13 +36,13 @@ namespace doLittle.Artifacts
         /// <inheritdoc/>
         public bool Exists(string identifier)
         {
-            throw new NotImplementedException();
+            return _artifactTypesByIdentifier.ContainsKey(identifier);
         }
 
         /// <inheritdoc/>
         public IArtifactType GetFor(string identifier)
         {
-            throw new NotImplementedException();
+            return _artifactTypesByIdentifier[identifier];
         }
 
         void ThrowIfMultipleArtifactTypesWithSameIdentifier()
