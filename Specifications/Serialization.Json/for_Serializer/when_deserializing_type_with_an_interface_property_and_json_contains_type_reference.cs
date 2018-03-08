@@ -16,7 +16,7 @@ namespace doLittle.Serialization.Json.Specs.for_Serializer
                                     container_mock.Setup(c => c.Get(Moq.It.IsAny<Type>())).Returns((Type t) => Activator.CreateInstance(t));
                                 };
 
-        Because of = () => instance = serializer.FromJson<ClassToSerialize>(json, SerializationOptions.IncludeTypeNamesOptions);
+        Because of = () => instance = serializer.FromJson<ClassToSerialize>(json, SerializationOptions.IncludeTypeNames);
 
         It should_have_the_property_instance_set_to_instance_of_SomethingImplementation = () => instance.Something.ShouldBeOfExactType<SomethingImplementation>();
     }
