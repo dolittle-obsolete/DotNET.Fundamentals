@@ -80,6 +80,7 @@ namespace doLittle.Applications
             Parent = parent;
             Required = required;
             Recursive = recursive;
+            Children = children;
         }
 
         /// <inheritdoc/>
