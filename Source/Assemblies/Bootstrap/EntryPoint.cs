@@ -6,7 +6,7 @@ using System.Reflection;
 using doLittle.Assemblies.Configuration;
 using doLittle.Logging;
 
-namespace doLittle.Assemblies.Startup
+namespace doLittle.Assemblies.Bootstrap
 {
     /// <summary>
     /// Represents the entrypoint for initializing assemblies
