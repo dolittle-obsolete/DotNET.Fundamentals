@@ -16,7 +16,7 @@ namespace doLittle.Security
         /// </summary>
         /// <param name="securable"><see cref="ISecurable"/> to secure</param>
         /// <returns>The <see cref="ISecurable"/> chain</returns>
-        public static ISecurityActor User(this ISecurable securable)
+        public static UserSecurityActor User(this ISecurable securable)
         {
             var actor = new UserSecurityActor(null);
             securable.AddActor(actor);
