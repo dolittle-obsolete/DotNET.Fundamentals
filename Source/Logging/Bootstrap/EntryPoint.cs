@@ -11,7 +11,7 @@ using doLittle.Collections;
 using doLittle.Reflection;
 using Microsoft.Extensions.Logging;
 
-namespace doLittle.Logging.Startup
+namespace doLittle.Logging.Bootstrap
 {
     /// <summary>
     /// Represents the entrypoint for initializating Logging
