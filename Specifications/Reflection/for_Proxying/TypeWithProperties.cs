@@ -1,5 +1,5 @@
 ﻿
-namespace doLittle.Specs.Reflection.for_Proxying
+namespace Dolittle.Specs.Reflection.for_Proxying
 {
     public class TypeWithProperties
     {

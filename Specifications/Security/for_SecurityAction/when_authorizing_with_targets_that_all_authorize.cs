@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using doLittle.Security;
+using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Security.Specs.for_SecurityAction
+namespace Dolittle.Security.Specs.for_SecurityAction
 {
     [Subject(typeof(SecurityAction))]
     public class when_authorizing_with_targets_that_all_authorize

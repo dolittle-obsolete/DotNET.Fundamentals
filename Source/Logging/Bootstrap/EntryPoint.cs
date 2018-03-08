@@ -7,11 +7,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using doLittle.Collections;
-using doLittle.Reflection;
+using Dolittle.Collections;
+using Dolittle.Reflection;
 using Microsoft.Extensions.Logging;
 
-namespace doLittle.Logging.Bootstrap
+namespace Dolittle.Logging.Bootstrap
 {
     /// <summary>
     /// Represents the entrypoint for initializating Logging

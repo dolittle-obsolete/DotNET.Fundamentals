@@ -1,11 +1,11 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
 
-namespace doLittle.Mapping
+namespace Dolittle.Mapping
 {
     /// <summary>
     /// Represents an implementation of <see cref="IMappingTarget"/> representing the default behavior for mapping to a target

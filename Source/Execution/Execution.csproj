@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
-    <AssemblyName>doLittle.Execution</AssemblyName>
+    <AssemblyName>Dolittle.Execution</AssemblyName>
   </PropertyGroup>
 
   <Import Project="../../Build/MSBuild/default.props"/>

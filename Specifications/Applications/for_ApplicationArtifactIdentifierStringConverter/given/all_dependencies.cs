@@ -1,8 +1,8 @@
-﻿using doLittle.Artifacts;
+﻿using Dolittle.Artifacts;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter.given
+namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter.given
 {
     public class all_dependencies
     {

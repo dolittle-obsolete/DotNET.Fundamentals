@@ -2,7 +2,7 @@
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter
+namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter
 {
     public class when_converting_string_identifier_with_mismatched_application_name : given.an_application_resource_identifier_converter
     {

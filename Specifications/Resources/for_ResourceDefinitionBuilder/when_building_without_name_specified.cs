@@ -1,7 +1,7 @@
 using System;
 using Machine.Specifications;
 
-namespace doLittle.Resources.for_ResourceDefinitionBuilder
+namespace Dolittle.Resources.for_ResourceDefinitionBuilder
 {
 
     public class when_building_without_name_specified : given.a_resource_definition_builder

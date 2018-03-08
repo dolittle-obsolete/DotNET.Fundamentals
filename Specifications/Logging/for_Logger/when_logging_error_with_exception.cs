@@ -1,7 +1,7 @@
-﻿using doLittle.Logging;
+﻿using Dolittle.Logging;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Logging.for_Logger
+namespace Dolittle.Specs.Logging.for_Logger
 {
     public class when_logging_error_with_exception : given.a_logger_and_reusable_details
     {

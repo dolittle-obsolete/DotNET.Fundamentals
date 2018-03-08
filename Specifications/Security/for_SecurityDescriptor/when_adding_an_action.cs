@@ -1,9 +1,9 @@
 ﻿using Machine.Specifications;
-using doLittle.Security;
+using Dolittle.Security;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Security.Specs.for_SecurityDescriptor
+namespace Dolittle.Security.Specs.for_SecurityDescriptor
 {
     public class when_adding_an_action
     {

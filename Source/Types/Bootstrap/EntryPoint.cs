@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Reflection;
-using doLittle.Assemblies;
+using Dolittle.Assemblies;
 
-namespace doLittle.Types.Bootstrap
+namespace Dolittle.Types.Bootstrap
 {
     /// <summary>
     /// Represents the entrypoint for starting up and initialization for an app using the Type system

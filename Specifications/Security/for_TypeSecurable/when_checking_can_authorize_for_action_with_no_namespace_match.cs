@@ -1,7 +1,7 @@
-﻿using doLittle.Security;
+﻿using Dolittle.Security;
 using Machine.Specifications;
 
-namespace doLittle.Security.Specs.for_TypeSecurable
+namespace Dolittle.Security.Specs.for_TypeSecurable
 {
     [Subject(typeof(NamespaceSecurable))]
     public class when_checking_can_authorize_for_action_of_another_type : given.a_type_securable

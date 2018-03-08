@@ -1,15 +1,15 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using doLittle.Collections;
-using doLittle.Execution;
+using Dolittle.Collections;
+using Dolittle.Execution;
 
-namespace doLittle.Assemblies
+namespace Dolittle.Assemblies
 {
     /// <summary>
     /// Represents an implementation of <see cref="IAssemblyProvider"/>

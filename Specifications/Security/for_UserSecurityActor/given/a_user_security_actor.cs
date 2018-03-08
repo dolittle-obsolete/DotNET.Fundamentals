@@ -1,9 +1,9 @@
 using System.Security.Claims;
-using doLittle.Security;
+using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Security.Specs.for_UserSecurityActor.given
+namespace Dolittle.Security.Specs.for_UserSecurityActor.given
 {
     public class a_user_security_actor
     {

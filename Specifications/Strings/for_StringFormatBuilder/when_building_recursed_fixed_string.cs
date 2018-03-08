@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using doLittle.Strings;
+using Dolittle.Strings;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Strings.for_StringFormatBuilder
+namespace Dolittle.Specs.Strings.for_StringFormatBuilder
 {
     public class when_building_recursed_fixed_string : given.an_empty_string_format_builder
     {

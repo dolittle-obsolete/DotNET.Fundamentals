@@ -3,7 +3,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Applications.Specs.for_Module
+namespace Dolittle.Applications.Specs.for_Module
 {
     public class when_adding_existing_feature
     {

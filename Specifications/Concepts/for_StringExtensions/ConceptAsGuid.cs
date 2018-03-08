@@ -1,7 +1,7 @@
 ﻿using System;
-using doLittle.Concepts;
+using Dolittle.Concepts;
 
-namespace doLittle.Specs.Concepts.for_StringExtensions
+namespace Dolittle.Specs.Concepts.for_StringExtensions
 {
     public class ConceptAsGuid : ConceptAs<Guid>
     {

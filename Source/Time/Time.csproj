@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
-    <AssemblyName>doLittle.Time</AssemblyName>
+    <AssemblyName>Dolittle.Time</AssemblyName>
   </PropertyGroup>
 
   <Import Project="../../Build/MSBuild/default.props"></Import>

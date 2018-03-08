@@ -1,6 +1,6 @@
-﻿using doLittle.Concepts;
+﻿using Dolittle.Concepts;
 
-namespace doLittle.Specs.Concepts.for_ConceptFactory
+namespace Dolittle.Specs.Concepts.for_ConceptFactory
 {
     public class DoubleConcept : ConceptAs<double>
     {

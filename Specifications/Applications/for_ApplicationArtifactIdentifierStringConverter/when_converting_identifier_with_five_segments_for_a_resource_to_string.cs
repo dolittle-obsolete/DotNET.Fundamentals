@@ -1,9 +1,9 @@
-﻿using doLittle.Artifacts;
+﻿using Dolittle.Artifacts;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter
+namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter
 {
     public class when_converting_identifier_with_five_segments_for_a_resource_to_string : given.an_application_resource_identifier_converter
     {

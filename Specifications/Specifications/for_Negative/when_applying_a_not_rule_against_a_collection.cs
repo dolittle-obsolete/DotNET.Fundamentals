@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
 
-namespace doLittle.Specifications.Specs.for_Negative
+namespace Dolittle.Specifications.Specs.for_Negative
 {
 
     [Subject(typeof(Specification<>))]

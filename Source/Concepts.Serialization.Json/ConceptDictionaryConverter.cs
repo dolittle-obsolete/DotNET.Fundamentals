@@ -1,16 +1,16 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using doLittle.Concepts;
-using doLittle.Reflection;
+using Dolittle.Concepts;
+using Dolittle.Reflection;
 using Newtonsoft.Json;
 
-namespace doLittle.Concepts.Serialization.Json
+namespace Dolittle.Concepts.Serialization.Json
 {
     /// <summary>
     /// Represents a <see cref="JsonConverter"/> that can serialize and deserialize a <see cref="IDictionary{TKey, TValue}">dictionary</see> of <see cref="ConceptAs{T}"/>

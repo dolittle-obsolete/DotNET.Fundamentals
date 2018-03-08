@@ -1,14 +1,14 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
-using doLittle.Assemblies;
+using Dolittle.Assemblies;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Types.Specs.for_TypeFinder.given
+namespace Dolittle.Types.Specs.for_TypeFinder.given
 {
     public class a_type_finder
     {

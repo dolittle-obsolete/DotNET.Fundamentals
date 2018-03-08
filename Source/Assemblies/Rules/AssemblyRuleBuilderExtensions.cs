@@ -2,9 +2,9 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using doLittle.Specifications;
+using Dolittle.Specifications;
 
-namespace doLittle.Assemblies.Rules
+namespace Dolittle.Assemblies.Rules
 {
     /// <summary>
     /// Provides extensions for <see cref="IAssemblyRuleBuilder"/>

@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace doLittle.DependencyInversion
+namespace Dolittle.DependencyInversion
 {
     /// <summary>
     /// Defines a collection for holding bindings

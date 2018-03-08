@@ -1,8 +1,8 @@
-﻿using doLittle.Logging;
+﻿using Dolittle.Logging;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Specs.Logging.for_LogAppenders.given
+namespace Dolittle.Specs.Logging.for_LogAppenders.given
 {
     public class two_appenders : all_dependencies
     {

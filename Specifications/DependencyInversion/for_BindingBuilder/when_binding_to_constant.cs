@@ -1,6 +1,6 @@
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.for_BindingBuilder
+namespace Dolittle.DependencyInversion.for_BindingBuilder
 {
     public class when_binding_to_constant : given.a_null_binding
     {

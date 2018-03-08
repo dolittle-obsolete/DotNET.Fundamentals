@@ -1,7 +1,7 @@
-﻿using doLittle.Serialization.Json;
+﻿using Dolittle.Serialization.Json;
 using Machine.Specifications;
 
-namespace doLittle.Concepts.Serialization.Json.Specs.for_Serializer
+namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
 {
     [Subject(typeof(Serializer))]
     public class when_deserializing_a_concept_from_a_string : given.a_serializer

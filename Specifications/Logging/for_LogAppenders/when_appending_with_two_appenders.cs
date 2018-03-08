@@ -1,8 +1,8 @@
 ﻿using System;
 using Machine.Specifications;
-using doLittle.Logging;
+using Dolittle.Logging;
 
-namespace doLittle.Specs.Logging.for_LogAppenders
+namespace Dolittle.Specs.Logging.for_LogAppenders
 {
     public class when_appending_with_two_appenders : given.two_appenders
     {

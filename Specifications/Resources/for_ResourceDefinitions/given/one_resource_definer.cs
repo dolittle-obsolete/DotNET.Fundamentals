@@ -1,7 +1,7 @@
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Resources.for_ResourceDefinitions.given
+namespace Dolittle.Resources.for_ResourceDefinitions.given
 {
     public class one_resource_definer : all_dependencies
     {

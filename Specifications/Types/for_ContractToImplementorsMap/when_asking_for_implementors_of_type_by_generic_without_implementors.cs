@@ -1,12 +1,12 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using Machine.Specifications;
 
-namespace doLittle.Types.Specs.for_ContractToImplementorsMap
+namespace Dolittle.Types.Specs.for_ContractToImplementorsMap
 {
     public class when_asking_for_implementors_of_type_by_generic_without_implementors : given.an_empty_map
     {

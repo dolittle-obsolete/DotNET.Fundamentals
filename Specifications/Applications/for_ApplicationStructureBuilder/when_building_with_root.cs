@@ -4,7 +4,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Applications.for_ApplicationStructureBuilder
+namespace Dolittle.Applications.for_ApplicationStructureBuilder
 {
     public class when_building_with_root
     {

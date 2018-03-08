@@ -1,6 +1,6 @@
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.Strategies.for_Constant
+namespace Dolittle.DependencyInversion.Strategies.for_Constant
 {
     public class when_asking_for_target_type
     {

@@ -1,4 +1,4 @@
-﻿namespace doLittle.Specs.Dynamic.for_DynamicExtensions
+﻿namespace Dolittle.Specs.Dynamic.for_DynamicExtensions
 {
     public class ObjectWithProperties
     {

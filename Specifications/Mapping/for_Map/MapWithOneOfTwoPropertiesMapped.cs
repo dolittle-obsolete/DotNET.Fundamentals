@@ -1,6 +1,6 @@
-﻿using doLittle.Mapping;
+﻿using Dolittle.Mapping;
 
-namespace doLittle.Mapping.Specs.for_Map
+namespace Dolittle.Mapping.Specs.for_Map
 {
     public class MapWithOneOfTwoPropertiesMapped : Map<SourceWithTwoProperties, Target>
     {

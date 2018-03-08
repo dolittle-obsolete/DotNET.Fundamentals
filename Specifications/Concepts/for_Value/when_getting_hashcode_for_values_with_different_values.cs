@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace doLittle.Specs.Concepts.for_Value
+namespace Dolittle.Specs.Concepts.for_Value
 {
     public class when_getting_hashcode_for_values_with_different_values : given.value_objects
     {

@@ -1,8 +1,8 @@
-﻿using doLittle.Mapping;
+﻿using Dolittle.Mapping;
 using Machine.Specifications;
 using System.Linq;
 
-namespace doLittle.Mapping.Specs.for_MappingTargets.given
+namespace Dolittle.Mapping.Specs.for_MappingTargets.given
 {
     public class no_mapping_targets : all_dependencies
     {

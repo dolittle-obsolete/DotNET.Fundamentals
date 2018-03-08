@@ -1,4 +1,4 @@
-﻿namespace ddoLittle.Mapping.Specsfor_Mapper
+﻿namespace dDolittle.Mapping.Specsfor_Mapper
 {
     public class Source
     {

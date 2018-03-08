@@ -1,7 +1,7 @@
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Artifacts.for_ArtifactTypes
+namespace Dolittle.Artifacts.for_ArtifactTypes
 {
     public class when_checking_if_identifier_exist_without_it_existing : given.no_providers
     {

@@ -1,7 +1,7 @@
 using System;
-using doLittle.Concepts;
+using Dolittle.Concepts;
 
-namespace doLittle.Applications.for_ApplicationStructureFragment
+namespace Dolittle.Applications.for_ApplicationStructureFragment
 {
     public class SomeName : ConceptAs<string>, IApplicationLocationSegmentName
     {

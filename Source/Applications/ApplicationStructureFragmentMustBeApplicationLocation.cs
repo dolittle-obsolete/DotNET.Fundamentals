@@ -1,10 +1,10 @@
 /*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.Applications
+namespace Dolittle.Applications
 {
     /// <summary>
     /// Exception that gets thrown when a <see cref="ApplicationStructureFragment"/> type is not derived from <see cref="IApplicationLocation"/>

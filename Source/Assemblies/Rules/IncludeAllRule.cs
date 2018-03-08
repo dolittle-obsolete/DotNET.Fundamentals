@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Reflection;
-using doLittle.Specifications;
+using Dolittle.Specifications;
 
-namespace doLittle.Assemblies.Rules
+namespace Dolittle.Assemblies.Rules
 {
     /// <summary>
     /// Represents a <see cref="Specification{T}">rule</see> specific to <see cref="Assembly">assemblies</see> 

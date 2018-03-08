@@ -1,7 +1,7 @@
-﻿using doLittle.Concepts;
+﻿using Dolittle.Concepts;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Concepts.for_ConceptAs
+namespace Dolittle.Specs.Concepts.for_ConceptAs
 {
     [Subject(typeof(ConceptAs<>))]
     public class when_checking_is_empty_on_an_empty_long_concept : given.concepts

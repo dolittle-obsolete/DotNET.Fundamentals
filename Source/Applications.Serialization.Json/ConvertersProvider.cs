@@ -1,13 +1,13 @@
 /*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using doLittle.Serialization.Json;
-using doLittle.Applications;
+using Dolittle.Serialization.Json;
+using Dolittle.Applications;
 
-namespace doLittle.Runtime.Applications.Serialization.Json
+namespace Dolittle.Runtime.Applications.Serialization.Json
 {
     /// <summary>
     /// Provides converters related to concepts for Json serialization purposes

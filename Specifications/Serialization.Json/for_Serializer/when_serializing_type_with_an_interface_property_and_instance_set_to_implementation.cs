@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace doLittle.Serialization.Json.Specs.for_Serializer
+namespace Dolittle.Serialization.Json.Specs.for_Serializer
 {
     public class when_serializing_type_with_an_interface_property_and_instance_set_to_implementation : given.a_serializer
     {

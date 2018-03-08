@@ -1,15 +1,15 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using doLittle.Collections;
-using doLittle.Reflection;
+using Dolittle.Collections;
+using Dolittle.Reflection;
 
-namespace doLittle.Mapping
+namespace Dolittle.Mapping
 {
     /// <summary>
     /// Represents a mapping description used by <see cref="IMapper"/>

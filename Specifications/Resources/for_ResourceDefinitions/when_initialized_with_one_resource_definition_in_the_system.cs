@@ -2,7 +2,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Resources.for_ResourceDefinitions
+namespace Dolittle.Resources.for_ResourceDefinitions
 {
     public class when_initialized_with_one_resource_definition_in_the_system : given.one_resource_definer
     {

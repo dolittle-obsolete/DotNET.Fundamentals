@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace doLittle.Strings.Specs.for_StringExtensions
+namespace Dolittle.Strings.Specs.for_StringExtensions
 {
     public class when_converting_a_string_with_pascal_casing_to_camel_casing
     {

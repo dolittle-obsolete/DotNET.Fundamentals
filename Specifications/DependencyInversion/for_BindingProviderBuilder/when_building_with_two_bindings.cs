@@ -1,7 +1,7 @@
 using System.Linq;
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.for_BindingProviderBuilder
+namespace Dolittle.DependencyInversion.for_BindingProviderBuilder
 {
     public class when_building_with_two_bindings : given.a_binding_provider_builder
     {

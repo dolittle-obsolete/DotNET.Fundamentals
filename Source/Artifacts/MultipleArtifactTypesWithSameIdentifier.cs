@@ -1,12 +1,12 @@
 /*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace doLittle.Artifacts
+namespace Dolittle.Artifacts
 {
     /// <summary>
     /// The exception that gets thrown when there are multiple <see cref="IArtifactType"/> with same identifier

@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Execution;
+using Dolittle.Execution;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Execution.for_WeakDelegate
+namespace Dolittle.Specs.Execution.for_WeakDelegate
 {
     public class when_dynamically_invoking_static_delegate_matching_signature
     {

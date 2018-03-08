@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Logging;
+using Dolittle.Logging;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Logging.for_LogAppenders
+namespace Dolittle.Specs.Logging.for_LogAppenders
 {
     public class when_appending_to_appender_that_throws_exception : given.one_appender
     {

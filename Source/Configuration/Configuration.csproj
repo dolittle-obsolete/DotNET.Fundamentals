@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>doLittle.Configuration</RootNamespace>
-    <AssemblyName>doLittle.Configuration</AssemblyName>
+    <RootNamespace>Dolittle.Configuration</RootNamespace>
+    <AssemblyName>Dolittle.Configuration</AssemblyName>
   </PropertyGroup>
 
   <Import Project="../../Build/MSBuild/default.props"/>

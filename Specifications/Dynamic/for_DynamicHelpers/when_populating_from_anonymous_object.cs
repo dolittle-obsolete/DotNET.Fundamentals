@@ -1,8 +1,8 @@
 ﻿using System.Dynamic;
 using Machine.Specifications;
-using doLittle.Dynamic;
+using Dolittle.Dynamic;
 
-namespace doLittle.Specs.Extensions.for_DynamicHelpers
+namespace Dolittle.Specs.Extensions.for_DynamicHelpers
 {
     public class when_populating_from_anonymous_object
     {

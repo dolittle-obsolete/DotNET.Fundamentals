@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using doLittle.DependencyInversion;
-using doLittle.Serialization.Json;
-using doLittle.Types;
+using Dolittle.DependencyInversion;
+using Dolittle.Serialization.Json;
+using Dolittle.Types;
 using Machine.Specifications;
 using Moq;
 using Newtonsoft.Json;
 
-namespace doLittle.Concepts.Serialization.Json.Specs.for_Serializer.given
+namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer.given
 {
     public class a_serializer
     {

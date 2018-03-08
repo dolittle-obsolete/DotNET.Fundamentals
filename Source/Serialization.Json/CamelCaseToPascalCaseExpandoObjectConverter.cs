@@ -1,16 +1,16 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Globalization;
-using doLittle.Reflection;
-using doLittle.Strings;
+using Dolittle.Reflection;
+using Dolittle.Strings;
 using Newtonsoft.Json;
 
-namespace doLittle.Serialization.Json
+namespace Dolittle.Serialization.Json
 {
     /// <summary>
     /// Represents a <see cref="JsonConverter"/> capable of producing an ExpandoObject with properties

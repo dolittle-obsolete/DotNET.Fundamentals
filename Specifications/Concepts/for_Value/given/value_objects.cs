@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Concepts;
+using Dolittle.Concepts;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Concepts.for_Value.given
+namespace Dolittle.Specs.Concepts.for_Value.given
 {
     public class value_objects
     {

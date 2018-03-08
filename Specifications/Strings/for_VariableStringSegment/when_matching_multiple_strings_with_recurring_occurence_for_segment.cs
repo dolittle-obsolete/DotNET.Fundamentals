@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using doLittle.Strings;
+using Dolittle.Strings;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Strings.for_VariableStringSegment
+namespace Dolittle.Specs.Strings.for_VariableStringSegment
 {
     public class when_matching_multiple_strings_with_recurring_occurence_for_segment
     {

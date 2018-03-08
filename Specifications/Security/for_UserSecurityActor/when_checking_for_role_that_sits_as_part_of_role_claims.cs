@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Machine.Specifications;
 
-namespace doLittle.Security.Specs.for_UserSecurityActor
+namespace Dolittle.Security.Specs.for_UserSecurityActor
 {
     public class when_checking_for_role_that_sits_as_part_of_role_claims : given.a_user_security_actor
     {

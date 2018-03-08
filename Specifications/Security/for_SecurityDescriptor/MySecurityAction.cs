@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace doLittle.Security.Specs.for_SecurityDescriptor
+namespace Dolittle.Security.Specs.for_SecurityDescriptor
 {
     public class MySecurityAction : ISecurityAction
     {

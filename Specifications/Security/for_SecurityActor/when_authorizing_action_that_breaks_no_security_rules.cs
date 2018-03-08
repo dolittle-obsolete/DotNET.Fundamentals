@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using doLittle.Security;
+using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Security.Specs.for_SecurityActor
+namespace Dolittle.Security.Specs.for_SecurityActor
 {
     [Subject(typeof(SecurityActor))]
     public class when_authorizing_action_that_breaks_no_security_rules

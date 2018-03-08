@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using doLittle.Strings;
+using Dolittle.Strings;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Specs.Strings.for_SegmentMatchesExtensions
+namespace Dolittle.Specs.Strings.for_SegmentMatchesExtensions
 {
     public class when_converting_matches_with_three_segment_matches
     {

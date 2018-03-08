@@ -1,7 +1,7 @@
 using System.Linq;
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.for_BindingProviderBuilder
+namespace Dolittle.DependencyInversion.for_BindingProviderBuilder
 {
     public class when_building_a_binding_of_type_to_another_type_with_singleton_scope : given.a_binding_provider_builder
     {

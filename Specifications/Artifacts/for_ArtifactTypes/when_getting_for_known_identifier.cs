@@ -2,7 +2,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Artifacts.for_ArtifactTypes
+namespace Dolittle.Artifacts.for_ArtifactTypes
 {
     public class when_getting_for_known_identifier : given.two_providers
     {

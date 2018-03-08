@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using doLittle.IO;
-using doLittle.Logging;
+using Dolittle.IO;
+using Dolittle.Logging;
 
-namespace doLittle.Assemblies
+namespace Dolittle.Assemblies
 {
     /// <summary>
     /// Represents an implementation of <see cref="ICanProvideAssemblies"/> that is capable of

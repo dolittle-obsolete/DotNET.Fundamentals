@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace doLittle.DependencyInversion.Strategies
+namespace Dolittle.DependencyInversion.Strategies
 {
     /// <summary>
     /// Represents an <see cref="IActivationStrategy"/> that is null

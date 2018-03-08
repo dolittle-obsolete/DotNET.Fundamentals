@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
 
-namespace doLittle.Specifications.Specs.for_And
+namespace Dolittle.Specifications.Specs.for_And
 {
     [Subject(typeof(Specification<>))]
     public class when_applying_an_and_rule_against_a_collection : given.rules_and_colored_shapes

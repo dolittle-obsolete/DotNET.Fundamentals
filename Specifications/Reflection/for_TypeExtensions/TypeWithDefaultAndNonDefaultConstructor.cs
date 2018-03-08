@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace doLittle.Reflection.Specs.for_TypeExtensions
+namespace Dolittle.Reflection.Specs.for_TypeExtensions
 {
     public class TypeWithDefaultAndNonDefaultConstructor
     {

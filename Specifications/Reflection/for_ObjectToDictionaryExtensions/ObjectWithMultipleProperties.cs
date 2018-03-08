@@ -1,4 +1,4 @@
-namespace doLittle.Reflection.for_ObjectToDictionaryExtensions
+namespace Dolittle.Reflection.for_ObjectToDictionaryExtensions
 {
     public class ObjectWithMultipleProperties
     {

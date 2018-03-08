@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using doLittle.Security;
+using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Security.Specs.for_AuthorizationDescriptorResult
+namespace Dolittle.Security.Specs.for_AuthorizationDescriptorResult
 {
     [Subject(typeof(AuthorizeDescriptorResult))]
     public class when_building_the_failed_authorization_messages

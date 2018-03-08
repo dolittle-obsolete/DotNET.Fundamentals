@@ -1,4 +1,4 @@
-namespace doLittle.Applications.for_ApplicationStructureFragment
+namespace Dolittle.Applications.for_ApplicationStructureFragment
 {
     public class SegmentWithBelonging : 
         IApplicationLocationSegment, 

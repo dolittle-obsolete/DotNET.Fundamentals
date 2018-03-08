@@ -3,7 +3,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Artifacts.for_ArtifactTypes
+namespace Dolittle.Artifacts.for_ArtifactTypes
 {
     public class when_getting_all_and_two_providers_provide_two_artifacts_types_each : given.two_providers
     {

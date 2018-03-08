@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using doLittle.Strings;
+using Dolittle.Strings;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Strings.for_StringFormat
+namespace Dolittle.Specs.Strings.for_StringFormat
 {
     public class when_matching_string_with_three_segments_that_should_match_a_fixed_non_optional_then_single_non_optional_then_fixed_non_optional_and_then_two_optional_variables
     {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using doLittle.Strings;
+using Dolittle.Strings;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Strings.for_StringFormatParser
+namespace Dolittle.Specs.Strings.for_StringFormatParser
 {
     public class when_parsing_with_one_optional_variable_segment : given.a_string_format_parser
     {

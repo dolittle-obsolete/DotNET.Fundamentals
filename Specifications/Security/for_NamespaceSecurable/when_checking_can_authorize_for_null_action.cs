@@ -1,7 +1,7 @@
-﻿using doLittle.Security;
+﻿using Dolittle.Security;
 using Machine.Specifications;
 
-namespace doLittle.Security.Specs.for_NamespaceSecurable
+namespace Dolittle.Security.Specs.for_NamespaceSecurable
 {
     [Subject(typeof(NamespaceSecurable))]
     public class when_checking_can_authorize_for_null_action : given.a_namespace_securable

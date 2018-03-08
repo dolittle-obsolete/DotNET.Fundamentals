@@ -1,12 +1,12 @@
 ﻿using System;
-using doLittle.Serialization.Json;
+using Dolittle.Serialization.Json;
 using Machine.Specifications;
 
-namespace doLittle.Serialization.Json.Specs.for_Serializer
+namespace Dolittle.Serialization.Json.Specs.for_Serializer
 {
     public class when_deserializing_type_with_an_interface_property_and_json_contains_type_reference : given.a_serializer
     {
-        const string json = "{\"Something\":{\"$type\":\"doLittle.Serialization.Json.Specs.for_Serializer.SomethingImplementation, doLittle.Serialization.Json.Specs\",\"SomeValue\":\"Something\"}}";
+        const string json = "{\"Something\":{\"$type\":\"Dolittle.Serialization.Json.Specs.for_Serializer.SomethingImplementation, Dolittle.Serialization.Json.Specs\",\"SomeValue\":\"Something\"}}";
 
         static ClassToSerialize instance;
 

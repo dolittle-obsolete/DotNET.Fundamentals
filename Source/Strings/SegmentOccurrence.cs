@@ -1,4 +1,4 @@
-﻿namespace doLittle.Strings
+﻿namespace Dolittle.Strings
 {
     /// <summary>
     /// Defines number of <see cref="ISegment"/> instances

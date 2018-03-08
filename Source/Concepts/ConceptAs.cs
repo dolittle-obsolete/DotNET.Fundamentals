@@ -1,11 +1,11 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 
-namespace doLittle.Concepts
+namespace Dolittle.Concepts
 {
     /// <summary>
     /// Expresses a Concept as a another type, usually a primitive such as Guid, Int or String

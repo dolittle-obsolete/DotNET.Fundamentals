@@ -1,10 +1,10 @@
 /*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.DependencyInversion.Conventions
+namespace Dolittle.DependencyInversion.Conventions
 {
     /// <summary>
     /// The exception that gets thrown if a binding convention does not have a default constructor

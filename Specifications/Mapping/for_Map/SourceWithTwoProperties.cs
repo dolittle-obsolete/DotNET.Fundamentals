@@ -1,5 +1,5 @@
 ﻿
-namespace doLittle.Mapping.Specs.for_Map
+namespace Dolittle.Mapping.Specs.for_Map
 {
     public class SourceWithTwoProperties
     {

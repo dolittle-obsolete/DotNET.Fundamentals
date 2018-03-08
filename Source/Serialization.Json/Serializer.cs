@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -10,16 +10,16 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using doLittle.Collections;
-using doLittle.DependencyInversion;
-using doLittle.Reflection;
-using doLittle.Serialization;
-using doLittle.Strings;
-using doLittle.Types;
+using Dolittle.Collections;
+using Dolittle.DependencyInversion;
+using Dolittle.Reflection;
+using Dolittle.Serialization;
+using Dolittle.Strings;
+using Dolittle.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace doLittle.Serialization.Json
+namespace Dolittle.Serialization.Json
 {
     /// <summary>
     /// Represents a <see cref="ISerializer"/>

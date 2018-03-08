@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Artifacts.for_ArtifactTypes.given
+namespace Dolittle.Artifacts.for_ArtifactTypes.given
 {
     public class two_providers : all_dependencies
     {

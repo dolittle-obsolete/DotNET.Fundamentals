@@ -1,16 +1,16 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
 using System.Reflection;
-using doLittle.Assemblies.Configuration;
-using doLittle.Collections;
-using doLittle.Logging;
-using doLittle.Reflection;
+using Dolittle.Assemblies.Configuration;
+using Dolittle.Collections;
+using Dolittle.Logging;
+using Dolittle.Reflection;
 
-namespace doLittle.Assemblies
+namespace Dolittle.Assemblies
 {
     /// <summary>
     /// Represents an implementation of <see cref="IAssemblySpecifiers"/>

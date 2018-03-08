@@ -1,5 +1,5 @@
 ﻿
-namespace doLittle.Mapping.Specs.for_PropertyMapExtensions
+namespace Dolittle.Mapping.Specs.for_PropertyMapExtensions
 {
     public class Target
     {

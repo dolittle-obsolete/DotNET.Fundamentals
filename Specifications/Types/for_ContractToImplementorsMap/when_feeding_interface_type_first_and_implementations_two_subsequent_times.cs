@@ -1,10 +1,10 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Machine.Specifications;
 
-namespace doLittle.Types.Specs.for_ContractToImplementorsMap
+namespace Dolittle.Types.Specs.for_ContractToImplementorsMap
 {
     public class when_feeding_interface_type_first_and_implementations_two_subsequent_times : given.an_empty_map
     {

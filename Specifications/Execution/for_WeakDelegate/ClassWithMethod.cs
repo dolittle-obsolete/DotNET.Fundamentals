@@ -1,4 +1,4 @@
-﻿namespace doLittle.Specs.Execution.for_WeakDelegate
+﻿namespace Dolittle.Specs.Execution.for_WeakDelegate
 {
     public class ClassWithMethod
     {

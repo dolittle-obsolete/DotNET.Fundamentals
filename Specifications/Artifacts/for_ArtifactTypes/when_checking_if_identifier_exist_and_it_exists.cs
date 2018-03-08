@@ -2,7 +2,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Artifacts.for_ArtifactTypes
+namespace Dolittle.Artifacts.for_ArtifactTypes
 {
 
     public class when_checking_if_identifier_exist_and_it_exists : given.two_providers

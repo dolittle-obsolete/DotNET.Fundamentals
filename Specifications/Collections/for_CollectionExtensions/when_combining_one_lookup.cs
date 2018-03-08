@@ -2,7 +2,7 @@
 using System.Linq;
 using Machine.Specifications;
 
-namespace doLittle.Collections.Specs.for_CollectionExtensions
+namespace Dolittle.Collections.Specs.for_CollectionExtensions
 {
     [Subject(typeof(CollectionsExtensions))]
     public class when_combining_one_lookup

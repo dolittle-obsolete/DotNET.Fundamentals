@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using doLittle.Applications;
+using Dolittle.Applications;
 using Machine.Specifications;
 
 namespace Applications.for_ApplicationLocation.given

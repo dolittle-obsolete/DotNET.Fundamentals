@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
-using doLittle.Assemblies;
+using Dolittle.Assemblies;
 
-namespace doLittle.DependencyInversion
+namespace Dolittle.DependencyInversion
 {
     /// <summary>
     /// Defines a system that provide a <see cref="IContainer"/> implementation

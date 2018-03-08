@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Machine.Specifications;
 
-namespace doLittle.Artifacts.for_ArtifactTypes
+namespace Dolittle.Artifacts.for_ArtifactTypes
 {
     public class when_getting_all_without_any_providers : given.no_providers
     {

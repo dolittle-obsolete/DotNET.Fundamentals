@@ -1,7 +1,7 @@
 using System.Linq;
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.for_BindingCollection
+namespace Dolittle.DependencyInversion.for_BindingCollection
 {
     public class when_initialized_with_two_other_binding_collections_with_bindings_in
     {

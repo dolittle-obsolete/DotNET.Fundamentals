@@ -5,7 +5,7 @@
 
 using System;
 
-namespace doLittle.DependencyInversion
+namespace Dolittle.DependencyInversion
 {
     /// <summary>
     /// Defines a builder of <see cref="Binding"/>

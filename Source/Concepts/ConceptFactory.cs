@@ -1,11 +1,11 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
 
-namespace doLittle.Concepts
+namespace Dolittle.Concepts
 {
     /// <summary>
     /// Factory to create an instance of a <see cref="ConceptAs{T}"/> from the Type and Underlying value.

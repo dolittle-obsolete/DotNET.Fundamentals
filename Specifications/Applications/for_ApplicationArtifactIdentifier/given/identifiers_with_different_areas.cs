@@ -1,8 +1,8 @@
-﻿using doLittle.Artifacts;
+﻿using Dolittle.Artifacts;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
+namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
 {
     public class identifiers_with_different_areas
     {

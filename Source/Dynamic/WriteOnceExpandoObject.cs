@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace doLittle.Dynamic
+namespace Dolittle.Dynamic
 {
     /// <summary>
     /// Represents an ExpandoObject that can only have values assigned to during creation.

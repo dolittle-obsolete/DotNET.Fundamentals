@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>doLittle.Concepts.Serialization.Json.Specs</AssemblyName>
+    <AssemblyName>Dolittle.Concepts.Serialization.Json.Specs</AssemblyName>
   </PropertyGroup>
 
   <Import Project="../../Build/MSBuild/specs.props"></Import>

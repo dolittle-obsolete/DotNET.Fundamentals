@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.DependencyInversion
+namespace Dolittle.DependencyInversion
 {
     /// <summary>
     /// Represents an implementation of <see cref="IBindingBuilder"/>

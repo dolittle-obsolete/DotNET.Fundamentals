@@ -2,7 +2,7 @@
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Applications.Specs.for_Application
+namespace Dolittle.Applications.Specs.for_Application
 {
     public class when_starting_building_with_name
     {

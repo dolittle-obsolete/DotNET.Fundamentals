@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using doLittle.DependencyInversion;
-using doLittle.Execution;
-using doLittle.Security;
-using doLittle.Types;
+using Dolittle.DependencyInversion;
+using Dolittle.Execution;
+using Dolittle.Security;
+using Dolittle.Types;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Security.Specs.for_SecurityManager.given
+namespace Dolittle.Security.Specs.for_SecurityManager.given
 {
     public class a_security_manager_with_discovered_descriptors
     {

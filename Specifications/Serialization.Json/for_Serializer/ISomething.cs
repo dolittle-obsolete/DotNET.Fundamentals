@@ -1,4 +1,4 @@
-﻿namespace doLittle.Serialization.Json.Specs.for_Serializer
+﻿namespace Dolittle.Serialization.Json.Specs.for_Serializer
 {
     public interface ISomething
     {

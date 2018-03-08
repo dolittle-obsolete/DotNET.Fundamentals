@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using doLittle.Security;
+using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Security.Specs.for_Securable
+namespace Dolittle.Security.Specs.for_Securable
 {
     [Subject(typeof(SecurityActor))]
     public class when_adding_a_security_actor
@@ -14,7 +14,7 @@ namespace doLittle.Security.Specs.for_Securable
 
         Establish context = () => 
         {
-            security_target = new NamespaceSecurable("doLittle.Security");
+            security_target = new NamespaceSecurable("Dolittle.Security");
             security_actor_mock = new Mock<ISecurityActor>();
         };
 

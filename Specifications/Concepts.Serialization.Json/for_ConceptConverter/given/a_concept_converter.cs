@@ -1,6 +1,6 @@
-﻿using doLittle.Concepts.Serialization.Json;
+﻿using Dolittle.Concepts.Serialization.Json;
 
-namespace doLittle.Concepts.Serialization.Json.Specs.for_ConceptConverter.given
+namespace Dolittle.Concepts.Serialization.Json.Specs.for_ConceptConverter.given
 {
     public class a_concept_converter
     {

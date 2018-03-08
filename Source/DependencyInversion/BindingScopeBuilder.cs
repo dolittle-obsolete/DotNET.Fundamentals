@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
 using System.Reflection;
-using doLittle.Execution;
-using doLittle.Reflection;
+using Dolittle.Execution;
+using Dolittle.Reflection;
 
-namespace doLittle.DependencyInversion
+namespace Dolittle.DependencyInversion
 {
     /// <summary>
     /// Represents an implementation of <see cref="IBindingScopeBuilder"/>

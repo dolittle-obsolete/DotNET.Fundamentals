@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.DependencyInversion.Bootstrap
+namespace Dolittle.DependencyInversion.Bootstrap
 {
     /// <summary>
     /// The exception that gets thrown if a binding provider does not have a default constructor

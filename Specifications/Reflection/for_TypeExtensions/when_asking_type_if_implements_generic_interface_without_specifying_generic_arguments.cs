@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace doLittle.Reflection.Specs.for_TypeExtensions
+namespace Dolittle.Reflection.Specs.for_TypeExtensions
 {
 
     public class when_asking_type_if_implements_generic_interface_without_specifying_generic_arguments

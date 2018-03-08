@@ -1,6 +1,6 @@
 using Machine.Specifications;
 
-namespace doLittle.Resources.for_ResourceDefinitionBuilder.given
+namespace Dolittle.Resources.for_ResourceDefinitionBuilder.given
 {
     public class a_resource_definition_builder
     {

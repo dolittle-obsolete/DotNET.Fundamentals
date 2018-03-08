@@ -1,8 +1,8 @@
-﻿using doLittle.Security;
+﻿using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Security.Specs.for_ClaimTypeRule.given
+namespace Dolittle.Security.Specs.for_ClaimTypeRule.given
 {
     public class a_claim_type_rule
     {

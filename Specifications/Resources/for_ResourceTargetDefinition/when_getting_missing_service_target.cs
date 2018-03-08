@@ -1,5 +1,5 @@
 using System;
-using doLittle.Resources;
+using Dolittle.Resources;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;

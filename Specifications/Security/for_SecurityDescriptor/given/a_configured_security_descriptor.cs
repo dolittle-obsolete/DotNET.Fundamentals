@@ -1,10 +1,10 @@
-﻿using doLittle.DependencyInversion;
-using doLittle.Execution;
-using doLittle.Security;
+﻿using Dolittle.DependencyInversion;
+using Dolittle.Execution;
+using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Security.Specs.for_SecurityDescriptor.given
+namespace Dolittle.Security.Specs.for_SecurityDescriptor.given
 {
     public class a_configured_security_descriptor
     {

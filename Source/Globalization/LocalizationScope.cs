@@ -1,11 +1,11 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Globalization;
 
-namespace doLittle.Globalization
+namespace Dolittle.Globalization
 {
     /// <summary>
     /// Represents a scope for localization, when exiting the scope, cultures will be reset back to the cultures given at construction.

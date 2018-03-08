@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Machine.Specifications;
 
-namespace doLittle.Assemblies.Specs.for_Assemblies
+namespace Dolittle.Assemblies.Specs.for_Assemblies
 {
     public class when_getting_all_assemblies : given.two_assemblies
     {

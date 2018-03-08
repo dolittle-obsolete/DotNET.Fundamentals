@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using doLittle.Resources;
+using Dolittle.Resources;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Resources.for_ResourceServiceTarget
+namespace Dolittle.Resources.for_ResourceServiceTarget
 {
     public class when_creating_with_target_service_not_assignable_to_source
     {

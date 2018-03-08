@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using doLittle.Mapping;
+using Dolittle.Mapping;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Mapping.Specs.for_TargetPropertyMappingStrategy
+namespace Dolittle.Mapping.Specs.for_TargetPropertyMappingStrategy
 {
     public class when_performing
     {

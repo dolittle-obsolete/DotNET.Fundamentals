@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Mapping;
+using Dolittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Mapping.Specs.for_Maps
+namespace Dolittle.Mapping.Specs.for_Maps
 {
     public class when_asking_for_map_for_known_combination : given.map_for_source_and_target_in_system
     {

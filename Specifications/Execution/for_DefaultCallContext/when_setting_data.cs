@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace doLittle.Execution.for_DefaultCallContext
+namespace Dolittle.Execution.for_DefaultCallContext
 {
     public class when_setting_data
     {

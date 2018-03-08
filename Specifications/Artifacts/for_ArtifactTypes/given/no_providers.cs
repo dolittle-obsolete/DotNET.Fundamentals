@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Machine.Specifications;
 
-namespace doLittle.Artifacts.for_ArtifactTypes.given
+namespace Dolittle.Artifacts.for_ArtifactTypes.given
 {
     public class no_providers : all_dependencies
     {

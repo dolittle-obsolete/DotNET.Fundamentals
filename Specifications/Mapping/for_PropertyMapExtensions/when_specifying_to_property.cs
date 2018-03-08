@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using doLittle.Mapping;
+using Dolittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Mapping.Specs.for_PropertyMapExtensions
+namespace Dolittle.Mapping.Specs.for_PropertyMapExtensions
 {
     public class when_specifying_to_property
     {

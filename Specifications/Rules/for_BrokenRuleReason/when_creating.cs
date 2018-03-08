@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace doLittle.Rules.Specs.for_BrokenRuleReason
+namespace Dolittle.Rules.Specs.for_BrokenRuleReason
 {
     public class when_creating
     {

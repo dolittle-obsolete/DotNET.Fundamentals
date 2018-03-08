@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.DependencyInversion.Bootstrap
+namespace Dolittle.DependencyInversion.Bootstrap
 {
     /// <summary>
     /// Exception that gets thrown when there are no implementations of <see cref="ICanProvideContainer"/> loaded
@@ -14,7 +14,7 @@ namespace doLittle.DependencyInversion.Bootstrap
         /// <summary>
         /// Initializes a new instance of <see cref="MissingContainerProvider"/>
         /// </summary>
-        public MissingContainerProvider() : base("There is no provider for an IOC Container - add a reference to an extension that provides this; http://github.com/dolittle-extensions")
+        public MissingContainerProvider() : base("There is no provider for an IOC Container - add a reference to an extension that provides this; http://github.com/Dolittle-extensions")
         {
 
         }

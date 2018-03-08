@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -7,11 +7,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using doLittle.Execution;
-using doLittle.Reflection;
-using doLittle.Types;
+using Dolittle.Execution;
+using Dolittle.Reflection;
+using Dolittle.Types;
 
-namespace doLittle.DependencyInversion.Conventions
+namespace Dolittle.DependencyInversion.Conventions
 {
     /// <summary>
     /// Represents a <see cref="IBindingConventionManager"/>

@@ -6,9 +6,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using doLittle.Collections;
+using Dolittle.Collections;
 
-namespace doLittle.DependencyInversion
+namespace Dolittle.DependencyInversion
 {
     /// <summary>
     /// Represents an implementation of <see cref="IBindingCollection"/>

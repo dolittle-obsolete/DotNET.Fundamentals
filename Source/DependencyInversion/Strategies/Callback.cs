@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.DependencyInversion.Strategies
+namespace Dolittle.DependencyInversion.Strategies
 {
     /// <summary>
     /// Represents an <see cref="IActivationStrategy"/> that gets activated through a callback

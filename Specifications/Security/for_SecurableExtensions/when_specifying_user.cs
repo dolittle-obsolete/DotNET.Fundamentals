@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using doLittle.DependencyInversion;
-using doLittle.Execution;
-using doLittle.Security;
+using Dolittle.DependencyInversion;
+using Dolittle.Execution;
+using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Security.Specs.for_SecurableExtensions
+namespace Dolittle.Security.Specs.for_SecurableExtensions
 {
     public class when_specifying_user
     {

@@ -1,7 +1,7 @@
-﻿using doLittle.Concepts;
+﻿using Dolittle.Concepts;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Concepts.for_Value
+namespace Dolittle.Specs.Concepts.for_Value
 {
     [Subject(typeof(Value<>))]
     public class when_equating_two_instances_with_different_values_using_the_not_equals_operator : given.value_objects

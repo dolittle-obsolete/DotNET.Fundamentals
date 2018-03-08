@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Machine.Specifications;
 
-namespace doLittle.Resources.for_ResourceDefinitionBuilder
+namespace Dolittle.Resources.for_ResourceDefinitionBuilder
 {
     public class when_building_with_name_and_services : given.a_resource_definition_builder
     {

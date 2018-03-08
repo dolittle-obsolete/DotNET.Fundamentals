@@ -35,7 +35,7 @@ $ Build\build.sh
 
 | Platform | Production   | From CI  |
 | ------- | ------- | ------ |
-| .NET Fundamentals | [![NuGet](https://img.shields.io/nuget/v/dolittle.Assemblies.svg)](https://www.nuget.org/packages?q=dolittle) | [![MyGet](https://img.shields.io/myget/dolittle/vpre/dolittle.Assemblies.svg)](https://www.myget.org/gallery/dolittle) |
+| .NET Fundamentals | [![NuGet](https://img.shields.io/nuget/v/Dolittle.Assemblies.svg)](https://www.nuget.org/packages?q=Dolittle) | [![MyGet](https://img.shields.io/myget/Dolittle/vpre/Dolittle.Assemblies.svg)](https://www.myget.org/gallery/Dolittle) |
 
 
 ## Build Status
@@ -43,7 +43,7 @@ $ Build\build.sh
 
 | Project | Windows | Linux / macOS |
 | -------- | ------ | ------------- |
-| .NET Fundamentals | [![Build status](https://ci.appveyor.com/api/projects/status/r53j9v19idi903ol?svg=true)](https://ci.appveyor.com/project/Dolittle/dotnet-fundamentals) [![AppVeyor tests](https://img.shields.io/appveyor/tests/Dolittle/dotnet-fundamentals.svg)]() | [![Travis Build Status](https://travis-ci.org/dolittle/DotNET.Fundamentals.svg?branch=master)](https://travis-ci.org/dolittle/DotNET.Fundamentals) |
+| .NET Fundamentals | [![Build status](https://ci.appveyor.com/api/projects/status/r53j9v19idi903ol?svg=true)](https://ci.appveyor.com/project/Dolittle/dotnet-fundamentals) [![AppVeyor tests](https://img.shields.io/appveyor/tests/Dolittle/dotnet-fundamentals.svg)]() | [![Travis Build Status](https://travis-ci.org/Dolittle/DotNET.Fundamentals.svg?branch=master)](https://travis-ci.org/Dolittle/DotNET.Fundamentals) |
 
 
 ## Visual Studio
@@ -59,10 +59,10 @@ If it doesn't find it, it will pick the `.sln` file instead.
 
 ## More details
 
-To learn more about the projects of doLittle and how to contribute, please go [here](https://github.com/dolittle/Home).
+To learn more about the projects of Dolittle and how to contribute, please go [here](https://github.com/Dolittle/Home).
 
 ## Getting Started
 
-Go to our [documentation site](http://www.dolittle.io) and learn more about the project and how to get started.
-Samples can also be found [here](https://github.com/doLittle-Samples).
-You can find entropy projects [here](https://github.com/doLittle-Entropy).
+Go to our [documentation site](http://www.Dolittle.io) and learn more about the project and how to get started.
+Samples can also be found [here](https://github.com/Dolittle-Samples).
+You can find entropy projects [here](https://github.com/Dolittle-Entropy).

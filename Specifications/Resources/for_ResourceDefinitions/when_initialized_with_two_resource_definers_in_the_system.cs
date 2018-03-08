@@ -1,7 +1,7 @@
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Resources.for_ResourceDefinitions
+namespace Dolittle.Resources.for_ResourceDefinitions
 {
     public class when_initialized_with_two_resource_definers_in_the_system : given.two_resource_definers_and_definitions
     {

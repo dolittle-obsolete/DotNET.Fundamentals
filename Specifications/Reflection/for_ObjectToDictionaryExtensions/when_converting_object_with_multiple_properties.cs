@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Machine.Specifications;
 
-namespace doLittle.Reflection.for_ObjectToDictionaryExtensions
+namespace Dolittle.Reflection.for_ObjectToDictionaryExtensions
 {
     public class when_converting_object_with_multiple_properties
     {

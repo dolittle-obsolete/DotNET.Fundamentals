@@ -1,7 +1,7 @@
-﻿using doLittle.Security;
+﻿using Dolittle.Security;
 using Machine.Specifications;
 
-namespace doLittle.Security.Specs.for_RoleRule
+namespace Dolittle.Security.Specs.for_RoleRule
 {
     [Subject(typeof (RoleRule))]
     public class when_getting_the_rule_description : given.a_rule_role

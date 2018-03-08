@@ -5,7 +5,7 @@
 using System.Reflection;
 using Machine.Specifications;
 
-namespace doLittle.Assemblies.Specs.for_Assemblies
+namespace Dolittle.Assemblies.Specs.for_Assemblies
 {
     public class when_getting_by_full_name : given.two_assemblies
     {

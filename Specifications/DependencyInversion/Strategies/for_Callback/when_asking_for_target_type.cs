@@ -1,7 +1,7 @@
 using System;
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.Strategies.for_Callback
+namespace Dolittle.DependencyInversion.Strategies.for_Callback
 {
     public class when_asking_for_target_type
     {

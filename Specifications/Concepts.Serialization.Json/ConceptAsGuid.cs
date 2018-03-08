@@ -1,7 +1,7 @@
 ﻿using System;
-using doLittle.Concepts;
+using Dolittle.Concepts;
 
-namespace doLittle.Concepts.Serialization.Json.Specs
+namespace Dolittle.Concepts.Serialization.Json.Specs
 {
     public class ConceptAsGuid : ConceptAs<Guid>
     {

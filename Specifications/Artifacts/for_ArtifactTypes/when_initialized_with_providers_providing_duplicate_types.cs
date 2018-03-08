@@ -4,7 +4,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Artifacts.for_ArtifactTypes
+namespace Dolittle.Artifacts.for_ArtifactTypes
 {
     public class when_initialized_with_providers_providing_duplicate_types : given.two_providers
     {

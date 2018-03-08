@@ -1,7 +1,7 @@
 ﻿using Machine.Specifications;
-using doLittle.Dynamic;
+using Dolittle.Dynamic;
 
-namespace doLittle.Specs.Dynamic.for_DynamicExtensions
+namespace Dolittle.Specs.Dynamic.for_DynamicExtensions
 {
     public class when_converting_to_expando_object
     {

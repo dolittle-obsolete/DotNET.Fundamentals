@@ -1,9 +1,9 @@
-﻿using doLittle.Mapping;
-using doLittle.Types;
+﻿using Dolittle.Mapping;
+using Dolittle.Types;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Mapping.Specs.for_MappingTargets.given
+namespace Dolittle.Mapping.Specs.for_MappingTargets.given
 {
     public class all_dependencies
     {

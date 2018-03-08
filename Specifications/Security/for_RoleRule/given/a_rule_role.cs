@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using doLittle.Security;
+using Dolittle.Security;
 using Moq;
 
-namespace doLittle.Security.Specs.for_RoleRule.given
+namespace Dolittle.Security.Specs.for_RoleRule.given
 {
     public class a_rule_role
     {

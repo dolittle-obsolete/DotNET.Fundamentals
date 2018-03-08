@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace doLittle.Applications.Specs.for_BoundedContext
+namespace Dolittle.Applications.Specs.for_BoundedContext
 {
     public class when_creating
     {

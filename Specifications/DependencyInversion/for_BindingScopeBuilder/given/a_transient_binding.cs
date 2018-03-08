@@ -1,7 +1,7 @@
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.DependencyInversion.for_BindingScopeBuilder.given
+namespace Dolittle.DependencyInversion.for_BindingScopeBuilder.given
 {
     public class a_transient_binding
     {

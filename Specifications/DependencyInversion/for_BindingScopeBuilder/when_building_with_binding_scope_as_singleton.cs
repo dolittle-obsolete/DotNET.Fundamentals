@@ -1,7 +1,7 @@
-using doLittle.DependencyInversion.Scopes;
+using Dolittle.DependencyInversion.Scopes;
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.for_BindingScopeBuilder
+namespace Dolittle.DependencyInversion.for_BindingScopeBuilder
 {
     public class when_building_with_binding_scope_as_singleton : given.a_transient_binding
     {

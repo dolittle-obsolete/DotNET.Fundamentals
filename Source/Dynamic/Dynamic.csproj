@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>doLittle.Dynamic</AssemblyName>
+    <AssemblyName>Dolittle.Dynamic</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

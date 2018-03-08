@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using doLittle.Mapping;
+using Dolittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Mapping.Specs.for_MappingTargets
+namespace Dolittle.Mapping.Specs.for_MappingTargets
 {
     public class when_getting_for_type_with_known_target : given.mapping_target_for_string
     {

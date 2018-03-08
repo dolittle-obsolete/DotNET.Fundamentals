@@ -2,7 +2,7 @@
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Applications.Specs.for_Feature
+namespace Dolittle.Applications.Specs.for_Feature
 {
     public class when_adding_sub_feature
     {

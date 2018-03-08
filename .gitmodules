@@ -1,3 +1,3 @@
 [submodule "Build"]
 	path = Build
-	url = https://github.com/dolittle/DotNET.Build.git
+	url = https://github.com/Dolittle/DotNET.Build.git

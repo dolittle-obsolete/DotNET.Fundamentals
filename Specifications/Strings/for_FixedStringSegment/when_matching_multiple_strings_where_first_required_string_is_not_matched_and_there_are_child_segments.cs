@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using doLittle.Strings;
+using Dolittle.Strings;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Specs.Strings.for_FixedStringSegment
+namespace Dolittle.Specs.Strings.for_FixedStringSegment
 {
     public class when_matching_multiple_strings_where_first_required_string_is_not_matched_and_there_are_child_segments
     {

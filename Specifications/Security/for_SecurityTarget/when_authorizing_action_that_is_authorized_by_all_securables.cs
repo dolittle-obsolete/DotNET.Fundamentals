@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using doLittle.Security;
+using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Security.Specs.for_Securable
+namespace Dolittle.Security.Specs.for_Securable
 {
     [Subject(typeof(Securable))]
     public class when_authorizing_action_that_is_authorized_by_all_securables

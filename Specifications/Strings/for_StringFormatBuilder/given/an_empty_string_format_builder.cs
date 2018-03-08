@@ -1,7 +1,7 @@
-﻿using doLittle.Strings;
+﻿using Dolittle.Strings;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Strings.for_StringFormatBuilder.given
+namespace Dolittle.Specs.Strings.for_StringFormatBuilder.given
 {
     public class an_empty_string_format_builder
     {

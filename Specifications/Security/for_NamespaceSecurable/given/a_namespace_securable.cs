@@ -1,6 +1,6 @@
-﻿using doLittle.Security;
+﻿using Dolittle.Security;
 
-namespace doLittle.Security.Specs.for_NamespaceSecurable.given
+namespace Dolittle.Security.Specs.for_NamespaceSecurable.given
 {
     public class a_namespace_securable
     {

@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Machine.Specifications;
-using doLittle.Security;
+using Dolittle.Security;
 using Moq;
 using It = Machine.Specifications.It;
 
 
-namespace doLittle.Security.Specs.for_UserSecurityActorExtensions
+namespace Dolittle.Security.Specs.for_UserSecurityActorExtensions
 {
     public class when_user_must_have_claim_type_and_specific_value
     {

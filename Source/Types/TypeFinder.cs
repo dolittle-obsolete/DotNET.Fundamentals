@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -8,9 +8,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using doLittle.Assemblies;
+using Dolittle.Assemblies;
 
-namespace doLittle.Types
+namespace Dolittle.Types
 {
     /// <summary>
     /// Represents an implementation of <see cref="ITypeFinder"/>

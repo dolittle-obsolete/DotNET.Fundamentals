@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using doLittle.Mapping;
+using Dolittle.Mapping;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Mapping.Specs.for_Maps.given
+namespace Dolittle.Mapping.Specs.for_Maps.given
 {
     public class map_for_source_and_target_in_system : all_dependencies
     {

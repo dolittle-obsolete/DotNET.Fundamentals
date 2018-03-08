@@ -1,7 +1,7 @@
-﻿using doLittle.Concepts;
+﻿using Dolittle.Concepts;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Concepts.for_ConceptFactory
+namespace Dolittle.Specs.Concepts.for_ConceptFactory
 {
     public class when_creating_instance_of_long_concept
     {

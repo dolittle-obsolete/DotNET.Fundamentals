@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Logging;
+using Dolittle.Logging;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Logging.for_Logger.given
+namespace Dolittle.Specs.Logging.for_Logger.given
 {
     public class a_logger_and_reusable_details : all_dependencies
     {

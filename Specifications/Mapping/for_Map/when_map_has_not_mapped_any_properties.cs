@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
-using doLittle.Mapping;
+using Dolittle.Mapping;
 using Machine.Specifications;
 
-namespace doLittle.Mapping.Specs.for_Map
+namespace Dolittle.Mapping.Specs.for_Map
 {
     public class when_map_has_not_mapped_any_properties
     {

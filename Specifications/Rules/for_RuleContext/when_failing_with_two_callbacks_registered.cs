@@ -3,7 +3,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Rules.for_RuleContext
+namespace Dolittle.Rules.for_RuleContext
 {
     public class when_failing_with_two_callbacks_registered 
     {

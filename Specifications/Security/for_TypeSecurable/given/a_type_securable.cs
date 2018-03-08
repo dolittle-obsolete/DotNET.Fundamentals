@@ -1,6 +1,6 @@
-﻿using doLittle.Security;
+﻿using Dolittle.Security;
 
-namespace doLittle.Security.Specs.for_TypeSecurable.given
+namespace Dolittle.Security.Specs.for_TypeSecurable.given
 {
     public class a_type_securable
     {

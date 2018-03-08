@@ -1,5 +1,5 @@
 ﻿
-namespace doLittle.Mapping.Specs.for_Maps
+namespace Dolittle.Mapping.Specs.for_Maps
 {
     public class Target
     {

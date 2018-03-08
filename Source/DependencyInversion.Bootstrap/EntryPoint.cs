@@ -6,12 +6,12 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using doLittle.Assemblies;
-using doLittle.DependencyInversion.Conventions;
-using doLittle.Reflection;
-using doLittle.Types;
+using Dolittle.Assemblies;
+using Dolittle.DependencyInversion.Conventions;
+using Dolittle.Reflection;
+using Dolittle.Types;
 
-namespace doLittle.DependencyInversion.Bootstrap
+namespace Dolittle.DependencyInversion.Bootstrap
 {
     /// <summary>
     /// The entrypoint for DependencyInversion

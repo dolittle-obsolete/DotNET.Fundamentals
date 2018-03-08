@@ -1,8 +1,8 @@
-﻿using doLittle.Globalization;
+﻿using Dolittle.Globalization;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Specs.Globalization.given
+namespace Dolittle.Specs.Globalization.given
 {
     public class a_localizer_mock
     {

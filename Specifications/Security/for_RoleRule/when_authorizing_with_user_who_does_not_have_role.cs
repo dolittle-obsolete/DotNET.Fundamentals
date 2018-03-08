@@ -1,7 +1,7 @@
-﻿using doLittle.Security;
+﻿using Dolittle.Security;
 using Machine.Specifications;
 
-namespace doLittle.Security.Specs.for_RoleRule
+namespace Dolittle.Security.Specs.for_RoleRule
 {
     [Subject(typeof (RoleRule))]
     public class when_authorizing_with_user_who_does_not_have_role : given.a_rule_role

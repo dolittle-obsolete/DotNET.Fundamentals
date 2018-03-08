@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
-using doLittle.Specifications;
+using Dolittle.Specifications;
 
-namespace doLittle.Assemblies.Rules
+namespace Dolittle.Assemblies.Rules
 {
     /// <summary>
     /// Rule representing an exception for <see cref="IncludeAllRule"/>, 

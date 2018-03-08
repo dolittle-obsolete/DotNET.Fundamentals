@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>doLittle.Resources</RootNamespace>
-    <AssemblyName>doLittle.Resources</AssemblyName>
+    <RootNamespace>Dolittle.Resources</RootNamespace>
+    <AssemblyName>Dolittle.Resources</AssemblyName>
   </PropertyGroup>
 
   <Import Project="../../Build/MSBuild/default.props" />

@@ -1,10 +1,10 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.DependencyInversion.Conventions
+namespace Dolittle.DependencyInversion.Conventions
 {
     /// <summary>
     /// Defines the basic functionality for a convention that can be applied
@@ -13,7 +13,7 @@ namespace doLittle.DependencyInversion.Conventions
     /// <remarks>
     /// Types inheriting from this interface will be automatically registered.
     /// An application can implement any number of these conventions, in addition to
-    /// the <see cref="DefaultConvention"/> supplied by doLittle.
+    /// the <see cref="DefaultConvention"/> supplied by Dolittle.
     /// </remarks>
     public interface IBindingConvention
     {

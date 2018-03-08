@@ -1,4 +1,4 @@
-﻿namespace doLittle.Concepts.Serialization.Json.Specs.for_Serializer
+﻿namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
 {
     public class ClassWithNestedConcepts
     {

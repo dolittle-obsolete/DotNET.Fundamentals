@@ -1,8 +1,8 @@
 using Moq;
 using Machine.Specifications;
-using doLittle.Types;
+using Dolittle.Types;
 
-namespace doLittle.Artifacts.for_ArtifactTypes.given
+namespace Dolittle.Artifacts.for_ArtifactTypes.given
 {
     public class all_dependencies
     {

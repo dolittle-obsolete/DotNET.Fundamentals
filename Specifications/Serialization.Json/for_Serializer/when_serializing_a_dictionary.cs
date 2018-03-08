@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using doLittle.Serialization.Json;
+using Dolittle.Serialization.Json;
 using Machine.Specifications;
 
-namespace doLittle.Serialization.Json.Specs.for_Serializer
+namespace Dolittle.Serialization.Json.Specs.for_Serializer
 {
     [Subject(typeof(Serializer))]
     public class when_serializing_a_dictionary : given.a_serializer

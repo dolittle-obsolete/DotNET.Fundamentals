@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using doLittle.Mapping;
+using Dolittle.Mapping;
 
-namespace doLittle.Mapping.Specs.for_MappingTargets
+namespace Dolittle.Mapping.Specs.for_MappingTargets
 {
     public class StringMappingTarget : MappingTargetFor<string>
     {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using doLittle.Strings;
+using Dolittle.Strings;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Strings.for_FixedStringSegment
+namespace Dolittle.Specs.Strings.for_FixedStringSegment
 {
     public class when_matching_single_string_that_should_not_match
     {

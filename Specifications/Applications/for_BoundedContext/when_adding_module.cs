@@ -2,7 +2,7 @@
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Applications.Specs.for_BoundedContext
+namespace Dolittle.Applications.Specs.for_BoundedContext
 {
     public class when_adding_module
     {

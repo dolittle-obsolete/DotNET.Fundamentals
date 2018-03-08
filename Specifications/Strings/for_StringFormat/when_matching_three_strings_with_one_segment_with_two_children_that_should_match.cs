@@ -1,9 +1,9 @@
-﻿using doLittle.Strings;
+﻿using Dolittle.Strings;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Specs.Strings.for_StringFormat
+namespace Dolittle.Specs.Strings.for_StringFormat
 {
     public class when_matching_three_strings_with_one_segment_with_two_children_that_should_match
     {

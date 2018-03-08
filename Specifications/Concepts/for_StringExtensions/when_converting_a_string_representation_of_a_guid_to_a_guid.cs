@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Concepts;
+using Dolittle.Concepts;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Concepts.for_StringExtensions
+namespace Dolittle.Specs.Concepts.for_StringExtensions
 {
     [Subject(typeof(StringExtensions))]
     public class when_converting_a_string_representation_of_a_guid_to_a_guid

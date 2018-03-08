@@ -1,8 +1,8 @@
-﻿using doLittle.Logging;
+﻿using Dolittle.Logging;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Specs.Logging.for_Logger.given
+namespace Dolittle.Specs.Logging.for_Logger.given
 {
     public class all_dependencies
     {

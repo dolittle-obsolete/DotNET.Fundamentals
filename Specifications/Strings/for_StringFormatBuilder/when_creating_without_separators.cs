@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Strings;
+using Dolittle.Strings;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Strings.for_StringFormatBuilder
+namespace Dolittle.Specs.Strings.for_StringFormatBuilder
 {
     public class when_creating_without_separators
     {

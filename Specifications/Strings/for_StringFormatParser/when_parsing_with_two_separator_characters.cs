@@ -1,7 +1,7 @@
-﻿using doLittle.Strings;
+﻿using Dolittle.Strings;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Strings.for_StringFormatParser
+namespace Dolittle.Specs.Strings.for_StringFormatParser
 {
     public class when_parsing_with_two_separator_characters : given.a_string_format_parser
     {

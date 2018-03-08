@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Concepts;
+using Dolittle.Concepts;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Concepts.for_ConceptFactory
+namespace Dolittle.Specs.Concepts.for_ConceptFactory
 {
     [Subject(typeof(ConceptFactory))]
     public class when_creating_instance_of_datetime_concept_with_value_as_datetime

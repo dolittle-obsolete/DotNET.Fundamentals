@@ -5,7 +5,7 @@
 
 using System;
 
-namespace doLittle.DependencyInversion.Strategies
+namespace Dolittle.DependencyInversion.Strategies
 {
     /// <summary>
     /// Represents an <see cref="IActivationStrategy"/> that has a Type as its target

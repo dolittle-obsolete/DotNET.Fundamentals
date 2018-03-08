@@ -1,6 +1,6 @@
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.for_BindingProviderBuilder
+namespace Dolittle.DependencyInversion.for_BindingProviderBuilder
 {
     public class when_binding_to_generic_type : given.a_binding_provider_builder
     {

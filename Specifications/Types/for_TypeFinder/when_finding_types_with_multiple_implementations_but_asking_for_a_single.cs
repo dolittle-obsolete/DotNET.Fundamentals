@@ -1,11 +1,11 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Machine.Specifications;
 
-namespace doLittle.Types.Specs.for_TypeFinder
+namespace Dolittle.Types.Specs.for_TypeFinder
 {
     [Subject(typeof(TypeFinder))]
     public class when_finding_types_with_multiple_implementations_but_asking_for_a_single : given.a_type_finder

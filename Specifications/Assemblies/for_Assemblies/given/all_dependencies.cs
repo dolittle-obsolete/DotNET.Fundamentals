@@ -2,11 +2,11 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using doLittle.Assemblies;
+using Dolittle.Assemblies;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Assemblies.Specs.for_Assemblies.given
+namespace Dolittle.Assemblies.Specs.for_Assemblies.given
 {
     public class all_dependencies
     {

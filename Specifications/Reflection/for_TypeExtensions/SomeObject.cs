@@ -1,4 +1,4 @@
-﻿namespace doLittle.Reflection.Specs.for_TypeExtensions
+﻿namespace Dolittle.Reflection.Specs.for_TypeExtensions
 {
     public class SomeObject
     {

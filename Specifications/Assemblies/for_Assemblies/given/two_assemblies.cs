@@ -4,11 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;
-using doLittle.Assemblies;
+using Dolittle.Assemblies;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Assemblies.Specs.for_Assemblies.given
+namespace Dolittle.Assemblies.Specs.for_Assemblies.given
 {
     public class two_assemblies : all_dependencies
     {

@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Reflection;
-using doLittle.Assemblies.Configuration;
-using doLittle.Logging;
+using Dolittle.Assemblies.Configuration;
+using Dolittle.Logging;
 
-namespace doLittle.Assemblies.Bootstrap
+namespace Dolittle.Assemblies.Bootstrap
 {
     /// <summary>
     /// Represents the entrypoint for initializing assemblies

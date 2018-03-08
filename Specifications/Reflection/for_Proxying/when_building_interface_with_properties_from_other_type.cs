@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using doLittle.Reflection;
+using Dolittle.Reflection;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Reflection.for_Proxying
+namespace Dolittle.Specs.Reflection.for_Proxying
 {
     public class when_building_interface_with_properties_from_other_type
     {

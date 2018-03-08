@@ -1,7 +1,7 @@
-﻿using doLittle.Security;
+﻿using Dolittle.Security;
 using Machine.Specifications;
 
-namespace doLittle.Security.Specs.for_SecurityDescriptor
+namespace Dolittle.Security.Specs.for_SecurityDescriptor
 {
     public class when_configuring
     {

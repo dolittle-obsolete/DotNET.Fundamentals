@@ -1,7 +1,7 @@
 using System;
 using Machine.Specifications;
 
-namespace doLittle.DependencyInversion.for_BindingBuilder
+namespace Dolittle.DependencyInversion.for_BindingBuilder
 {
     public class when_binding_to_callback_with_generic_service : given.a_null_binding_for_generic_builder
     {

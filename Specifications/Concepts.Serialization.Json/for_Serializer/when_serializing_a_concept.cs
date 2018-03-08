@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Serialization.Json;
+using Dolittle.Serialization.Json;
 using Machine.Specifications;
 
-namespace doLittle.Concepts.Serialization.Json.Specs.for_Serializer
+namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
 {
     [Subject(typeof(Serializer))]
     public class when_serializing_a_concept : given.a_serializer

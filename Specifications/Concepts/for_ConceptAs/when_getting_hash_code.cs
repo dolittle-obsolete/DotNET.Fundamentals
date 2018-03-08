@@ -1,7 +1,7 @@
-using doLittle.Concepts;
+using Dolittle.Concepts;
 using Machine.Specifications;
 
-namespace doLittle.Specs.Concepts.for_ConceptAs
+namespace Dolittle.Specs.Concepts.for_ConceptAs
 {
     [Subject(typeof(ConceptAs<>))]
     public class when_getting_hash_code : given.concepts

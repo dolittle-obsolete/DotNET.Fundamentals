@@ -1,7 +1,7 @@
 ﻿using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Applications.Specs.for_ApplicationArtifactIdentifier
+namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier
 {
     public class when_comparing_two_instances_with_identifiers_with_different_areas : given.identifiers_with_different_areas
     {

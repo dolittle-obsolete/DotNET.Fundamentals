@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace doLittle.Reflection
+namespace Dolittle.Reflection
 {
     /// <summary>
     /// Provides extension methods for converting any <see cref="object"/> to a <see cref="IDictionary"/>

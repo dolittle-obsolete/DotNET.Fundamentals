@@ -1,6 +1,6 @@
-using doLittle.Execution;
+using Dolittle.Execution;
 
-namespace doLittle.DependencyInversion.for_BindingScopeBuilder
+namespace Dolittle.DependencyInversion.for_BindingScopeBuilder
 {
     [Singleton]
     public class TypeWithSingletonAttribute

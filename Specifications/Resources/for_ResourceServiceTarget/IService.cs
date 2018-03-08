@@ -1,4 +1,4 @@
-namespace doLittle.Resources.for_ResourceServiceTarget
+namespace Dolittle.Resources.for_ResourceServiceTarget
 {
     public interface IService
     {
