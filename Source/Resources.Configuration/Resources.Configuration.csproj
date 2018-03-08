@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>doLittle.Resources.Configuration</RootNamespace>
     <AssemblyName>doLittle.Resources.Configuration</AssemblyName>
   </PropertyGroup>
