@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.DependencyInversion.Startup
+namespace doLittle.DependencyInversion.Bootstrap
 {
     /// <summary>
     /// Exception that gets thrown when there are no implementations of <see cref="ICanProvideContainer"/> loaded

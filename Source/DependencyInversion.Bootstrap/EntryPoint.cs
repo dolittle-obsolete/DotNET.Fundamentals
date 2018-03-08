@@ -4,13 +4,14 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using doLittle.Assemblies;
 using doLittle.DependencyInversion.Conventions;
 using doLittle.Reflection;
 using doLittle.Types;
 
-namespace doLittle.DependencyInversion.Startup
+namespace doLittle.DependencyInversion.Bootstrap
 {
     /// <summary>
     /// The entrypoint for DependencyInversion
@@ -22,14 +23,40 @@ namespace doLittle.DependencyInversion.Startup
         /// </summary>
         /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
-        /// <returns>Configured <see cref="IContainer"/></returns>
-        public static IContainer Initialize(IAssemblies assemblies, ITypeFinder typeFinder)
+        /// <returns><see cref="IBindingCollection"/>></returns>
+        public static IBindingCollection DiscoverBindings(IAssemblies assemblies, ITypeFinder typeFinder)
         {
             var bindingConventionManager = new BindingConventionManager(typeFinder);
             var bindingsFromConventions = bindingConventionManager.DiscoverAndSetupBindings();
             var bindingsFromProviders = DiscoverBindingProvidersAndGetBindings(typeFinder);
+
             var bindingCollection = new BindingCollection(bindingsFromConventions, bindingsFromProviders);
-            var container = DiscoverAndConfigureContainer(assemblies, typeFinder, bindingCollection);
+            return bindingCollection;
+        }
+
+        /// <summary>
+        /// Initialize the entire DependencyInversion pipeline
+        /// </summary>
+        /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
+        /// <param name="bindings">Additional bindings</param>
+        /// <returns>Configured <see cref="IContainer"/></returns>
+        public static IContainer Initialize(IAssemblies assemblies, ITypeFinder typeFinder, IEnumerable<Binding> bindings = null)
+        {
+            var discoveredBindings = DiscoverBindings(assemblies, typeFinder);
+
+            IContainer container = null;
+
+            var containerBindingBuilder = new BindingBuilder(Binding.For(typeof(IContainer)));
+            containerBindingBuilder.To(()=> container).Singleton();
+            var containerBinding = containerBindingBuilder.Build();
+
+            var otherBindings = new List<Binding>();
+            otherBindings.Add(containerBinding);
+            if( bindings != null ) otherBindings.AddRange(bindings);
+
+            var bindingCollection = new BindingCollection(discoveredBindings, otherBindings);
+            container = DiscoverAndConfigureContainer(assemblies, typeFinder, bindingCollection);
             return container;
         }
 
@@ -41,7 +68,7 @@ namespace doLittle.DependencyInversion.Startup
             Parallel.ForEach(bindingProviders, bindingProviderType =>
             {
                 ThrowIfBindingProviderIsMissingDefaultConstructor(bindingProviderType);
-                var bindingProvider = Activator.CreateInstance(bindingProviderType) as ICanProvideBindings;
+                var bindingProvider = Activator.CreateInstance(bindingProviderType)as ICanProvideBindings;
                 var bindingProviderBuilder = new BindingProviderBuilder();
                 bindingProvider.Provide(bindingProviderBuilder);
                 bindingCollections.Add(bindingProviderBuilder.Build());
@@ -55,7 +82,7 @@ namespace doLittle.DependencyInversion.Startup
         {
             var containerProviderType = typeFinder.FindSingle<ICanProvideContainer>();
             ThrowIfMissingContainerProvider(containerProviderType);
-            var containerProvider = Activator.CreateInstance(containerProviderType) as ICanProvideContainer;
+            var containerProvider = Activator.CreateInstance(containerProviderType)as ICanProvideContainer;
 
             var container = containerProvider.Provide(assemblies, bindingCollection);
             return container;
@@ -63,12 +90,12 @@ namespace doLittle.DependencyInversion.Startup
 
         static void ThrowIfBindingProviderIsMissingDefaultConstructor(Type bindingProvider)
         {
-            if (!bindingProvider.HasDefaultConstructor()) throw new BindingProviderMustHaveADefaultConstructor(bindingProvider);
+            if (!bindingProvider.HasDefaultConstructor())throw new BindingProviderMustHaveADefaultConstructor(bindingProvider);
         }
 
         static void ThrowIfMissingContainerProvider(Type containerProvider)
         {
-            if( containerProvider == null ) throw new MissingContainerProvider();
+            if (containerProvider == null)throw new MissingContainerProvider();
 
         }
     }
