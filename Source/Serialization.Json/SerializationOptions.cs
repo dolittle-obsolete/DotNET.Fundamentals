@@ -15,34 +15,19 @@ namespace doLittle.Serialization.Json
         /// The default serialization options
         /// </summary>
         /// <returns>An instance of <see cref="ISerializationOptions"/></returns>
-        public static readonly ISerializationOptions DefaultOptions = new SerializationOptions(SerializationOptionsFlags.None);
+        public static readonly ISerializationOptions Default = new SerializationOptions(SerializationOptionsFlags.None);
 
         /// <summary>
         /// Serialization options for using camel case
         /// </summary>
         /// <returns>An instance of <see cref="ISerializationOptions"/></returns>
-        public static readonly ISerializationOptions CamelCaseOptions = new SerializationOptions(SerializationOptionsFlags.UseCamelCase);
+        public static readonly ISerializationOptions CamelCase = new SerializationOptions(SerializationOptionsFlags.UseCamelCase);
 
         /// <summary>
         /// Serialization options for including type names
         /// </summary>
         /// <returns>An instance of <see cref="ISerializationOptions"/></returns>
-        public static readonly ISerializationOptions IncludeTypeNamesOptions = new SerializationOptions(SerializationOptionsFlags.IncludeTypeNames);
-
-        /// <summary>
-        /// Gets the default serialization options that will serialize all properties without any special flags.
-        /// </summary>
-        public static ISerializationOptions Default { get { return DefaultOptions; } }
-
-        /// <summary>
-        /// Gets the camel case serialization options that will serialize all properties using camel case.
-        /// </summary>
-        public static ISerializationOptions CamelCase { get { return CamelCaseOptions; } }
-
-        /// <summary>
-        /// Gets the type names serialization options that will serialize all properties including type names.
-        /// </summary>
-        public static ISerializationOptions IncludeTypeNames { get { return IncludeTypeNamesOptions; } }
+        public static readonly ISerializationOptions IncludeTypeNames = new SerializationOptions(SerializationOptionsFlags.IncludeTypeNames);
 
         /// <summary>
         /// Initializes a new instance of <see cref="SerializationOptions"/>
