@@ -15,16 +15,16 @@ namespace Dolittle.Artifacts
     /// </summary>
     public class ArtifactTypes : IArtifactTypes
     {   
-        readonly List<IArtifactType> _all = new List<IArtifactType>();
+        readonly IEnumerable<IArtifactType> _all;
         Dictionary<string, IArtifactType> _artifactTypesByIdentifier = new Dictionary<string, IArtifactType>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="ArtifactTypes"/>
         /// </summary>
-        /// <param name="artifactTypesProviders"><see cref="IInstancesOf{ICanProvideArtifactTypes}"/> of <see cref="ICanProvideArtifactTypes"/></param>
-        public ArtifactTypes(IInstancesOf<ICanProvideArtifactTypes> artifactTypesProviders)
+        /// <param name="artifactTypes"><see cref="IInstancesOf{IArtifactTypes}">Instances</see> of <see cref="IArtifactTypes"/></param>
+        public ArtifactTypes(IInstancesOf<IArtifactType> artifactTypes)
         {
-            artifactTypesProviders.ForEach(provider => _all.AddRange(provider.Provide()));
+            _all = artifactTypes.ToArray();
             ThrowIfMultipleArtifactTypesWithSameIdentifier();
 
             _artifactTypesByIdentifier = _all.ToDictionary(artifactType => artifactType.Identifier, artifactType => artifactType);

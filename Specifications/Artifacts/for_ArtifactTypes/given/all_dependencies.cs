@@ -6,8 +6,8 @@ namespace Dolittle.Artifacts.for_ArtifactTypes.given
 {
     public class all_dependencies
     {
-        protected static Mock<IInstancesOf<ICanProvideArtifactTypes>>   artifact_types_providers;
+        protected static Mock<IInstancesOf<IArtifactType>>   artifact_type_instances;
 
-        Establish context = () => artifact_types_providers = new Mock<IInstancesOf<ICanProvideArtifactTypes>>();
+        Establish context = () => artifact_type_instances = new Mock<IInstancesOf<IArtifactType>>();
     }
 }

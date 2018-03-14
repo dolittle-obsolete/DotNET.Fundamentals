@@ -3,12 +3,12 @@ using Machine.Specifications;
 
 namespace Dolittle.Artifacts.for_ArtifactTypes
 {
-    public class when_getting_all_without_any_providers : given.no_providers
+    public class when_getting_all_without_any_artifact_types : given.no_artifact_types
     {
         static ArtifactTypes artifact_types;
         static IEnumerable<IArtifactType> result;
 
-        Establish context = () => artifact_types = new ArtifactTypes(artifact_types_providers.Object);
+        Establish context = () => artifact_types = new ArtifactTypes(artifact_type_instances.Object);
 
         Because of = () => result = artifact_types.All;
 
