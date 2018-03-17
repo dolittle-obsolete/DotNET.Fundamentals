@@ -4,7 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies
 {
@@ -13,15 +15,18 @@ namespace Dolittle.Assemblies
     /// </summary>
     public class AssemblyUtility : IAssemblyUtility
     {
-
-#pragma warning disable 0219 // Unused variables
         /// <inheritdoc/>
-        public bool IsAssembly(AssemblyInfo assemblyInfo)
+        public bool IsAssembly(Library library)
         {
-            if (string.IsNullOrEmpty(assemblyInfo.Path)) return true;
+            var path = string.Empty;
+            //if( library is RuntimeLibrary ) path = ((RuntimeLibrary)library).Assemblies.FirstOrDefault()?.Path ?? string.Empty;
+            if( library is CompilationLibrary ) path = ((CompilationLibrary)library).ResolveReferencePaths().FirstOrDefault() ?? string.Empty;
+            
+            if( string.IsNullOrEmpty(path) || 
+                !File.Exists(path)) return true;
 
             // Borrowed from : http://stackoverflow.com/questions/8593264/determining-if-a-dll-is-a-valid-clr-dll-by-reading-the-pe-directly-64bit-issue
-            using (var fs = new FileStream(assemblyInfo.Path, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(library.Path, FileMode.Open, FileAccess.Read))
             {
 
                 try
@@ -80,11 +85,10 @@ namespace Dolittle.Assemblies
         }
 
         /// <inheritdoc/>
-        public bool IsAssemblyDynamic(Assembly assembly)
+        public bool IsDynamic(Assembly assembly)
         {
             return assembly.IsDynamic;
         }
-#pragma warning restore 0219 // Unused variables        
 
     }
 }

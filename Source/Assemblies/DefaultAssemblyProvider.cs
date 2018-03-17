@@ -23,20 +23,19 @@ namespace Dolittle.Assemblies
         public DefaultAssemblyProvider(ILogger logger)
         {
             var entryAssembly = Assembly.GetEntryAssembly();
-            var dependencyModel = DependencyContext.Load(entryAssembly);
-            var assemblyNames = dependencyModel.GetRuntimeAssemblyNames(RuntimeEnvironment.GetRuntimeIdentifier());
-            AvailableAssemblies = assemblyNames.Select(asm => new AssemblyInfo(asm.Name, string.Empty));
-            
-            foreach (var assembly in AvailableAssemblies) logger.Information($"Providing '{assembly.Name}'");
+            var dependencyModel = DependencyContext.Load(entryAssembly);       
+            Libraries = dependencyModel.RuntimeLibraries.Cast<RuntimeLibrary>().Where(_ => _.RuntimeAssemblyGroups.Count() > 0);
+            foreach (var library in Libraries) logger.Information($"Providing '{library.Name}'");
         }
 
         /// <inheritdoc/>
-        public IEnumerable<AssemblyInfo> AvailableAssemblies { get; private set; }
-        
+        public IEnumerable<Library> Libraries { get; }
+
+
         /// <inheritdoc/>
-        public Assembly Get(AssemblyInfo assemblyInfo)
+        public Assembly GetFrom(Microsoft.Extensions.DependencyModel.Library library)
         {
-            return Assembly.Load(new AssemblyName(assemblyInfo.Name));
+            return Assembly.Load(new AssemblyName(library.Name));
         }
     }
 }

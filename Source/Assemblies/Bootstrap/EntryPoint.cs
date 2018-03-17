@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Reflection;
 using Dolittle.Assemblies.Configuration;
+using Dolittle.Assemblies.Rules;
 using Dolittle.Logging;
 
 namespace Dolittle.Assemblies.Bootstrap
@@ -21,7 +22,10 @@ namespace Dolittle.Assemblies.Bootstrap
         public static IAssemblies Initialize(ILogger logger)
         {
             var assembliesConfigurationBuilder = new AssembliesConfigurationBuilder();
-            assembliesConfigurationBuilder.IncludeAll();
+            assembliesConfigurationBuilder
+                .ExcludeAll()
+                .ExceptProjectLibraries()
+                .ExceptDolittleLibraries();
 
             var assemblySpecifiers = new AssemblySpecifiers(assembliesConfigurationBuilder.RuleBuilder, logger);
             assemblySpecifiers.SpecifyUsingSpecifiersFrom(Assembly.GetEntryAssembly());

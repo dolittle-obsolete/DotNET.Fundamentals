@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Specifications;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies.Configuration
 {
@@ -25,6 +26,6 @@ namespace Dolittle.Assemblies.Configuration
         /// <summary>
         /// Gets the specification used to specifying which assemblies to include
         /// </summary>
-        public Specification<string> Specification { get { return _assemblyRuleBuilder.Specification; } }
+        public Specification<Library> Specification => _assemblyRuleBuilder.Specification;
     }
 }

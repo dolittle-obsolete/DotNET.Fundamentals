@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Specifications;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies.Rules
 {
@@ -23,6 +24,6 @@ namespace Dolittle.Assemblies.Rules
         /// <summary>
         /// Gets the <see cref="IncludeAllRule"/>
         /// </summary>
-        public Specification<string> Specification { get; set; }
+        public Specification<Library> Specification { get; set; }
     }
 }

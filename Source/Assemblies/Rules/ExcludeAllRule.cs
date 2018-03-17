@@ -2,20 +2,24 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Reflection;
 using Dolittle.Specifications;
 using Microsoft.Extensions.DependencyModel;
 
-namespace Dolittle.Assemblies
+namespace Dolittle.Assemblies.Rules
 {
     /// <summary>
-    /// Defines a rule builder for building configuration for assemblies and how to include
-    /// or exclude assemblies
+    /// Represents a <see cref="Specification{T}">rule</see> specific to <see cref="Assembly">assemblies</see> 
+    /// and used for the <see cref="Assemblies"/>
     /// </summary>
-    public interface IAssemblyRuleBuilder
+    public class ExcludeAllRule : Specification<Library>
     {
         /// <summary>
-        /// Get the specification to use
+        /// Initializes an instance of <see cref="ExcludeAllRule"/>
         /// </summary>
-        Specification<Library> Specification { get; set; }
+        public ExcludeAllRule()
+        {
+            Predicate = a => false;
+        }
     }
 }

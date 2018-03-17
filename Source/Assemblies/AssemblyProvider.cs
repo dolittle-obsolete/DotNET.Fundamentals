@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Collections;
 using Dolittle.Execution;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies
 {
@@ -23,6 +24,8 @@ namespace Dolittle.Assemblies
         readonly IAssemblyFilters _assemblyFilters;
         readonly IAssemblyUtility _assemblyUtility;
         readonly IAssemblySpecifiers _assemblySpecifiers;
+
+        readonly Dictionary<string,Library> _libraries = new Dictionary<string,Library>();
         readonly List<Assembly> _assemblies = new List<Assembly>();
 
         /// <summary>
@@ -56,12 +59,17 @@ namespace Dolittle.Assemblies
         {
             foreach (var provider in _assemblyProviders)
             {
-                var assembliesToInclude = provider.AvailableAssemblies.Where(
-                    a => 
-                        _assemblyFilters.ShouldInclude(a.Name) && 
-                        _assemblyUtility.IsAssembly(a)
+                provider.Libraries.ForEach(library => _libraries.Add(library.Name, library));
+
+                var assembliesToInclude = provider.Libraries.Where(
+                    library => 
+                        _assemblyFilters.ShouldInclude(library) && 
+                        _assemblyUtility.IsAssembly(library)
                     );
-                assembliesToInclude.Select(provider.Get).ForEach(AddAssembly);
+
+                var filtered = assembliesToInclude.ToArray();
+
+                assembliesToInclude.Select(provider.GetFrom).ForEach(AddAssembly);
             }
         }
 
@@ -72,7 +80,11 @@ namespace Dolittle.Assemblies
 
         void ReapplyFilter()
         {
-            var assembliesToRemove = _assemblies.Where(a => !_assemblyFilters.ShouldInclude(a.GetName().Name)).ToArray();
+            var assembliesToRemove = _assemblies.Where(a => {
+                var name = a.GetName().Name;
+                if( !_libraries.ContainsKey(name) ) return true;
+                return !_assemblyFilters.ShouldInclude(_libraries[name]);
+            }).ToArray();
             assembliesToRemove.ForEach((a) =>_assemblies.Remove(a));
         }
 
@@ -81,7 +93,7 @@ namespace Dolittle.Assemblies
             lock (_lockObject)
             {
                 if (!_assemblies.Contains(assembly, comparer) &&
-                    !_assemblyUtility.IsAssemblyDynamic(assembly))
+                    !_assemblyUtility.IsDynamic(assembly))
                 {
                     _assemblies.Add(assembly);
                     SpecifyRules(assembly);

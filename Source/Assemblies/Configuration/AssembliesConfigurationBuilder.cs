@@ -18,6 +18,20 @@ namespace Dolittle.Assemblies.Configuration
 
 
         /// <summary>
+        /// Exclude all assemblies with possible exceptions
+        /// </summary>
+        /// <returns>
+        /// Returns the <see cref="ExcludeAll">configuration object</see> for the rule
+        /// </returns>
+        public ExcludeAll ExcludeAll()
+        {
+            var excludeAll = new ExcludeAll();
+            RuleBuilder = excludeAll;
+            return excludeAll;
+        }
+
+
+        /// <summary>
         /// Include all assemblies with possible exceptions
         /// </summary>
         /// <returns>

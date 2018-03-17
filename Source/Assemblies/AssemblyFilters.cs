@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Assemblies.Configuration;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies
 {
@@ -23,9 +24,9 @@ namespace Dolittle.Assemblies
         }
 
         /// <inheritdoc/>
-        public bool ShouldInclude(string filename)
+        public bool ShouldInclude(Library library)
         {
-            return _assembliesConfiguration.Specification.IsSatisfiedBy(filename);
+            return _assembliesConfiguration.Specification.IsSatisfiedBy(library);
         }
     }
 }

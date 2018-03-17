@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Reflection;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies
 {
@@ -14,9 +15,9 @@ namespace Dolittle.Assemblies
         /// <summary>
         /// Check if file is an actual .NET assembly or not
         /// </summary>
-        /// <param name="assemblyInfo"><see cref="AssemblyInfo"/> to check</param>
+        /// <param name="library"><see cref="Library"/> to check</param>
         /// <returns>True if the file is an <see cref="Assembly"/>, false if not</returns>
-        bool IsAssembly(AssemblyInfo assemblyInfo);
+        bool IsAssembly(Library library);
 
         /// <summary>
         /// Check if an <see cref="Assembly"/> is dynamic
@@ -30,6 +31,6 @@ namespace Dolittle.Assemblies
         /// easier. Turns out however that the implementation <see cref="Assembly"/> has pretty much everything
         /// virtual.
         /// </remarks>
-        bool IsAssemblyDynamic(Assembly assembly);
+        bool IsDynamic(Assembly assembly);
     }
 }
