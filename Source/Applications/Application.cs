@@ -2,6 +2,8 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
+
 namespace Dolittle.Applications
 {
     /// <summary>
@@ -14,10 +16,15 @@ namespace Dolittle.Applications
         /// </summary>
         /// <param name="name"><see cref="ApplicationName">Name</see> of the <see cref="IApplication"/></param>
         /// <param name="structure"><see cref="IApplicationStructure">Structure</see> of the <see cref="IApplication"/></param>
-        internal Application(ApplicationName name, IApplicationStructure structure)
+        /// <param name="prefixes"></param>
+        internal Application(
+            ApplicationName name,
+            IApplicationStructure structure,
+            IEnumerable<IApplicationLocationSegment> prefixes = null)
         {
             Name = name;
             Structure = structure;
+            Prefixes = prefixes ?? new IApplicationLocationSegment[0];
         }
 
         /// <summary>
@@ -35,5 +42,8 @@ namespace Dolittle.Applications
 
         /// <inheritdoc/>
         public IApplicationStructure Structure { get; }
+
+        /// <inheritdoc/>
+        public IEnumerable<IApplicationLocationSegment> Prefixes { get; }
     }
 }

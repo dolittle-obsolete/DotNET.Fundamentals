@@ -2,6 +2,8 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
+
 namespace Dolittle.Applications
 {
     /// <summary>
@@ -18,5 +20,10 @@ namespace Dolittle.Applications
         /// Gets the <see cref="IApplicationStructure">structure</see> of the <see cref="IApplication"/>
         /// </summary>
         IApplicationStructure Structure { get; }
+
+        /// <summary>
+        /// Gets any <see cref="IApplicationLocationSegment">segments</see> that act as prefixes
+        /// </summary>
+        IEnumerable<IApplicationLocationSegment> Prefixes { get; }
     }
 }
