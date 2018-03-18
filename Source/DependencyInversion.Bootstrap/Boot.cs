@@ -8,15 +8,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dolittle.Assemblies;
 using Dolittle.DependencyInversion.Conventions;
+using Dolittle.Logging;
 using Dolittle.Reflection;
 using Dolittle.Types;
 
 namespace Dolittle.DependencyInversion.Bootstrap
 {
+
     /// <summary>
     /// The entrypoint for DependencyInversion
     /// </summary>
-    public class EntryPoint
+    public class Boot
     {
         /// <summary>
         /// Initialize the entire DependencyInversion pipeline
@@ -39,26 +41,52 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// </summary>
         /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
+        /// <param name="logger"><see cref="ILogger"/> for doing logging</param>
         /// <param name="bindings">Additional bindings</param>
-        /// <returns>Configured <see cref="IContainer"/></returns>
-        public static IContainer Initialize(IAssemblies assemblies, ITypeFinder typeFinder, IEnumerable<Binding> bindings = null)
+        /// <returns>Configured <see cref="IContainer"/> and <see cref="IBindingCollection"/></returns>
+        public static BootResult Start(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, IEnumerable<Binding> bindings = null)
         {
             var discoveredBindings = DiscoverBindings(assemblies, typeFinder);
 
             IContainer container = null;
 
-            var containerBindingBuilder = new BindingBuilder(Binding.For(typeof(IContainer)));
-            containerBindingBuilder.To(()=> container).Singleton();
-            var containerBinding = containerBindingBuilder.Build();
-
             var otherBindings = new List<Binding>();
-            otherBindings.Add(containerBinding);
+            otherBindings.Add(Bind(typeof(IContainer), () => container, true));
+            otherBindings.Add(Bind(typeof(IAssemblies), assemblies));
+            otherBindings.Add(Bind(typeof(ITypeFinder), typeFinder));
+            otherBindings.Add(Bind(typeof(ILogger), logger));
+            
             if( bindings != null ) otherBindings.AddRange(bindings);
 
             var bindingCollection = new BindingCollection(discoveredBindings, otherBindings);
             container = DiscoverAndConfigureContainer(assemblies, typeFinder, bindingCollection);
-            return container;
+            return new BootResult(container, bindingCollection);
         }
+
+        static Binding Bind(Type type, Type target, bool singleton = false)
+        {
+            var containerBindingBuilder = new BindingBuilder(Binding.For(type));
+            var scope = containerBindingBuilder.To(target);
+            if( singleton ) scope.Singleton();
+            return containerBindingBuilder.Build();
+        }
+
+        static Binding Bind(Type type, object target)
+        {
+            var containerBindingBuilder = new BindingBuilder(Binding.For(type));
+            var scope = containerBindingBuilder.To(target);
+            scope.Singleton();
+            return containerBindingBuilder.Build();
+        }
+
+        static Binding Bind(Type type, Func<object> target, bool singleton = false)
+        {
+            var containerBindingBuilder = new BindingBuilder(Binding.For(type));
+            var scope = containerBindingBuilder.To(target);
+            if( singleton ) scope.Singleton();
+            return containerBindingBuilder.Build();
+        }
+        
 
         static IBindingCollection DiscoverBindingProvidersAndGetBindings(ITypeFinder typeFinder)
         {
