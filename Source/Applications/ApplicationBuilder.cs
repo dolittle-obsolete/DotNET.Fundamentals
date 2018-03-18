@@ -64,7 +64,7 @@ namespace Dolittle.Applications
         public IApplication Build()
         {
             var applicationStructure = _applicationStructureBuilder.Build();
-            var application = new Application(_name, applicationStructure);
+            var application = new Application(_name, applicationStructure, _prefixes);
             return application;
         }
     }
