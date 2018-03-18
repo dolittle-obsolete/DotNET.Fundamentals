@@ -16,6 +16,6 @@ namespace Dolittle.Applications
         /// <summary>
         /// Gets the children <see cref="IEnumerable{IApplicationLocationSegment}">location fragments</see>
         /// </summary>
-        IEnumerable<T> Children { get; }
+        IEnumerable<IApplicationLocationSegment> Children { get; }
     }
 }

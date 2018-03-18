@@ -14,6 +14,6 @@ namespace Dolittle.Applications.for_ApplicationStructureFragment
         
         public IApplicationLocationSegmentName Name => throw new NotImplementedException();
 
-        public IEnumerable<SegmentBelongingToSegmentThatCanHoldIt> Children => throw new NotImplementedException();
+        public IEnumerable<IApplicationLocationSegment> Children => throw new NotImplementedException();
     }
 }

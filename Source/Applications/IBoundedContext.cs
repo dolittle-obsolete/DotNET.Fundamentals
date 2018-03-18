@@ -7,12 +7,18 @@ namespace Dolittle.Applications
     /// <summary>
     /// Defines a the concept of a bounded context from Domain Driven Design
     /// </summary>
-    public interface IBoundedContext : IApplicationLocationSegment<BoundedContextName>, ICanHoldApplicationLocationSegmentsOfType<IModule>
+    public interface IBoundedContext : IApplicationLocationSegment<BoundedContextName>, ICanHoldApplicationLocationSegmentsOfType<IModule>, ICanHoldApplicationLocationSegmentsOfType<IFeature>
     {
         /// <summary>
-        /// Adds a <see cref="Module"/> to the <see cref="BoundedContext"/>
+        /// Adds a <see cref="IModule"/> to the <see cref="BoundedContext"/>
         /// </summary>
-        /// <param name="module"><see cref="Module"/> to add</param>
+        /// <param name="module"><see cref="IModule"/> to add</param>
         void AddModule(IModule module);
+
+        /// <summary>
+        /// Adds a <see cref="IFeature"/> to the <see cref="BoundedContext"/>
+        /// </summary>
+        /// <param name="feature"><see cref="IFeature"/> to add</param>
+        void AddFeature(IFeature feature);
     }
 }

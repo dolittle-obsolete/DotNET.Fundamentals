@@ -11,7 +11,7 @@ namespace Dolittle.Applications
     /// </summary>
     public class Feature : IFeature
     {
-        List<ISubFeature> _subFeatures = new List<ISubFeature>();
+        List<IApplicationLocationSegment> _subFeatures = new List<IApplicationLocationSegment>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="Feature"/>
@@ -32,7 +32,7 @@ namespace Dolittle.Applications
         public IModule Parent { get; }
 
         /// <inheritdoc/>
-        public IEnumerable<ISubFeature> Children => _subFeatures;
+        public IEnumerable<IApplicationLocationSegment> Children => _subFeatures;
 
         /// <inheritdoc/>
         public void AddSubFeature(ISubFeature subFeature)

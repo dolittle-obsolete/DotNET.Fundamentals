@@ -11,7 +11,7 @@ namespace Dolittle.Applications
     /// </summary>
     public class BoundedContext : IBoundedContext
     {
-        List<IModule> _modules = new List<IModule>();
+        List<IApplicationLocationSegment> _children = new List<IApplicationLocationSegment>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="BoundedContext"/>
@@ -22,7 +22,8 @@ namespace Dolittle.Applications
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IModule> Children => _modules;
+        public IEnumerable<IApplicationLocationSegment> Children => _children;
+
 
         /// <inheritdoc/>
         public BoundedContextName Name { get; }
@@ -31,13 +32,26 @@ namespace Dolittle.Applications
         public void AddModule(IModule module)
         {
             ThrowIfModuleAlreadyAdded(module);
-            _modules.Add(module);
+            _children.Add(module);
+        }
+
+        /// <inheritdoc/>
+        public void AddFeature(IFeature feature)
+        {
+            ThrowIfFeatureAlreadyAdded(feature);
+            _children.Add(feature);
         }
 
         void ThrowIfModuleAlreadyAdded(IModule module)
         {
-            if (_modules.Contains(module)) throw new ModuleAlreadyAddedToBoundedContext(this, module);
+            if (_children.Contains(module)) throw new ModuleAlreadyAddedToBoundedContext(this, module);
         }
+
+        void ThrowIfFeatureAlreadyAdded(IFeature feature)
+        {
+            if (_children.Contains(feature)) throw new FeatureAlreadyAddedToBoundedContext(this, feature);
+        }
+
 
         IApplicationLocationSegmentName IApplicationLocationSegment.Name => Name;
     }
