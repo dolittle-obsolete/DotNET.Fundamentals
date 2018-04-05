@@ -46,21 +46,49 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// <returns>Configured <see cref="IContainer"/> and <see cref="IBindingCollection"/></returns>
         public static BootResult Start(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, IEnumerable<Binding> bindings = null)
         {
+            IContainer container = null;
+            var otherBindings = new List<Binding>();
+            if( bindings != null ) otherBindings.AddRange(bindings);
+            otherBindings.Add(Bind(typeof(IContainer), () => container, true));
+            var bindingCollection = BuildBindings(assemblies, typeFinder, logger, otherBindings);
+
+            container = DiscoverAndConfigureContainer(assemblies, typeFinder, bindingCollection);
+            return new BootResult(container, bindingCollection);
+        }
+
+
+        /// <summary>
+        /// Initialize the entire DependencyInversion pipeline with a specified <see cref="Type"/> of container
+        /// </summary>
+        /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
+        /// <param name="logger"><see cref="ILogger"/> for doing logging</param>
+        /// <param name="containerType"><see cref="Type"/>Container type</param>
+        /// <param name="bindings">Additional bindings</param>
+        /// <returns>Configured <see cref="IContainer"/> and <see cref="IBindingCollection"/></returns>
+        public static IBindingCollection Start(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, Type containerType, IEnumerable<Binding> bindings = null)
+        {
+            var otherBindings = new List<Binding>();
+            if( bindings != null ) otherBindings.AddRange(bindings);
+            otherBindings.Add(Bind(typeof(IContainer), containerType, true));
+            var bindingCollection = BuildBindings(assemblies, typeFinder, logger, otherBindings);
+            return bindingCollection;
+        }
+
+        static IBindingCollection BuildBindings(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, IEnumerable<Binding> bindings)
+        {
             var discoveredBindings = DiscoverBindings(assemblies, typeFinder);
 
-            IContainer container = null;
-
             var otherBindings = new List<Binding>();
-            otherBindings.Add(Bind(typeof(IContainer), () => container, true));
+            
             otherBindings.Add(Bind(typeof(IAssemblies), assemblies));
             otherBindings.Add(Bind(typeof(ITypeFinder), typeFinder));
             otherBindings.Add(Bind(typeof(ILogger), logger));
-            
-            if( bindings != null ) otherBindings.AddRange(bindings);
+
+            if (bindings != null) otherBindings.AddRange(bindings);
 
             var bindingCollection = new BindingCollection(discoveredBindings, otherBindings);
-            container = DiscoverAndConfigureContainer(assemblies, typeFinder, bindingCollection);
-            return new BootResult(container, bindingCollection);
+            return bindingCollection;
         }
 
         static Binding Bind(Type type, Type target, bool singleton = false)
