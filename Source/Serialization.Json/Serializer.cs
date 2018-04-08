@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
+using Dolittle.Execution;
 using Dolittle.Reflection;
 using Dolittle.Serialization;
 using Dolittle.Strings;
@@ -24,6 +25,7 @@ namespace Dolittle.Serialization.Json
     /// <summary>
     /// Represents a <see cref="ISerializer"/>
     /// </summary>
+    [Singleton]
     public class Serializer : ISerializer
     {
         readonly IContainer _container;
@@ -33,6 +35,8 @@ namespace Dolittle.Serialization.Json
         readonly ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheNoneTypeNameReadOnly;
 
         readonly IInstancesOf<ICanProvideConverters> _converterProviders;
+
+        readonly List<JsonConverter> _converters = new List<JsonConverter>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="Serializer"/>
@@ -47,6 +51,10 @@ namespace Dolittle.Serialization.Json
             _cacheNoneTypeName = new ConcurrentDictionary<ISerializationOptions, JsonSerializer>();
             _cacheAutoTypeNameReadOnly = new ConcurrentDictionary<ISerializationOptions, JsonSerializer>();
             _cacheNoneTypeNameReadOnly = new ConcurrentDictionary<ISerializationOptions, JsonSerializer>();
+
+            _converters.Add(new ExceptionConverter());
+            _converters.Add(new CamelCaseToPascalCaseExpandoObjectConverter());
+            _converterProviders.ForEach(provider => provider.Provide().ForEach(_converters.Add));
         }
 
         /// <inheritdoc/>
@@ -263,10 +271,7 @@ namespace Dolittle.Serialization.Json
                 TypeNameHandling = typeNameHandling,
                 ContractResolver = contractResolver,
             };
-
-            serializer.Converters.Add(new ExceptionConverter());
-            serializer.Converters.Add(new CamelCaseToPascalCaseExpandoObjectConverter());
-            _converterProviders.ForEach(provider => provider.Provide().ForEach(serializer.Converters.Add));
+            _converters.ForEach(serializer.Converters.Add);
 
             return serializer;
         }
