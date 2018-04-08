@@ -21,22 +21,16 @@ namespace Dolittle.Applications
         /// <param name="featureName">Name of the <see cref="IFeature"/></param>
         public SubFeature(IFeature parent, FeatureName featureName)
         {
-            Module = parent.Parent;
             Name = featureName;
             Parent = parent;
             parent.AddSubFeature(this);
         }
 
         /// <inheritdoc/>
-        public IModule Module { get; }
-
-        /// <inheritdoc/>
         public FeatureName Name { get; }
 
-        IModule IBelongToAnApplicationLocationSegmentTypeOf<IModule>.Parent { get; }
-
         /// <inheritdoc/>
-        public IFeature Parent { get; }
+        public IApplicationLocationSegment Parent { get; }
 
         /// <inheritdoc/>
         public IEnumerable<IApplicationLocationSegment> Children => _subFeatures;
@@ -47,6 +41,13 @@ namespace Dolittle.Applications
             ThrowIfSubFeatureAlradyAdded(subFeature);
             _subFeatures.Add(subFeature);
         }
+
+        /// <inheritdoc/>
+        public void AddChild(IApplicationLocationSegment child)
+        {
+            _subFeatures.Add(child);
+        }
+        
 
         void ThrowIfSubFeatureAlradyAdded(ISubFeature subFeature)
         {

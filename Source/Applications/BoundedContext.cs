@@ -42,6 +42,12 @@ namespace Dolittle.Applications
             _children.Add(feature);
         }
 
+        /// <inheritdoc/>
+        public void AddChild(IApplicationLocationSegment child)
+        {
+            _children.Add(child);
+        }
+
         void ThrowIfModuleAlreadyAdded(IModule module)
         {
             if (_children.Contains(module)) throw new ModuleAlreadyAddedToBoundedContext(this, module);

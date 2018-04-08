@@ -13,6 +13,13 @@ namespace Dolittle.Applications
         /// Gets the <see cref="IApplicationLocationSegmentName">application location name</see>
         /// </summary>
         IApplicationLocationSegmentName    Name { get; }
+
+        /// <summary>
+        /// Add a <see cref="IApplicationLocationSegment">child</see>
+        /// </summary>
+        /// <param name="child"><see cref="IApplicationLocationSegment">child</see> to add</param>
+        void AddChild(IApplicationLocationSegment child);
+
     }
 
     /// <summary>

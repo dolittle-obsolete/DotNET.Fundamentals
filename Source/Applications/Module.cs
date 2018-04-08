@@ -29,7 +29,7 @@ namespace Dolittle.Applications
         public ModuleName Name { get; }
 
         /// <inheritdoc/>
-        public IBoundedContext   Parent { get; }
+        public IApplicationLocationSegment   Parent { get; }
 
         /// <inheritdoc/>
         public IEnumerable<IApplicationLocationSegment> Children => _features;
@@ -40,6 +40,13 @@ namespace Dolittle.Applications
             ThrowIfFeatureIsAlreadyAdded(feature);
             _features.Add(feature);
         }
+
+        /// <inheritdoc/>
+        public void AddChild(IApplicationLocationSegment child)
+        {
+            _features.Add(child);
+        }
+        
 
         void ThrowIfFeatureIsAlreadyAdded(IFeature feature)
         {

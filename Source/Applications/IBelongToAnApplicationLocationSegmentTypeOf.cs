@@ -14,6 +14,6 @@ namespace Dolittle.Applications
         /// <summary>
         /// Gets the parent <see cref="IApplicationLocationSegment">location</see>
         /// </summary>
-        T Parent { get; }
+        IApplicationLocationSegment Parent { get; }
     }
 }

@@ -14,5 +14,12 @@ namespace Dolittle.Applications.for_ApplicationStructureFragment
         public IApplicationLocationSegmentName Name => throw new NotImplementedException();
 
         public SegmentThatCanHoldSegmentThatBelongsToIt Parent => throw new NotImplementedException();
+
+        IApplicationLocationSegment IBelongToAnApplicationLocationSegmentTypeOf<SegmentThatCanHoldSegmentThatBelongsToIt>.Parent => throw new NotImplementedException();
+
+        public void AddChild(IApplicationLocationSegment child)
+        {
+            
+        }
     }
 }

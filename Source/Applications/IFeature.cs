@@ -7,7 +7,7 @@ namespace Dolittle.Applications
     /// <summary>
     /// Defines a <see cref="IFeature"/> of a system
     /// </summary>
-    public interface IFeature : IApplicationLocationSegment<FeatureName>, IBelongToAnApplicationLocationSegmentTypeOf<IModule>, ICanHoldApplicationLocationSegmentsOfType<ISubFeature>
+    public interface IFeature : IApplicationLocationSegment<FeatureName>, IBelongToAnApplicationLocationSegmentTypeOf<IBoundedContext>, IBelongToAnApplicationLocationSegmentTypeOf<IModule>, ICanHoldApplicationLocationSegmentsOfType<ISubFeature>
     {
         /// <summary>
         /// Add a <see cref="SubFeature"/> 

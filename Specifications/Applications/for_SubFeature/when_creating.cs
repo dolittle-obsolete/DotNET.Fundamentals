@@ -15,13 +15,12 @@ namespace Dolittle.Applications.Specs.for_SubFeature
         {
             module_mock = new Mock<IModule>();
             parent_feature_mock = new Mock<IFeature>();
-            parent_feature_mock.Setup(p => p.Parent).Returns(module_mock.Object);
         };
 
         Because of = () => sub_feature = new SubFeature(parent_feature_mock.Object, name);
 
         It should_set_the_name = () => ((string) sub_feature.Name).ShouldEqual(name);
-        It should_set_the_module = () => sub_feature.Module.ShouldEqual(module_mock.Object);
+        It should_set_the_parent = () => sub_feature.Parent.ShouldEqual(parent_feature_mock.Object);
         It should_add_itself_to_the_parent = () => parent_feature_mock.Verify(p => p.AddSubFeature(sub_feature), Times.Once());
     }
 }

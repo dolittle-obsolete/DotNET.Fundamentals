@@ -18,6 +18,6 @@ namespace Dolittle.Applications.Specs.for_Feature
 
         It should_set_the_name = () => ((string) feature.Name).ShouldEqual(name);
         It should_set_module = () => feature.Parent.ShouldEqual(module_mock.Object);
-        It should_add_the_itself_to_the_module = () => module_mock.Verify(m => m.AddFeature(feature), Times.Once());
+        It should_add_the_itself_to_the_module = () => module_mock.Verify(m => m.AddChild(feature), Times.Once());
     }
 }
