@@ -7,7 +7,7 @@ using System.Reflection;
 using Dolittle.Applications;
 using Newtonsoft.Json;
 
-namespace Dolittle.Runtime.Applications.Serialization.Json
+namespace Dolittle.Applications.Serialization.Json
 {
     /// <summary>
     /// Represents a <see cref="JsonConverter"/> that can serialize and deserialize <see cref="IApplicationArtifactIdentifier"/>

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Dolittle.Serialization.Json;
 using Dolittle.Applications;
 
-namespace Dolittle.Runtime.Applications.Serialization.Json
+namespace Dolittle.Applications.Serialization.Json
 {
     /// <summary>
     /// Provides converters related to concepts for Json serialization purposes
