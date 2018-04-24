@@ -8,6 +8,6 @@ namespace Dolittle.Applications.for_ApplicationStructureFragment
         static Exception result;
         Because of = () => result = Catch.Exception(() => new ApplicationStructureFragment(typeof(SegmentWithoutConstructor)));
 
-        It should_throw_application_location_segment_must_have_a_default_constructor_taking_name = () => result.ShouldBeOfExactType<ApplicationLocationSegmentMustHaveADefaultConstructorTakingName>();
+        It should_throw_application_location_segment_must_have_a_default_constructor_taking_name = () => result.ShouldBeOfExactType<InvalidConstructorForApplicationLocationSegment>();
     }
 }

@@ -11,7 +11,8 @@ namespace Dolittle.Applications.for_ApplicationStructureFragment
                                                 typeof(SegmentThatCanHoldSegmentThatBelongsToIt)
                                            );
 
-        Because of = () => fragment = new ApplicationStructureFragment(
+        Because of = () => 
+                            fragment = new ApplicationStructureFragment(
                                 typeof(SegmentBelongingToSegmentThatCanHoldIt), 
                                 parent
                             );
