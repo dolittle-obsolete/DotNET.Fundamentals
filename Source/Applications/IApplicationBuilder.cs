@@ -22,11 +22,11 @@ namespace Dolittle.Applications
         /// <summary>
         /// Start building the structure
         /// </summary>
-        /// <param name="fragment">Fragment to start with</param>
-        /// <param name="structureBuilderCallback"><see cref="Action"/> that gets called with the <see cref="IApplicationStructureBuilder"/></param>
+        /// <param name="fragmentBuilderCallback">Callback for building the <see cref="IApplicationStructureFragment"/></param>
+        /// <param name="structureBuilderCallback">Optional <see cref="Action"/> that gets called with the <see cref="IApplicationStructureBuilder"/></param>
         /// <returns><see cref="IApplicationBuilder"/> to continue building</returns>
-        /// <typeparam name="TFragment">Type of <see cref="IApplicationStructureFragment"/></typeparam>
-        IApplicationBuilder WithStructureStartingWith<TFragment>(TFragment fragment, Action<IApplicationStructureBuilder> structureBuilderCallback) where TFragment:IApplicationStructureFragment;
+        /// <typeparam name="TFragment">Type of <see cref="IApplicationLocationSegment"/> to start with</typeparam>
+        IApplicationBuilder WithStructureStartingWith<TFragment>(Func<IApplicationStructureFragmentBuilder, IApplicationStructureFragmentBuilder> fragmentBuilderCallback, Action<IApplicationStructureBuilder> structureBuilderCallback=null) where TFragment : IApplicationLocationSegment;
 
         /// <summary>
         /// Build an <see cref="IApplication">application definition</see>
