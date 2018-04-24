@@ -19,14 +19,11 @@ namespace Dolittle.Applications
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationBuilder"/>
         /// </summary>
-        public ApplicationBuilder(ApplicationName name) 
-            : this(
-                name, 
-                new IApplicationLocationSegment[0], 
-                new NullApplicationStructureBuilder()
-            )
-        {
-        }
+        public ApplicationBuilder(ApplicationName name): this(
+            name,
+            new IApplicationLocationSegment[0],
+            new NullApplicationStructureBuilder()
+        ) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationBuilder"/>
@@ -44,19 +41,21 @@ namespace Dolittle.Applications
             _applicationStructureBuilder = applicationStructureBuilder;
         }
 
-
         /// <inheritdoc/>
         public IApplicationBuilder PrefixLocationsWith(params IApplicationLocationSegment[] prefixes)
         {
             return new ApplicationBuilder(_name, prefixes, _applicationStructureBuilder);
         }
 
+        
+
         /// <inheritdoc/>
-        public IApplicationBuilder WithStructureStartingWith<TFragment>(TFragment fragment, Action<IApplicationStructureBuilder> structureBuilderCallback)
-            where TFragment: IApplicationStructureFragment
+        public IApplicationBuilder WithStructureStartingWith<TFragment>(Func<IApplicationStructureFragmentBuilder, IApplicationStructureFragmentBuilder> fragmentBuilderCallback, Action<IApplicationStructureBuilder> structureBuilderCallback=null) where TFragment : IApplicationLocationSegment
         {
-            var applicationStructureBuilder = ApplicationStructureBuilder.WithRoot(fragment);
-            structureBuilderCallback(applicationStructureBuilder);
+            IApplicationStructureFragmentBuilder applicationStructureFragmentBuilder = new ApplicationStructureFragmentBuilder(new ApplicationStructureFragment(typeof(TFragment)));
+            applicationStructureFragmentBuilder = fragmentBuilderCallback(applicationStructureFragmentBuilder);
+            var applicationStructureBuilder = ApplicationStructureBuilder.WithRoot(applicationStructureFragmentBuilder.Fragment);
+            if( structureBuilderCallback != null ) structureBuilderCallback(applicationStructureBuilder);
             return new ApplicationBuilder(_name, _prefixes, applicationStructureBuilder);
         }
 
