@@ -10,15 +10,15 @@ namespace Dolittle.Applications
     /// Exception that gets thrown if an <see cref="IApplicationLocationSegment"/> does not have a default
     /// constructor that either takes a string name or a specific type given in the <see cref="IApplicationLocationSegment{T}"/>
     /// </summary>
-    public class ApplicationLocationSegmentMustHaveADefaultConstructorTakingName : Exception
+    public class InvalidConstructorForApplicationLocationSegment : Exception
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ApplicationLocationSegmentMustHaveADefaultConstructorTakingName"/>
+        /// Initializes a new instance of <see cref="InvalidConstructorForApplicationLocationSegment"/>
         /// </summary>
         /// <param name="type">Violating <see cref="Type"/></param>
         /// <param name="parameterType"><see cref="Type"/> of valid parameter</param>
-        public ApplicationLocationSegmentMustHaveADefaultConstructorTakingName(Type type, Type parameterType)
-            : base($"Type '{type.AssemblyQualifiedName} does not have a default constructor taking the name as a `{parameterType.AssemblyQualifiedName}` of the segment'")
+        public InvalidConstructorForApplicationLocationSegment(Type type, Type parameterType)
+            : base($"Type '{type.AssemblyQualifiedName} does not have a default constructor taking the name as a `{parameterType.AssemblyQualifiedName}` of the segment and optionally a parent of type IApplicationLocationSegment'")
         {
 
         }

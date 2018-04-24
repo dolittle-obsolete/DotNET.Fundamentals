@@ -22,7 +22,7 @@ namespace Dolittle.Applications
         /// <param name="type"><see cref="Type"/> of <see cref="IApplicationLocation"/> this fragment represents</param>
         /// <param name="required">Whether or not the fragment is required - default false</param>
         /// <param name="recursive">Whether or not the fragment can appear recursively - default false</param>
-        public ApplicationStructureFragment(Type type, bool required = false, bool recursive = false) : this(type, NullApplicationStructureFragment.Instance, new IApplicationStructureFragment[0], required, recursive) { }
+        public ApplicationStructureFragment(Type type, bool required = false, bool recursive = false): this(type, NullApplicationStructureFragment.Instance, new IApplicationStructureFragment[0], required, recursive) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationStructureFragment"/>
@@ -35,7 +35,7 @@ namespace Dolittle.Applications
             Type type,
             IEnumerable<IApplicationStructureFragment> children,
             bool required = false,
-            bool recursive = false) : this(type, NullApplicationStructureFragment.Instance, children, required, recursive) { }
+            bool recursive = false): this(type, NullApplicationStructureFragment.Instance, children, required, recursive) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationStructureFragment"/>
@@ -48,7 +48,7 @@ namespace Dolittle.Applications
             Type type,
             IApplicationStructureFragment parent,
             bool required = false,
-            bool recursive = false) : this(type, parent, new IApplicationStructureFragment[0], required, recursive) { }
+            bool recursive = false): this(type, parent, new IApplicationStructureFragment[0], required, recursive) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationStructureFragment"/>
@@ -66,9 +66,9 @@ namespace Dolittle.Applications
             bool recursive = false)
         {
             ThrowIfTypeIsNotApplicationLocation(type);
-            ThrowIfTypeDoesNotHaveADefaultConstructorTakingName(type);
+            ThrowIfTypeDoesNotHaveADefaultConstructorTakingNameAndPossiblyParent(type);
 
-            if (parent != null && parent.GetType() != typeof(NullApplicationStructureFragment))
+            if (parent != null && parent.GetType()!= typeof(NullApplicationStructureFragment))
             {
                 ThrowIfTypeDoesNotBelongToParent(type, parent.Type);
                 ThrowIfParentCannotHoldType(parent.Type, type);
@@ -93,7 +93,7 @@ namespace Dolittle.Applications
         public IApplicationStructureFragment Parent { get; }
 
         /// <inheritdoc/>
-        public bool HasParent => Parent != null && Parent.GetType() != typeof(NullApplicationStructureFragment);
+        public bool HasParent => Parent != null && Parent.GetType()!= typeof(NullApplicationStructureFragment);
 
         /// <inheritdoc/>
         public IEnumerable<IApplicationStructureFragment> Children { get; }
@@ -103,41 +103,60 @@ namespace Dolittle.Applications
 
         void ThrowIfTypeIsNotApplicationLocation(Type type)
         {
-            if (!typeof(IApplicationLocationSegment).IsAssignableFrom(type)) throw new ApplicationStructureFragmentMustBeApplicationLocation(type);
+            if (!typeof(IApplicationLocationSegment).IsAssignableFrom(type))throw new ApplicationStructureFragmentMustBeApplicationLocation(type);
         }
 
-        void ThrowIfTypeDoesNotHaveADefaultConstructorTakingName(Type type)
+        void ThrowIfTypeDoesNotHaveADefaultConstructorTakingNameAndPossiblyParent(Type type)
         {
-            var validParameterType = typeof(string);
+            var nameParameterType = typeof(string);
             var valid = true;
             var constructor = type.GetConstructors().SingleOrDefault();
-            if (constructor == null) valid = false;
+            if (constructor == null)valid = false;
             else
             {
-                var parameter = constructor.GetParameters().SingleOrDefault();
-                if (parameter == null) valid = false;
+                var parameters = constructor.GetParameters();
+                if (parameters.Length == 0 || parameters.Length > 2)valid = false;
                 else
                 {
-                    if (type.ImplementsOpenGeneric(typeof(IApplicationLocationSegment<>)))
-                        validParameterType = type.GetInterfaces().Single(i => i.Name == typeof(IApplicationLocationSegment<>).Name).GenericTypeArguments[0];
+                    ParameterInfo nameParameter;
+                    ParameterInfo parentParameter = null;
+                    if (parameters.Length == 1)nameParameter = parameters[0];
+                    else
+                    {
+                        parentParameter = parameters.SingleOrDefault(parameter => typeof(IApplicationLocationSegment).IsAssignableFrom(parameter.ParameterType));
+                        if( parentParameter == null ) throw new InvalidConstructorForApplicationLocationSegment(type, nameParameterType);
+                        
+                        nameParameter = parameters.Single(parameter => parameter != parentParameter);
+                    }
 
-                    if( parameter.ParameterType != validParameterType) valid = false;
+                    if (type.ImplementsOpenGeneric(typeof(IApplicationLocationSegment<>)))
+                    {
+                        nameParameterType = type.GetInterfaces().Single(i => i.Name == typeof(IApplicationLocationSegment<>).Name).GenericTypeArguments[0];
+                    }
+
+                    if (nameParameter.ParameterType != nameParameterType) valid = false;
+                    if (parameters.Length == 2 && parentParameter == null) valid = false;
                 }
             }
 
-            if (!valid) throw new ApplicationLocationSegmentMustHaveADefaultConstructorTakingName(type, validParameterType);
+            if (!valid)throw new InvalidConstructorForApplicationLocationSegment(type, nameParameterType);
         }
 
         void ThrowIfParentCannotHoldType(Type parent, Type type)
         {
-            var canHoldType = typeof(ICanHoldApplicationLocationSegmentsOfType<>).MakeGenericType(type);
-            if (!canHoldType.IsAssignableFrom(parent)) throw new ParentApplicationStructureFragmentMustBeAbleToHoldType(parent, type);
+            var canHoldType = typeof(ICanHoldApplicationLocationSegmentsOfType<>);
+            var interfaces = parent.GetInterfaces().Where(i => i.GUID == canHoldType.GUID);
+            if( !interfaces.Any(i => i.GenericTypeArguments[0].IsAssignableFrom(type)) ) 
+                throw new ParentApplicationStructureFragmentMustBeAbleToHoldType(parent, type);
         }
 
         void ThrowIfTypeDoesNotBelongToParent(Type type, Type parent)
         {
-            var belongToType = typeof(IBelongToAnApplicationLocationSegmentTypeOf<>).MakeGenericType(parent);
-            if (!belongToType.IsAssignableFrom(type)) throw new ApplicationStructureFragmentMustBelongToParent(parent, type);
+            var belongToType = typeof(IBelongToAnApplicationLocationSegmentTypeOf<>);
+            var interfaces = type.GetInterfaces().Where(i => i.GUID == belongToType.GUID);
+
+            if( !interfaces.Any(i => i.GenericTypeArguments[0].IsAssignableFrom(parent)) ) 
+                throw new ApplicationStructureFragmentMustBelongToParent(parent, type);
         }
 
         void ThrowIfTypeCannotHoldAnyOfTheChildren(Type type, IEnumerable<IApplicationStructureFragment> children)
