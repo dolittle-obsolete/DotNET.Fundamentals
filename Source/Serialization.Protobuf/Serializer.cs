@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using Dolittle.Collections;
 using Dolittle.Concepts;
+using Dolittle.Types;
 using Google.Protobuf;
 using static Google.Protobuf.WireFormat;
 
@@ -19,14 +20,17 @@ namespace Dolittle.Serialization.Protobuf
     public class Serializer : ISerializer
     {
         readonly IMessageDescriptions _messageDescriptions;
+        readonly IValueConverters _valueConverters;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="messageDescriptions"></param>
-        public Serializer(IMessageDescriptions messageDescriptions)
+        /// <param name="valueConverters"></param>
+        public Serializer(IMessageDescriptions messageDescriptions, IValueConverters valueConverters)
         {
             _messageDescriptions = messageDescriptions;
+            _valueConverters = valueConverters;
         }
 
         /// <inheritdoc/>
@@ -45,7 +49,15 @@ namespace Dolittle.Serialization.Protobuf
                 {
                     object value = null;
                     var type = propertyDescription.Property.PropertyType;
-                    if (type.IsConcept())
+
+                    IValueConverter converter = null;
+
+                    if( _valueConverters.CanConvert(type) )
+                    {
+                        converter = _valueConverters.GetConverterFor(type);
+                        type = converter.SerializedAs;
+
+                    } else if ( type.IsConcept())
                     {
                         type = type.GetConceptValueType();
                     }
@@ -98,6 +110,8 @@ namespace Dolittle.Serialization.Protobuf
                         value = DateTime.FromFileTimeUtc(inputStream.ReadInt64());
                     }
 
+                    if( converter != null ) value = converter.ConvertFrom(value);
+
                     propertyDescription.Property.SetValue(instance, value);
                 }
                 else
@@ -137,7 +151,13 @@ namespace Dolittle.Serialization.Protobuf
                 var type = property.Property.PropertyType;
                 var number = property.Number;
                 var value = property.Property.GetValue(instance);
-                if (type.IsConcept())
+
+                if( _valueConverters.CanConvert(type) )
+                {
+                    var converter = _valueConverters.GetConverterFor(type);
+                    type = converter.SerializedAs;
+                    value = converter.ConvertTo(value);
+                } else if (type.IsConcept())
                 {
                     type = type.GetConceptValueType();
                     value = value.GetConceptValue();
@@ -225,7 +245,13 @@ namespace Dolittle.Serialization.Protobuf
                 var type = property.Property.PropertyType;
                 var number = property.Number;
                 var value = property.Property.GetValue(instance);
-                if (type.IsConcept())
+
+                if( _valueConverters.CanConvert(type) )
+                {
+                    var converter = _valueConverters.GetConverterFor(type);
+                    type = converter.SerializedAs;
+                    value = converter.ConvertTo(value);
+                } else if (type.IsConcept())
                 {
                     type = type.GetConceptValueType();
                     value = value.GetConceptValue();
