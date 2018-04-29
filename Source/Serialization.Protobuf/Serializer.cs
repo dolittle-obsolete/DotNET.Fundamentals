@@ -97,6 +97,8 @@ namespace Dolittle.Serialization.Protobuf
                     {
                         value = DateTime.FromFileTimeUtc(inputStream.ReadInt64());
                     }
+
+                    propertyDescription.Property.SetValue(instance, value);
                 }
                 else
                 {
