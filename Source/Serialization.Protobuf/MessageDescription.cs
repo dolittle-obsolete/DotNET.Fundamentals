@@ -15,14 +15,14 @@ namespace Dolittle.Serialization.Protobuf
         /// <summary>
         /// Initializes a new instance of <see cref="MessageDescription"/>
         /// </summary>
-        /// <param name="name">Name of the message</param>
         /// <param name="type"><see cref="Type"/> representing the message</param>
         /// <param name="properties"><see cref="IEnumerable{PropertyDescription}">Property descriptions</see></param>
-        public MessageDescription(string name, Type type, IEnumerable<PropertyDescription> properties)
+        /// <param name="name">Name of the message</param>
+        public MessageDescription(Type type, IEnumerable<PropertyDescription> properties, string name= null)
         {
-            Name = name;
             Type = type;
             Properties = properties;
+            Name = name??type.Name;
         }
 
         /// <summary>
@@ -44,11 +44,22 @@ namespace Dolittle.Serialization.Protobuf
         /// <summary>
         /// Start building a description for 
         /// </summary>
-        /// <returns>A new instance of <see cref="MessageDescription"/></returns>
+        /// <returns>A new instance of <see cref="MessageDescription"/> representing the type</returns>
         public static MessageDescription For<T>(Func<IMessageDescriptionBuilderFor<T>, IMessageDescriptionBuilderFor<T>> builderCallback)
         {
-            IMessageDescriptionBuilderFor<T> builder = new MessageDescriptionBuilderFor<T>();
+            IMessageDescriptionBuilderFor<T> builder = new MessageDescriptionBuilderFor<T>(typeof(T).Name);
             builder = builderCallback(builder);
+            return builder.Build();
+        }
+
+        /// <summary>
+        /// Create a default <see cref="MessageDescription"/> with all the properties added by their hashcode
+        /// </summary>
+        /// <returns>A new instance of <see cref="MessageDescription"/> representing the type</returns>
+        public static MessageDescription DefaultFor<T>()
+        {
+            IMessageDescriptionBuilderFor<T> builder = new MessageDescriptionBuilderFor<T>(typeof(T).Name);
+            builder.WithAllProperties();
             return builder.Build();
         }
     }

@@ -21,6 +21,12 @@ namespace Dolittle.Serialization.Protobuf
         IMessageDescriptionBuilderFor<T> Property<TProp>(Expression<Func<TProp>> property, Func<IPropertyDescriptionBuilder, IPropertyDescriptionBuilder> propertyDescriptionBuilderCallback);
 
         /// <summary>
+        /// Add all properties as default configuration
+        /// </summary>
+        /// <returns>A continuation of the <see cref="IMessageDescriptionBuilderFor{T}"/></returns>
+        IMessageDescriptionBuilderFor<T> WithAllProperties();
+
+        /// <summary>
         /// Builds a completed <see cref="MessageDescription"/>
         /// </summary>
         /// <returns><see cref="MessageDescription"/></returns>
