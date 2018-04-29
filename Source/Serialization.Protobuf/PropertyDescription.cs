@@ -22,6 +22,7 @@ namespace Dolittle.Serialization.Protobuf
         /// <param name="number">Number representing the property</param>
         public PropertyDescription(PropertyInfo property, string name = null, object defaultValue = null, int number = 0)
         {
+            Property = property;
             Name = name??property.Name;
             DefaultValue = defaultValue;
             Number = number == 0 ? GeneratePropertyNumber() : number;

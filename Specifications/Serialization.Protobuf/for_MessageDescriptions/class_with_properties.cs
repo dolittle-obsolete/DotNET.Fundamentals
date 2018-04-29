@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Dolittle.Serialization.Protobuf.for_MessageDescription
+namespace Dolittle.Serialization.Protobuf.for_MessageDescriptions
 {
     public class class_with_properties
     {

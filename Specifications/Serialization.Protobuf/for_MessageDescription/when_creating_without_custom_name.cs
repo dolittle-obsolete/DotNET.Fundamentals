@@ -8,6 +8,6 @@ namespace Dolittle.Serialization.Protobuf.for_MessageDescription
 
         Because of = () => result = new MessageDescription(typeof(class_with_properties), new PropertyDescription[0]);
 
-        It should_set_name_to_type_name = () => result.Name.ShouldEqual(typeof(class_with_propery).Name);
+        It should_set_name_to_type_name = () => result.Name.ShouldEqual(typeof(class_with_properties).Name);
     }
 }
