@@ -112,7 +112,10 @@ namespace Dolittle.Serialization.Protobuf
         /// <inheritdoc/>
         public T FromProtobuf<T>(byte[] bytes, bool includesLength = false)
         {
-            throw new System.NotImplementedException();
+            using( var memoryStream = new MemoryStream(bytes) )
+            {
+                return FromProtobuf<T>(memoryStream, includesLength);
+            }
         }
 
         /// <inheritdoc/>
