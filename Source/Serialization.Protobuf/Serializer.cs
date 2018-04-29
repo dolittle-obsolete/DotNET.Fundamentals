@@ -157,32 +157,32 @@ namespace Dolittle.Serialization.Protobuf
                 }
                 else if (type == typeof(int))
                 {
-                    outputStream.WriteTag(number, WireType.Fixed32);
+                    outputStream.WriteTag(number, WireType.Varint);
                     outputStream.WriteInt32((int) value);
                 }
                 if (type == typeof(Int64))
                 {
-                    outputStream.WriteTag(number, WireType.Fixed64);
+                    outputStream.WriteTag(number, WireType.Varint);
                     outputStream.WriteInt64((Int64) value);
                 }
                 else if (type == typeof(uint))
                 {
-                    outputStream.WriteTag(number, WireType.Fixed32);
+                    outputStream.WriteTag(number, WireType.Varint);
                     outputStream.WriteUInt32((uint) value);
                 }
                 if (type == typeof(UInt64))
                 {
-                    outputStream.WriteTag(number, WireType.Fixed64);
+                    outputStream.WriteTag(number, WireType.Varint);
                     outputStream.WriteUInt64((UInt64) value);
                 }
                 else if (type == typeof(float))
                 {
-                    outputStream.WriteTag(number, WireType.Fixed32);
+                    outputStream.WriteTag(number, WireType.Varint);
                     outputStream.WriteFloat((float) value);
                 }
                 else if (type == typeof(double))
                 {
-                    outputStream.WriteTag(number, WireType.Fixed64);
+                    outputStream.WriteTag(number, WireType.Varint);
                     outputStream.WriteDouble((double) value);
                 }
                 else if (type == typeof(bool))
@@ -192,12 +192,12 @@ namespace Dolittle.Serialization.Protobuf
                 }
                 else if (type == typeof(DateTimeOffset))
                 {
-                    outputStream.WriteTag(number, WireType.Fixed64);
+                    outputStream.WriteTag(number, WireType.Varint);
                     outputStream.WriteInt64(((DateTimeOffset) value).ToUnixTimeMilliseconds());
                 }
                 else if (type == typeof(DateTime))
                 {
-                    outputStream.WriteTag(number, WireType.Fixed64);
+                    outputStream.WriteTag(number, WireType.Varint);
                     outputStream.WriteInt64(((DateTime) value).ToFileTimeUtc());
                 }
             });
