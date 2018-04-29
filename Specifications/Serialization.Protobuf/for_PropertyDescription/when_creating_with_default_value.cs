@@ -7,7 +7,7 @@ namespace Dolittle.Serialization.Protobuf.for_PropertyDescription
         const string default_value = "The default value";
         static PropertyDescription result;
 
-        Because of = () => result = new PropertyDescription(class_with_propery.some_property, defaultValue:default_value);
+        Because of = () => result = new PropertyDescription(class_with_property.some_property, defaultValue:default_value);
 
         It should_set_default_value = () => result.DefaultValue.ShouldEqual(default_value);
     }

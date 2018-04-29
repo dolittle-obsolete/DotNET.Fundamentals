@@ -7,8 +7,8 @@ namespace Dolittle.Serialization.Protobuf.for_PropertyDescription
     {
         static PropertyDescription result;
 
-        Because of = () => result = new PropertyDescription(class_with_propery.some_property);
+        Because of = () => result = new PropertyDescription(class_with_property.some_property);
 
-        It should_hold_the_name_of_the_property = () => result.Name.ShouldEqual(class_with_propery.some_property.Name);
+        It should_hold_the_name_of_the_property = () => result.Name.ShouldEqual(class_with_property.some_property.Name);
     }
 }

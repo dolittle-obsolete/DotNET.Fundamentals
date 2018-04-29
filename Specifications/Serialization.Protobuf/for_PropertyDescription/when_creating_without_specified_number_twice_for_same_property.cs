@@ -9,8 +9,8 @@ namespace Dolittle.Serialization.Protobuf.for_PropertyDescription
 
         Because of = () =>
         {
-            first = new PropertyDescription(class_with_propery.some_property);
-            second = new PropertyDescription(class_with_propery.some_property);
+            first = new PropertyDescription(class_with_property.some_property);
+            second = new PropertyDescription(class_with_property.some_property);
         };
 
         It should_not_hold_zero_as_number_for_first = () => first.Number.ShouldNotEqual(0);
