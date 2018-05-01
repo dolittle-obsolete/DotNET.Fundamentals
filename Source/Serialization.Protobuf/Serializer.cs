@@ -41,7 +41,7 @@ namespace Dolittle.Serialization.Protobuf
             var messageDescription = _messageDescriptions.GetFor<T>();
 
             var tag = inputStream.ReadTag();
-            while (tag != 0)
+            while (!inputStream.IsAtEnd)
             {
                 var fieldNumber = WireFormat.GetTagFieldNumber(tag);
                 var propertyDescription = messageDescription.Properties.SingleOrDefault(_ => _.Number == fieldNumber);
@@ -49,6 +49,7 @@ namespace Dolittle.Serialization.Protobuf
                 {
                     object value = null;
                     var type = propertyDescription.Property.PropertyType;
+                    Type conceptType = null;
 
                     IValueConverter converter = null;
 
@@ -60,10 +61,17 @@ namespace Dolittle.Serialization.Protobuf
                     }
                     else if (type.IsConcept())
                     {
+                        conceptType = type;
                         type = type.GetConceptValueType();
+                        
                     }
 
                     value = ReadValue(inputStream, value, type, converter);
+
+                    if (conceptType != null)
+                    {
+                        value = ConceptFactory.CreateConceptInstance(conceptType, value);
+                    }
                     propertyDescription.Property.SetValue(instance, value);
                 }
 

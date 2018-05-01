@@ -3,6 +3,7 @@ using Machine.Specifications;
 
 namespace Dolittle.Serialization.Protobuf.for_Serializer
 {
+
     public class when_serializing_simple_object_with_primitives : given.a_serializer
     {
         
