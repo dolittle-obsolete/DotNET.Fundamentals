@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dolittle.Collections;
 using Dolittle.Types;
 
@@ -14,28 +15,35 @@ namespace Dolittle.Serialization.Protobuf
     /// </summary>
     public class ValueConverters : IValueConverters
     {
-        readonly Dictionary<Type, IValueConverter> _converters = new Dictionary<Type, IValueConverter>();
+        readonly IInstancesOf<IValueConverter> _converters;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="ValueConverters"/>
         /// </summary>
         /// <param name="converters"></param>
         public ValueConverters(IInstancesOf<IValueConverter> converters)
         {
-            converters.ForEach(converter => converter.SupportedTypes.ForEach(type => _converters[type] = converter));
+            _converters = converters;
         }
 
         /// <inheritdoc/>
         public bool CanConvert(Type type)
         {
-            return _converters.ContainsKey(type);
+            return _converters.Any(_ => _.CanConvert(type));
+            
         }
-
 
         /// <inheritdoc/>
         public IValueConverter GetConverterFor(Type type)
         {
-            return _converters[type];
+            var valueConverter = _converters.FirstOrDefault(_ => _.CanConvert(type));
+            ThrowIfMissingValueConverter(type, valueConverter);
+            return valueConverter;
+        }
+
+        void ThrowIfMissingValueConverter(Type type, IValueConverter valueConverter)
+        {
+            if (valueConverter == null) throw new MissingValueConverter(type);
         }
     }
 }
