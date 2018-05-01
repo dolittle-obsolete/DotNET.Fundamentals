@@ -33,7 +33,7 @@ namespace Dolittle.Serialization.Protobuf
         /// <inheritdoc/>
         public MessageDescription Build()
         {
-            var properties = _propertyDescriptionBuilders.Select(_ => _.Build());
+            var properties = _propertyDescriptionBuilders.Select(_ => _.Build()).ToArray();
             var messageDescription = new MessageDescription(typeof(T), properties, _name);
             return messageDescription;
         }
@@ -54,7 +54,7 @@ namespace Dolittle.Serialization.Protobuf
         public IMessageDescriptionBuilderFor<T> WithAllProperties()
         {
             var properties = typeof(T).GetProperties(BindingFlags.Public|BindingFlags.Instance);
-            var propertyDescriptionBuilders = properties.Select(_ => new PropertyDescriptionBuilder(_, _.Name, null, 0));
+            var propertyDescriptionBuilders = properties.Select(_ => new PropertyDescriptionBuilder(_, _.Name, null, 0)).ToArray();
             var messageDescriptionBuilder = new MessageDescriptionBuilderFor<T>(_name, propertyDescriptionBuilders);
             return messageDescriptionBuilder;
         }
