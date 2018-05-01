@@ -30,7 +30,6 @@ namespace Dolittle.Serialization.Protobuf
         public bool CanConvert(Type type)
         {
             return _converters.Any(_ => _.CanConvert(type));
-            
         }
 
         /// <inheritdoc/>
