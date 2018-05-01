@@ -1,8 +1,9 @@
 using System;
 using Dolittle.Concepts;
 using Machine.Specifications;
+using Dolittle.Serialization.Protobuf;
 
-namespace Dolittle.Serialization.Protobuf.for_Serializer
+namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer
 {
 
     public class when_serializing_concept_of_date_time : given.a_serializer

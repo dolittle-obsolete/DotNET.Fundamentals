@@ -1,7 +1,6 @@
-﻿using Dolittle.Concepts.Serialization.Json;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 
-namespace Dolittle.Concepts.Serialization.Json.Specs.for_ConceptConverter
+namespace Dolittle.Concepts.Serialization.Protobuf.Specs.for_ConceptConverter
 {
     [Subject(typeof(ConceptConverter))]
     public class when_checking_can_convert_on_a_concept : given.a_concept_converter

@@ -33,8 +33,8 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
 
             var serialized_value = "Awesome Possum";
             value_converter.Setup(_ => _.ConvertTo(original.value)).Returns(serialized_value);
-            value_converter.SetupGet(_ => _.SerializedAs).Returns(typeof(string));
-            value_converter.Setup(_ => _.ConvertFrom(serialized_value)).Returns(new special_type { the_value = original_value });
+            value_converter.Setup(_ => _.SerializedAs(typeof(special_type))).Returns(typeof(string));
+            value_converter.Setup(_ => _.ConvertFrom(typeof(special_type),serialized_value)).Returns(new special_type { the_value = original_value });
            
             message_descriptions.Setup(_ => _.GetFor<type_for_serialization>()).Returns(MessageDescription.DefaultFor<type_for_serialization>());
         };
