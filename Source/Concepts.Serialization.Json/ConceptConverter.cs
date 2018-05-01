@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
-using Dolittle.Concepts;
 using Newtonsoft.Json;
 
 namespace Dolittle.Concepts.Serialization.Json
@@ -29,7 +28,7 @@ namespace Dolittle.Concepts.Serialization.Json
         /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, object concept, JsonSerializer serializer)
         {
-            var value = concept.GetType().GetTypeInfo().GetProperty("Value").GetValue(concept, null);
+            var value = concept.GetConceptValue();
             writer.WriteValue(value);
         }
     }
