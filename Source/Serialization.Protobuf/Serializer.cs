@@ -6,7 +6,6 @@ using System;
 using System.IO;
 using System.Linq;
 using Dolittle.Collections;
-using Dolittle.Concepts;
 using Google.Protobuf;
 using static Google.Protobuf.WireFormat;
 
@@ -55,29 +54,19 @@ namespace Dolittle.Serialization.Protobuf
                 {
                     object value = null;
                     var type = propertyDescription.Property.PropertyType;
-                    Type conceptType = null;
 
                     IValueConverter converter = null;
+
+                    var targetType = type;
 
                     if (_valueConverters.CanConvert(type))
                     {
                         converter = _valueConverters.GetConverterFor(type);
-                        type = converter.SerializedAs;
-
-                    }
-                    else if (type.IsConcept())
-                    {
-                        conceptType = type;
-                        type = type.GetConceptValueType();
-                        
+                        targetType = type;
+                        type = converter.SerializedAs(type);
                     }
 
-                    value = ReadValue(inputStream, value, type, converter);
-
-                    if (conceptType != null)
-                    {
-                        value = ConceptFactory.CreateConceptInstance(conceptType, value);
-                    }
+                    value = ReadValue(inputStream, value, type, targetType, converter);
                     propertyDescription.Property.SetValue(instance, value);
                 }
 
@@ -118,15 +107,9 @@ namespace Dolittle.Serialization.Protobuf
                 if (_valueConverters.CanConvert(type))
                 {
                     var converter = _valueConverters.GetConverterFor(type);
-                    type = converter.SerializedAs;
+                    type = converter.SerializedAs(type);
                     value = converter.ConvertTo(value);
                 }
-                else if (type.IsConcept())
-                {
-                    type = type.GetConceptValueType();
-                    value = value.GetConceptValue();
-                }
-
                 WriteValue(outputStream, type, number, value);
             });
             outputStream.Flush();
@@ -143,7 +126,7 @@ namespace Dolittle.Serialization.Protobuf
             }
         }
 
-        object ReadValue(CodedInputStream inputStream, object value, Type type, IValueConverter converter)
+        object ReadValue(CodedInputStream inputStream, object value, Type type, Type targetType, IValueConverter converter)
         {
             if (type == typeof(Guid))
             {
@@ -168,9 +151,9 @@ namespace Dolittle.Serialization.Protobuf
             {
                 value = inputStream.ReadUInt32();
             }
-            else if (type == typeof(uint))
+            else if (type == typeof(UInt64))
             {
-                value = inputStream.ReadInt64();
+                value = inputStream.ReadUInt64();
             }
             else if (type == typeof(float))
             {
@@ -193,7 +176,7 @@ namespace Dolittle.Serialization.Protobuf
                 value = DateTime.FromFileTimeUtc(inputStream.ReadInt64());
             }
 
-            if (converter != null) value = converter.ConvertFrom(value);
+            if (converter != null) value = converter.ConvertFrom(targetType, value);
             return value;
         }
 
@@ -274,12 +257,8 @@ namespace Dolittle.Serialization.Protobuf
                 if( _valueConverters.CanConvert(type) )
                 {
                     var converter = _valueConverters.GetConverterFor(type);
-                    type = converter.SerializedAs;
+                    type = converter.SerializedAs(type);
                     value = converter.ConvertTo(value);
-                } else if (type.IsConcept())
-                {
-                    type = type.GetConceptValueType();
-                    value = value.GetConceptValue();
                 }
 
                 size += CodedOutputStream.ComputeTagSize(number);
