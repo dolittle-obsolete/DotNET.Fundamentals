@@ -40,10 +40,15 @@ namespace Dolittle.Concepts
             {
                 val = value ?? string.Empty;
             }
-
+            
             if (valueProperty.PropertyType == typeof (DateTime))
             {
                 val = value ?? default(DateTime);
+            }
+
+            if (valueProperty.PropertyType == typeof (DateTimeOffset))
+            {
+                val = value ?? default(DateTimeOffset);
             }
 
             if (val.GetType() != genericArgumentType)
