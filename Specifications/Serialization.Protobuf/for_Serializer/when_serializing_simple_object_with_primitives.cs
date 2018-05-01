@@ -10,6 +10,8 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
         static simple_object_with_primitives original;
         static simple_object_with_primitives deserialized;
 
+        static byte[] serialized_bytes;
+
         Establish context = () =>
         {
             original = new simple_object_with_primitives
@@ -28,8 +30,8 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
         
         Because of = () => 
         {
-            var bytes = serializer.ToProtobuf(original);
-            deserialized = serializer.FromProtobuf<simple_object_with_primitives>(bytes);
+            serialized_bytes = serializer.ToProtobuf(original);
+            deserialized = serializer.FromProtobuf<simple_object_with_primitives>(serialized_bytes);
         };
 
         It should_hold_the_correct_guid = () => deserialized.a_guid.ShouldEqual(original.a_guid);
@@ -39,5 +41,6 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
         It should_hold_the_correct_string = () => deserialized.a_string.ShouldEqual(original.a_string);
         It should_hold_the_correct_date_time = () => deserialized.a_date_time.ShouldEqual(original.a_date_time);
         It should_hold_the_correct_date_time_offset = () => deserialized.a_date_time_offset.ShouldEqual(original.a_date_time_offset);
+        
     }
 }

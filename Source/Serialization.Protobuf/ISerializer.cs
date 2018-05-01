@@ -12,6 +12,12 @@ namespace Dolittle.Serialization.Protobuf
     public interface ISerializer
     {
         /// <summary>
+        /// Get the length in bytes of an instance of a specific type
+        /// </summary>
+        /// <param name="instance">Instance to get length of</param>
+        int GetLengthOf<T>(T instance);
+
+        /// <summary>
         /// Serialize to protobuf into a <see cref="Stream"/> directly
         /// </summary>
         /// <param name="instance">Instance of object to serialize</param>

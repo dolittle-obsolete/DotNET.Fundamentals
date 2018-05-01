@@ -23,14 +23,22 @@ namespace Dolittle.Serialization.Protobuf
         readonly IValueConverters _valueConverters;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="Serializer"/>
         /// </summary>
-        /// <param name="messageDescriptions"></param>
-        /// <param name="valueConverters"></param>
+        /// <param name="messageDescriptions"><see cref="IMessageDescriptions"/> for <see cref="MessageDescription">descriptions of messages</see></param>
+        /// <param name="valueConverters">Available <see cref="IValueConverters"/></param>
         public Serializer(IMessageDescriptions messageDescriptions, IValueConverters valueConverters)
         {
             _messageDescriptions = messageDescriptions;
             _valueConverters = valueConverters;
+        }
+
+        /// <inheritdoc/>
+        public int GetLengthOf<T>(T instance)
+        {
+            var messageDescription = _messageDescriptions.GetFor<T>();
+            var length = GetLengthOf(instance, messageDescription);
+            return length;
         }
 
         /// <inheritdoc/>
@@ -99,7 +107,7 @@ namespace Dolittle.Serialization.Protobuf
 
             if (includeLength)
             {
-                var length = GetSizeFor(instance, messageDescription);
+                var length = GetLengthOf(instance, messageDescription);
                 outputStream.WriteLength(length);
             }
 
@@ -256,7 +264,7 @@ namespace Dolittle.Serialization.Protobuf
         
         
 
-        int GetSizeFor<T>(T instance, MessageDescription messageDescription)
+        int GetLengthOf<T>(T instance, MessageDescription messageDescription)
         {
             var size = 0;
 
@@ -330,6 +338,5 @@ namespace Dolittle.Serialization.Protobuf
 
             return size;
         }
-
     }
 }
