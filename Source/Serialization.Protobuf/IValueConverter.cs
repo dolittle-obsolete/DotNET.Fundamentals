@@ -13,10 +13,11 @@ namespace Dolittle.Serialization.Protobuf
     public interface IValueConverter
     {
         /// <summary>
-        /// Gets the supported <see cref="Type">types</see>
+        /// Determines whether this <see cref="IValueConverter"/> can convert the specified object type.
         /// </summary>
-        /// <returns></returns>
-        IEnumerable<Type> SupportedTypes { get; }
+        /// <param name="objectType"><see cref="Type"/> of object </param>
+        /// <returns>True if it can convert, false if not</returns>
+        bool CanConvert(Type objectType);
 
         /// <summary>
         /// Gets the type used as serialized version
