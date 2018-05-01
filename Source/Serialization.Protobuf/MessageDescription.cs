@@ -59,7 +59,7 @@ namespace Dolittle.Serialization.Protobuf
         public static MessageDescription DefaultFor<T>()
         {
             IMessageDescriptionBuilderFor<T> builder = new MessageDescriptionBuilderFor<T>(typeof(T).Name);
-            builder.WithAllProperties();
+            builder = builder.WithAllProperties();
             return builder.Build();
         }
     }
