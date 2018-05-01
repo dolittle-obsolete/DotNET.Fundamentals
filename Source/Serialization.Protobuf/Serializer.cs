@@ -5,10 +5,8 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Dolittle.Collections;
 using Dolittle.Concepts;
-using Dolittle.Types;
 using Google.Protobuf;
 using static Google.Protobuf.WireFormat;
 
@@ -205,14 +203,15 @@ namespace Dolittle.Serialization.Protobuf
             {
                 outputStream.WriteTag(number, WireType.LengthDelimited);
                 var guidAsBytes = ((Guid)value).ToByteArray();
-                outputStream.WriteLength(guidAsBytes.Length);
-                outputStream.WriteBytes(ByteString.CopyFrom(guidAsBytes));
+                var byteString = ByteString.CopyFrom(guidAsBytes);
+                outputStream.WriteLength(CodedOutputStream.ComputeBytesSize(byteString));
+                outputStream.WriteBytes(byteString);
             }
             else if (type == typeof(string))
             {
                 var valueAsString = value as string;
                 outputStream.WriteTag(number, WireType.LengthDelimited);
-                outputStream.WriteLength(UTF8Encoding.UTF8.GetByteCount(valueAsString));
+                outputStream.WriteLength(CodedOutputStream.ComputeStringSize(valueAsString));
                 outputStream.WriteString(valueAsString);
             }
             else if (type == typeof(int))
@@ -261,8 +260,6 @@ namespace Dolittle.Serialization.Protobuf
                 outputStream.WriteInt64(((DateTime)value).ToFileTimeUtc());
             }
         }
-        
-        
 
         int GetLengthOf<T>(T instance, MessageDescription messageDescription)
         {
@@ -270,7 +267,6 @@ namespace Dolittle.Serialization.Protobuf
 
             messageDescription.Properties.ForEach(property =>
             {
-
                 var type = property.Property.PropertyType;
                 var number = property.Number;
                 var value = property.Property.GetValue(instance);
@@ -286,17 +282,20 @@ namespace Dolittle.Serialization.Protobuf
                     value = value.GetConceptValue();
                 }
 
+                size += CodedOutputStream.ComputeTagSize(number);
                 if (type == typeof(Guid))
                 {
-                    size += CodedOutputStream.ComputeTagSize(number);
                     var guidAsBytes = ((Guid) value).ToByteArray();
-                    size += guidAsBytes.Length;
+                    var length = CodedOutputStream.ComputeBytesSize(ByteString.CopyFrom(guidAsBytes));
+                    size += CodedOutputStream.ComputeLengthSize(length);
+                    size += length;
                 }
                 else if (type == typeof(string))
                 {
                     var valueAsString = value as string;
-                    size += CodedOutputStream.ComputeTagSize(number);
-                    size += UTF8Encoding.UTF8.GetByteCount(valueAsString);
+                    var length = CodedOutputStream.ComputeStringSize(valueAsString);
+                    size += CodedOutputStream.ComputeLengthSize(length);
+                    size += length;
                 }
                 else if (type == typeof(int))
                 {
