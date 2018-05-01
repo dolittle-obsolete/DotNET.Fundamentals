@@ -20,9 +20,11 @@ namespace Dolittle.Serialization.Protobuf
         bool CanConvert(Type objectType);
 
         /// <summary>
-        /// Gets the type used as serialized version
+        /// Gets the type the object type should be serialized as
         /// </summary>
-        Type SerializedAs { get; }
+        /// <param name="objectType"><see cref="Type"/> of object </param>
+        /// <returns><see cref="Type"/> it should serialize as</returns>
+        Type SerializedAs(Type objectType);
 
         /// <summary>
         /// Convert to the value that will be used for serializing
@@ -34,8 +36,9 @@ namespace Dolittle.Serialization.Protobuf
         /// <summary>
         /// Convert to the target value on an object from a serialized version of it
         /// </summary>
+        /// <param name="objectType"><see cref="Type"/> of object </param>
         /// <param name="value">Value to convert</param>
         /// <returns>Converted value</returns>
-        object ConvertFrom(object value);
+        object ConvertFrom(Type objectType, object value);
     }
 }
