@@ -28,4 +28,5 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
 
         It should_hold_the_correct_value = () => deserialized.concept.ShouldEqual(original.concept);
     }    
+    
 }
