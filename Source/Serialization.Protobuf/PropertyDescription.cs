@@ -25,7 +25,7 @@ namespace Dolittle.Serialization.Protobuf
             Property = property;
             Name = name??property.Name;
             DefaultValue = defaultValue;
-            Number = number == 0 ? GeneratePropertyNumber() : number;
+            Number = number == 0 ? GeneratePropertyNumberFromName() : number;
         }
 
         /// <summary>
@@ -51,11 +51,11 @@ namespace Dolittle.Serialization.Protobuf
         /// </summary>
         public object DefaultValue {  get; }
 
-        int GeneratePropertyNumber()
+        int GeneratePropertyNumberFromName()
         {
             // https://stackoverflow.com/questions/19985273/get-16-bit-hash-of-a-string-in-c-sharp
             var hasher = System.Security.Cryptography.MD5.Create();
-            var data = hasher.ComputeHash(Encoding.UTF8.GetBytes("blah"));
+            var data = hasher.ComputeHash(Encoding.UTF8.GetBytes(Property.Name));
             var propertyHash = BitConverter.ToInt16(data, 0);
             return propertyHash;
         }
