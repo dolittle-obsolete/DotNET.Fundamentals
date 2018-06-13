@@ -1,6 +1,7 @@
 ﻿using System;
 using Dolittle.Concepts;
 using Machine.Specifications;
+using Dolittle.Specs.Concepts.given;
 
 namespace Dolittle.Specs.Concepts.for_ConceptMap
 {

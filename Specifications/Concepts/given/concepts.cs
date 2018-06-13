@@ -1,5 +1,3 @@
-using System;
-using Dolittle.Concepts;
 using Machine.Specifications;
 
 namespace Dolittle.Specs.Concepts.given
@@ -30,53 +28,5 @@ namespace Dolittle.Specs.Concepts.given
                 value_as_a_long_inherited = 1;
                 empty_long_value = 0;
             };
-
-        public class StringConcept : ConceptAs<string>
-        {
-            public static implicit operator StringConcept(string value)
-            {
-                return new StringConcept { Value = value };
-            }
-        }
-
-        public class IntConcept : ConceptAs<int>
-        {
-            public static implicit operator IntConcept(int value)
-            {
-                return new IntConcept { Value = value };
-            }
-        }
-
-        public class LongConcept : ConceptAs<long>
-        {
-            public static implicit operator LongConcept(long value)
-            {
-                return new LongConcept { Value = value };
-            }
-        }
-
-        public class GuidConcept : ConceptAs<Guid>
-        {
-            public static implicit operator GuidConcept(Guid value)
-            {
-                return new GuidConcept { Value = value };
-            }
-        }
-
-        public class InheritingFromLongConcept : LongConcept
-        {
-            public static implicit operator InheritingFromLongConcept(long value)
-            {
-                return new InheritingFromLongConcept { Value = value };
-            }
-        }
-
-        public class MultiLevelInheritanceConcept : InheritingFromLongConcept
-        {
-            public static implicit operator MultiLevelInheritanceConcept(long value)
-            {
-                return new MultiLevelInheritanceConcept { Value = value };
-            }
-        }
     }
 }
