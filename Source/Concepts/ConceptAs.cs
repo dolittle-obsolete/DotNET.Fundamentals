@@ -79,6 +79,16 @@ namespace Dolittle.Concepts
             return a.CompareTo(b) == -1;
         }
 
+        public static bool operator >=(ConceptAs<T> a, ConceptAs<T> b)
+        {
+            return a.CompareTo(b) > -1;
+        }
+
+        public static bool operator <= (ConceptAs<T> a, ConceptAs<T> b)
+        {
+            return a.CompareTo(b) < 1;
+        }
+        
         public override int GetHashCode()
         {
             return HashCodeHelper.Generate(typeof (T), Value);
