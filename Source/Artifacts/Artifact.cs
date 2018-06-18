@@ -14,6 +14,7 @@ namespace Dolittle.Artifacts
         /// </summary>
         /// <param name="name"><see cref="ArtifactName">Name</see> of the <see cref="Artifact"/></param>
         /// <param name="type"><see cref="IArtifactType">Type</see> of the <see cref="Artifact"/></param>
+        /// <param name="generation"><see cref="IArtifactGeneration">Generation</see> of the <see cref="Artifact"/></param>
         public Artifact(ArtifactName name, IArtifactType type, ArtifactGeneration generation)
         {
             Name = name;
