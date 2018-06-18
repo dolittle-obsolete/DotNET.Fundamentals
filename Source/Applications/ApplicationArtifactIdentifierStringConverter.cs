@@ -21,7 +21,7 @@ namespace Dolittle.Applications
         /// <summary>
         /// The expected format when parsing resources as strings
         /// </summary>
-        public static string ExpectedFormat = $"Application{ApplicationSeparator} LocationSegments separated with {ApplicationLocationSeparator} then {ApplicationArtifactSeparator} and resource identifier then {ApplicationArtifactTypeSeparator} and the type. e.g. 'Application{ApplicationSeparator}BoundedContext{ApplicationLocationSeparator}Module{ApplicationLocationSeparator}Feature{ApplicationLocationSeparator}SubFeature{ApplicationArtifactSeparator}Resource{ApplicationArtifactTypeSeparator}Type{ApplicationAreaSeperator}Area'";
+        public static string ExpectedFormat = $"Application{ApplicationSeparator} LocationSegments separated with {ApplicationLocationSeparator} then {ApplicationArtifactSeparator} and resource identifier then {ApplicationArtifactTypeSeparator} and the type then {ApplicationArtifactGenerationSeperator} and the artifact generation. e.g. 'Application{ApplicationSeparator}BoundedContext{ApplicationLocationSeparator}Module{ApplicationLocationSeparator}Feature{ApplicationLocationSeparator}SubFeature{ApplicationArtifactSeparator}Resource{ApplicationArtifactTypeSeparator}Type{ApplicationArtifactGenerationSeperator}Generation{ApplicationAreaSeperator}Area'";
 
         /// <summary>
         /// The separator character used for separating the identification for the <see cref="IApplication"/>
@@ -43,6 +43,10 @@ namespace Dolittle.Applications
         /// </summary>
         public const char ApplicationArtifactTypeSeparator = '+';
 
+        /// <summary>
+        /// The separator character used for separating the <see cref="IArtifactGeneration"/> from the rest in a string
+        /// </summary>
+        public const char ApplicationArtifactGenerationSeperator = '+';
         /// <summary>
         /// The separator characeter used for separating the <see cref="ApplicationArea"/> from the rest in a string
         /// </summary>
@@ -85,7 +89,8 @@ namespace Dolittle.Applications
         {
             ValidateIdentifierString(identifierAsString);
 
-            var regex = new Regex(@"(\w+)#(?:([\w]+)[.]*)+-([\w]+)\+([\w]+)\|([\w]+)");
+            //TODO: Add regex capture group for generation
+            var regex = new Regex(@"(\w+)#(?:([\w]+)[.]*)+-([\w]+)\+([\w]+)\+([0-9]+)\|([\w]+)");
             var match = regex.Match(identifierAsString);
             ThrowIfFormatIsInvalid(match, identifierAsString);
 
@@ -97,14 +102,16 @@ namespace Dolittle.Applications
 
             var artifactName = match.Groups[3].Value;
             var artifactTypeIdentifier = match.Groups[4].Value;
-            var area = match.Groups[5].Value;
+            var artifactGeneration = Int32.Parse(match.Groups[5].Value);
+
+            var area = match.Groups[6].Value;
 
             ThrowIfApplicationLocationsMissing(locations, identifierAsString);
 
             var segments = GetSegmentsFromLocations(locations);
 
             var artifactType = _artifactTypes.GetFor(artifactTypeIdentifier);
-            var artifact = new Artifact(artifactName, artifactType);
+            var artifact = new Artifact(artifactName, artifactType, artifactGeneration);
 
             var applicationArtifactIdentifier = new ApplicationArtifactIdentifier(
                 _application, 
@@ -128,6 +135,9 @@ namespace Dolittle.Applications
 
             var applicationArtifactTypeSeparatorIndex = identifierAsString.IndexOf(ApplicationArtifactTypeSeparator);
             ThrowIfApplicationArtifactTypeMissing(applicationArtifactTypeSeparatorIndex, identifierAsString);
+
+            var applicationArtifactGenerationSeperatorIndex = identifierAsString.LastIndexOf(ApplicationArtifactGenerationSeperator);
+            ThrowIfApplicationArtifactGenerationMissing(applicationArtifactGenerationSeperatorIndex, identifierAsString);
 
             var applicationAreaSeparatorIndex = identifierAsString.IndexOf(ApplicationAreaSeperator);
             ThrowIfApplicationAreaMissing(applicationAreaSeparatorIndex, identifierAsString);
@@ -207,6 +217,11 @@ namespace Dolittle.Applications
         void ThrowIfApplicationArtifactTypeMissing(int applicationArtifactTypeSeparatorIndex, string identifierAsString)
         {
             if (applicationArtifactTypeSeparatorIndex <= 0) throw new MissingApplicationArtifactType(identifierAsString);
+        }
+
+        void ThrowIfApplicationArtifactGenerationMissing(int applicationArtifactGenerationSeperatorIndex, string identifierAsString)
+        {
+            if (applicationArtifactGenerationSeperatorIndex <= 0) throw new MissingApplicationArtifactGeneration(identifierAsString);
         }
 
         void ThrowIfApplicationAreaMissing(int applicationAreaSeparatorIndex, string identifierAsString)
