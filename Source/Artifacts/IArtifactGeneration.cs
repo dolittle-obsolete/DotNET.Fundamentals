@@ -2,26 +2,24 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
+
 namespace Dolittle.Artifacts
 {
     /// <summary>
-    /// Defines an artifact in the system
+    /// Represents the generation of an <see cref="IArtifact"/>
     /// </summary>
-    public interface IArtifact
+    public interface IArtifactGeneration
     {
         /// <summary>
-        /// Gets the name of the <see cref="IArtifact"/>
+        /// Returns an <see cref="string"/> representation
         /// </summary>
-        ArtifactName  Name { get; }
+        /// <returns><see cref="string"/> representation of the <see cref="IArtifactGeneration"/></returns>
+        string AsString();
 
         /// <summary>
-        /// Gets the type of the <see cref="IArtifact"/>
+        /// Returns the generation number
         /// </summary>
-        IArtifactType Type { get; }
-
-        /// <summary>
-        /// Gets the generation of the <see cref="IArtifact"/>
-        /// </summary>
-        ArtifactGeneration Generation {get; }
+        int GenerationNumber();
     }
 }
