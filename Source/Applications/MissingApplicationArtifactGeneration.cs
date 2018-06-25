@@ -4,11 +4,17 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Runtime.Serialization;
+using Dolittle.Artifacts;
 
 namespace Dolittle.Applications
 {
-    internal class MissingApplicationArtifactGeneration : Exception
+    public class MissingApplicationArtifactGeneration : ArgumentException
     {
+        /// <summary>
+        /// The exception that gets thrown when parsing an <see cref="IApplicationArtifactIdentifier"/>
+        /// from a string and its not possible to find the <see cref="IArtifactGeneration"/> in the <see cref="string"/>
+        /// </summary>
+        /// <param name="identifierString"></param>
         public MissingApplicationArtifactGeneration(string identifierString) 
         : base($"Missing application artifact generation in '{identifierString}'. Expected format : {ApplicationArtifactIdentifierStringConverter.ExpectedFormat}")
         {
