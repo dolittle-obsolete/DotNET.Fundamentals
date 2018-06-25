@@ -12,12 +12,6 @@ namespace Dolittle.Artifacts
     public interface IArtifactGeneration
     {
         /// <summary>
-        /// Returns an <see cref="string"/> representation
-        /// </summary>
-        /// <returns><see cref="string"/> representation of the <see cref="IArtifactGeneration"/></returns>
-        string AsString();
-
-        /// <summary>
         /// Returns the generation number
         /// </summary>
         int GenerationNumber();

@@ -12,19 +12,13 @@ namespace Dolittle.Artifacts
     public class ArtifactGeneration : ConceptAs<int>, IArtifactGeneration
     {
         /// <inheritdoc/>
-        public string AsString()
-        {
-            return $"Gen.{Value}";
-        }
-
-        /// <inheritdoc/>
         public int GenerationNumber()
         {
             return Value;
         }
 
         /// <summary>
-        /// Implicitely converts <see cref="int"/> to an <see cref="ArtifactGeneration"/>
+        /// Implicitly converts <see cref="int"/> to an <see cref="ArtifactGeneration"/>
         /// </summary>
         /// <param name="value"></param>
         public static implicit operator ArtifactGeneration(int value) 
