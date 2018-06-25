@@ -135,8 +135,9 @@ namespace Dolittle.Applications
 
             var applicationArtifactTypeSeparatorIndex = identifierAsString.IndexOf(ApplicationArtifactTypeSeparator);
             ThrowIfApplicationArtifactTypeMissing(applicationArtifactTypeSeparatorIndex, identifierAsString);
-
-            var applicationArtifactGenerationSeperatorIndex = identifierAsString.LastIndexOf(ApplicationArtifactGenerationSeperator);
+            
+            var applicationArtifactGenerationSeperatorIndex = 
+                identifierAsString.IndexOf(ApplicationArtifactGenerationSeperator, applicationArtifactTypeSeparatorIndex + 1);
             ThrowIfApplicationArtifactGenerationMissing(applicationArtifactGenerationSeperatorIndex, identifierAsString);
 
             var applicationAreaSeparatorIndex = identifierAsString.IndexOf(ApplicationAreaSeperator);
