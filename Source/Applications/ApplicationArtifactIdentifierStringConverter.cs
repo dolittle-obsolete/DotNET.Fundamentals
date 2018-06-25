@@ -80,6 +80,7 @@ namespace Dolittle.Applications
             });
             stringBuilder.Append($"{ApplicationArtifactSeparator}{identifier.Artifact.Name}");
             stringBuilder.Append($"{ApplicationArtifactTypeSeparator}{identifier.Artifact.Type.Identifier}");
+            stringBuilder.Append($"{ApplicationArtifactGenerationSeperator}{identifier.Artifact.Generation}");
             stringBuilder.Append($"{ApplicationAreaSeperator}{identifier.Area}");
             return stringBuilder.ToString();
         }
