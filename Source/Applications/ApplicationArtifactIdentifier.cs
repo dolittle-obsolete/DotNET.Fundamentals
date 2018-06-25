@@ -63,9 +63,12 @@ namespace Dolittle.Applications
         {
             if (!Location.Equals(other.Location)) return false;
 
-            if (((string) Application.Name) != ((string) other.Application.Name)) return false;
-            if (((string) Artifact.Name) != ((string) other.Artifact.Name)) return false;
+            if (Application.Name.Value != other.Application.Name.Value) return false;
             if (Area.Value != other.Area.Value ) return false;
+
+            if (Artifact.Name.Value != other.Artifact.Name.Value) return false;
+            if (Artifact.Type.Identifier != other.Artifact.Type.Identifier) return false;
+            if (Artifact.Generation.Value != other.Artifact.Generation.Value) return false;
 
             return true;
         }
@@ -74,6 +77,9 @@ namespace Dolittle.Applications
         public override int GetHashCode()
         {
             var hashCode = Application.Name.GetHashCode();
+            // TODO: Shouldnt hashCode += Artifact.GetHashCode() instead?
+            // we can have multiple different artifacts with the same ArtifactName, but have a different
+            // ArtifactGeneration for example, do we want to give those the same HashCode?
             hashCode += Artifact.Name.GetHashCode();
             hashCode += Area.Value.GetHashCode();
             hashCode += Location.GetHashCode();
@@ -104,7 +110,7 @@ namespace Dolittle.Applications
         public override string ToString() 
         {
             var stringBuilder = new StringBuilder();
-            
+            //TODO: Isn't there more parts of the ApplicationArtifactIdentifier that needs to be a part of this string?
             stringBuilder.Append(Application.Name.ToString());
             stringBuilder.Append($" - {Area.Value}");
             stringBuilder.Append($" - {Artifact.Name.ToString()}");
