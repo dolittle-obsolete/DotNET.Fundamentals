@@ -18,6 +18,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
         const string sub_feature_name = "TheSubFeature";
         const string second_level_sub_feature_name = "TheSecondLevelSubFeature";
         const string artifact_name = "MyResource";
+        const int artifact_generation = 1;
 
         static string expected =
             $"{application_name}{ApplicationArtifactIdentifierStringConverter.ApplicationSeparator}" +
@@ -28,6 +29,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
             $"{second_level_sub_feature_name}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactSeparator}{artifact_name}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactTypeSeparator}{artifact_type_name}" +
+            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactGenerationSeperator}{artifact_generation}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationAreaSeperator}{area_name}";
 
         static IApplicationArtifactIdentifier identifier;
@@ -53,7 +55,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
                 second_level_sub_feature
             });
 
-            var artifact = new Artifact(artifact_name, artifact_type.Object);
+            var artifact = new Artifact(artifact_name, artifact_type.Object, artifact_generation);
             identifier = new ApplicationArtifactIdentifier(
                 application.Object,
                 area_name,
