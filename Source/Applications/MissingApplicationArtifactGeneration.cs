@@ -8,11 +8,14 @@ using Dolittle.Artifacts;
 
 namespace Dolittle.Applications
 {
+    /// <summary>
+    /// The exception that gets thrown when parsing an <see cref="IApplicationArtifactIdentifier"/>
+    /// from a string and its not possible to find the <see cref="IArtifactGeneration"/> in the <see cref="string"/>
+    /// </summary>
     public class MissingApplicationArtifactGeneration : ArgumentException
     {
         /// <summary>
-        /// The exception that gets thrown when parsing an <see cref="IApplicationArtifactIdentifier"/>
-        /// from a string and its not possible to find the <see cref="IArtifactGeneration"/> in the <see cref="string"/>
+        /// Initializes the <see cref="MissingApplicationArtifactGeneration"> exception
         /// </summary>
         /// <param name="identifierString"></param>
         public MissingApplicationArtifactGeneration(string identifierString) 
