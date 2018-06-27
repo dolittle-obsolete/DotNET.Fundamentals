@@ -15,7 +15,7 @@ namespace Dolittle.Applications
     public class MissingApplicationArtifactGeneration : ArgumentException
     {
         /// <summary>
-        /// Initializes the <see cref="MissingApplicationArtifactGeneration"> exception
+        /// Initializes the <see cref="MissingApplicationArtifactGeneration"/> exception
         /// </summary>
         /// <param name="identifierString"></param>
         public MissingApplicationArtifactGeneration(string identifierString) 
