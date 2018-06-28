@@ -5,7 +5,6 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
 {
     public class when_converting_string_identifier_missing_artifact_generation : given.an_application_resource_identifier_converter
     {
-        const string area_name = "TheArea";
         const string bounded_context_name = "TheBoundedContext";
         const string module_name = "TheModule";
         const string feature_name = "TheFeature";
@@ -20,8 +19,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
             $"{sub_feature_name}{ApplicationArtifactIdentifierStringConverter.ApplicationLocationSeparator}" +
             $"{second_level_sub_feature_name}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactSeparator}{artifact_name}" +
-            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactTypeSeparator}{artifact_type_name}" +
-            $"{ApplicationArtifactIdentifierStringConverter.ApplicationAreaSeperator}{area_name}";
+            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactTypeSeparator}{artifact_type_name}";
 
         static Exception exception;
 
