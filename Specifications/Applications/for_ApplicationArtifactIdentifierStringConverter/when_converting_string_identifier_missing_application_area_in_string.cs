@@ -17,7 +17,9 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactSeparator}"+
             $"Resource"+
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactTypeSeparator}"+
-            $"{artifact_type}";
+            $"{artifact_type}" +
+            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactGenerationSeperator}"+
+            $"{1}";
         static Exception exception;
 
         Because of = () => exception = Catch.Exception(() => converter.FromString(string_identifier));

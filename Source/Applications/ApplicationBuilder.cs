@@ -47,8 +47,6 @@ namespace Dolittle.Applications
             return new ApplicationBuilder(_name, prefixes, _applicationStructureBuilder);
         }
 
-        
-
         /// <inheritdoc/>
         public IApplicationBuilder WithStructureStartingWith<TFragment>(Func<IApplicationStructureFragmentBuilder, IApplicationStructureFragmentBuilder> fragmentBuilderCallback, Action<IApplicationStructureBuilder> structureBuilderCallback=null) where TFragment : IApplicationLocationSegment
         {
