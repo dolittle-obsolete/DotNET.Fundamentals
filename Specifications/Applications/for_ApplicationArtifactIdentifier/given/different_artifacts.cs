@@ -21,10 +21,6 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
             var location = Mock.Of<IApplicationLocation>(_ => _.Equals(
                 Moq.It.IsAny<IApplicationLocation>()) == true
                 );
-
-            var artifactType = new Mock<IArtifactType>();
-            artifactType.SetupGet(_ => _.Identifier).Returns("Command");
-
             var artifactA = Mock.Of<IArtifact>();
 
             var artifactB = Mock.Of<IArtifact>();
