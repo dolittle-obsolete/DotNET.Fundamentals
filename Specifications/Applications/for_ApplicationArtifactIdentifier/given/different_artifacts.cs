@@ -25,19 +25,12 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
             var artifactType = new Mock<IArtifactType>();
             artifactType.SetupGet(_ => _.Identifier).Returns("Command");
 
-            var artifactA = new Mock<IArtifact>();
+            var artifactA = new Artifact("ArtifactA", artifactType.Object, 1);
 
-            artifactA.SetupGet(_ => _.Name).Returns("ArtifactA");
-            artifactA.SetupGet(_ => _.Generation).Returns(1);
-            artifactA.SetupGet(_ => _.Type).Returns(artifactType.Object);
+            var artifactB = new Artifact("ArtifactB", artifactType.Object, 1);
 
-            var artifactB = new Mock<IArtifact>();
-            artifactB.SetupGet(_ => _.Name).Returns("ArtifactB");
-            artifactB.SetupGet(_ => _.Generation).Returns(1);
-            artifactB.SetupGet(_ => _.Type).Returns(artifactType.Object);
-
-            identifier_a = new ApplicationArtifactIdentifier(application.Object, area, location, artifactA.Object);
-            identifier_b = new ApplicationArtifactIdentifier(application.Object, area, location, artifactB.Object);
+            identifier_a = new ApplicationArtifactIdentifier(application.Object, area, location, artifactA);
+            identifier_b = new ApplicationArtifactIdentifier(application.Object, area, location, artifactB);
         };
     }
 }
