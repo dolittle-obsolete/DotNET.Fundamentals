@@ -9,14 +9,8 @@ namespace Dolittle.Artifacts
     /// <summary>
     /// Represents the generation of an <see cref="IArtifact"/>
     /// </summary>
-    public class ArtifactGeneration : ConceptAs<int>, IArtifactGeneration
+    public class ArtifactGeneration : ConceptAs<int>
     {
-        /// <inheritdoc/>
-        public int GenerationNumber()
-        {
-            return Value;
-        }
-
         /// <summary>
         /// Implicitly converts <see cref="int"/> to an <see cref="ArtifactGeneration"/>
         /// </summary>
