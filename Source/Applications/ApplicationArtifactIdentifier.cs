@@ -63,9 +63,12 @@ namespace Dolittle.Applications
         {
             if (!Location.Equals(other.Location)) return false;
 
-            if (((string) Application.Name) != ((string) other.Application.Name)) return false;
-            if (((string) Artifact.Name) != ((string) other.Artifact.Name)) return false;
+            if (Application.Name.Value != other.Application.Name.Value) return false;
             if (Area.Value != other.Area.Value ) return false;
+
+            if (Artifact.Name.Value != other.Artifact.Name.Value) return false;
+            if (Artifact.Type.Identifier != other.Artifact.Type.Identifier) return false;
+            if (Artifact.Generation.Value != other.Artifact.Generation.Value) return false;
 
             return true;
         }
@@ -73,10 +76,10 @@ namespace Dolittle.Applications
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            var hashCode = Application.Name.GetHashCode();
-            hashCode += Artifact.Name.GetHashCode();
-            hashCode += Area.Value.GetHashCode();
+            var hashCode = Application.GetHashCode();
+            hashCode += Area.GetHashCode();
             hashCode += Location.GetHashCode();
+            hashCode += Artifact.GetHashCode();
 
             return hashCode;
         }
@@ -104,7 +107,6 @@ namespace Dolittle.Applications
         public override string ToString() 
         {
             var stringBuilder = new StringBuilder();
-            
             stringBuilder.Append(Application.Name.ToString());
             stringBuilder.Append($" - {Area.Value}");
             stringBuilder.Append($" - {Artifact.Name.ToString()}");

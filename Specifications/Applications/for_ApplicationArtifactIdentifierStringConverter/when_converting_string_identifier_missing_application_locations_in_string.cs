@@ -17,6 +17,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
             $"{application_name}{ApplicationArtifactIdentifierStringConverter.ApplicationSeparator}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactSeparator}{resource_name}"+
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactTypeSeparator}{artifact_type_name}"+
+            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactGenerationSeperator}{1}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationAreaSeperator}{area_name}";
         
         static Exception exception;
