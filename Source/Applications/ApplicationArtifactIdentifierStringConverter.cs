@@ -44,11 +44,11 @@ namespace Dolittle.Applications
         public const char ApplicationArtifactTypeSeparator = '+';
 
         /// <summary>
-        /// The separator character used for separating the <see cref="IArtifactGeneration"/> from the rest in a string
+        /// The separator character used for separating the <see cref="ArtifactGeneration"/> from the rest in a string
         /// </summary>
-        public const char ApplicationArtifactGenerationSeperator = '+';
+        public const char ApplicationArtifactGenerationSeperator = '^';
         /// <summary>
-        /// The separator characeter used for separating the <see cref="ApplicationArea"/> from the rest in a string
+        /// The separator character used for separating the <see cref="ApplicationArea"/> from the rest in a string
         /// </summary>
         public const char ApplicationAreaSeperator = '|';
 
@@ -89,9 +89,15 @@ namespace Dolittle.Applications
         public IApplicationArtifactIdentifier FromString(string identifierAsString)
         {
             ValidateIdentifierString(identifierAsString);
-
-            //TODO: Add regex capture group for generation
-            var regex = new Regex(@"(\w+)#(?:([\w]+)[.]*)+-([\w]+)\+([\w]+)\+([0-9]+)\|([\w]+)");
+            var regex = new Regex(
+                @"(\w+)" + ApplicationSeparator +
+                @"(?:([\w]+)" + @"[" + ApplicationLocationSeparator + @"]*)+" + ApplicationArtifactSeparator +
+                @"([\w]+)" + ApplicationArtifactTypeSeparator +
+                @"([\w]+)" + ApplicationArtifactGenerationSeperator +
+                @"([0-9]+)" + ApplicationAreaSeperator +
+                @"([\w]+)"
+                );
+                
             var match = regex.Match(identifierAsString);
             ThrowIfFormatIsInvalid(match, identifierAsString);
 
