@@ -25,7 +25,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
 
         static Exception exception;
 
-        Because of = () => Catch.Exception(() => converter.FromString(identifier));
+        Because of = () => exception = Catch.Exception(() => converter.FromString(identifier));
 
         It should_throw_missing_application_artifact_generation = () => exception.ShouldBeOfExactType<MissingApplicationArtifactGeneration>();
     }

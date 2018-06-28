@@ -10,7 +10,7 @@ namespace Dolittle.Applications
 {
     /// <summary>
     /// The exception that gets thrown when parsing an <see cref="IApplicationArtifactIdentifier"/>
-    /// from a string and its not possible to find the <see cref="IArtifactGeneration"/> in the <see cref="string"/>
+    /// from a string and its not possible to find the <see cref="ArtifactGeneration"/> in the <see cref="string"/>
     /// </summary>
     public class MissingApplicationArtifactGeneration : ArgumentException
     {
