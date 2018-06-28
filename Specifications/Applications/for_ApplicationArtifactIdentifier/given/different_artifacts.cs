@@ -25,9 +25,9 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
             var artifactType = new Mock<IArtifactType>();
             artifactType.SetupGet(_ => _.Identifier).Returns("Command");
 
-            var artifactA = new Artifact("ArtifactA", artifactType.Object, 1);
+            var artifactA = Mock.Of<IArtifact>();
 
-            var artifactB = new Artifact("ArtifactB", artifactType.Object, 1);
+            var artifactB = Mock.Of<IArtifact>();
 
             identifier_a = new ApplicationArtifactIdentifier(application.Object, area, location, artifactA);
             identifier_b = new ApplicationArtifactIdentifier(application.Object, area, location, artifactB);
