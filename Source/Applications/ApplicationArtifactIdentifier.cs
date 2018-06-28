@@ -19,26 +19,20 @@ namespace Dolittle.Applications
         /// Initializes a new instance of <see cref="ApplicationArtifactIdentifier"/>
         /// </summary>
         /// <param name="application"><see cref="IApplication"/> the resource belongs to</param>
-        /// <param name="area"><see cref="ApplicationArea"/> the resource belongs to</param>
         /// <param name="location"><see cref="IApplicationLocation">Location</see> for the <see cref="IArtifact"/></param>
         /// <param name="artifact"><see cref="IArtifact">Artifact</see> the identifier is for</param>
         public ApplicationArtifactIdentifier(
             IApplication application,
-            ApplicationArea area,
             IApplicationLocation location,
             IArtifact artifact)
         {
             Application = application;
-            Area = area;
             Location = location;
             Artifact = artifact;
         }
 
         /// <inheritdoc/>
         public IApplication Application { get; }
-
-        /// <inheritdoc/>
-        public ApplicationArea Area { get; }
 
         /// <inheritdoc/>
         public IApplicationLocation Location { get; }
@@ -64,7 +58,6 @@ namespace Dolittle.Applications
             if (!Location.Equals(other.Location)) return false;
 
             if (Application.Name.Value != other.Application.Name.Value) return false;
-            if (Area.Value != other.Area.Value ) return false;
 
             if (Artifact.Name.Value != other.Artifact.Name.Value) return false;
             if (Artifact.Type.Identifier != other.Artifact.Type.Identifier) return false;
@@ -77,7 +70,6 @@ namespace Dolittle.Applications
         public override int GetHashCode()
         {
             var hashCode = Application.GetHashCode();
-            hashCode += Area.GetHashCode();
             hashCode += Location.GetHashCode();
             hashCode += Artifact.GetHashCode();
 
@@ -108,7 +100,6 @@ namespace Dolittle.Applications
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(Application.Name.ToString());
-            stringBuilder.Append($" - {Area.Value}");
             stringBuilder.Append($" - {Artifact.Name.ToString()}");
             stringBuilder.Append($" @ {Location.ToString()}");
            
