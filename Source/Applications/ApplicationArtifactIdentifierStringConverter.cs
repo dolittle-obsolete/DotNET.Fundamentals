@@ -90,11 +90,11 @@ namespace Dolittle.Applications
         {
             ValidateIdentifierString(identifierAsString);
             var regex = new Regex(
-                @"(\w+)" + ApplicationSeparator +
-                @"(?:([\w]+)" + @"[" + ApplicationLocationSeparator + @"]*)+" + ApplicationArtifactSeparator +
-                @"([\w]+)" + ApplicationArtifactTypeSeparator +
-                @"([\w]+)" + ApplicationArtifactGenerationSeperator +
-                @"([0-9]+)" + ApplicationAreaSeperator +
+                @"(\w+)" + Regex.Escape(ApplicationSeparator.ToString()) +
+                @"(?:([\w]+)" + @"[" + Regex.Escape(ApplicationLocationSeparator.ToString()) + @"]*)+" + Regex.Escape(ApplicationArtifactSeparator.ToString()) +
+                @"([\w]+)" + Regex.Escape(ApplicationArtifactTypeSeparator.ToString()) +
+                @"([\w]+)" + Regex.Escape(ApplicationArtifactGenerationSeperator.ToString()) +
+                @"([0-9]+)" + Regex.Escape(ApplicationAreaSeperator.ToString()) +
                 @"([\w]+)"
                 );
 
