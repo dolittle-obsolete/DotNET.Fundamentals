@@ -45,7 +45,5 @@ namespace Dolittle.Applications
 
         /// <inheritdoc/>
         public IEnumerable<IApplicationLocationSegment> Prefixes { get; }
-
-        //TODO: Override GetHashCode?
     }
 }
