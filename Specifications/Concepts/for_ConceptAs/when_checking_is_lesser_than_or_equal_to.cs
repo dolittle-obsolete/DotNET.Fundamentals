@@ -45,8 +45,8 @@ namespace Dolittle.Specs.Concepts.for_ConceptAs
         It determines_middle_is_lesser_than_or_equal_to_least = () =>  middle_is_lesser_than_or_equal_to_least.ShouldBeFalse();
         It determines_middle_is_not_lesser_than_or_equal_to_self = () =>  middle_is_lesser_than_or_equal_to_self.ShouldBeTrue(); 
         It determines_middle_is_not_lesser_than_or_equal_to_primitive_value = () =>  middle_is_lesser_than_or_equal_to_primitive_value.ShouldBeTrue();
-        It determines_most_is_lesser_than_or_equal_to_least = () =>  most_is_lesser_than_or_equal_to_least.ShouldBeFalse();
-        It determines_most_is_lesser_than_or_equal_to_middle = () =>  most_is_lesser_than_or_equal_to_middle.ShouldBeFalse();
+        It determines_most_is_not_lesser_than_or_equal_to_least = () =>  most_is_lesser_than_or_equal_to_least.ShouldBeFalse();
+        It determines_most_is_not_lesser_than_or_equal_to_middle = () =>  most_is_lesser_than_or_equal_to_middle.ShouldBeFalse();
         It determines_most_is_not_lesser_than_or_equal_to_self = () =>  most_is_lesser_than_or_equal_to_self.ShouldBeTrue(); 
         It determines_most_is_not_lesser_than_or_equal_to_primitive_value = () =>  most_is_lesser_than_or_equal_to_primitive_value.ShouldBeTrue();
     }
