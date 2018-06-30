@@ -11,7 +11,7 @@ namespace Dolittle.Concepts
     /// Expresses a Concept as a another type, usually a primitive such as Guid, Int or String
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ConceptAs<T> : IEquatable<ConceptAs<T>>
+    public class ConceptAs<T> : IEquatable<ConceptAs<T>>, IComparable<ConceptAs<T>>, IComparable
     {
         /// <summary>
         /// The underlying primitive value of this concept
@@ -69,6 +69,26 @@ namespace Dolittle.Concepts
             return !(a == b);
         }
 
+        public static bool operator > (ConceptAs<T> a, ConceptAs<T> b)
+        {
+            return a.CompareTo(b) == 1;
+        }
+
+        public static bool operator < (ConceptAs<T> a, ConceptAs<T> b)
+        {
+            return a.CompareTo(b) == -1;
+        }
+
+        public static bool operator >=(ConceptAs<T> a, ConceptAs<T> b)
+        {
+            return a.CompareTo(b) > -1;
+        }
+
+        public static bool operator <= (ConceptAs<T> a, ConceptAs<T> b)
+        {
+            return a.CompareTo(b) < 1;
+        }
+        
         public override int GetHashCode()
         {
             return HashCodeHelper.Generate(typeof (T), Value);
@@ -85,6 +105,20 @@ namespace Dolittle.Concepts
                 return value == string.Empty;
 
             return Value.Equals(default(T));
+        }
+
+        public virtual int CompareTo(ConceptAs<T> other)
+        {
+            if(other == null)
+                return 1;
+
+            return Comparer<T>.Default.Compare(this.Value,other.Value);
+        }
+
+        public virtual int CompareTo(object obj)
+        {
+            var other = obj as ConceptAs<T>;
+            return CompareTo(other);
         }
 #pragma warning restore 1591 // Xml Comments
     }
