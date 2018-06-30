@@ -4,7 +4,7 @@ using Machine.Specifications;
 namespace Dolittle.Specs.Concepts.for_ConceptAs
 {
     [Subject(typeof(ConceptAs<>))]
-    public class when_getting_hash_code : given.concepts
+    public class when_getting_hash_code : Dolittle.Specs.Concepts.given.concepts
     {
         static bool hash_codes_of_different_values_are_different;
         static bool hash_codes_of_same_values_are_the_same;

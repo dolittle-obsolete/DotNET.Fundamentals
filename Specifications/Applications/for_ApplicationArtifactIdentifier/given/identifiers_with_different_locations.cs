@@ -19,11 +19,11 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
             application.SetupGet(a => a.Name).Returns("SomeApplication");
             var location_a = Mock.Of<IApplicationLocation>();
             var location_b = Mock.Of<IApplicationLocation>();
-            var artifact = new Mock<IArtifact>();
-            artifact.SetupGet(_ => _.Name).Returns("Artifact");
 
-            identifier_a = new ApplicationArtifactIdentifier(application.Object, location_a, artifact.Object);
-            identifier_b = new ApplicationArtifactIdentifier(application.Object, location_b, artifact.Object);
+            var artifact = Mock.Of<IArtifact>();
+
+            identifier_a = new ApplicationArtifactIdentifier(application.Object, location_a, artifact);
+            identifier_b = new ApplicationArtifactIdentifier(application.Object, location_b, artifact);
         };
     }
 }

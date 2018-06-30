@@ -10,7 +10,7 @@ namespace Dolittle.Specs.Concepts.for_ConceptMap
     {
         static Type result;
 
-        Because of = () => result = ConceptMap.GetConceptValueType(typeof(concepts.GuidConcept));
+        Because of = () => result = ConceptMap.GetConceptValueType(typeof(GuidConcept));
 
         It should_get_a_guid = () => result.ShouldEqual(typeof(Guid));
     }

@@ -1,10 +1,11 @@
 ﻿using Dolittle.Concepts;
 using Machine.Specifications;
+using Dolittle.Specs.Concepts.given;
 
 namespace Dolittle.Specs.Concepts.for_ConceptExtensions
 {
     [Subject(typeof(ConceptExtensions))]
-    public class when_getting_the_value_from_a_string_concept : given.concepts
+    public class when_getting_the_value_from_a_string_concept : concepts
     {
         static StringConcept value;
         static string primitive_value = "ten";

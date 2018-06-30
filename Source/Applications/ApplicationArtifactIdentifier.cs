@@ -59,9 +59,7 @@ namespace Dolittle.Applications
 
             if (Application.Name.Value != other.Application.Name.Value) return false;
 
-            if (Artifact.Name.Value != other.Artifact.Name.Value) return false;
-            if (Artifact.Type.Identifier != other.Artifact.Type.Identifier) return false;
-            if (Artifact.Generation.Value != other.Artifact.Generation.Value) return false;
+            if (Artifact != other.Artifact) return false;
 
             return true;
         }
