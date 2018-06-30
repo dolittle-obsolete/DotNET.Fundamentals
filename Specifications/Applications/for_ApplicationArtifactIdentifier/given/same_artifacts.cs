@@ -17,14 +17,13 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
         {
             var application = new Mock<IApplication>();
             application.SetupGet(a => a.Name).Returns("SomeApplication");
-            var area = (ApplicationArea)"Some Area";
             var location = new Mock<IApplicationLocation>();
             location.Setup(_ => _.Equals(Moq.It.IsAny<IApplicationLocation>())).Returns(true);
             
             var artifact = Mock.Of<IArtifact>();
 
-            identifier_a = new ApplicationArtifactIdentifier(application.Object, area, location.Object, artifact);
-            identifier_b = new ApplicationArtifactIdentifier(application.Object, area, location.Object, artifact);
+            identifier_a = new ApplicationArtifactIdentifier(application.Object, location.Object, artifact);
+            identifier_b = new ApplicationArtifactIdentifier(application.Object, location.Object, artifact);
         };
     }
 }

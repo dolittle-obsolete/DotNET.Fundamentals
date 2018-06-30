@@ -18,7 +18,6 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
         const string sub_feature_name = "TheSubFeature";
         const string second_level_sub_feature_name = "TheSecondLevelSubFeature";
         const string resource_name = "MyResource";
-        const string area_name = "MyArea";
         const int artifact_generation = 1;
         
         static string string_identifier =
@@ -27,8 +26,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
             $"{module_name}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactSeparator}{resource_name}"+
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactTypeSeparator}{artifact_type_name}"+
-            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactGenerationSeperator}{artifact_generation}" +
-            $"{ApplicationArtifactIdentifierStringConverter.ApplicationAreaSeperator}{area_name}";
+            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactGenerationSeperator}{artifact_generation}";
 
         static IApplicationArtifactIdentifier identifier;
 
@@ -42,6 +40,5 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
         It should_hold_the_module_segment = () => identifier.Location.Segments.ToArray()[1].Name.AsString().ShouldEqual(module_name);
         It should_hold_the_artifact_type = () => identifier.Artifact.Type.ShouldEqual(artifact_type.Object);
         It should_hold_the_artifact_generation = () => identifier.Artifact.Generation.Value.ShouldEqual(artifact_generation);
-        It should_hold_the_area = () => identifier.Area.Value.ShouldEqual(area_name);
     }
 }

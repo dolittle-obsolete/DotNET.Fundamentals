@@ -11,7 +11,6 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
 {
     public class when_converting_identifier_with_five_segments_for_a_resource_to_string : given.an_application_resource_identifier_converter
     {
-        const string area_name = "TheArea";
         const string bounded_context_name = "TheBoundedContext";
         const string module_name = "TheModule";
         const string feature_name = "TheFeature";
@@ -29,8 +28,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
             $"{second_level_sub_feature_name}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactSeparator}{artifact_name}" +
             $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactTypeSeparator}{artifact_type_name}" +
-            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactGenerationSeperator}{artifact_generation}" +
-            $"{ApplicationArtifactIdentifierStringConverter.ApplicationAreaSeperator}{area_name}";
+            $"{ApplicationArtifactIdentifierStringConverter.ApplicationArtifactGenerationSeperator}{artifact_generation}";
 
         static IApplicationArtifactIdentifier identifier;
 
@@ -58,7 +56,6 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
             var artifact = new Artifact(artifact_name, artifact_type.Object, artifact_generation);
             identifier = new ApplicationArtifactIdentifier(
                 application.Object,
-                area_name,
                 location.Object,
                 artifact);
         };
