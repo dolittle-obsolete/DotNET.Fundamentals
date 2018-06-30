@@ -1,11 +1,12 @@
 ﻿using System;
 using Dolittle.Concepts;
+using Dolittle.Specs.Concepts.given;
 using Machine.Specifications;
 
 namespace Dolittle.Specs.Concepts.for_ConceptExtensions
 {
     [Subject(typeof(ConceptExtensions))]
-    public class when_getting_the_value_from_a_non_concept : given.concepts
+    public class when_getting_the_value_from_a_non_concept : concepts
     {
         static string primitive_value = "ten";
         static Exception exception;

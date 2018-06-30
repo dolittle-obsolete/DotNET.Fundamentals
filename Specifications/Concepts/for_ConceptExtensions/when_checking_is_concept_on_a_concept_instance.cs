@@ -4,7 +4,7 @@ using Machine.Specifications;
 namespace Dolittle.Specs.Concepts.for_ConceptExtensions
 {
     [Subject(typeof(ConceptExtensions))]
-    public class when_checking_is_concept_on_a_concept_instance : given.concepts
+    public class when_checking_is_concept_on_a_concept_instance : Dolittle.Specs.Concepts.given.concepts
     {
         static bool is_a_concept;
 

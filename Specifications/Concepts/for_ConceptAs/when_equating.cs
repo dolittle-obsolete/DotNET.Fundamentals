@@ -4,7 +4,7 @@ using Machine.Specifications;
 namespace Dolittle.Specs.Concepts.for_ConceptAs
 {
     [Subject(typeof(ConceptAs<>))]
-    public class when_equating : given.concepts
+    public class when_equating : Dolittle.Specs.Concepts.given.concepts
     {
         static bool result_of_equality;
         static bool result_of_operator_equality;
