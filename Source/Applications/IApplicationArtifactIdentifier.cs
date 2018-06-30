@@ -19,12 +19,6 @@ namespace Dolittle.Applications
         IApplication Application { get; }
 
         /// <summary>
-        /// Gets the <see cref="ApplicationArea"/> the resource belongs to
-        /// </summary>
-        /// <returns></returns>
-        ApplicationArea Area { get; }
-
-        /// <summary>
         /// Gets the <see cref="IApplicationLocation">location</see>
         /// </summary>
         IApplicationLocation Location { get; }

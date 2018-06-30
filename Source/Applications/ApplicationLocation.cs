@@ -67,6 +67,7 @@ namespace Dolittle.Applications
         public override int GetHashCode()
         {
             var hashCode = 0;
+            // This is not robust, should call GetHashCode on each Segment, not on the Name 
             Segments.ForEach(segment => hashCode += segment.Name.AsString().GetHashCode());
             return hashCode;
         }
