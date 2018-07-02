@@ -2,11 +2,16 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-namespace Dolittle.Artifacts.Specs.for_Artifact.given
+
+using Machine.Specifications;
+
+namespace Dolittle.Artifacts.Specs.for_Artifact
 {
-    public class two_artifacts
+    public class when_comparing_two_instances_representing_the_same_Artifact : given.same_artifacts
     {
-        protected static Artifact artifactA;
-        protected static Artifact artifactB;
+        static bool result;        
+        Because of = () => result = artifactA == artifactB;
+
+        It should_be_considered_the_same = () => result.ShouldBeTrue();
     }
 }

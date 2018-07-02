@@ -47,7 +47,6 @@ namespace Dolittle.Artifacts
         public bool Equals(Artifact other)
         {
             if (Name.Value != other.Name.Value) return false;
-
             if (Type.Identifier != other.Type.Identifier) return false;
             if (Generation.Value != other.Generation.Value ) return false;
 

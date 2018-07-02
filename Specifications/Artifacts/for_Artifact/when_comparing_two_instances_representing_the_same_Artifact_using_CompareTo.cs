@@ -2,20 +2,17 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+ 
 using Machine.Specifications;
-using Moq;
 
-namespace Dolittle.Artifacts.Specs.for_Artifact.given
+namespace Dolittle.Artifacts.Specs.for_Artifact
 {
-    public class one_artifact
+    public class when_comparing_two_instances_representing_the_same_Artifact_using_CompareTo : given.same_artifacts
     {
-        protected static Artifact artifact;
+        static bool result;
 
-        Establish context = () => 
-        {
-            var type = new Mock<IArtifactType>();
-            type.SetupGet(_ => _.Identifier).Returns("ArtifactType");
-            artifact = new Artifact("Artifact", type.Object, 1);
-        };
+        Because of = () => result = artifactA.CompareTo(artifactB) == 0;
+
+        It should_be_considered_the_same = () => result.ShouldBeTrue();
     }
 }
