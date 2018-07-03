@@ -6,7 +6,7 @@ using System;
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter
+namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter.for_application_with_bounded_context_module_feature_and_recursive_sub_feature
 {
     public class when_converting_string_identifier_missing_application_separator_in_string : given.an_application_resource_identifier_converter
     {
