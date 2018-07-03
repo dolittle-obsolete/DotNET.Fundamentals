@@ -10,13 +10,13 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
         Establish context = () => 
             application = 
                 Application.WithName(application_name)
-                    .WithStructureStartingWith<BoundedContext>(boundedContextBuilder => 
-                        boundedContextBuilder.Required
-                        .WithChild<Module>(moduleBuilder => 
-                            moduleBuilder.Required
-                            .WithChild<Feature>(featureBuilder => 
-                                featureBuilder.Required.WithChild<SubFeature>(subFeatureBuilder =>
-                                subFeatureBuilder.Recursive))))
+                    .WithStructureStartingWith<BoundedContext>(b => 
+                        b.Required
+                        .WithChild<Module>(m => 
+                            m.Required
+                            .WithChild<Feature>(f =>
+                                f.WithChild<SubFeature>(sf =>
+                                    sf.Recursive))))
                 .Build();
     }
 }
