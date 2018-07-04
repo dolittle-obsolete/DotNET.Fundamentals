@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using Dolittle.Immutability;
 
 namespace Dolittle.Dynamic
 {
@@ -13,7 +14,7 @@ namespace Dolittle.Dynamic
     /// Represents an ExpandoObject that can only have values assigned to during creation.
     /// Similar to <see cref="ExpandoObject"/>, members are dynamic and can be added on the fly
     /// </summary>
-    public class WriteOnceExpandoObject : DynamicObject, IDictionary<string, object>
+    public class WriteOnceExpandoObject : DynamicObject, IDictionary<string, object>, IAmImmutable
     {
         Dictionary<string, object> _actualDictionary = new Dictionary<string, object>();
         bool _construction;
@@ -26,6 +27,20 @@ namespace Dolittle.Dynamic
         {
             _construction = true;
             populate(this);
+            _construction = false;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="WriteOnceExpandoObject"/>
+        /// </summary>
+        /// <param name="values">A dictionary of values used to populate the object</param>
+        public WriteOnceExpandoObject(IDictionary<string,object> values)
+        {
+            _construction = true;
+            foreach(var v in values)
+            {
+                Add(v.Key,v.Value);
+            }
             _construction = false;
         }
 
@@ -138,7 +153,7 @@ namespace Dolittle.Dynamic
         void ThrowIfNotUnderConstruction()
         {
             if( !_construction )
-                throw new ReadOnlyObjectException();
+                throw new CannotWriteToAnImmutable();
         }
     }
 }
