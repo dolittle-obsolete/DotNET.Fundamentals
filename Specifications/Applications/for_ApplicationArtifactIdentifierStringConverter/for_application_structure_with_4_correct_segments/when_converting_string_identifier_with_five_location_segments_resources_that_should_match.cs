@@ -8,7 +8,7 @@ using It = Machine.Specifications.It;
 
 namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter.for_application_structure_with_4_correct_segments
 {
-    public class when_converting_string_identifier_with_application_five_location_segments_resource_that_should_match : given.an_application_resource_identifier_converter
+    public class when_converting_string_identifier_with_five_location_segments_resources_that_should_match : given.an_application_resource_identifier_converter
     {
         const string bounded_context_name = "TheBoundedContext";
         const string module_name = "TheModule";
