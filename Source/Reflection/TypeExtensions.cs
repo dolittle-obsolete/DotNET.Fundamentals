@@ -212,7 +212,7 @@ namespace Dolittle.Reflection
         public static bool IsAPrimitiveType(this Type type)
         {
             return type.GetTypeInfo().IsPrimitive 
-                    || type.IsNullable() || AdditionalPrimitiveTypes.Contains(type) || type == typeof(decimal);
+                    || type.IsNullable() || AdditionalPrimitiveTypes.Contains(type);
         }
 
 

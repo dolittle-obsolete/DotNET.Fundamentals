@@ -4,12 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace Dolittle.Dynamic
+namespace Dolittle.Immutability
 {
     /// <summary>
     /// The exception that is thrown when an object is read only and one is writing to it
     /// </summary>
-    public class ReadOnlyObjectException : ArgumentException
+    public class CannotWriteToAnImmutable : ArgumentException
     {
     }
 }
