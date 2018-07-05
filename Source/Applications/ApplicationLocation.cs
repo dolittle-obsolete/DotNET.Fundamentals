@@ -53,21 +53,19 @@ namespace Dolittle.Applications
         /// <inheritdoc/>
         public static bool operator ==(ApplicationLocation x, ApplicationLocation y)
         {
-            return x.GetHashCode().Equals(y.GetHashCode());
+            return x.Equals(y);
         }
 
         /// <inheritdoc/>
         public static bool operator !=(ApplicationLocation x, ApplicationLocation y)
         {
-            return !x.GetHashCode().Equals(y.GetHashCode());
+            return !x.Equals(y);
         }
-        
 
         /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = 0;
-            // This is not robust, should call GetHashCode on each Segment, not on the Name 
             Segments.ForEach(segment => hashCode += segment.Name.AsString().GetHashCode());
             return hashCode;
         }

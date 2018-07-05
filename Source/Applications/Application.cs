@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
-
+using Dolittle.Collections;
 namespace Dolittle.Applications
 {
     /// <summary>
@@ -11,6 +11,15 @@ namespace Dolittle.Applications
     /// </summary>
     public class Application : IApplication
     {
+        /// <inheritdoc/>
+        public ApplicationName Name { get; }
+
+        /// <inheritdoc/>
+        public IApplicationStructure Structure { get; }
+
+        /// <inheritdoc/>
+        public IEnumerable<IApplicationLocationSegment> Prefixes { get; }
+
         /// <summary>
         /// Initializes a new instance of <see cref="Application"/>
         /// </summary>
@@ -27,6 +36,8 @@ namespace Dolittle.Applications
             Prefixes = prefixes ?? new IApplicationLocationSegment[0];
         }
 
+        
+
         /// <summary>
         /// Define the <see cref="ApplicationName">name</see> for the <see cref="IApplication"/>
         /// </summary>
@@ -38,12 +49,52 @@ namespace Dolittle.Applications
         }
 
         /// <inheritdoc/>
-        public ApplicationName Name { get; }
+        public bool Equals(IApplication other)
+        {
+            if (Name.Value != other.Name.Value) return false;
+            if (Structure != other.Structure) return false;
+            // figure out what to do with Prefixes
+            return true;
+        }
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is IApplication)) return false;
+            return Equals((IApplication) obj);
+        }
 
         /// <inheritdoc/>
-        public IApplicationStructure Structure { get; }
+        public static bool operator ==(Application x, Application y)
+        {
+            return x.Equals(y);
+        }
 
         /// <inheritdoc/>
-        public IEnumerable<IApplicationLocationSegment> Prefixes { get; }
+        public static bool operator !=(Application x, Application y)
+        {
+            return !x.Equals(y);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = Name.Value.GetHashCode();
+            hashCode += Structure.GetHashCode();
+            Prefixes.ForEach(prefix => hashCode += prefix.GetHashCode());
+
+            return hashCode;
+        }
+
+        /// <inheritdoc/>
+        public int CompareTo(object obj)
+        {
+            return GetHashCode().CompareTo(obj.GetHashCode());
+        }
+
+        /// <inheritdoc/>
+        public int CompareTo(IApplication other)
+        {
+            return GetHashCode().CompareTo(other.GetHashCode());
+        }
     }
 }

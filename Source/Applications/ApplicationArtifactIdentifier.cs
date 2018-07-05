@@ -55,7 +55,7 @@ namespace Dolittle.Applications
         /// <inheritdoc/>
         public bool Equals(IApplicationArtifactIdentifier other)
         {
-            if (!Location.Equals(other.Location)) return false;
+            if (Location != other.Location) return false;
 
             if (Application.Name.Value != other.Application.Name.Value) return false;
 
