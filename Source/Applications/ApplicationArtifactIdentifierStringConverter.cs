@@ -46,7 +46,7 @@ namespace Dolittle.Applications
         /// <summary>
         /// The separator character used for separating the <see cref="ArtifactGeneration"/> from the rest in a string
         /// </summary>
-        public const char ApplicationArtifactGenerationSeperator = '^';
+        public const char ApplicationArtifactGenerationSeperator = '@';
 
         readonly IApplication _application;
         readonly IArtifactTypes _artifactTypes;
