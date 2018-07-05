@@ -15,7 +15,7 @@ namespace Dolittle.Applications.Specs.for_SubFeature
         Establish context = () =>
         {
             parent_feature_mock = new Mock<IFeature>();
-            feature = new SubFeature(parent_feature_mock.Object, "Some feature");
+            feature = new SubFeature(parent_feature_mock.Object, new FeatureName {Value = "Some feature"});
             sub_feature_mock = new Mock<ISubFeature>();
             feature.AddSubFeature(sub_feature_mock.Object);
         };

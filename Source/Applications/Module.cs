@@ -25,8 +25,9 @@ namespace Dolittle.Applications
         /// </summary>
         /// <param name="boundedContext"><see cref="IBoundedContext"/> the <see cref="Module"/> belongs to</param>
         /// <param name="moduleName"><see cref="IApplicationLocationSegmentName">Name</see> of the business component</param>
-        public Module(IBoundedContext boundedContext, IApplicationLocationSegmentName moduleName) : base(moduleName)
+        public Module(IBoundedContext boundedContext, ModuleName moduleName) : base(moduleName)
         {
+            Name = moduleName;
             Parent = boundedContext;
             boundedContext.AddModule(this);
         }

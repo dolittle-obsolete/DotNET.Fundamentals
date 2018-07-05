@@ -49,14 +49,10 @@ namespace Dolittle.Applications
         {
             if (Name.AsString() != other.Name.AsString()) return false;
 
-            if (! DontHaveChildren(this, other)) return false;
-
-            if (! HaveChildren(this, other)) return false;
+            if (Children.Count() != other.Children.Count()) return false;
             
-            if (HaveChildren(this, other)) 
+            else
             {
-                if (Children.Count() != other.Children.Count()) return false;
-
                 foreach (var child in Children)
                 {
                     if (! other.Children.Any(otherChild => child.Equals(otherChild))) return false;
@@ -78,28 +74,11 @@ namespace Dolittle.Applications
         {
             var hashCode = Name.AsString().GetHashCode();
 
-            if (HaveChildren(this))
+            if (Children.Any())
             {
                 Children.ForEach(child => hashCode += child.GetHashCode());
             }
             return hashCode;
-        }
-
-        bool HaveChildren(params IApplicationLocationSegment[] segments)
-        {
-            foreach (var segment in segments) 
-            {
-                if (segment.Children.Count() == 0) return false;
-            }
-            return true;
-        }
-        bool DontHaveChildren(params IApplicationLocationSegment[] segments)
-        {
-             foreach (var segment in segments) 
-            {
-                if (segment.Children.Count() > 1) return false;
-            }
-            return true;
         }
         
     }

@@ -13,7 +13,7 @@ namespace Dolittle.Applications.Specs.for_Module
         Establish context = () =>
         {
             bounded_context_mock = new Mock<IBoundedContext>();
-            module = new Module(bounded_context_mock.Object, "Some Module");
+            module = new Module(bounded_context_mock.Object, new ModuleName{Value = "Some Module"});
             feature_mock = new Mock<IFeature>();
         };
 

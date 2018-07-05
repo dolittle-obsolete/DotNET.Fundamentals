@@ -14,21 +14,20 @@ namespace Dolittle.Applications
     public class SubFeature : ComparableApplicationLocationSegment,
         ISubFeature
     {
-
         /// <summary>
         /// Initializes a new instance of <see cref="SubFeature"/>
         /// </summary>
         /// <param name="parent">Parent <see cref="Feature"/></param>
         /// <param name="featureName">Name of the <see cref="IFeature"/></param>
-        public SubFeature(IFeature parent, IApplicationLocationSegmentName featureName) : base(featureName)
+        public SubFeature(IFeature parent, FeatureName featureName) : base(featureName)
         {
+            Name = featureName;
             Parent = parent;
             parent.AddSubFeature(this);
         }
 
         /// <inheritdoc/>
         new public FeatureName Name { get; }
-
 
         IApplicationLocationSegmentName IApplicationLocationSegment.Name => Name;
 

@@ -13,13 +13,13 @@ namespace Dolittle.Applications
     public class BoundedContext : ComparableApplicationLocationSegment, 
         IBoundedContext
     {
-        IApplicationLocationSegmentName IApplicationLocationSegment.Name => Name;
-        BoundedContextName IApplicationLocationSegment<BoundedContextName>.Name => Name.AsString();
+        BoundedContextName IApplicationLocationSegment<BoundedContextName>.Name => base.Name.AsString();
 
         /// <summary>
         /// Initializes a new instance of <see cref="BoundedContext"/>
         /// </summary>
-        public BoundedContext(IApplicationLocationSegmentName name) : base(name)
+        public BoundedContext(BoundedContextName name) 
+            : base(name)
         {
         }
 

@@ -66,7 +66,7 @@ namespace Dolittle.Applications
         public override int GetHashCode()
         {
             var hashCode = 0;
-            Segments.ForEach(segment => hashCode += segment.Name.AsString().GetHashCode());
+            Segments.ForEach(segment => hashCode += segment.GetHashCode());
             return hashCode;
         }
     }

@@ -18,15 +18,16 @@ namespace Dolittle.Applications
         /// Initializes a new instance of <see cref="Feature"/>
         /// </summary>
         /// <param name="parent">Owning <see cref="IApplicationLocation"/></param>
-        /// <param name="name"><see cref="IApplicationLocationSegmentName">Name</see> of the feature</param>
-        public Feature(IApplicationLocationSegment parent, IApplicationLocationSegmentName name) : base(name)
+        /// <param name="name"><see cref="FeatureName">Name</see> of the feature</param>
+        public Feature(IApplicationLocationSegment parent, FeatureName name) : base(name)
         {
+            Name = name;
             Parent = parent;
             parent.AddChild(this);
         }
 
         /// <inheritdoc/>
-        public new FeatureName Name { get; }
+        new public FeatureName Name { get; }
 
         /// <inheritdoc/>
         public IApplicationLocationSegment Parent { get; }
@@ -43,7 +44,5 @@ namespace Dolittle.Applications
         {
             if (Children.Contains(subFeature)) throw new SubFeatureAlreadyAddedToFeature(this, subFeature);
         }
-
-        IApplicationLocationSegmentName IApplicationLocationSegment.Name => Name;
     }
 }
