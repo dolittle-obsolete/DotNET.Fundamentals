@@ -36,8 +36,6 @@ namespace Dolittle.Applications
             Prefixes = prefixes ?? new IApplicationLocationSegment[0];
         }
 
-        
-
         /// <summary>
         /// Define the <see cref="ApplicationName">name</see> for the <see cref="IApplication"/>
         /// </summary>
