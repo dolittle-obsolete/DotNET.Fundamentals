@@ -20,9 +20,9 @@ namespace Applications.for_ApplicationLocation.given
 
         static IEnumerable<IApplicationLocationSegment> GetSegments()
         {
-            var boundedContext = new BoundedContext("The Bounded Context");
-            var module = new Module(boundedContext, "The Module");
-            var feature = new Feature(module, "The Feature");
+            var boundedContext = new BoundedContext(new BoundedContextName{Value = "The Bounded Context"});
+            var module = new Module(boundedContext, new ModuleName{Value = "The Module"});
+            var feature = new Feature(module, new FeatureName{Value = "The Feature"});
 
             return new IApplicationLocationSegment[] { 
                 boundedContext,

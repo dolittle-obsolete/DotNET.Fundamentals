@@ -9,18 +9,17 @@ namespace Dolittle.Applications.Specs.for_Module
     {
         static Mock<IBoundedContext> bounded_context_mock;
         static Module module;
-        static Mock<IFeature> feature_mock;
+        static Feature feature;
         static Exception exception;
 
         Establish context = () =>
         {
             bounded_context_mock = new Mock<IBoundedContext>();
-            module = new Module(bounded_context_mock.Object, "Some Module");
-            feature_mock = new Mock<IFeature>();
-            module.AddFeature(feature_mock.Object);
+            module = new Module(bounded_context_mock.Object, new ModuleName{Value = "Some Module"});
+            feature = new Feature(module, "Feature");
         };
 
-        Because of = () => exception = Catch.Exception(() => module.AddFeature(feature_mock.Object));
+        Because of = () => exception = Catch.Exception(() => module.AddFeature(feature));
 
         It should_throw_feature_already_added_to_module = () => exception.ShouldBeOfExactType<FeatureAlreadyAddedToModule>();
     }

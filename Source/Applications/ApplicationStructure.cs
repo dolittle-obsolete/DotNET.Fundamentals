@@ -22,5 +22,50 @@ namespace Dolittle.Applications
 
         /// <inheritdoc/>
         public IApplicationStructureFragment Root { get; }
+
+        /// <inheritdoc/>
+        public int CompareTo(object obj)
+        {
+            return GetHashCode().CompareTo(obj.GetHashCode());
+        }
+
+        /// <inheritdoc/>
+        public int CompareTo(IApplicationStructure other)
+        {
+             return GetHashCode().CompareTo(other.GetHashCode());
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(IApplicationStructure other)
+        {
+            return Root.Equals(other.Root);
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is IApplicationStructure other)
+                return Equals(other);
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public static bool operator ==(ApplicationStructure x, ApplicationStructure y)
+        {
+            return x.Equals(y);
+        }
+
+        /// <inheritdoc/>
+        public static bool operator !=(ApplicationStructure x, ApplicationStructure y)
+        {
+            return !x.Equals(y);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return Root.GetHashCode();
+        }
+        
     }
 }

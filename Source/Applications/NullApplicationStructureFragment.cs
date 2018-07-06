@@ -44,5 +44,41 @@ namespace Dolittle.Applications
 
         /// <inheritdoc/>
         public bool Recursive { get; }
+
+        /// <inheritdoc/>
+        public int CompareTo(object obj)
+        {
+            return GetHashCode().CompareTo(obj.GetHashCode());
+        }
+
+        /// <inheritdoc/>
+        public int CompareTo(IApplicationStructureFragment other)
+        {
+            return GetHashCode().CompareTo(other.GetHashCode());
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(IApplicationStructureFragment other)
+        {
+            return other is NullApplicationStructureFragment;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is NullApplicationStructureFragment other)
+            {
+                return Equals(other);
+            }
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return 
+                typeof(NullApplicationStructureFragment).GetHashCode() 
+                * typeof(NullApplicationStructureFragment).GetHashCode();
+        }
     }
 }

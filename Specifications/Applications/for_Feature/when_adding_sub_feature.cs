@@ -8,17 +8,15 @@ namespace Dolittle.Applications.Specs.for_Feature
     {
         static Mock<IModule> module_mock;
         static Feature feature;
-        static Mock<ISubFeature> sub_feature_mock;
+        static SubFeature sub_feature;
 
         Establish context = () =>
         {
             module_mock = new Mock<IModule>();
             feature = new Feature(module_mock.Object, "Some feature");
-            sub_feature_mock = new Mock<ISubFeature>();
+            sub_feature = new SubFeature(feature, "Sub Feature");
         };
-
-        Because of = () => feature.AddSubFeature(sub_feature_mock.Object);
         
-        It should_contain_the_sub_feature = () => feature.Children.ShouldContainOnly(sub_feature_mock.Object);
+        It should_contain_the_sub_feature = () => feature.Children.ShouldContainOnly(sub_feature);
     }
 }

@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 
 namespace Dolittle.Applications
@@ -9,7 +10,7 @@ namespace Dolittle.Applications
     /// <summary>
     /// Defines an application 
     /// </summary>
-    public interface IApplication
+    public interface IApplication : IEquatable<IApplication>, IComparable, IComparable<IApplication>
     {
         /// <summary>
         /// Gets the <see cref="ApplicationName">name</see> of the <see cref="IApplication"/>
