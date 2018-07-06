@@ -41,13 +41,19 @@ namespace Dolittle.Applications
         /// <inheritdoc/>
         public bool Equals(IApplicationLocation other)
         {
+            if (Segments.Count() != other.Segments.Count()) return false;
+            // Use Equals on each segment instead?
             return GetHashCode().Equals(other.GetHashCode());
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object other)
+        public override bool Equals(object obj)
         {
-            return GetHashCode().Equals(other.GetHashCode());
+            if (obj is IApplicationLocation other) 
+            {
+                return Equals(other);
+            }
+            return false;
         }
 
         /// <inheritdoc/>
