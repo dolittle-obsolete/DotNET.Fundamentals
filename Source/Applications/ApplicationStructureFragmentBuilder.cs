@@ -54,7 +54,7 @@ namespace Dolittle.Applications
                         _fragment.Parent,
                         _fragment.Children,
                         _fragment.Required,
-                        _fragment.Recursive
+                        true
                     )
                 );
             }
@@ -73,7 +73,7 @@ namespace Dolittle.Applications
             IApplicationStructureFragmentBuilder childBuilder = new ApplicationStructureFragmentBuilder(childFragment);
             childBuilder = callback(childBuilder);
            var children = new List<IApplicationStructureFragment>(_fragment.Children);
-            children.Add(childFragment);
+            children.Add(childBuilder.Fragment);
             return new ApplicationStructureFragmentBuilder(
                 new ApplicationStructureFragment(
                     _fragment.Type,
