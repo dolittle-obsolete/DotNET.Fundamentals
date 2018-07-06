@@ -7,7 +7,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter
+namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringConverter.for_application_structure_with_4_correct_segments
 {
     public class when_converting_identifier_with_five_segments_for_a_resource_to_string : given.an_application_resource_identifier_converter
     {
