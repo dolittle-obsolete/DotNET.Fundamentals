@@ -18,7 +18,7 @@ namespace Applications.for_ApplicationLocation.given
             locationB = new ApplicationLocation(GetSegments("BoundedContext2","Module2","Feature2"));
         };
 
-        static IEnumerable<IApplicationLocationSegment> GetSegments(string boundedContextName, string moduleName, string featureName)
+        static IEnumerable<IApplicationLocationSegment> GetSegments(BoundedContextName boundedContextName, ModuleName moduleName, FeatureName featureName)
         {
             var boundedContext = new BoundedContext(boundedContextName);
             var module = new Module(boundedContext, moduleName);

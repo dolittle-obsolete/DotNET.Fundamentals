@@ -11,7 +11,7 @@ namespace Dolittle.Applications.Specs.for_BoundedContext
 
         Establish context = () =>
         {
-            bounded_context = new BoundedContext("Some bounded context");
+            bounded_context = new BoundedContext(new BoundedContextName{Value = "Some bounded context"});
             feature = new Mock<IFeature>();
         };
 

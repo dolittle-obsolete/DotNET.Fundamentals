@@ -41,34 +41,38 @@ namespace Dolittle.Applications
         /// <inheritdoc/>
         public bool Equals(IApplicationLocation other)
         {
+            if (Segments.Count() != other.Segments.Count()) return false;
+            // Use Equals on each segment instead?
             return GetHashCode().Equals(other.GetHashCode());
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object other)
+        public override bool Equals(object obj)
         {
-            return GetHashCode().Equals(other.GetHashCode());
+            if (obj is IApplicationLocation other) 
+            {
+                return Equals(other);
+            }
+            return false;
         }
 
         /// <inheritdoc/>
         public static bool operator ==(ApplicationLocation x, ApplicationLocation y)
         {
-            return x.GetHashCode().Equals(y.GetHashCode());
+            return x.Equals(y);
         }
 
         /// <inheritdoc/>
         public static bool operator !=(ApplicationLocation x, ApplicationLocation y)
         {
-            return !x.GetHashCode().Equals(y.GetHashCode());
+            return !x.Equals(y);
         }
-        
 
         /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = 0;
-            // This is not robust, should call GetHashCode on each Segment, not on the Name 
-            Segments.ForEach(segment => hashCode += segment.Name.AsString().GetHashCode());
+            Segments.ForEach(segment => hashCode += segment.GetHashCode());
             return hashCode;
         }
     }

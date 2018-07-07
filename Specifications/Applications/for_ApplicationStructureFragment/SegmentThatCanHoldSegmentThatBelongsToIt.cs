@@ -20,5 +20,20 @@ namespace Dolittle.Applications.for_ApplicationStructureFragment
         {
             
         }
+
+        public int CompareTo(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(IApplicationLocationSegment other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IApplicationLocationSegment other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

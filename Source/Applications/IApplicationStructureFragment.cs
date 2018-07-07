@@ -10,7 +10,7 @@ namespace Dolittle.Applications
     /// <summary>
     /// Defines a location segment within an <see cref="IApplicationStructure"/>
     /// </summary>
-    public interface IApplicationStructureFragment
+    public interface IApplicationStructureFragment : IEquatable<IApplicationStructureFragment>, IComparable, IComparable<IApplicationStructureFragment>
     {
         /// <summary>
         /// Gets the type of segment - must be a type of <see cref="IApplicationLocationSegment"/>
