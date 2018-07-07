@@ -41,13 +41,13 @@ namespace Dolittle.Strings
                 if (IsVariableSegment(actualStringSegment))
                 {
                     actualStringSegment = actualStringSegment.Substring(1, actualStringSegment.Length - 2);
-                    builder = BuildVariableStringSegment(builder, actualStringSegment, optional, dependingOnPrevious, recurring);
+                    builder = BuildVariableStringSegment(ref builder, actualStringSegment, optional, dependingOnPrevious, recurring);
                 }
                 else
-                    builder = BuildFixedStringSegment(builder, actualStringSegment, optional, dependingOnPrevious, recurring);
+                    builder = BuildFixedStringSegment(ref builder, actualStringSegment, optional, dependingOnPrevious, recurring);
 
             }
-
+            
             return builder.Build();
         }
 
@@ -80,7 +80,7 @@ namespace Dolittle.Strings
             return segment.EndsWith("*");
         }
 
-        IStringFormatBuilder BuildFixedStringSegment(IStringFormatBuilder builder, string actualStringSegment, bool optional, bool dependingOnPrevious, bool recurring)
+        IStringFormatBuilder BuildFixedStringSegment(ref IStringFormatBuilder builder, string actualStringSegment, bool optional, bool dependingOnPrevious, bool recurring)
         {
             builder = builder.FixedString(actualStringSegment, (IFixedStringSegmentBuilder fixedStringBuilder) =>
             {
@@ -92,7 +92,7 @@ namespace Dolittle.Strings
             return builder;
         }
 
-        IStringFormatBuilder BuildVariableStringSegment(IStringFormatBuilder builder, string actualStringSegment, bool optional, bool dependingOnPrevious, bool recurring)
+        IStringFormatBuilder BuildVariableStringSegment(ref IStringFormatBuilder builder, string actualStringSegment, bool optional, bool dependingOnPrevious, bool recurring)
         {
             return builder.VariableString(actualStringSegment, (IVariableStringSegmentBuilder variableStringBuilder) =>
             {

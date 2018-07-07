@@ -42,6 +42,7 @@ namespace Dolittle.Strings
         /// <inheritdoc/>
         public IStringFormat Build()
         {
+            UpdateChildren();
             var segmentsWithoutParentDependency = _segments.Where(s => !s.DependsOnPrevious);
             return new StringFormat(segmentsWithoutParentDependency.Select(s => s.Build()), _separators);
         }
@@ -94,7 +95,21 @@ namespace Dolittle.Strings
             );
         }
 
+        /// <summary>
+        /// This is just a temporary fix. My opinion is that we need to rethink how we do 
+        /// ApplicationStructure and StructureMapping from the ground up again.
+        /// 
+        /// What we have now is way to generic anc complex
+        /// </summary>
+        void UpdateChildren()
+        {
+            var numSegments = _segments.Count();
+            var segmentArray = _segments.ToArray();
 
+            for (int i = numSegments - 2; i >= 0; i--)
+                if (segmentArray[i].HasChildren)
+                    segmentArray[i].NewChild(segmentArray[i+1]);
+        }
         void ThrowIfMissingSeparators(char[] separators)
         {
             if (separators.Length == 0) throw new MissingSeparators();
