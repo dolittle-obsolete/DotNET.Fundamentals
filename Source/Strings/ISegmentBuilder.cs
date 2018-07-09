@@ -26,10 +26,18 @@ namespace Dolittle.Strings
         void AddChild(ISegmentBuilder child);
 
         /// <summary>
+        /// Temporary fix for a bug we're having.
+        /// Swaps out the current child with a new one
+        /// </summary>
+        /// <param name="child"></param>
+        void NewChild(ISegmentBuilder child);
+        /// <summary>
         /// Build the <see cref="ISegment"/>
         /// </summary>
         /// <returns>A <see cref="ISegment"/> instance</returns>
         ISegment Build();
+
+        
     }
 
     /// <summary>

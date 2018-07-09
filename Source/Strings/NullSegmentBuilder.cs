@@ -28,5 +28,10 @@ namespace Dolittle.Strings
         {
             return new NullSegment();
         }
+
+        /// <inheritdoc/>
+        public void NewChild(ISegmentBuilder child)
+        {
+        }
     }
 }

@@ -8,17 +8,15 @@ namespace Dolittle.Applications.Specs.for_Module
     {
         static Mock<IBoundedContext> bounded_context_mock;
         static Module module;
-        static Mock<IFeature> feature_mock;
+        static Feature feature;
 
         Establish context = () =>
         {
             bounded_context_mock = new Mock<IBoundedContext>();
-            module = new Module(bounded_context_mock.Object, "Some Module");
-            feature_mock = new Mock<IFeature>();
+            module = new Module(bounded_context_mock.Object, new ModuleName{Value = "Some Module"});
+            feature = new Feature(module, "Feature");
         };
 
-        Because of = () => module.AddFeature(feature_mock.Object);
-
-        It should_contain_the_feature = () => module.Children.ShouldContainOnly(feature_mock.Object);
+        It should_contain_the_feature = () => module.Children.ShouldContainOnly(feature);
     }
 }

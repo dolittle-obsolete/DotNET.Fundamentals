@@ -6,15 +6,15 @@ namespace Dolittle.Applications.Specs.for_Module
 {
     public class when_creating
     {
-        const string name = "Some Module";
+        static ModuleName name = new ModuleName{Value = "Some Module"};
         static Mock<IBoundedContext> bounded_context_mock;
         static Module module;
 
         Establish context = () => bounded_context_mock = new Mock<IBoundedContext>();
 
-        Because of = () => module = new Module(bounded_context_mock.Object, "Some Module");
+        Because of = () => module = new Module(bounded_context_mock.Object, name);
 
-        It should_set_the_name = () => ((string) module.Name).ShouldEqual(name);
+        It should_set_the_name = () => ((string) module.Name).ShouldEqual(name.Value);
         It should_set_the_bounded_context = () => module.Parent.ShouldEqual(bounded_context_mock.Object);
         It should_add_itself_to_the_bounded_context = () => bounded_context_mock.Verify(b => b.AddModule(module), Times.Once());
     }
