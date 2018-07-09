@@ -119,6 +119,11 @@ namespace Dolittle.Strings
             _children.Add(child);
         }
 
+        /// <inheritdoc/>
+        public void NewChild(ISegmentBuilder child)
+        {
+            _children[0] = child;
+        }
 
         ISegment ISegmentBuilder.Build()
         {

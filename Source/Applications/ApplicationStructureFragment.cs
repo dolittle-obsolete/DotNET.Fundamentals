@@ -183,7 +183,7 @@ namespace Dolittle.Applications
 
             if (HasParent == true && other.HasParent == true) 
             {
-                if (! Parent.Equals(other.Parent)) return false;
+                // if (! Parent.Equals(other.Parent)) return false;
             }
 
             if (Children.Count() != other.Children.Count()) return false;
