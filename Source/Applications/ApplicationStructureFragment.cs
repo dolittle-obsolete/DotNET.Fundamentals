@@ -22,7 +22,11 @@ namespace Dolittle.Applications
         /// <param name="type"><see cref="Type"/> of <see cref="IApplicationLocation"/> this fragment represents</param>
         /// <param name="required">Whether or not the fragment is required - default false</param>
         /// <param name="recursive">Whether or not the fragment can appear recursively - default false</param>
-        public ApplicationStructureFragment(Type type, bool required = false, bool recursive = false): this(type, NullApplicationStructureFragment.Instance, new IApplicationStructureFragment[0], required, recursive) { }
+        public ApplicationStructureFragment(
+            Type type, 
+            bool required = false, 
+            bool recursive = false)
+            : this(type, NullApplicationStructureFragment.Instance, new IApplicationStructureFragment[0], required, recursive) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationStructureFragment"/>
@@ -124,7 +128,7 @@ namespace Dolittle.Applications
                     else
                     {
                         parentParameter = parameters.SingleOrDefault(parameter => typeof(IApplicationLocationSegment).IsAssignableFrom(parameter.ParameterType));
-                        if( parentParameter == null ) throw new InvalidConstructorForApplicationLocationSegment(type, nameParameterType);
+                        if ( parentParameter == null ) throw new InvalidConstructorForApplicationLocationSegment(type, nameParameterType);
                         
                         nameParameter = parameters.Single(parameter => parameter != parentParameter);
                     }
@@ -167,6 +171,66 @@ namespace Dolittle.Applications
         void ThrowIfAnyChildDoesNotBelongToType(IEnumerable<IApplicationStructureFragment> children, Type type)
         {
             children.ForEach(fragment => ThrowIfTypeDoesNotBelongToParent(fragment.Type, type));
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(IApplicationStructureFragment other)
+        {
+            if (Type != other.Type) return false;
+            if (Recursive != other.Recursive) return false;
+            if (Required != other.Required) return false;
+            if (HasParent != other.HasParent) return false;
+
+            if (HasParent == true && other.HasParent == true) 
+            {
+                // if (! Parent.Equals(other.Parent)) return false;
+            }
+
+            if (Children.Count() != other.Children.Count()) return false;
+            else 
+            {
+                foreach (var child in Children)
+                {
+                    if (! other.Children.Any(otherChild => child.Equals(otherChild))) return false;
+                }
+            }
+
+            return true;
+
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is IApplicationStructureFragment other) 
+            {
+                return Equals(other);
+            }
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            var hashCode = Type.GetHashCode();
+            hashCode += Required.GetHashCode();
+            hashCode += Recursive.GetHashCode();
+            if (HasParent) hashCode += Parent.GetHashCode();
+            Children.ForEach(child => hashCode += child.GetHashCode()); 
+
+            return hashCode;
+        }
+
+        /// <inheritdoc/>
+        public int CompareTo(object obj)
+        {
+            return GetHashCode().CompareTo(obj.GetHashCode());
+        }
+
+        /// <inheritdoc/>
+        public int CompareTo(IApplicationStructureFragment other)
+        {
+            return GetHashCode().CompareTo(other.GetHashCode());
         }
     }
 }

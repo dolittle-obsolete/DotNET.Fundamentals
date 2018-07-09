@@ -38,11 +38,11 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
         {
             var application = new Mock<IApplication>();
             application.SetupGet(a => a.Name).Returns(application_name);
-            var bounded_context = new BoundedContext(bounded_context_name);
-            var module = new Module(bounded_context, module_name);
-            var feature = new Feature(module, feature_name);
-            var sub_feature = new SubFeature(feature, sub_feature_name);
-            var second_level_sub_feature = new SubFeature(sub_feature, second_level_sub_feature_name);
+            var bounded_context = new BoundedContext(new BoundedContextName{Value = bounded_context_name});
+            var module = new Module(bounded_context, new ModuleName{Value = module_name});
+            var feature = new Feature(module, new FeatureName {Value = feature_name});
+            var sub_feature = new SubFeature(feature, new FeatureName{Value = sub_feature_name});
+            var second_level_sub_feature = new SubFeature(sub_feature, new FeatureName {Value = second_level_sub_feature_name});
 
             var location = new Mock<IApplicationLocation>();
             location.SetupGet(_ => _.Segments).Returns(new IApplicationLocationSegment[] {
@@ -59,7 +59,6 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
                 location.Object,
                 artifact);
         };
-
         Because of = () => result = converter.AsString(identifier);
 
         It should_return_expected_string = () => result.ShouldEqual(expected);
