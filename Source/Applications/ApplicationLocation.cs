@@ -43,7 +43,15 @@ namespace Dolittle.Applications
         {
             if (Segments.Count() != other.Segments.Count()) return false;
             // Use Equals on each segment instead?
-            return GetHashCode().Equals(other.GetHashCode());
+            else 
+            {
+                foreach (var segment in Segments)
+                {
+                    if (! other.Segments.Any(otherSegment => segment.Equals(otherSegment))) return false;
+                }
+            }
+
+            return true;
         }
 
         /// <inheritdoc/>
