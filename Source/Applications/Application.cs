@@ -49,8 +49,8 @@ namespace Dolittle.Applications
         /// <inheritdoc/>
         public bool Equals(IApplication other)
         {
-            if (Name.Value != other.Name.Value) return false;
-            if (Structure != other.Structure) return false;
+            if (Name.Value.Equals(other.Name.Value)) return false;
+            if (Structure.Equals(other.Structure)) return false;
             // figure out what to do with Prefixes
             return true;
         }
