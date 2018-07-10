@@ -15,15 +15,28 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
 
         Establish context = () =>
         {
-            var application = new Mock<IApplication>();
-            application.SetupGet(a => a.Name).Returns("SomeApplication");
-            var location_a = Mock.Of<IApplicationLocation>();
-            var location_b = Mock.Of<IApplicationLocation>();
+            var application = Application.WithName("ApplicationName")
+                .WithStructureStartingWith<BoundedContext>(bc => bc.Required)
+                .Build();
+            
+            var boundedContext = new BoundedContext("BoundedContext");
+            var locationA = new ApplicationLocation(new IApplicationLocationSegment[] 
+            {
+                boundedContext
+            });
 
-            var artifact = Mock.Of<IArtifact>();
+            var boundedContextB = new BoundedContext("BoundedContextB");
+            var locationB = new ApplicationLocation(new IApplicationLocationSegment[] 
+            {
+                boundedContextB
+            });
 
-            identifier_a = new ApplicationArtifactIdentifier(application.Object, location_a, artifact);
-            identifier_b = new ApplicationArtifactIdentifier(application.Object, location_b, artifact);
+            var artifactType = new MyArtifactType("ArtifactType");
+
+            var artifact = new Artifact("Artifact", artifactType, 1);
+
+            identifier_a = new ApplicationArtifactIdentifier(application, locationA, artifact);
+            identifier_b = new ApplicationArtifactIdentifier(application, locationB, artifact);
         };
     }
 }
