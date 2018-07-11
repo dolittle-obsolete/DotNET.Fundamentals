@@ -94,7 +94,7 @@ namespace Dolittle.Strings
                 {
                     Logger.Internal.Trace($"Match found");
                     matches.Add(match);
-                    matches.AddRange(match.Children);
+                    matches.AddRange(FlattenChildren(match.Children));
                     currentStringIndex += match.Values.Count();
                 }
                 currentSegmentIndex++;
@@ -130,6 +130,21 @@ namespace Dolittle.Strings
             Array.Copy(strings, currentStringIndex, stringSegmentsToMatch, 0, length);
             var match = segment.Match(stringSegmentsToMatch);
             return match;
+        }
+
+        IEnumerable<ISegmentMatch> FlattenChildren(IEnumerable<ISegmentMatch> children)
+        {
+            var matches = new List<ISegmentMatch>();
+            foreach (var child in children)
+            {
+                matches.Add(child);
+                if (child.Children.Any())
+                {
+                    matches.AddRange(FlattenChildren(child.Children));
+                }
+            }
+
+            return matches;
         }
 
         void ThrowIfMissingSeparators(char[] separators)
