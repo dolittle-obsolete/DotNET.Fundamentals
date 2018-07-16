@@ -105,6 +105,12 @@ namespace Dolittle.Applications
         /// <inheritdoc/>
         public bool Recursive { get; }
 
+        /// <inheritdoc/>
+        public bool MustBeRequired()
+        {
+            return Type.IsAssignableFrom(typeof(IAmARequiredApplicationLocationSegment));
+        }
+
         void ThrowIfTypeIsNotApplicationLocation(Type type)
         {
             if (!typeof(IApplicationLocationSegment).IsAssignableFrom(type))throw new ApplicationStructureFragmentMustBeApplicationLocation(type);

@@ -2,7 +2,9 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dolittle.Applications
 {
@@ -22,6 +24,34 @@ namespace Dolittle.Applications
 
         /// <inheritdoc/>
         public IApplicationStructureFragment Root { get; }
+
+
+        public (bool isValid, InvalidApplicationStructure exception) ValidateStructure()
+        {
+            if (! StartsWithBoundedContext())
+            {
+                var innerException = new ApplicationStructureMustStartWithABoundedContext();
+                return (false, new InvalidApplicationStructure(innerException));
+            }
+
+            var validateStructureFragmentsHaveOnlyOneChildResult = ValidateStructureFragmentsOnlyHaveOneChild(Root);
+
+            if (! validateStructureFragmentsHaveOnlyOneChildResult.isValid)
+            {
+                var innerException = new ApplicationStructureFragmentMustNotHaveMoreThanOneChild(validateStructureFragmentsHaveOnlyOneChildResult.structureFragmentType);
+                return (false, new InvalidApplicationStructure(innerException));
+            }
+
+            var validateRequiredStructureFragmentsResult = ValidateRequiredStructureFragments(Root);
+
+            if (! validateRequiredStructureFragmentsResult.isValid)
+            {
+                var innerException = new RequiredStructureFragmentIsOptional(validateRequiredStructureFragmentsResult.structureFragmentType);
+                return (false, new InvalidApplicationStructure(innerException));
+            }
+
+            return (true, null);
+        }
 
         /// <inheritdoc/>
         public int CompareTo(object obj)
@@ -66,6 +96,37 @@ namespace Dolittle.Applications
         {
             return Root.GetHashCode();
         }
-        
+
+        bool StartsWithBoundedContext()
+        {
+            return Root.Type.IsAssignableFrom(typeof(IBoundedContext));
+        }
+
+        (bool isValid, Type structureFragmentType) ValidateStructureFragmentsOnlyHaveOneChild(IApplicationStructureFragment root)
+        {
+            if (root != null)
+            {
+                if (root.Children.Any())
+                {
+                    if (root.Children.Count() > 1) return (false, root.Type);
+                    return ValidateStructureFragmentsOnlyHaveOneChild(root.Children.First());
+                }
+            }
+            return (true, null);
+        }
+
+        (bool isValid, Type structureFragmentType) ValidateRequiredStructureFragments(IApplicationStructureFragment root)
+        {
+            if (root != null)
+            {
+                if (root.MustBeRequired() && ! root.Required) return (false, root.Type);
+                
+                if (root.Children.Any())
+                {
+                    return ValidateRequiredStructureFragments(root.Children.First());
+                }
+            }
+            return (true, null);
+        }
     }
 }

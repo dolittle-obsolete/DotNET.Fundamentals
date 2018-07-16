@@ -16,5 +16,11 @@ namespace Dolittle.Applications
         /// Gets the root <see cref="IApplicationStructureFragment">location fragment definition</see>
         /// </summary>
         IApplicationStructureFragment Root { get; }
+
+        /// <summary>
+        /// Validates the <see cref="IApplicationStructure"/>
+        /// </summary>
+        /// <returns>A Pair with a boolean isValid representing whether the <see cref="IApplicationStructure"/> is valid and a <see cref="InvalidApplicationStructure"/> exception if an exception was thrown, null otherwise</returns>
+        (bool isValid, InvalidApplicationStructure exception) ValidateStructure();
     }
 }

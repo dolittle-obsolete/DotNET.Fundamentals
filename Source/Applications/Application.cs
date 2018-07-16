@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using Dolittle.Collections;
 namespace Dolittle.Applications
@@ -34,6 +35,8 @@ namespace Dolittle.Applications
             Name = name;
             Structure = structure;
             Prefixes = prefixes ?? new IApplicationLocationSegment[0];
+
+            ValidateApplicationStructure();
         }
 
         /// <summary>
@@ -93,6 +96,16 @@ namespace Dolittle.Applications
         public int CompareTo(IApplication other)
         {
             return GetHashCode().CompareTo(other.GetHashCode());
+        }
+
+        void ValidateApplicationStructure()
+        {
+            var validationResult = Structure.ValidateStructure();
+            if (! validationResult.isValid)
+            {
+                if (validationResult.exception != null)
+                    throw validationResult.exception;
+            }
         }
     }
 }
