@@ -89,6 +89,12 @@ namespace Dolittle.Dynamic
         /// <inheritdoc/>
         public ICollection<object> Values { get { return _actualDictionary.Values; } }
 
+        /// <summary>
+        /// Returns an Dictionary{string,object} representation
+        /// </summary>
+        /// <returns>IDictionary{string, object}</returns>
+        public IDictionary<string, object> AsDictionary() => new Dictionary<string,object>(_actualDictionary);   
+
         /// <inheritdoc/>
         public object this[string key]
         {
