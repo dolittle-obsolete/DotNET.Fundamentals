@@ -48,5 +48,10 @@ namespace Dolittle.Applications
         /// </summary>
         /// <returns></returns>
         bool MustBeRequired();
+        /// <summary>
+        /// Returns whether or not this <see cref="IApplicationStructureFragment"/> can be recursive
+        /// </summary>
+        /// <returns></returns>
+        bool CanBeRecursive();
     }
 }

@@ -111,6 +111,12 @@ namespace Dolittle.Applications
             return Type.IsAssignableFrom(typeof(IAmARequiredApplicationLocationSegment));
         }
 
+        /// <inheritdoc/>
+        public bool CanBeRecursive()
+        {
+            return Type.IsAssignableFrom(typeof(ICanBeARecursiveApplicationLocationSegment));
+        }
+
         void ThrowIfTypeIsNotApplicationLocation(Type type)
         {
             if (!typeof(IApplicationLocationSegment).IsAssignableFrom(type))throw new ApplicationStructureFragmentMustBeApplicationLocation(type);
@@ -238,5 +244,6 @@ namespace Dolittle.Applications
         {
             return GetHashCode().CompareTo(other.GetHashCode());
         }
+
     }
 }

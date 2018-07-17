@@ -26,7 +26,7 @@ namespace Dolittle.Applications
         /// </summary>
         /// <param name="name"><see cref="ApplicationName">Name</see> of the <see cref="IApplication"/></param>
         /// <param name="structure"><see cref="IApplicationStructure">Structure</see> of the <see cref="IApplication"/></param>
-        /// <param name="prefixes"></param>
+        /// <param name="prefixes">The <see cref="IApplicationLocationSegment"/> list that gets prefixed automatically to a <see cref="IApplicationLocation"/></param>
         internal Application(
             ApplicationName name,
             IApplicationStructure structure,

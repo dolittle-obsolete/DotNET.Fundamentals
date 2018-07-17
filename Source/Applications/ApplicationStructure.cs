@@ -50,6 +50,10 @@ namespace Dolittle.Applications
                 return (false, new InvalidApplicationStructure(innerException));
             }
 
+            var validateRecursiveStructureFragmentsResult = ValidateRecursiveStructureFragments(Root);
+
+            if (! )
+
             return (true, null);
         }
 
@@ -126,6 +130,20 @@ namespace Dolittle.Applications
                     return ValidateRequiredStructureFragments(root.Children.First());
                 }
             }
+            return (true, null);
+        }
+        (bool isValid, Type structureFragmentType) ValidateRecursiveStructureFragments(IApplicationStructureFragment root)
+        {
+            if (root != null)
+            {
+                if (! root.CanBeRecursive() && root.Recursive) return (false, root.Type);
+
+                if (root.Children.Any())
+                {
+                    return ValidateRecursiveStructureFragments(root.Children.First());
+                }
+            }
+
             return (true, null);
         }
     }
