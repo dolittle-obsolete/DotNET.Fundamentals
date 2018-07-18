@@ -42,16 +42,5 @@ namespace Dolittle.Applications
         /// </summary>
         /// <returns><see cref="IEnumerable{IApplicationStructureFragment}">Fragments</see></returns>
         IEnumerable<IApplicationStructureFragment> Children { get; }
-        
-        /// <summary>
-        /// Returns whether or not this <see cref="IApplicationStructureFragment"/> must be required
-        /// </summary>
-        /// <returns></returns>
-        bool MustBeRequired();
-        /// <summary>
-        /// Returns whether or not this <see cref="IApplicationStructureFragment"/> can be recursive
-        /// </summary>
-        /// <returns></returns>
-        bool CanBeRecursive();
     }
 }

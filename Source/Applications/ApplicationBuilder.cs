@@ -19,7 +19,7 @@ namespace Dolittle.Applications
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationBuilder"/>
         /// </summary>
-        public ApplicationBuilder(ApplicationName name): this(
+        public ApplicationBuilder(ApplicationName name) : this(
             name,
             new IApplicationLocationSegment[0],
             new NullApplicationStructureBuilder()
@@ -48,7 +48,8 @@ namespace Dolittle.Applications
         }
 
         /// <inheritdoc/>
-        public IApplicationBuilder WithStructureStartingWith<TFragment>(Func<IApplicationStructureFragmentBuilder, IApplicationStructureFragmentBuilder> fragmentBuilderCallback, Action<IApplicationStructureBuilder> structureBuilderCallback=null) where TFragment : IApplicationLocationSegment
+        public IApplicationBuilder WithStructureStartingWith<TFragment>(Func<IApplicationStructureFragmentBuilder, IApplicationStructureFragmentBuilder> fragmentBuilderCallback, Action<IApplicationStructureBuilder> structureBuilderCallback=null) 
+            where TFragment : IApplicationLocationSegment
         {
             IApplicationStructureFragmentBuilder applicationStructureFragmentBuilder = new ApplicationStructureFragmentBuilder(new ApplicationStructureFragment(typeof(TFragment)));
             applicationStructureFragmentBuilder = fragmentBuilderCallback(applicationStructureFragmentBuilder);
@@ -60,8 +61,19 @@ namespace Dolittle.Applications
         /// <inheritdoc/>
         public IApplication Build()
         {
-            var applicationStructure = _applicationStructureBuilder.Build();
+            return Build(new DefaultApplicationValidationStrategy());
+        }
+        /// <inheritdoc/>
+        public IApplication Build(IApplicationValidationStrategy validationStrategy)
+        {
+            var applicationStructure = _applicationStructureBuilder.Build(validationStrategy.ApplicationStructureValidationStrategy);
             var application = new Application(_name, applicationStructure, _prefixes);
+            var validationResult = validationStrategy.Validate(application);
+
+            if (! validationResult.isValid)
+            {
+                throw validationResult.exception;
+            }
             return application;
         }
     }
