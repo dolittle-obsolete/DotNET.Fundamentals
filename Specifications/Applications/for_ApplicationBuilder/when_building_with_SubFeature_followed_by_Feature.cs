@@ -10,7 +10,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationBuilder
             result = Catch.Exception(() => application_builder
                 .WithStructureStartingWith<SubFeature>(sf =>
                     sf.WithChild<Feature>())
-                .Build());
+                .Build(new NullApplicationValidationStrategy()));
         
         It should_throw_ApplicationStructureFragmentMustBelongToParent = () => result.ShouldBeOfExactType(typeof(ApplicationStructureFragmentMustBelongToParent));
     }

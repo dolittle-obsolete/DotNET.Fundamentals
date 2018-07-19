@@ -13,7 +13,7 @@ namespace Dolittle.Applications.Specs.for_Application
         const string application_name = "My Application";
         static IApplication result;
 
-        Because of = () => result = Application.WithName(application_name).Build();
+        Because of = () => result = Application.WithName(application_name).Build(new NullApplicationValidationStrategy());
 
         It should_hold_name = () => ((string) result.Name).ShouldEqual(application_name);
     }

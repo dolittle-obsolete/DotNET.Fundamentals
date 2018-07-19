@@ -18,7 +18,7 @@ namespace Dolittle.Applications.for_ApplicationStructureBuilder
             builder = ApplicationStructureBuilder.WithRoot(root);
         };
 
-        Because of = () => structure = builder.Build();
+        Because of = () => structure = builder.Build(new NullApplicationStructureValidationStrategy());
 
         It should_forward_the_root_to_the_structure = () => structure.Root.ShouldEqual(root);
     }

@@ -10,7 +10,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationBuilder
             root = application_builder
                 .WithStructureStartingWith<BoundedContext>(b => 
                     b.Required)
-            .Build().Structure.Root;
+            .Build(new NullApplicationValidationStrategy()).Structure.Root;
         It should_have_a_structure_root = () => root.ShouldNotBeNull();
         It should_have_a_structure_with_a_root_of_type_BoundedContext = () => root.Type.ShouldEqual(typeof(BoundedContext));
         It should_have_a_required_BoundedContext = () => root.Required.ShouldBeTrue();

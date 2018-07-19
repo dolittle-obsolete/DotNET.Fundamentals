@@ -17,11 +17,11 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
         {
             var applicationA = Application.WithName("ApplicationNameA")
                 .WithStructureStartingWith<BoundedContext>(bc => bc.Required)
-                .Build();
+                .Build(new NullApplicationValidationStrategy());
             
             var applicationB = Application.WithName("ApplicationNameB")
                 .WithStructureStartingWith<BoundedContext>(bc => bc.Required)
-                .Build();
+                .Build(new NullApplicationValidationStrategy());
 
             var boundedContext = new BoundedContext("BoundedContext");
             var location = new ApplicationLocation(new IApplicationLocationSegment[] 
