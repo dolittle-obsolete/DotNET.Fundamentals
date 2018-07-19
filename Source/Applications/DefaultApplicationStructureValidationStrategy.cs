@@ -46,7 +46,7 @@ namespace Dolittle.Applications
 
         bool StartsWithBoundedContext(IApplicationStructure structure)
         {
-            return structure.Root.Type.IsAssignableFrom(typeof(IBoundedContext));
+            return structure.Root != null && structure.Root.Type.IsAssignableFrom(typeof(IBoundedContext));
         }
 
         (bool isValid, Type structureFragmentType) ValidateStructureFragmentsOnlyHaveOneChild(IApplicationStructureFragment root)
@@ -92,11 +92,11 @@ namespace Dolittle.Applications
 
         bool StructureFragmentIsRequired(IApplicationStructureFragment structureFragment)
         {
-            return structureFragment.Type.IsAssignableFrom(typeof(IAmARequiredApplicationLocationSegment));
+            return structureFragment.Type != null && structureFragment.Type.IsAssignableFrom(typeof(IAmARequiredApplicationLocationSegment));
         }
         bool StructureFragmentCanBeRecursive(IApplicationStructureFragment structureFragment)
         {
-            return structureFragment.Type.IsAssignableFrom(typeof(ICanBeARecursiveApplicationLocationSegment));
+            return structureFragment.Type != null && structureFragment.Type.IsAssignableFrom(typeof(ICanBeARecursiveApplicationLocationSegment));
         }
     }
 }
