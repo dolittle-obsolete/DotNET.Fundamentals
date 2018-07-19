@@ -1,7 +1,7 @@
 using System;
 using Machine.Specifications;
 
-namespace Dolittle.Applications.Specs.for_DefaultApplicationValidationStrategy.given
+namespace Dolittle.Applications.Specs.for_DefaultApplicationValidationStrategy
 {
     public class when_building_an_Application_with_empty_name : given.an_application_builder_with_empty_name
     {

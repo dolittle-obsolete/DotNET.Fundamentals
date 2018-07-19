@@ -12,6 +12,7 @@ namespace Dolittle.Applications
         /// </summary>
         /// <param name="structureFragmentType"></param>
         public NonRecursiveStructureFragmentSetAsRecursive(Type structureFragmentType)
+        : base ($"The {typeof(IApplicationStructureFragment).FullName} with Type = {structureFragmentType.FullName} cannot be Recursive")
         {
         }
     }

@@ -12,7 +12,8 @@ namespace Dolittle.Applications
         /// </summary>
         /// <param name="structureFragmentType"></param>
         /// <returns></returns>
-        public RequiredStructureFragmentMustBeSetAsRequired(Type structureFragmentType) : base()
+        public RequiredStructureFragmentMustBeSetAsRequired(Type structureFragmentType) 
+        : base($"The {typeof(IApplicationStructureFragment).FullName} with Type = {structureFragmentType.FullName} has must be set as Required")
         {}
     }
 }

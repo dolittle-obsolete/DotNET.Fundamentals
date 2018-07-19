@@ -1,3 +1,5 @@
+using System;
+
 namespace Dolittle.Applications
 {
     /// <summary>
@@ -5,6 +7,13 @@ namespace Dolittle.Applications
     /// </summary>
     public class ApplicationStructureMustStartWithABoundedContext : InvalidApplicationStructure
     {
-        
+        /// <summary>
+        /// Initializes a new instance of <see cref="ApplicationStructureMustStartWithABoundedContext"/>
+        /// </summary>
+        /// <returns></returns>
+        public ApplicationStructureMustStartWithABoundedContext() 
+        : base($"The {typeof(IApplicationStructure).FullName} is built with a structure that does not start with a {typeof(IApplicationStructureFragment).FullName} with Type = {typeof(IBoundedContext).FullName}")
+        {
+        }
     }
 }

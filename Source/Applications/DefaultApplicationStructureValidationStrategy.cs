@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 
+using Dolittle.Reflection;
+
 namespace Dolittle.Applications
 {
     /// <summary>
@@ -46,7 +48,7 @@ namespace Dolittle.Applications
 
         bool StartsWithBoundedContext(IApplicationStructure structure)
         {
-            return structure.Root != null && structure.Root.Type.IsAssignableFrom(typeof(IBoundedContext));
+            return structure.Root != null && structure.Root.Type.HasInterface<IBoundedContext>();
         }
 
         (bool isValid, Type structureFragmentType) ValidateStructureFragmentsOnlyHaveOneChild(IApplicationStructureFragment root)
@@ -92,11 +94,11 @@ namespace Dolittle.Applications
 
         bool StructureFragmentIsRequired(IApplicationStructureFragment structureFragment)
         {
-            return structureFragment.Type != null && structureFragment.Type.IsAssignableFrom(typeof(IAmARequiredApplicationLocationSegment));
+            return structureFragment.Type != null && structureFragment.Type.HasInterface<IAmARequiredApplicationLocationSegment>();
         }
         bool StructureFragmentCanBeRecursive(IApplicationStructureFragment structureFragment)
         {
-            return structureFragment.Type != null && structureFragment.Type.IsAssignableFrom(typeof(ICanBeARecursiveApplicationLocationSegment));
+            return structureFragment.Type != null && structureFragment.Type.HasInterface<ICanBeARecursiveApplicationLocationSegment>();
         }
     }
 }

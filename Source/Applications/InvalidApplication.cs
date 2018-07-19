@@ -7,19 +7,39 @@ namespace Dolittle.Applications
     /// </summary>
     public class InvalidApplication : Exception
     {
+        static string _defaultMessage = $"The {typeof(IApplication).FullName} is constructed with an invalid {typeof(IApplication).FullName}.";
          /// <summary>
         /// Initializes a new instance of <see cref="InvalidApplication"/>
         /// </summary>
         public InvalidApplication() 
-            : base($"The {typeof(IApplication).AssemblyQualifiedName} is constructed with an invalid {typeof(IApplication).AssemblyQualifiedName}.")
+            : this(_defaultMessage)
         {
         }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="InvalidApplication"/>
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public InvalidApplication(string message) : base(message) 
+        {
+        }
+        
         /// <summary>
         /// Initializes a new instance of <see cref="InvalidApplication"/>
         /// </summary>
         /// <param name="innerException"></param>
         public InvalidApplication(InvalidApplication innerException) 
-            : base($"The {typeof(IApplication).AssemblyQualifiedName} is constructed with an invalid {typeof(IApplication).AssemblyQualifiedName}.", innerException)
+            : this(_defaultMessage, innerException)
+        {
+        }
+        /// <summary>
+        /// Initializes a new instance of <see cref="InvalidApplication"/>
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
+        public InvalidApplication(string message, InvalidApplication innerException) 
+            : base(message, innerException)
         {
         }
     }

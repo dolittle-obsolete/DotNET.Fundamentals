@@ -12,7 +12,8 @@ namespace Dolittle.Applications
         /// </summary>
         /// <param name="structureFragmentType"></param>
         /// <returns></returns>
-        public ApplicationStructureFragmentMustNotHaveMoreThanOneChild(Type structureFragmentType) : base()
+        public ApplicationStructureFragmentMustNotHaveMoreThanOneChild(Type structureFragmentType) 
+        : base($"The {typeof(IApplicationStructureFragment).FullName} with Type = {structureFragmentType.FullName} has more than one children fragments")
         {
         }
     }
