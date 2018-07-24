@@ -23,10 +23,24 @@ namespace Dolittle.Artifacts
             Generation = generation;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="Guid">unique identifier</see> of the <see cref="Artifact"/>
+        /// </summary>
         public Guid Id { get; }
         
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="ArtifactGeneration">generation</see> of the <see cref="Artifact"/>
+        /// </summary>
         public ArtifactGeneration Generation {get; }
+
+
+        /// <summary>
+        /// Create a new <see cref="Artifact"/> as the first generation
+        /// </summary>
+        /// <returns><see cref="Artifact">New artifact</see></returns>
+        public static Artifact New()
+        {
+            return new Artifact(Guid.NewGuid(), ArtifactGeneration.First);
+        }
     }
 }
