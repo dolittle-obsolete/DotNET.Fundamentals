@@ -7,7 +7,7 @@ using Dolittle.Concepts;
 namespace Dolittle.Artifacts
 {
     /// <summary>
-    /// Represents the generation of an <see cref="IArtifact"/>
+    /// Represents the generation of an <see cref="Artifact"/>
     /// </summary>
     public class ArtifactGeneration : ConceptAs<int>
     {

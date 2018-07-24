@@ -7,7 +7,7 @@ using System;
 namespace Dolittle.Artifacts
 {
     /// <summary>
-    /// Defines the type of an <see cref="IArtifact"/>
+    /// Defines the type of an <see cref="Artifact"/>
     /// </summary>
     public interface IArtifactType
     {
