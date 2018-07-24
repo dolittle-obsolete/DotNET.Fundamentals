@@ -20,5 +20,14 @@ namespace Dolittle.Applications
         {
             return new Application { Value = application };
         }
+
+        /// <summary>
+        /// Create a new <see cref="Application"/>identifier 
+        /// </summary>
+        /// <returns><see cref="Application"/></returns>
+        public static Application New()
+        {
+            return new Application { Value = Guid.NewGuid() };
+        }
     }
 }

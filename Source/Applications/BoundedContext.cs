@@ -20,5 +20,14 @@ namespace Dolittle.Applications
         {
             return new BoundedContext { Value = boundedContext };
         }       
+
+        /// <summary>
+        /// Create a new <see cref="BoundedContext"/>identifier 
+        /// </summary>
+        /// <returns><see cref="BoundedContext"/></returns>
+        public static BoundedContext New()
+        {
+            return new BoundedContext { Value = Guid.NewGuid() };
+        }
     }
 }
