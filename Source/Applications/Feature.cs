@@ -2,47 +2,24 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Collections.Generic;
+using System;
 using System.Linq;
+using Dolittle.Concepts;
 
 namespace Dolittle.Applications
 {
     /// <summary>
-    /// Represents a feature within a <see cref="Module"/>
+    /// Represents the concept of a feature
     /// </summary>
-    public class Feature : ComparableApplicationLocationSegment,
-        IFeature
+    public class Feature : ConceptAs<Guid>
     {
-
         /// <summary>
-        /// Initializes a new instance of <see cref="Feature"/>
+        /// Implicitly converts from a <see cref="Guid"/> to a <see cref="Feature"/>
         /// </summary>
-        /// <param name="parent">Owning <see cref="IApplicationLocation"/></param>
-        /// <param name="name"><see cref="FeatureName">Name</see> of the feature</param>
-        public Feature(IApplicationLocationSegment parent, FeatureName name) : base(name)
+        /// <param name="feature"><see cref="Guid"/> representing the feature</param>
+        public static implicit operator Feature(Guid feature)
         {
-            Name = name;
-            Parent = parent;
-            parent.AddChild(this);
-        }
-
-        /// <inheritdoc/>
-        new public FeatureName Name { get; }
-
-        /// <inheritdoc/>
-        public IApplicationLocationSegment Parent { get; }
-
-
-        /// <inheritdoc/>
-        public void AddSubFeature(ISubFeature subFeature)
-        {
-            ThrowIfSubFeatureAlreadyAdded(subFeature);
-            AddChild(subFeature);
-        }
-
-        void ThrowIfSubFeatureAlreadyAdded(ISubFeature subFeature)
-        {
-            if (Children.Contains(subFeature)) throw new SubFeatureAlreadyAddedToFeature(this, subFeature);
+            return new Feature { Value = feature };
         }
     }
 }

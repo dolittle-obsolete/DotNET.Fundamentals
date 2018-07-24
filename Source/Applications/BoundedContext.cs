@@ -2,49 +2,23 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using Dolittle.Concepts;
 
 namespace Dolittle.Applications
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IBoundedContext"/>
+    /// Represents the concept of a bounded context
     /// </summary>
-    public class BoundedContext : ComparableApplicationLocationSegment, 
-        IBoundedContext
-    {
-        BoundedContextName IApplicationLocationSegment<BoundedContextName>.Name => base.Name.AsString();
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="BoundedContext"/>
+    public class BoundedContext : ConceptAs<Guid>
+    { 
+         /// <summary>
+        /// Implicitly converts from a <see cref="Guid"/> to a <see cref="BoundedContext"/>
         /// </summary>
-        public BoundedContext(BoundedContextName name) 
-            : base(name)
+        /// <param name="boundedContext"><see cref="Guid"/> representing the bounded context</param>
+        public static implicit operator BoundedContext(Guid boundedContext)
         {
-        }
-
-        /// <inheritdoc/>
-        public void AddModule(IModule module)
-        {
-            ThrowIfModuleAlreadyAdded(module);
-            AddChild(module);
-        }
-
-        /// <inheritdoc/>
-        public void AddFeature(IFeature feature)
-        {
-            ThrowIfFeatureAlreadyAdded(feature);
-            AddChild(feature);
-        }
-
-        void ThrowIfModuleAlreadyAdded(IModule module)
-        {
-            if (Children.Contains(module)) throw new ModuleAlreadyAddedToBoundedContext(this, module);
-        }
-
-        void ThrowIfFeatureAlreadyAdded(IFeature feature)
-        {
-            if (Children.Contains(feature)) throw new FeatureAlreadyAddedToBoundedContext(this, feature);
-        }
+            return new BoundedContext { Value = boundedContext };
+        }       
     }
 }
