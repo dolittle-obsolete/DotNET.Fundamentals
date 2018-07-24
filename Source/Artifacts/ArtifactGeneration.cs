@@ -12,6 +12,11 @@ namespace Dolittle.Artifacts
     public class ArtifactGeneration : ConceptAs<int>
     {
         /// <summary>
+        /// Gets the first generation representation
+        /// </summary>
+        public static readonly ArtifactGeneration First = new ArtifactGeneration { Value = 1 };
+
+        /// <summary>
         /// Implicitly converts <see cref="int"/> to an <see cref="ArtifactGeneration"/>
         /// </summary>
         /// <param name="value"></param>
