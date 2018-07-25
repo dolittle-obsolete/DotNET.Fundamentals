@@ -15,9 +15,9 @@ namespace Dolittle.Artifacts
         /// <summary>
         /// Initializes a new instance of <see cref="Artifact"/>
         /// </summary>
-        /// <param name="id"><see cref="Guid">Id</see> of the <see cref="Artifact"/></param>
+        /// <param name="id"><see cref="ArtifactId">Id</see> of the <see cref="Artifact"/></param>
         /// <param name="generation"><see cref="ArtifactGeneration">Generation</see> of the <see cref="Artifact"/></param>
-        public Artifact(Guid id, ArtifactGeneration generation)
+        public Artifact(ArtifactId id, ArtifactGeneration generation)
         {
             Id = id;
             Generation = generation;
@@ -26,13 +26,12 @@ namespace Dolittle.Artifacts
         /// <summary>
         /// Gets the <see cref="Guid">unique identifier</see> of the <see cref="Artifact"/>
         /// </summary>
-        public Guid Id { get; }
+        public ArtifactId Id { get; }
         
         /// <summary>
         /// Gets the <see cref="ArtifactGeneration">generation</see> of the <see cref="Artifact"/>
         /// </summary>
         public ArtifactGeneration Generation {get; }
-
 
         /// <summary>
         /// Create a new <see cref="Artifact"/> as the first generation
