@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolittle.Concepts;
-using Dolittle.Dynamic;
+using Dolittle.PropertyBags;
 using Machine.Specifications;
 
-namespace Dynamic.for_PropertyBag.when_equating_two_property_bags
+namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property_bags
 {
 
     [Subject(typeof(PropertyBag),"Equals")]    
-    public class and_one_is_a_subset_of_the_other
+    public class and_they_have_the_same_properties_with_differing_values
     {
         static PropertyBag first;
         static PropertyBag second;
@@ -28,7 +28,7 @@ namespace Dynamic.for_PropertyBag.when_equating_two_property_bags
             };
 
             var second_dictionary = new Dictionary<string,object>(first_dictionary);
-            second_dictionary.Add("AnotherProperty","This is not in the first dictionary");
+            second_dictionary["DateTime"] = DateTime.UtcNow.AddDays(1);
 
             first = new PropertyBag(first_dictionary);
             second = new PropertyBag(second_dictionary);

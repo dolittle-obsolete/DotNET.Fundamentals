@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Dolittle.Dynamic;
 using Machine.Specifications;
+using Dolittle.PropertyBags;
 
-namespace Dynamic.for_PropertyBag.when_equating_two_property_bags
+namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property_bags
 {
     [Subject(typeof(PropertyBag),"Equals")]    
     public class and_they_are_the_same_reference

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolittle.Concepts;
-using Dolittle.Dynamic;
+using Dolittle.PropertyBags;
 using Machine.Specifications;
 
-namespace Dynamic.for_PropertyBag.when_equating_two_property_bags
+namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property_bags
 {
 
     [Subject(typeof(PropertyBag),"Equals")]    

@@ -1,7 +1,7 @@
-using Dolittle.Dynamic;
 using Machine.Specifications;
+using Dolittle.PropertyBags;
 
-namespace Dolittle.Dynamic.for_ObjectExtensions.for_ToPropertyBag
+namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
 {
     [Subject("ToPropertyBag")]
     public class when_converting_a_dto_with_concepts_as_properties

@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using Dolittle.Concepts;
-using Dolittle.Dynamic;
 using Machine.Specifications;
 
-namespace Dynamic.for_PropertyBag.when_equating_two_property_bags
+namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
 {
 
     public class StringConcept : ConceptAs<string>

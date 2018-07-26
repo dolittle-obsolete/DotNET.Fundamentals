@@ -1,9 +1,8 @@
 using System;
 using Dolittle.Concepts;
-using Dolittle.Dynamic;
 using Machine.Specifications;
 
-namespace Dolittle.Dynamic.for_ObjectExtensions.for_ToPropertyBag
+namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
 {
 
     public class LongConcept : ConceptAs<long>

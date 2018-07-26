@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolittle.Dynamic;
 
-namespace Dolittle.Dynamic
+namespace Dolittle.PropertyBags
 {
     /// <summary>
     /// An immutable property bag of key-value pairs

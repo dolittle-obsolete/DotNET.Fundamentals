@@ -4,7 +4,7 @@ using System.Reflection;
 using Dolittle.Concepts;
 using Dolittle.Reflection;
 
-namespace Dolittle.Dynamic
+namespace Dolittle.PropertyBags
 {
     /// <summary>
     /// Extensions for object
