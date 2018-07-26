@@ -5,7 +5,8 @@
     <AssemblyName>Dolittle.PropertyBags</AssemblyName>
   </PropertyGroup>
    <ItemGroup>
-    <PackageReference Include="Dolittle.Dynamic" Version="2.0.0-*" />
-    <PackageReference Include="Dolittle.Concepts" Version="2.0.0-*" />
+    <ProjectReference Include="../../Source/Dynamic/Dynamic.csproj" />
+    <ProjectReference Include="../../Source/Concepts/Concepts.csproj" />
+    <ProjectReference Include="../../Source/Reflection/Reflection.csproj" />  
   </ItemGroup>
 </Project>
