@@ -240,6 +240,22 @@ namespace Dolittle.Reflection
                 .Where(t=>t != type && t != typeof(Object));
         }
 
+        /// <summary>
+        /// Indicates whether the Type represents an "immutable" type
+        /// </summary>
+        /// <remarks>
+        /// Immutability is a difficult concept in C#.  Things can be changed via reflection, fields rather than properties, private setters, etc.static
+        /// We are taking a deliberately limited view of immutability.  In this case it simply means an object that has no properties with setters (public or private)
+        /// This is not intended to be an indication that the object is truly immutable, instead it's to guide the instantiation strategy when we create and hydrate it
+        /// from a serialized form (e.g. PropertyBag)
+        /// </remarks>
+        /// <param name="type">The type to check</param>
+        /// <returns>true if immutable, false otherwise</returns>
+        public static bool IsImmutable(this Type type)
+        {
+            return !type.GetProperties().Any(pi => pi.CanWrite);
+        }
+
         static IEnumerable<Type> BaseTypes(this Type type)
         {
             var currentType = type;
