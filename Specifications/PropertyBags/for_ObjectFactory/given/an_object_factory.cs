@@ -29,7 +29,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.given
             var user_defined = new Mock<IUserDefinedTypeFactory<RequiresSpecificConstructionByUser>>();
             user_defined.Setup(f => f.CanBuild(Moq.It.IsAny<Type>())).Returns((Type t) => t == typeof(RequiresSpecificConstructionByUser));
             user_defined.Setup(f => f.Build(Moq.It.IsAny<Type>(),Moq.It.IsAny<IObjectFactory>(),Moq.It.IsAny<PropertyBag>()))
-                                .Returns((Type t) => t == typeof(RequiresSpecificConstructionByUser) ? new RequiresSpecificConstructionByUser() : (RequiresSpecificConstructionByUser)null);
+                                .Returns((Type t, IObjectFactory f, PropertyBag p) => t == typeof(RequiresSpecificConstructionByUser) ? new RequiresSpecificConstructionByUser() : (RequiresSpecificConstructionByUser)null);
 
             return user_defined;
         }
