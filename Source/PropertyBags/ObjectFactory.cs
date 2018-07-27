@@ -52,7 +52,9 @@ namespace Dolittle.PropertyBags
             {
                 typeFactory = _userDefinedFactories.SingleOrDefault(f => f.CanBuild(type));
                 if(typeFactory != null)
+                {
                     return typeFactory;
+                }    
             }
             catch(InvalidOperationException ex)
             {

@@ -13,15 +13,24 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.given
     public class an_object_factory
     {
         protected static IObjectFactory instance;
+        protected static IObjectFactory instance_with_two_factories_for_the_same_type;
         protected static Mock<IInstancesOf<ITypeFactory>> factory_instances;
-        protected static Mock<IUserDefinedTypeFactory<RequiresSpecificConstructionByUser>> user_defined;
+        protected static Mock<IInstancesOf<ITypeFactory>> factory_instances_with_duplicates;
 
         Establish context = () => 
         {
-            var factories = get_system_type_factories().ToList();
-            factories.Add(get_mock_user_defined_factory().Object);
-            factory_instances = get_mock_instances_of_type_factory(factories.ToArray());
+            var factories = get_system_type_factories();
+
+            var correct_factories = factories.ToList();
+            correct_factories.Add(get_mock_user_defined_factory().Object);
+            factory_instances = get_mock_instances_of_type_factory(correct_factories.ToArray());
             instance = new ObjectFactory(factory_instances.Object);
+
+            var duplicate_factories = factories.ToList();
+            duplicate_factories.Add(get_mock_user_defined_factory().Object);
+            duplicate_factories.Add(get_mock_user_defined_factory().Object);
+            factory_instances_with_duplicates = get_mock_instances_of_type_factory(duplicate_factories.ToArray());
+            instance_with_two_factories_for_the_same_type = new ObjectFactory(factory_instances_with_duplicates.Object);
         };
 
         static Mock<IUserDefinedTypeFactory<RequiresSpecificConstructionByUser>> get_mock_user_defined_factory()
