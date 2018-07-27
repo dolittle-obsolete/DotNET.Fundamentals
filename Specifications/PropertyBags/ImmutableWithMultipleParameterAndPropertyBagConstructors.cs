@@ -1,10 +1,9 @@
-using System;
-using Dolittle.PropertyBags;
-
 namespace Dolittle.PropertyBags.Specs
 {
-
-    public class ImmutableWithMultipleParameterAndPropertyBagConstructors
+    using System;
+    using Dolittle.PropertyBags;
+    using Dolittle.Concepts;
+    public class ImmutableWithMultipleParameterAndPropertyBagConstructors : Value<ImmutableWithMultipleParameterAndPropertyBagConstructors>
     {
         public ImmutableWithMultipleParameterAndPropertyBagConstructors(int intProperty, string stringProperty, DateTime dateTimeProperty)
         {

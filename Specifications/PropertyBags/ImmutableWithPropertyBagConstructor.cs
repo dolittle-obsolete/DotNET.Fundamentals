@@ -1,9 +1,9 @@
-using System;
-using Dolittle.PropertyBags;
-
 namespace Dolittle.PropertyBags.Specs
 {
-    public class ImmutableWithPropertyBagConstructor
+    using System;
+    using Dolittle.PropertyBags;
+    using Dolittle.Concepts;
+    public class ImmutableWithPropertyBagConstructor : Value<ImmutableWithPropertyBagConstructor>
     {
         public ImmutableWithPropertyBagConstructor(PropertyBag propertyBag)
         {

@@ -1,9 +1,10 @@
-using System;
-using Dolittle.PropertyBags;
-
 namespace Dolittle.PropertyBags.Specs
 {
-    public class MutableTypeWithNoDefaultConstructor
+    using System;
+    using Dolittle.PropertyBags;
+    using Dolittle.Concepts;
+
+    public class MutableTypeWithNoDefaultConstructor : Value<MutableTypeWithNoDefaultConstructor>
     {
         public MutableTypeWithNoDefaultConstructor(int intProperty, string stringProperty, DateTime dateTimeProperty)
         {
