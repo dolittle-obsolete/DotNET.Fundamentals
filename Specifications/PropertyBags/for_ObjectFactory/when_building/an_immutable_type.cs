@@ -1,0 +1,27 @@
+namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building
+{
+    using Machine.Specifications;
+    using Dolittle.PropertyBags;
+    using Dolittle.PropertyBags.Specs;
+    using System;
+
+    [Subject(typeof(ObjectFactory), "Build")]
+    public class an_immutable_type : given.an_object_factory
+    {
+        static IObjectFactory factory;
+        static ImmutableWithMultipleParameterConstructor immutable_type;
+        static PropertyBag source;
+        static object result;
+        Establish context = () => 
+        {
+            factory = instance;
+            immutable_type = new ImmutableWithMultipleParameterConstructor(42,"Forty-Two",DateTime.UtcNow);
+            source = immutable_type.ToPropertyBag();
+        };
+
+        Because of = () => result = factory.Build(typeof(ImmutableWithMultipleParameterConstructor), source);
+
+        It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<ImmutableWithMultipleParameterConstructor>();
+        It should_have_the_same_properties_as_the_source = () => result.ShouldEqual(immutable_type);
+    }
+}

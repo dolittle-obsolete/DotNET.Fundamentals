@@ -8,5 +8,6 @@
     <ProjectReference Include="../../Source/Dynamic/Dynamic.csproj" />
     <ProjectReference Include="../../Source/Concepts/Concepts.csproj" />
     <ProjectReference Include="../../Source/Reflection/Reflection.csproj" />  
+    <ProjectReference Include="../../Source/Types/Types.csproj" />
   </ItemGroup>
 </Project>
