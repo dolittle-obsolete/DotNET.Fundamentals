@@ -19,5 +19,14 @@ namespace Dolittle.Artifacts
         {
             return new ArtifactId { Value = id };
         }
+
+        /// <summary>
+        /// Create a new <see cref="ArtifactId"/>
+        /// </summary>
+        /// <returns><see cref="ArtifactId">New artifact identifier</see></returns>
+        public static ArtifactId New()
+        {
+            return Guid.NewGuid();
+        }
     }
 }
