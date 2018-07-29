@@ -39,7 +39,7 @@ namespace Dolittle.Artifacts
         /// <returns><see cref="Artifact">New artifact</see></returns>
         public static Artifact New()
         {
-            return new Artifact(Guid.NewGuid(), ArtifactGeneration.First);
+            return new Artifact(ArtifactId.New(), ArtifactGeneration.First);
         }
     }
 }
