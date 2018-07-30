@@ -1,4 +1,4 @@
-namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building
+﻿namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_simple_immutable
 {
     using Machine.Specifications;
     using Dolittle.PropertyBags;
@@ -6,7 +6,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building
     using System;
 
     [Subject(typeof(ObjectFactory), "Build")]
-    public class an_immutable_type : given.an_object_factory
+    public class with_a_ctor_with_multiple_parameters : given.an_object_factory
     {
         static IObjectFactory factory;
         static ImmutableWithMultipleParameterConstructor immutable_type;

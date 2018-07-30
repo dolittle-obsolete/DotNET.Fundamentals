@@ -53,7 +53,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.given
 
         static IEnumerable<ITypeFactory> get_system_type_factories()
         {
-            yield return new ImmutableTypeConstructorBasedFactory();
+            yield return new ImmutableTypeConstructorBasedFactory(new ConstructorProvider());
             yield return new MutableTypeSetterBasedFactory();
             yield return new MutableTypeConstructorBasedFactory();
         }

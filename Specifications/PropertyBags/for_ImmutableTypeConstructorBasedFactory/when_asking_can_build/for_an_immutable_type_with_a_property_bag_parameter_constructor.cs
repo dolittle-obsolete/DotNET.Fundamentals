@@ -11,7 +11,7 @@ namespace Dolittle.PropertyBags.Specs.for_ImmutableTypeConstructorBasedFactory.w
         static bool can_build_generic;
         Establish context = () => 
         {
-            type_factory = new ImmutableTypeConstructorBasedFactory();
+            type_factory = new ImmutableTypeConstructorBasedFactory(new ConstructorProvider());
         };
 
         Because of = () => 
