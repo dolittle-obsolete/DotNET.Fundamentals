@@ -104,7 +104,7 @@ namespace Dolittle.Applications
 
         /// <inheritdoc/>
         public bool Recursive { get; }
-
+        
         void ThrowIfTypeIsNotApplicationLocation(Type type)
         {
             if (!typeof(IApplicationLocationSegment).IsAssignableFrom(type))throw new ApplicationStructureFragmentMustBeApplicationLocation(type);
@@ -115,7 +115,7 @@ namespace Dolittle.Applications
             var nameParameterType = typeof(string);
             var valid = true;
             var constructor = type.GetConstructors().SingleOrDefault();
-            if (constructor == null)valid = false;
+            if (constructor == null) valid = false;
             else
             {
                 var parameters = constructor.GetParameters();
@@ -232,5 +232,6 @@ namespace Dolittle.Applications
         {
             return GetHashCode().CompareTo(other.GetHashCode());
         }
+
     }
 }

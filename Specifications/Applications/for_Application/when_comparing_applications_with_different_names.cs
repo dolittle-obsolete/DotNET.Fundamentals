@@ -11,9 +11,9 @@ namespace Dolittle.Applications.Specs.for_Application
         Establish context = () => 
         {
             application_a = Application.WithName(name_a)
-                .Build();
+                .Build(new NullApplicationValidationStrategy());
             application_b = Application.WithName(name_b)
-                .Build();
+                .Build(new NullApplicationValidationStrategy());
         };
 
         It should_hold_name_a = () => application_a.Name.Value.ShouldEqual(name_a);

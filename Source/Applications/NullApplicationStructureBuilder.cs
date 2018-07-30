@@ -15,5 +15,11 @@ namespace Dolittle.Applications
         {
             return new NullApplicationStructure();
         }
+
+        /// <inheritdoc/>
+        public IApplicationStructure Build(IApplicationStructureValidationStrategy validationStrategy)
+        {
+            return new NullApplicationStructure();
+        }
     }
 }

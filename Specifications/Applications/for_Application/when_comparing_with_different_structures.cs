@@ -14,12 +14,12 @@ namespace Dolittle.Applications.Specs.for_Application
                 .WithStructureStartingWith<BoundedContext>(b => b.Required
                     .WithChild<Module>(m => m.Required
                         .WithChild<Feature>()))
-                .Build();
+                .Build(new NullApplicationValidationStrategy());
                 
             application_b = Application.WithName(name)
                 .WithStructureStartingWith<BoundedContext>(b => b.Required
                     .WithChild<Module>(m => m.Required))
-                .Build();
+                .Build(new NullApplicationValidationStrategy());
 
             
         };

@@ -18,6 +18,7 @@ namespace Dolittle.Applications
         /// <param name="prefixes"></param>
         /// <returns><see cref="IApplicationBuilder"/> to continue building</returns>
         IApplicationBuilder PrefixLocationsWith(params IApplicationLocationSegment[] prefixes);
+        
 
         /// <summary>
         /// Start building the structure
@@ -29,9 +30,15 @@ namespace Dolittle.Applications
         IApplicationBuilder WithStructureStartingWith<TFragment>(Func<IApplicationStructureFragmentBuilder, IApplicationStructureFragmentBuilder> fragmentBuilderCallback, Action<IApplicationStructureBuilder> structureBuilderCallback=null) where TFragment : IApplicationLocationSegment;
 
         /// <summary>
-        /// Build an <see cref="IApplication">application definition</see>
+        /// Build an <see cref="IApplication">application definition</see> with a <see cref="IApplicationValidationStrategy">default validation strategy </see>
         /// </summary>
         /// <returns>A instance of <see cref="IApplication"/></returns>
-        IApplication  Build();
+        IApplication Build();
+
+        /// <summary>
+        /// Build an <see cref="IApplication">application definition</see> with a <see cref="IApplicationValidationStrategy"/>
+        /// </summary>
+        /// <returns>A instance of <see cref="IApplication"/></returns>
+        IApplication Build(IApplicationValidationStrategy validationStrategy);
     }
 }

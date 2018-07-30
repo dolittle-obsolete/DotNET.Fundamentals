@@ -15,7 +15,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationBuilder
                         m.Required.WithChild<Feature>(f => 
                             f.WithChild<SubFeature>(sf =>
                                 sf.Recursive))))
-            .Build().Structure.Root;
+            .Build(new NullApplicationValidationStrategy()).Structure.Root;
 
         };
 

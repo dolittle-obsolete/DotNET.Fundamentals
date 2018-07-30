@@ -28,7 +28,6 @@ namespace Dolittle.Applications
         /// <param name="child"><see cref="IApplicationLocationSegment">child</see> to add</param>
         void AddChild(IApplicationLocationSegment child);
 
-
     }
 
     /// <summary>

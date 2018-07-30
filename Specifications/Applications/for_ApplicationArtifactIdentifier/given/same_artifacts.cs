@@ -17,7 +17,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifier.given
         {
             var application = Application.WithName("ApplicationName")
                 .WithStructureStartingWith<BoundedContext>(bc => bc.Required)
-                .Build();
+                .Build(new NullApplicationValidationStrategy());
 
             var boundedContext = new BoundedContext("BoundedContext");
             var location = new ApplicationLocation(new IApplicationLocationSegment[] 

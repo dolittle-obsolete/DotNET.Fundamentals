@@ -17,6 +17,6 @@ namespace Dolittle.Applications.Specs.for_ApplicationArtifactIdentifierStringCon
                             .WithChild<Feature>(f =>
                                 f.WithChild<SubFeature>(sf =>
                                     sf.Recursive))))
-                .Build();
+                .Build(new NullApplicationValidationStrategy());
     }
 }

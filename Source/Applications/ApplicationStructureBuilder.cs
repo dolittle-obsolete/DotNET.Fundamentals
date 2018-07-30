@@ -13,7 +13,6 @@ namespace Dolittle.Applications
     public class ApplicationStructureBuilder : IApplicationStructureBuilder
     {
         readonly IApplicationStructureFragment _root;
-
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationStructureBuilder"/>
         /// </summary>
@@ -23,10 +22,8 @@ namespace Dolittle.Applications
             _root = root;
         }
 
-        
-
         /// <summary>
-        /// Define the root of the <see cref="IApplicationStructure"/>
+        /// Define the root of the <see cref="IApplicationStructure"/> with a default <see cref="IApplicationStructureValidationStrategy"/>
         /// </summary>
         /// <param name="root">The root <see cref="IApplicationStructureFragment"/></param>
         /// <returns><see cref="IApplicationStructureBuilder"/> to continue building</returns>
@@ -34,13 +31,22 @@ namespace Dolittle.Applications
         {
             var builder = new ApplicationStructureBuilder(root);
             return builder;
-        }      
-
+        }
 
         /// <inheritdoc/>
         public IApplicationStructure Build()
         {
+            return Build(new DefaultApplicationStructureValidationStrategy());
+        }
+
+        /// <inheritdoc/>
+        public IApplicationStructure Build(IApplicationStructureValidationStrategy validationStrategy)
+        {
             var structure = new ApplicationStructure(_root);
+            var validationResult = validationStrategy.Validate(structure);
+        
+            if (! validationResult.isValid) 
+                throw validationResult.exception;
             return structure;
         }
     }

@@ -10,9 +10,14 @@ namespace Dolittle.Applications
     public interface IApplicationStructureBuilder
     {
         /// <summary>
-        /// Build an instance of <see cref="IApplicationStructure"/>
+        /// Build an instance of <see cref="IApplicationStructure"/> with the default <see cref="IApplicationStructureValidationStrategy"/>
         /// </summary>
         /// <returns>A new instance of <see cref="IApplicationStructure"/></returns>
         IApplicationStructure Build();
+        /// <summary>
+        /// Build an instance of <see cref="IApplicationStructure"/>
+        /// </summary>
+        /// <returns>A new instance of <see cref="IApplicationStructure"/></returns>
+        IApplicationStructure Build(IApplicationStructureValidationStrategy validationStrategy);
     }
 }

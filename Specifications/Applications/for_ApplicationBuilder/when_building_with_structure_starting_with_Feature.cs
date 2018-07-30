@@ -10,7 +10,7 @@ namespace Dolittle.Applications.Specs.for_ApplicationBuilder
             root = application_builder
                 .WithStructureStartingWith<Feature>(b => 
                     b.Required)
-            .Build().Structure.Root;
+            .Build(new NullApplicationValidationStrategy()).Structure.Root;
         It should_have_a_structure_root = () => root.ShouldNotBeNull();
         It should_have_a_structure_with_a_root_of_type_Feature = () => root.Type.ShouldEqual(typeof(Feature));
         It should_have_a_required_Feature = () => root.Required.ShouldBeTrue();
