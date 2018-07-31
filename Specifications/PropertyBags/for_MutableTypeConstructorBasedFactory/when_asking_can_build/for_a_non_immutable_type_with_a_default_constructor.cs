@@ -12,7 +12,7 @@
         static bool can_build_generic;
         Establish context = () => 
         {
-            type_factory = new MutableTypeConstructorBasedFactory();
+            type_factory = new MutableTypeConstructorBasedFactory(new ConstructorProvider());
         };
 
         Because of = () => 

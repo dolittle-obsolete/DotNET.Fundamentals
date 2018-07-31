@@ -10,13 +10,13 @@ namespace Dolittle.PropertyBags
     /// </summary>
     public class MutableTypeSetterBasedFactory : ITypeFactory
     {
-        ConcurrentDictionary<Type,InstancePropertySetter> _factories = new ConcurrentDictionary<Type, InstancePropertySetter>();
+        ConcurrentDictionary<Type,InstancePropertySetter> _setters = new ConcurrentDictionary<Type, InstancePropertySetter>();
         /// <inheritdoc />  
         public object Build(Type type, IObjectFactory objectFactory, PropertyBag source)
         {
-            var fac =_factories.GetOrAdd(type, (t) => new InstancePropertySetter(type, objectFactory));
+            var setter =_setters.GetOrAdd(type, (t) => new InstancePropertySetter(type, objectFactory));
             var instance = Activator.CreateInstance(type);
-            fac.Populate(instance, source);
+            setter.Populate(instance, source);
             return instance;
         }
 

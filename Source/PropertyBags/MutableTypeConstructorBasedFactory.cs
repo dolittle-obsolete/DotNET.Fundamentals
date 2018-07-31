@@ -1,6 +1,7 @@
 namespace Dolittle.PropertyBags
 {
     using System;
+    using System.Collections.Concurrent;
     using Dolittle.Reflection;
 
     /// <summary>
@@ -8,16 +9,29 @@ namespace Dolittle.PropertyBags
     /// </summary>
     public class MutableTypeConstructorBasedFactory : ITypeFactory
     {
+        ConcurrentDictionary<Type,InstancePropertySetter> _setters = new ConcurrentDictionary<Type, InstancePropertySetter>();
+        ConcurrentDictionary<Type,PropertyBagToTypeInstanceFactory> _factories = new ConcurrentDictionary<Type, PropertyBagToTypeInstanceFactory>();
+        private readonly IConstructorProvider _provider;
+
+        public MutableTypeConstructorBasedFactory(IConstructorProvider provider)
+        {
+            _provider = provider;
+        }
+
         /// <inheritdoc />
         public object Build(Type type, IObjectFactory objectFactory, PropertyBag source)
         {
-            throw new NotImplementedException();
+            var fac =_factories.GetOrAdd(type, (t) => new PropertyBagToTypeInstanceFactory(_provider.GetFor(type), objectFactory));
+            var instance = fac.Build(source);
+            var setter =_setters.GetOrAdd(type, (t) => new InstancePropertySetter(type, objectFactory));
+            setter.Populate(instance, source);
+            return instance;
         }
 
         /// <inheritdoc />  
         public T Build<T>(IObjectFactory objectFactory, PropertyBag source)
         {
-            throw new NotImplementedException();
+            return (T)Build(typeof(T),objectFactory, source);
         }
 
         /// <inheritdoc />  

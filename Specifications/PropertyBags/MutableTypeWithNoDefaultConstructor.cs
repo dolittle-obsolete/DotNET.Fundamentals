@@ -16,5 +16,8 @@ namespace Dolittle.PropertyBags.Specs
         public int IntProperty { get; set; }
         public string StringProperty { get; set; }
         public DateTime DateTimeProperty { get; set; }
+
+        public string NotSetFromAConstuctor { get; set; }
+        public int AReadOnlyProperty => 10;
     }
 }

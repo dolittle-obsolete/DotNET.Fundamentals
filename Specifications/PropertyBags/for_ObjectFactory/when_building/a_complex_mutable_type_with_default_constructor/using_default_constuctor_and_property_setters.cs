@@ -6,7 +6,7 @@
     using System;
 
     [Subject(typeof(ObjectFactory), "Build")]
-    public class from_a_property_bag : given.an_object_factory
+    public class using_default_constuctor_and_property_setters : given.an_object_factory
     {
         static IObjectFactory factory;
         static ComplexMutableTypeWithDefaultConstructor mutable_type;
