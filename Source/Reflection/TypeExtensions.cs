@@ -143,6 +143,18 @@ namespace Dolittle.Reflection
         }
 
         /// <summary>
+        /// Get the non default constructor matching the types
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="type">Type to get from</param>
+        /// <param name="parameterTypes">Types for matching the parameters</param>
+        /// <returns>The <see cref="ConstructorInfo"/> for the constructor</returns>
+        public static ConstructorInfo GetNonDefaultConstructor(this Type type, Type[] parameterTypes)
+        {
+            return type.GetTypeInfo().GetConstructor(parameterTypes);
+        }
+
+        /// <summary>
         /// Get the non default constructor with the greatest number of parameters.
         /// Should be used with care. Constructors are not ordered, so if there are multiple constructors with the
         /// same number of parameters, it is indeterminate which will be returned.

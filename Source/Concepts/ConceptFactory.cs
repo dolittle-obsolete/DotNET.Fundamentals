@@ -67,7 +67,7 @@ namespace Dolittle.Concepts
             } 
             else 
             {
-                instance = type.GetNonDefaultConstructor().Invoke(new object[]{ val });
+                instance = type.GetNonDefaultConstructor(new Type[]{ genericArgumentType }).Invoke(new object[]{ val });
             }
             return instance;
         }
