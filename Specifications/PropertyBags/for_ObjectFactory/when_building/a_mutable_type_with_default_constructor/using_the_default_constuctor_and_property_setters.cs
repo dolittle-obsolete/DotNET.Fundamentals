@@ -6,7 +6,7 @@
     using System;
 
     [Subject(typeof(ObjectFactory), "Build")]
-    public class from_a_property_bag : given.an_object_factory
+    public class using_the_default_constuctor_and_property_setters : given.an_object_factory
     {
         static IObjectFactory factory;
         static MutableTypeWithDefaultConstructor mutable_type;
@@ -19,6 +19,7 @@
             mutable_type.IntProperty = 42;
             mutable_type.StringProperty = "Forty-Two";
             mutable_type.DateTimeProperty = DateTime.UtcNow.AddDays(1);
+            mutable_type.ConceptProperty = "wibble";
             source = mutable_type.ToPropertyBag();
         };
 

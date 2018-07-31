@@ -26,7 +26,7 @@ namespace Dolittle.PropertyBags
 
             foreach (var property in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
-                var value = property.PropertyType.IsAPrimitiveType() ? property.GetValue(obj) : property.PropertyType.IsConcept() ? property.GetValue(obj).GetConceptValue() : property.GetValue(obj).ToPropertyBag();
+                var value = property.PropertyType.IsAPrimitiveType() ? property.GetValue(obj) : property.PropertyType.IsConcept() ? property.GetValue(obj)?.GetConceptValue() : property.GetValue(obj).ToPropertyBag();
                 values.Add(property.Name, value);
             }
 
