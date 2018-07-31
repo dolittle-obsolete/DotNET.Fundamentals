@@ -2,7 +2,6 @@ namespace Dolittle.PropertyBags
 {
     using System;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Reflection;
     using System.Collections.Generic;
     using System.Collections.Concurrent;
@@ -15,11 +14,15 @@ namespace Dolittle.PropertyBags
     /// Creates a instance of the immutable type, using a constructor to provide all values
     /// </summary>
     [Singleton]
-    public class ImmutableTypeConstructorBasedFactory : ITypeFactory
+    public partial class ImmutableTypeConstructorBasedFactory : ITypeFactory
     {
         ConcurrentDictionary<Type,PropertyBagToTypeInstanceFactory> _factories = new ConcurrentDictionary<Type, PropertyBagToTypeInstanceFactory>();
         private readonly IConstructorProvider _provider;
 
+        /// <summary>
+        /// Instantiates an instance of <see cref="ImmutableTypeConstructorBasedFactory" />
+        /// </summary>
+        /// <param name="provider"></param>
         public ImmutableTypeConstructorBasedFactory(IConstructorProvider provider)
         {
             _provider = provider;
@@ -52,7 +55,7 @@ namespace Dolittle.PropertyBags
 
         private class PropertyBagToTypeInstanceFactory
         {
-            Instantiator.InstanceActivator _activator;
+            InstanceActivator _activator;
             List<Func<PropertyBag,object>> _populators = new List<Func<PropertyBag, object>>();
             private readonly IObjectFactory _factory;
 
@@ -94,48 +97,6 @@ namespace Dolittle.PropertyBags
                     args[i] = _populators[i](propertyBag);
                 }
                 return args;
-            }
-        }
-
-        private class Instantiator 
-        {
-            public delegate object InstanceActivator(params object[] args);
-
-            public static InstanceActivator GetInstanceActivator(ConstructorInfo ctor, IObjectFactory factory)
-            {
-                var type = ctor.DeclaringType;
-                var paramsInfo = ctor.GetParameters();                  
-
-                var param = Expression.Parameter(typeof(object[]), "args");
-            
-                var argsExp = new Expression[paramsInfo.Length];            
-                for (int i = 0; i < paramsInfo.Length; i++)
-                {
-                    var index = Expression.Constant(i);
-                    var paramType = paramsInfo[i].ParameterType;              
-                    var paramAccessorExp = Expression.ArrayIndex(param, index);
-                    Expression getValueExp = null;  
-                    if(paramType.IsAPrimitiveType() || paramType == typeof(PropertyBag))
-                    {
-                        getValueExp = Expression.Convert(paramAccessorExp, paramType);              
-
-                    }            
-                    else 
-                    {
-                        var factoryConstant = Expression.Constant(factory, typeof(IObjectFactory));
-                        var typeConstant = Expression.Constant(paramType, typeof(Type));
-                        var buildMethod = typeof(IObjectFactory).GetMethods().Where(m => m.Name == "Build").Single(m => !m.IsGenericMethod);
-                        var convertExp = Expression.Convert(paramAccessorExp, typeof(PropertyBag));
-                        var callExpr = Expression.Call(factoryConstant, buildMethod, new Expression[]{ typeConstant, convertExp });
-                        getValueExp = Expression.Convert(callExpr, paramType); 
-                    }
-                    argsExp[i] = getValueExp;
-                }                  
-
-                var newExp = Expression.New(ctor,argsExp);                  
-                var lambda = Expression.Lambda(typeof(InstanceActivator), newExp, param);              
-                var compiled = (InstanceActivator)lambda.Compile();
-                return compiled;
             }
         }
     }
