@@ -4,8 +4,10 @@ namespace Dolittle.PropertyBags
     using System.Reflection;
     using Dolittle.Reflection;
     using Dolittle.Concepts;
+    using System;
+    using System.Linq;
 
-    public delegate object InstanceActivator(params object[] args);     
+    public delegate object InstanceActivator(params object[] args);   
 
     public static class Instantiator 
     {

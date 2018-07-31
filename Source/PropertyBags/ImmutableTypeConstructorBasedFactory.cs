@@ -14,7 +14,7 @@ namespace Dolittle.PropertyBags
     /// Creates a instance of the immutable type, using a constructor to provide all values
     /// </summary>
     [Singleton]
-    public partial class ImmutableTypeConstructorBasedFactory : ITypeFactory
+    public class ImmutableTypeConstructorBasedFactory : ITypeFactory
     {
         ConcurrentDictionary<Type,PropertyBagToTypeInstanceFactory> _factories = new ConcurrentDictionary<Type, PropertyBagToTypeInstanceFactory>();
         private readonly IConstructorProvider _provider;

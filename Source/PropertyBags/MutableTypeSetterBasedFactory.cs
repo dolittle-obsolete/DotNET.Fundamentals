@@ -1,23 +1,29 @@
 namespace Dolittle.PropertyBags
 {
     using System;
+    using System.Linq;
     using Dolittle.Reflection;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// Creates a mutable object using the default constructor then setting all the mutable properties
     /// </summary>
     public class MutableTypeSetterBasedFactory : ITypeFactory
     {
+        ConcurrentDictionary<Type,InstancePropertySetter> _factories = new ConcurrentDictionary<Type, InstancePropertySetter>();
         /// <inheritdoc />  
         public object Build(Type type, IObjectFactory objectFactory, PropertyBag source)
         {
-            throw new NotImplementedException();
+            var fac =_factories.GetOrAdd(type, (t) => new InstancePropertySetter(type, objectFactory));
+            var instance = Activator.CreateInstance(type);
+            fac.Populate(instance, source);
+            return instance;
         }
 
         /// <inheritdoc />  
         public T Build<T>(IObjectFactory objectFactory, PropertyBag source)
         {
-            throw new NotImplementedException();
+            return (T)Build(typeof(T),objectFactory,source);
         }
 
         /// <inheritdoc />  
