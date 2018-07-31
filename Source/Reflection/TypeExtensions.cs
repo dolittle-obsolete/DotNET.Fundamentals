@@ -169,6 +169,15 @@ namespace Dolittle.Reflection
                             .FirstOrDefault();
         }
 
+        /// <summary>
+        /// Gets all the public properties with setters
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static PropertyInfo[] GetSettableProperties(this Type type)
+        {
+            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanWrite).ToArray();
+        }
 
         /// <summary>
         /// Check if a type implements a specific interface
