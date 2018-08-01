@@ -2,84 +2,44 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
+using Dolittle.Concepts;
+
 namespace Dolittle.Artifacts
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IArtifact"/>
+    /// Represents the concept of an artifact
     /// </summary>
-    public class Artifact : IArtifact
+    public class Artifact : Value<Artifact>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="Artifact"/>
         /// </summary>
-        /// <param name="name"><see cref="ArtifactName">Name</see> of the <see cref="Artifact"/></param>
-        /// <param name="type"><see cref="IArtifactType">Type</see> of the <see cref="Artifact"/></param>
+        /// <param name="id"><see cref="ArtifactId">Id</see> of the <see cref="Artifact"/></param>
         /// <param name="generation"><see cref="ArtifactGeneration">Generation</see> of the <see cref="Artifact"/></param>
-        public Artifact(ArtifactName name, IArtifactType type, ArtifactGeneration generation)
+        public Artifact(ArtifactId id, ArtifactGeneration generation)
         {
-            Name = name;
-            Type = type;
+            Id = id;
             Generation = generation;
         }
 
-        /// <inheritdoc/>
-        public ArtifactName Name { get; }
+        /// <summary>
+        /// Gets the <see cref="Guid">unique identifier</see> of the <see cref="Artifact"/>
+        /// </summary>
+        public ArtifactId Id { get; }
         
-        /// <inheritdoc/>
-        public IArtifactType Type { get; }
-
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="ArtifactGeneration">generation</see> of the <see cref="Artifact"/>
+        /// </summary>
         public ArtifactGeneration Generation {get; }
 
-        /// <inheritdoc/>
-        public static bool operator ==(Artifact x, Artifact y)
+        /// <summary>
+        /// Create a new <see cref="Artifact"/> as the first generation
+        /// </summary>
+        /// <returns><see cref="Artifact">New artifact</see></returns>
+        public static Artifact New()
         {
-            return x.Equals(y);
-        }
-
-        /// <inheritdoc/>
-        public static bool operator !=(Artifact x, Artifact y)
-        {
-            return !x.Equals(y);
-        }
-
-        /// <inheritdoc/>
-        public bool Equals(Artifact other)
-        {
-            if (Name.Value != other.Name.Value) return false;
-            if (Type.Identifier != other.Type.Identifier) return false;
-            if (Generation.Value != other.Generation.Value ) return false;
-
-            return true;
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            var hashCode = Name.Value.GetHashCode();
-            hashCode += Type.Identifier.GetHashCode();
-            hashCode += Generation.Value.GetHashCode();
-
-            return hashCode;
-        }
-
-        /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is Artifact)) return false;
-            return Equals((Artifact) obj);
-        }
-
-        /// <inheritdoc/>
-        public int CompareTo(object obj)
-        {
-            return GetHashCode().CompareTo(obj.GetHashCode());
-        }
-
-        /// <inheritdoc/>
-        public int CompareTo(Artifact other)
-        {
-            return GetHashCode().CompareTo(other.GetHashCode());
+            return new Artifact(ArtifactId.New(), ArtifactGeneration.First);
         }
     }
 }

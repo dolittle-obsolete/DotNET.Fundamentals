@@ -9,14 +9,8 @@ namespace Dolittle.Applications
     /// <summary>
     /// Represents the name of a <see cref="Feature"/>
     /// </summary>
-    public class ModuleName : ConceptAs<string>, IApplicationLocationSegmentName
+    public class ModuleName : ConceptAs<string>
     {
-        /// <inheritdoc/>
-        public string AsString()
-        {
-            return this;
-        }
-
         /// <summary>
         /// Implicitly converts from a <see cref="string"/> to a <see cref="ModuleName"/>
         /// </summary>
