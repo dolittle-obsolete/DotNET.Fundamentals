@@ -15,7 +15,7 @@
         Establish context = () => 
         {
             factory = instance;
-            immutable_type = new ImmutableWithMultipleParameterConstructor(42,"Forty-Two",DateTime.UtcNow);
+            immutable_type = new ImmutableWithMultipleParameterConstructor(42,"Forty-Two",DateTime.UtcNow, null);
             source = immutable_type.ToPropertyBag();
         };
 

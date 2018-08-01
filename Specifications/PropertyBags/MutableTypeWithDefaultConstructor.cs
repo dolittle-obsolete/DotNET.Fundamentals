@@ -9,5 +9,6 @@ namespace Dolittle.PropertyBags.Specs
         public string StringProperty { get; set; }
         public DateTime DateTimeProperty { get; set; }
         public StringConcept ConceptProperty { get; set; }
+        public int? NullableInt { get; set; }
     }
 }

@@ -20,6 +20,7 @@
             mutable_type.StringProperty = "Forty-Two";
             mutable_type.DateTimeProperty = DateTime.UtcNow.AddDays(1);
             mutable_type.ConceptProperty = "wibble";
+            mutable_type.NullableInt = 1888;
             source = mutable_type.ToPropertyBag();
         };
 
