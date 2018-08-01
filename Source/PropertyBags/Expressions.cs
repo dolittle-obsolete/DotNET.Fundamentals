@@ -12,9 +12,19 @@ namespace Dolittle.PropertyBags
     using Dolittle.Strings;
     using Dolittle.Concepts;
 
+    /// <summary>
+    /// Expression helpers that can be used to in the PropertyBag factories
+    /// </summary>
     public static class Expressions 
     {
-        public static Expression GetBuildExpresssion(Type destinationType, IObjectFactory factory, Expression accessorExp)
+        /// <summary>
+        /// An Expression that can be used to build a complex type using an <see cref="IObjectFactory" />
+        /// </summary>
+        /// <param name="destinationType">The Type of the instance to be built</param>
+        /// <param name="factory">An instance of <see cref="IObjectFactory" /> that can be used to build complex types </param>
+        /// <param name="accessorExp">An Expression that accesses the correct property on the Source</param>
+        /// <returns></returns>
+        public static Expression GetBuildExpression(Type destinationType, IObjectFactory factory, Expression accessorExp)
         {
             var factoryConstant = Expression.Constant(factory, typeof(IObjectFactory));
             var typeConstant = Expression.Constant(destinationType, typeof(Type));
@@ -24,6 +34,12 @@ namespace Dolittle.PropertyBags
             return Expression.Convert(callExpr, destinationType); 
         }
 
+        /// <summary>
+        /// An Expression that can be used to build a <see cref="ConceptAs{T}" />
+        /// </summary>
+        /// <param name="destinationType">The Type of the <see cref="ConceptAs{T}" /> instance to be built</param>
+        /// <param name="accessorExp"></param>
+        /// <returns>An Expression that accesses the correct property on the Source</returns>
         public static Expression GetConceptExpression(Type destinationType, Expression accessorExp)
         {
             var typeConstant = Expression.Constant(destinationType, typeof(Type));

@@ -13,6 +13,10 @@ namespace Dolittle.PropertyBags
         ConcurrentDictionary<Type,PropertyBagToTypeInstanceFactory> _factories = new ConcurrentDictionary<Type, PropertyBagToTypeInstanceFactory>();
         private readonly IConstructorProvider _provider;
 
+        /// <summary>
+        /// Instantiates an instance of <see cref="MutableTypeConstructorBasedFactory" />
+        /// </summary>
+        /// <param name="provider">An instance of <see cref="IConstructorProvider" /> that provides the constructor to use</param>
         public MutableTypeConstructorBasedFactory(IConstructorProvider provider)
         {
             _provider = provider;

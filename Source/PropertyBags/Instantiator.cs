@@ -7,10 +7,26 @@ namespace Dolittle.PropertyBags
     using System;
     using System.Linq;
 
+    /// <summary>
+    /// Defines a method for creating an instance using the provided constructor parameters
+    /// </summary>
+    /// <param name="args">Parameters to be used in the constructor</param>
+    /// <returns>An instance of an object</returns>
     public delegate object InstanceActivator(params object[] args);   
 
+    /// <summary>
+    /// Helps create a delegate for instantiating an instance of a Type which requires 
+    /// parameters in the constructor
+    /// </summary>
     public static class Instantiator 
     {
+        /// <summary>
+        /// Creates a delegate instance that can be used to instantiate an instance with the 
+        /// provided values
+        /// </summary>
+        /// <param name="ctor">The <see cref="ConstructorInfo" /></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
         public static InstanceActivator GetInstanceActivator(ConstructorInfo ctor, IObjectFactory factory)
         {
             var type = ctor.DeclaringType;
@@ -35,7 +51,7 @@ namespace Dolittle.PropertyBags
                 }
                 else
                 {
-                    getValueExp = Expressions.GetBuildExpresssion(paramType,factory,accessorExp);
+                    getValueExp = Expressions.GetBuildExpression(paramType,factory,accessorExp);
                 }
                 argsExp[i] = getValueExp;
             }                  

@@ -17,7 +17,7 @@
         /// <summary>
         /// Gets a constuctor for the specified type
         /// </summary>
-        /// <typeparam name="type">The type that a constructor is required for</param>
+        /// <typeparam name="T">The type that a constructor is required for</typeparam>
         /// <returns>A ConstructorInfo that can be used to build an instance of the Type</returns>
         ConstructorInfo Get<T>();
     }

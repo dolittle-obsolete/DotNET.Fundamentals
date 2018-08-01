@@ -7,6 +7,9 @@ namespace Dolittle.PropertyBags
     using Dolittle.Collections;
     using Dolittle.Strings;
 
+    /// <summary>
+    /// Creates an instance of a type using the provided constructor and <see cref="PropertyBag" /> source
+    /// </summary>
     public class PropertyBagToTypeInstanceFactory
     {
         InstanceActivator _activator;
@@ -15,6 +18,11 @@ namespace Dolittle.PropertyBags
 
         //TODO: strategy for selecting constructor
         //TODO: strategy for determining ctr param => property name 
+        /// <summary>
+        /// Instantiates an instance of <see cref="PropertyBagToTypeInstanceFactory" />
+        /// </summary>
+        /// <param name="ctor">The constructor to use to construct an instance</param>
+        /// <param name="factory">A factory to create complex objects</param>
         public PropertyBagToTypeInstanceFactory(ConstructorInfo ctor, IObjectFactory factory )
         {
             ConstructorInfo = ctor;
@@ -35,9 +43,21 @@ namespace Dolittle.PropertyBags
             _factory = factory;
         }
 
+        /// <summary>
+        /// The Constructor to be used to instantiate the instance
+        /// </summary>
+        /// <value></value>
         public ConstructorInfo ConstructorInfo { get; }
+        /// <summary>
+        /// The type that the factory can build
+        /// </summary>
         public Type Type => ConstructorInfo.DeclaringType;
 
+        /// <summary>
+        /// Builds an instance of the type populating with the values from the <see cref="PropertyBag" />
+        /// </summary>
+        /// <param name="propertyBag">Source for the values to instantiate the instance with</param>
+        /// <returns>A populated instantiated instance of the type</returns>
         public object Build(PropertyBag propertyBag)
         {
             return _activator(ToCtorArgs(propertyBag));

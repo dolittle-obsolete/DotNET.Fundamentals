@@ -7,6 +7,7 @@ namespace Dolittle.PropertyBags
     using System;
     using System.Collections.Concurrent;
 
+    ///<inheritdoc />
     public class ObjectFactory : IObjectFactory
     {
         IInstancesOf<ITypeFactory> _factories;
@@ -14,6 +15,10 @@ namespace Dolittle.PropertyBags
         List<ITypeFactory> _systemFactories = new List<ITypeFactory>();
         ConcurrentDictionary<Type,Lazy<ITypeFactory>> _cachedFactories = new ConcurrentDictionary<Type,Lazy<ITypeFactory>>();
 
+        /// <summary>
+        /// Instantiates an instance of <see cref="ObjectFactory" />
+        /// </summary>
+        /// <param name="factories">Instance of <see cref="ITypeFactory" /></param>
         public ObjectFactory(IInstancesOf<ITypeFactory> factories)
         {
             _factories = factories;
@@ -29,17 +34,21 @@ namespace Dolittle.PropertyBags
                 }
             }
         }
+        
+        ///<inheritdoc />
         public object Build(Type type, PropertyBag source)
         {
             var lazyFactory = _cachedFactories.GetOrAdd(type, (t) => new Lazy<ITypeFactory>(() => GetTypeFactoryForType(t)));
             return lazyFactory.Value.Build(type, this, source);
         }
 
+        ///<inheritdoc />
         public T Build<T>(PropertyBag source)
         {
             return (T)Build(typeof(T),source);
         }
 
+        ///<inheritdoc />
         bool IsUserDefined(ITypeFactory instance)
         {
             return instance.GetType().ImplementsOpenGeneric(typeof(IUserDefinedTypeFactory<>));

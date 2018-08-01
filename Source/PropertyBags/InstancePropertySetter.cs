@@ -6,12 +6,20 @@ namespace Dolittle.PropertyBags
     using Dolittle.Reflection;
     using Dolittle.Collections;
     using Dolittle.Concepts;
-
+    
+    /// <summary>
+    /// Sets public properties on an object given a source
+    /// </summary>
     public class InstancePropertySetter
     {
         List<Func<PropertyBag,object>> _accessors = new List<Func<PropertyBag, object>>();
         List<Action<object,object>> _setters = new List<Action<object, object>>();
 
+        /// <summary>
+        /// Instantiates an instance of <see cref="InstancePropertySetter" />
+        /// </summary>
+        /// <param name="type">The type the Setter sets properties for</param>
+        /// <param name="factory">An instance of <see cref="IObjectFactory" /> used to build complex objects</param>
         public InstancePropertySetter(Type type, IObjectFactory factory )
         {
             Type = type;
@@ -34,8 +42,17 @@ namespace Dolittle.PropertyBags
                 });
             });
         }
+        /// <summary>
+        /// The Type that this sets properties for
+        /// </summary>
+        /// <value></value>
         public Type Type { get; }
 
+        /// <summary>
+        /// Populates properties on the instance with values from the <see cref="PropertyBag" /> source
+        /// </summary>
+        /// <param name="instance">The instance to populate</param>
+        /// <param name="propertyBag">A <see cref="PropertyBag" /> instance that is the source</param>
         public void Populate(object instance, PropertyBag propertyBag)
         {
             for(int i = 0; i < _setters.Count(); i++)

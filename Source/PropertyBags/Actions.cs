@@ -12,8 +12,17 @@ namespace Dolittle.PropertyBags
     using Dolittle.Strings;
     using Dolittle.Concepts;
 
+    /// <summary>
+    /// Helpers for building Actions that can be used in the PropertyBag factories
+    /// </summary>
     public static class Actions 
     {
+        /// <summary>
+        /// Creates an Action that can be used to set a property
+        /// </summary>
+        /// <param name="targetType">Type that contains the Property</param>
+        /// <param name="property">A PropertyInfo for the property to set</param>
+        /// <returns>An action that can be used to set the specified property on an instance of the type</returns>
         public static Action<object, object> GetPropertySetter(Type targetType, PropertyInfo property)
         {
             var target = Expression.Parameter(typeof (object), "obj");

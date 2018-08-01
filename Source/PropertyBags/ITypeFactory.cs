@@ -32,7 +32,7 @@ namespace Dolittle.PropertyBags
         /// <summary>
         /// Builds the specific type
         /// </summary>
-        /// <typeparam name="T">The type to build</param>
+        /// <typeparam name="T">The type to build</typeparam>
         /// <param name="objectFactory">An instance of <see cref="IObjectFactory" /> to help with building any child types</param>
         /// <param name="source">The instance of <see cref="PropertyBag" /> that is used to populate the instance</param>
         /// <returns>An instance of the type, populated from the <see cref="PropertyBag" /></returns>
