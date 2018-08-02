@@ -7,7 +7,7 @@ using Dolittle.Concepts;
 namespace Dolittle.Applications
 {
     /// <summary>
-    /// Represents the name of <see cref="IApplication"/>
+    /// Represents the name of <see cref="Application"/>
     /// </summary>
     public class ApplicationName : ConceptAs<string>
     {
