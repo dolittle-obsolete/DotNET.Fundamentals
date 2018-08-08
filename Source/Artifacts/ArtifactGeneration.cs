@@ -7,10 +7,15 @@ using Dolittle.Concepts;
 namespace Dolittle.Artifacts
 {
     /// <summary>
-    /// Represents the generation of an <see cref="IArtifact"/>
+    /// Represents the generation of an <see cref="Artifact"/>
     /// </summary>
     public class ArtifactGeneration : ConceptAs<int>
     {
+        /// <summary>
+        /// Gets the first generation representation
+        /// </summary>
+        public static readonly ArtifactGeneration First = new ArtifactGeneration { Value = 1 };
+
         /// <summary>
         /// Implicitly converts <see cref="int"/> to an <see cref="ArtifactGeneration"/>
         /// </summary>

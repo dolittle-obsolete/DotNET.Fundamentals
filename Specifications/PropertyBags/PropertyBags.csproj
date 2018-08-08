@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Dolittle.PropertyBags.Specs</AssemblyName>
+  </PropertyGroup>
+
+  <Import Project="../../Build/MSBuild/specs.props"></Import>
+
+  <ItemGroup>
+    <ProjectReference Include="../../Source/PropertyBags/PropertyBags.csproj" />
+  </ItemGroup>
+</Project>

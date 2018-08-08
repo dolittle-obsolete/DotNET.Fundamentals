@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
+using Dolittle.Reflection;
 
 namespace Dolittle.Concepts
 {
@@ -19,8 +20,8 @@ namespace Dolittle.Concepts
         /// <param name="value">Value to give to this instance</param>
         /// <returns>An instance of a ConceptAs with the specified value</returns>
         public static object CreateConceptInstance(Type type, object value)
-        {
-            var instance = Activator.CreateInstance(type);
+        {            
+            //var instance = Activator.CreateInstance(type);
             var val = new object();
 
             var valueProperty = type.GetTypeInfo().GetProperty("Value");
@@ -31,7 +32,7 @@ namespace Dolittle.Concepts
                 val = value == null ? Guid.Empty : Guid.Parse(value.ToString());
             }
 
-            if (IsPrimitive(valueProperty.PropertyType))
+            if (valueProperty.PropertyType.IsAPrimitiveType())
             {
                 val = value ?? Activator.CreateInstance(valueProperty.PropertyType);
             }
@@ -51,11 +52,23 @@ namespace Dolittle.Concepts
                 val = value ?? default(DateTimeOffset);
             }
 
-            if (val.GetType() != genericArgumentType)
+            if(IsGuidFromString(genericArgumentType,val))
+            {
+                val = val == null ? Guid.Empty : new Guid(val as string);
+            }
+
+            if (val.GetType() != genericArgumentType && !IsGuidFromString(genericArgumentType,val))
                 val = Convert.ChangeType(val, genericArgumentType, null);
 
-            valueProperty.SetValue(instance, val, null);
-
+            object instance = null;
+            if(type.HasDefaultConstructor()){
+                instance = Activator.CreateInstance(type);
+                valueProperty.SetValue(instance, val, null);
+            } 
+            else 
+            {
+                instance = type.GetNonDefaultConstructor(new Type[]{ genericArgumentType }).Invoke(new object[]{ val });
+            }
             return instance;
         }
 
@@ -63,9 +76,10 @@ namespace Dolittle.Concepts
         {
             return ConceptMap.GetConceptValueType(conceptType);
         }
-        static bool IsPrimitive(Type type)
+
+        static bool IsGuidFromString(Type genericArgumentType, object value)
         {
-            return type.GetTypeInfo().IsPrimitive || type == typeof(decimal);
+            return genericArgumentType == typeof(Guid) && value.GetType() == typeof(string);
         }
     }
 }
