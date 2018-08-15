@@ -94,5 +94,14 @@ namespace Dolittle.PropertyBags
                             .Aggregate(17, (current, param) => current*29 + param.Value.GetHashCode());
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dictionary"></param>
+        public static implicit operator PropertyBag(Dictionary<string,object> dictionary)
+        {
+            return new PropertyBag(dictionary);
+        }
     }
 }

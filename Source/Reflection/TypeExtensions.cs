@@ -106,7 +106,8 @@ namespace Dolittle.Reflection
         /// <returns>true if it has a default constructor, false if not</returns>
         public static bool HasDefaultConstructor(this Type type)
         {
-            return GetTypeInfo(type).HasDefaultConstructor;
+            //return GetTypeInfo(type).HasDefaultConstructor;
+            return type.GetConstructors().Any(c => c.GetParameters().Length == 0);
         }
 
 
@@ -117,7 +118,7 @@ namespace Dolittle.Reflection
         /// <returns>true if it has a non default constructor, false if not</returns>
         public static bool HasNonDefaultConstructor(this Type type)
         {
-            return type.GetTypeInfo().DeclaredConstructors.Any(c => c.GetParameters().Length > 0);
+            return type.GetConstructors().Any(c => c.GetParameters().Length > 0);
         }
 
 
@@ -128,7 +129,7 @@ namespace Dolittle.Reflection
         /// <returns>The default <see cref="ConstructorInfo"/></returns>
         public static ConstructorInfo GetDefaultConstructor(this Type type)
         {
-            return type.GetTypeInfo().DeclaredConstructors.Where(c => c.GetParameters().Length == 0).Single();
+            return type.GetConstructors().Where(c => c.GetParameters().Length == 0).Single();
         }
 
         /// <summary>
@@ -139,7 +140,7 @@ namespace Dolittle.Reflection
         /// <returns>The <see cref="ConstructorInfo"/> for the constructor</returns>
         public static ConstructorInfo GetNonDefaultConstructor(this Type type)
         {
-            return type.GetTypeInfo().DeclaredConstructors.Where(c => c.GetParameters().Length > 0).Single();
+            return type.GetConstructors().Where(c => c.GetParameters().Length > 0).Single();
         }
 
         /// <summary>
