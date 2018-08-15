@@ -36,7 +36,7 @@ namespace Dolittle.PropertyBags
 
             if(parameters.Length == 1 && parameters.First().ParameterType == typeof(PropertyBag))
             {
-                _parameterAccessors.Add((pb)=> pb);
+                _parameterAccessors.Add((pb)=> (PropertyBag)pb);
             } 
             else 
             {

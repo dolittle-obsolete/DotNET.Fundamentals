@@ -5,85 +5,121 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Dolittle.Concepts;
+using Dolittle.Logging;
 using Dolittle.Reflection;
+using Dolittle.Serialization.Json;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Dolittle.Concepts.Serialization.Json
 {
     /// <summary>
     /// Represents a <see cref="JsonConverter"/> that can serialize and deserialize a <see cref="IDictionary{TKey, TValue}">dictionary</see> of <see cref="ConceptAs{T}"/>
     /// </summary>
-    public class ConceptDictionaryConverter : JsonConverter
+    public class ConceptDictionaryConverter : JsonConverter, IRequireSerializer
     {
+        private ISerializer _serializer;
+        private ILogger _logger;
+
+        /// <summary>
+        /// Instantiates an instance of the <see cref="ConceptDictionaryConverter" />
+        /// </summary>
+        /// <param name="logger">For logging</param>
+        public ConceptDictionaryConverter(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
             if (objectType.HasInterface(typeof(IDictionary<,>)) && objectType.GetTypeInfo().IsGenericType ) 
             {
                 var keyType = objectType.GetTypeInfo().GetGenericArguments()[0].GetTypeInfo().BaseType;
-                if (keyType.GetTypeInfo().IsGenericType)
-                {
-                    var genericArgumentType = keyType.GetTypeInfo().GetGenericArguments()[0];
-                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).GetTypeInfo().IsAssignableFrom(keyType);
-                    return isConcept;
-                }
+                return keyType.IsConcept();
             }
 
             return false;
         }
 
+        KeyValuePair<object,object> BuildKeyValuePair(JObject obj, Type keyType, Type valueType)
+        {
+            var prop = obj.Properties().First();
+            var key = ConceptFactory.CreateConceptInstance(keyType, prop.Name);
+            var value = valueType == typeof(object) ? prop.First() : _serializer.FromJson(valueType, prop.Value.ToString());
+            return new KeyValuePair<object,object>(key,value);
+        }
+
         /// <inheritdoc/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null)
-                return null;
-
             var keyType = objectType.GetTypeInfo().GetGenericArguments()[0];
             var keyValueType = keyType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
             var valueType = objectType.GetTypeInfo().GetGenericArguments()[1];
-            var intermediateDictionaryType = typeof(Dictionary<,>).MakeGenericType(typeof(string), valueType);
-            var intermediateDictionary = (IDictionary)Activator.CreateInstance(intermediateDictionaryType);
-            serializer.Populate(reader, intermediateDictionary);
-
-            var valueProperty = keyType.GetTypeInfo().GetProperty("Value");
-            var finalDictionary = (IDictionary)Activator.CreateInstance(objectType);
-            foreach (DictionaryEntry pair in intermediateDictionary)
-            {
-                object value;
-                if (keyValueType == typeof(Guid))
-                    value = Guid.Parse(pair.Key.ToString());
-                else
-                    value = Convert.ChangeType(pair.Key, keyValueType, null);
-
-                var key = Activator.CreateInstance(keyType);
-                valueProperty.SetValue(key, value, null);
-                finalDictionary.Add(key, pair.Value);
+            var dictionary = new Dictionary<object,object>();
+            JArray entries = JArray.Load(reader);
+            foreach(var entry in entries.Children<JObject>().ToList())
+            { 
+                try
+                {
+                    var kvp = BuildKeyValuePair(entry,keyType,valueType);
+                    dictionary.Add(kvp.Key,kvp.Value);
+                } 
+                catch(Exception ex)
+                {
+                    _logger.Error($"Error reading json: {ex.Message}");
+                    throw;
+                }
             }
-            return finalDictionary;
+            try
+            {
+                var finalDictionaryType = typeof(Dictionary<,>).MakeGenericType(keyType,valueType);
+                var finalDictionary = (IDictionary)Activator.CreateInstance(finalDictionaryType);
+                foreach(var key in dictionary.Keys)
+                {
+                    finalDictionary[key] = dictionary[key];
+                }
+
+                return finalDictionary;
+            } 
+            catch (Exception ex)
+            {
+                _logger.Error($"Error building dictionary: {ex.Message}");
+                throw;
+            }
         }
 
         /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var dictionary = value as IDictionary;
+            Type type = value.GetType();
+            IEnumerable keys = (IEnumerable)type.GetProperty("Keys").GetValue(value, null);
+            IEnumerable values = (IEnumerable)type.GetProperty("Values").GetValue(value, null);
+            IEnumerator valueEnumerator = values.GetEnumerator();
 
-            var objectType = value.GetType();
-            var keyType = objectType.GetTypeInfo().GetGenericArguments()[0];
-            var keyValueType = keyType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
-            var valueType = objectType.GetTypeInfo().GetGenericArguments()[1];
-            var intermediateDictionaryType = typeof(Dictionary<,>).MakeGenericType(typeof(string), valueType);
-            var intermediateDictionary = (IDictionary)Activator.CreateInstance(intermediateDictionaryType);
-            var valueProperty = keyType.GetTypeInfo().GetProperty("Value");
-
-            foreach (DictionaryEntry pair in dictionary)
+            writer.WriteStartArray();
+            foreach (object key in keys)
             {
-                var keyValue = valueProperty.GetValue(pair.Key, null).ToString();
-                intermediateDictionary[keyValue] = pair.Value;
-            }
+                valueEnumerator.MoveNext();
 
-            writer.WriteValue(intermediateDictionary);
+                writer.WriteStartObject();
+                writer.WritePropertyName(key.ToString());
+                serializer.Serialize(writer, valueEnumerator.Current);
+                writer.WriteEndObject();
+            }
+            writer.WriteEndArray();
+        }
+
+        /// <summary>
+        /// Adds a <see cref="ISerializer"/> for use when reading json
+        /// </summary>
+        /// <param name="serializer">Serializer to use to deserialize complex types</param>
+        public void Add(ISerializer serializer)
+        {
+            _serializer = serializer;
         }
     }
 }

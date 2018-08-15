@@ -54,7 +54,14 @@ namespace Dolittle.Serialization.Json
 
             _converters.Add(new ExceptionConverter());
             _converters.Add(new CamelCaseToPascalCaseExpandoObjectConverter());
-            _converterProviders.ForEach(provider => provider.Provide().ForEach(_converters.Add));
+            _converterProviders.ForEach(provider => provider.Provide().ForEach(c => 
+            {
+                if(c is IRequireSerializer)
+                {
+                    (c as IRequireSerializer).Add(this);
+                }
+                _converters.Add(c);
+            }));
         }
 
         /// <inheritdoc/>

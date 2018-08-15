@@ -26,7 +26,7 @@ namespace Dolittle.PropertyBags
         {
             if(obj == null)
                 return null;
-            
+
             Dictionary<string,object> values = new Dictionary<string, object>();
 
             foreach (var property in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
