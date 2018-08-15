@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dolittle.Serialization.Json;
+using Dolittle.Concepts.Serialization.Json.Specs;
 using Machine.Specifications;
+using System.Linq;
 
 namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
 {

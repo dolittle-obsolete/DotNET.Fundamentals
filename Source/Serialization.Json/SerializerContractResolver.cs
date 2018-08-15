@@ -9,7 +9,9 @@ using System.Reflection;
 using Dolittle.DependencyInversion;
 using Dolittle.Strings;
 using Dolittle.Reflection;
+using Dolittle.Collections;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace Dolittle.Serialization.Json
@@ -52,37 +54,6 @@ namespace Dolittle.Serialization.Json
         }
 
         /// <inheritdoc/>
-        public override JsonContract ResolveContract(Type type)
-        {
-            var contract = base.ResolveContract(type);
-
-            if (contract is JsonObjectContract &&
-                !type.GetTypeInfo().IsValueType &&
-                !type.HasDefaultConstructor())
-            {
-                var defaultCreator = contract.DefaultCreator;
-                contract.DefaultCreator = () =>
-                                              {
-                                                  try
-                                                  {
-                                                      if (type.HasDefaultConstructor()) return Activator.CreateInstance(type);
-                                                      // Todo: Structs without default constructor will fail with this and that will then try using the defaultCreator in the catch
-                                                      return _container.Get(type);
-                                                  }
-                                                  catch
-                                                  {
-                                                      if (defaultCreator != null)
-                                                          return defaultCreator();
-                                                      else
-                                                          return null;
-                                                  }
-                                              };
-            }
-
-            return contract;
-        }
-
-        /// <inheritdoc/>
         protected override string ResolvePropertyName(string propertyName)
         {
             var result = base.ResolvePropertyName(propertyName);
@@ -91,6 +62,44 @@ namespace Dolittle.Serialization.Json
                 result = result.ToCamelCase();
 
             return result;
+        }
+
+        /// <inheritdoc />
+        protected override JsonObjectContract CreateObjectContract(Type type)
+        {
+            var contract = base.CreateObjectContract(type);
+            if (type.HasDefaultConstructor()) 
+                return contract;
+
+            var ctor = type.GetNonDefaultConstructorWithGreatestNumberOfParameters();
+            if (ctor != null)
+            {
+                contract.OverrideCreator = CreateObjectConstructorFrom(ctor);
+                var ctorParams = CreateConstructorParameters(ctor, contract.Properties); 
+                ctorParams.ForEach(cp => AddConstructorParameterIfNotAlreadyAdded(contract, cp));
+            }
+
+            return contract;
+        }
+
+        void AddConstructorParameterIfNotAlreadyAdded(JsonObjectContract contract, JsonProperty property)
+        {
+            if(ConstructorParameterAlreadyExists(contract,property))
+                return;
+
+            contract.CreatorParameters.Add(property);
+        }
+
+        bool ConstructorParameterAlreadyExists(JsonObjectContract contract, JsonProperty property)
+        {
+            return contract.CreatorParameters.Any(p => p.PropertyName == property.PropertyName && p.PropertyType == property.PropertyType);
+        }
+
+        ObjectConstructor<object> CreateObjectConstructorFrom(ConstructorInfo ctorInfo)
+        {
+            if(ctorInfo == null)
+                throw new ArgumentNullException(nameof(ctorInfo));
+            return a => ctorInfo.Invoke(a);
         }
     }
 }

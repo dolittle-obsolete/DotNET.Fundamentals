@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Dolittle.Serialization.Json;
+using Dolittle.Logging;
 
 namespace Dolittle.Concepts.Serialization.Json
 {
@@ -13,12 +14,23 @@ namespace Dolittle.Concepts.Serialization.Json
     /// </summary>
     public class ConverterProvider : ICanProvideConverters
     {
+        private readonly ILogger _logger;
+
+        /// <summary>
+        /// Instantiates an instance of <see cref="ConverterProvider" />
+        /// </summary>
+        /// <param name="logger">A logger</param>
+        public ConverterProvider(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         /// <inheritdoc/>
         public IEnumerable<JsonConverter> Provide()
         {
             return new JsonConverter[] {
                 new ConceptConverter(),
-                new ConceptDictionaryConverter()
+                new ConceptDictionaryConverter(_logger)
             };
         }
     }
