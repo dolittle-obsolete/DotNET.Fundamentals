@@ -21,7 +21,6 @@ namespace Dolittle.Concepts
         /// <returns>An instance of a ConceptAs with the specified value</returns>
         public static object CreateConceptInstance(Type type, object value)
         {            
-            //var instance = Activator.CreateInstance(type);
             var val = new object();
 
             var valueProperty = type.GetTypeInfo().GetProperty("Value");

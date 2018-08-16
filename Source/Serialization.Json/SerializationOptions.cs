@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Dolittle.Serialization.Json
 {
@@ -30,29 +32,45 @@ namespace Dolittle.Serialization.Json
         public static readonly ISerializationOptions IncludeTypeNames = new SerializationOptions(SerializationOptionsFlags.IncludeTypeNames);
 
         /// <summary>
+        /// Create a custom <see cref="SerializationOptions"/>
+        /// </summary>
+        /// <param name="flags"><see cref="SerializationOptionsFlags"/> to use</param>
+        /// <param name="converters">Any <see cref="IEnumerable{JsonConverter}">converters</see> to use</param>
+        /// <returns>An instance of <see cref="SerializationOptions"/></returns>
+        public static ISerializationOptions Custom(SerializationOptionsFlags flags=SerializationOptionsFlags.None, IEnumerable<JsonConverter> converters=null)
+        {
+            return new SerializationOptions(flags, converters);
+        }
+
+
+        /// <summary>
         /// Initializes a new instance of <see cref="SerializationOptions"/>
         /// </summary>
         /// <param name="flags">The serialization flags</param>
+        /// <param name="converters"></param>
         /// <remarks>
         /// All instances of this class or subclasses must be immutable, because mapping from
         /// serialization options to contract resolvers are cached for performance reasons.
         /// </remarks>
-        protected SerializationOptions(SerializationOptionsFlags flags)
+        protected SerializationOptions(
+            SerializationOptionsFlags flags,
+            IEnumerable<JsonConverter> converters = null)
         {
             Flags = flags;
+            if( converters == null ) Converters = new JsonConverter[0];
+            else Converters = converters;
         }
 
-        /// <summary>
-        /// Will always return true
-        /// </summary>
+        /// <inheritdoc/>
         public virtual bool ShouldSerializeProperty(Type type, string propertyName)
         {
             return true;
         }
 
-        /// <summary>
-        /// Gets the serialization flags
-        /// </summary>
+        /// <inheritdoc/>
         public SerializationOptionsFlags Flags { get; private set; }
+
+        /// <inheritdoc/>
+        public IEnumerable<JsonConverter> Converters { get; }
     }
 }

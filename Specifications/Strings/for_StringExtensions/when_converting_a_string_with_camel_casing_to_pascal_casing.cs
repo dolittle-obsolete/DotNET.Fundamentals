@@ -11,3 +11,4 @@ namespace Dolittle.Strings.Specs.for_StringExtensions
         It should_turn_it_into_pascal_case = () => result.ShouldEqual("CamelCased");
     }
 }
+
