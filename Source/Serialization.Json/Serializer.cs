@@ -279,6 +279,7 @@ namespace Dolittle.Serialization.Json
                 ContractResolver = contractResolver,
             };
             _converters.ForEach(serializer.Converters.Add);
+            _converters.AddRange(options.Converters);
 
             return serializer;
         }
