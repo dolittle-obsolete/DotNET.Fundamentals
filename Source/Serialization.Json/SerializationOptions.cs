@@ -37,7 +37,7 @@ namespace Dolittle.Serialization.Json
         /// <param name="flags"><see cref="SerializationOptionsFlags"/> to use</param>
         /// <param name="converters">Any <see cref="IEnumerable{JsonConverter}">converters</see> to use</param>
         /// <returns>An instance of <see cref="SerializationOptions"/></returns>
-        public static SerializationOptions Custom(SerializationOptionsFlags flags=SerializationOptionsFlags.None, IEnumerable<JsonConverter> converters=null)
+        public static ISerializationOptions Custom(SerializationOptionsFlags flags=SerializationOptionsFlags.None, IEnumerable<JsonConverter> converters=null)
         {
             return new SerializationOptions(flags, converters);
         }
