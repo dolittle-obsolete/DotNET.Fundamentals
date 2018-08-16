@@ -106,8 +106,7 @@ namespace Dolittle.Reflection
         /// <returns>true if it has a default constructor, false if not</returns>
         public static bool HasDefaultConstructor(this Type type)
         {
-            //return GetTypeInfo(type).HasDefaultConstructor;
-            return type.GetConstructors().Any(c => c.GetParameters().Length == 0);
+            return GetTypeInfo(type).HasDefaultConstructor || type.GetConstructors().Any(c => c.GetParameters().Length == 0);
         }
 
 
