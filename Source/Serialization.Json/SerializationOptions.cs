@@ -36,10 +36,11 @@ namespace Dolittle.Serialization.Json
         /// </summary>
         /// <param name="flags"><see cref="SerializationOptionsFlags"/> to use</param>
         /// <param name="converters">Any <see cref="IEnumerable{JsonConverter}">converters</see> to use</param>
+        /// <param name="callback">A callback for working directly with the <see cref="JsonSerializer"/> for configuring how the serializer works</param>
         /// <returns>An instance of <see cref="SerializationOptions"/></returns>
-        public static ISerializationOptions Custom(SerializationOptionsFlags flags=SerializationOptionsFlags.None, IEnumerable<JsonConverter> converters=null)
+        public static ISerializationOptions Custom(SerializationOptionsFlags flags=SerializationOptionsFlags.None, IEnumerable<JsonConverter> converters=null, Action<JsonSerializer> callback=null)
         {
-            return new SerializationOptions(flags, converters);
+            return new SerializationOptions(flags, converters, callback);
         }
 
 
@@ -47,18 +48,23 @@ namespace Dolittle.Serialization.Json
         /// Initializes a new instance of <see cref="SerializationOptions"/>
         /// </summary>
         /// <param name="flags">The serialization flags</param>
-        /// <param name="converters"></param>
+        /// <param name="converters">A collection of additional <see cref="JsonConverter">converters</see></param>
+        /// <param name="callback">A callback for working directly with the <see cref="JsonSerializer"/> for configuring how the serializer works</param>
         /// <remarks>
         /// All instances of this class or subclasses must be immutable, because mapping from
         /// serialization options to contract resolvers are cached for performance reasons.
         /// </remarks>
         protected SerializationOptions(
             SerializationOptionsFlags flags,
-            IEnumerable<JsonConverter> converters = null)
+            IEnumerable<JsonConverter> converters = null,
+            Action<JsonSerializer> callback = null)
         {
             Flags = flags;
             if( converters == null ) Converters = new JsonConverter[0];
             else Converters = converters;
+
+            if( callback == null ) Callback = (o) => {};
+            else Callback = callback;
         }
 
         /// <inheritdoc/>
@@ -72,5 +78,8 @@ namespace Dolittle.Serialization.Json
 
         /// <inheritdoc/>
         public IEnumerable<JsonConverter> Converters { get; }
+
+        /// <inheritdoc/>
+        public Action<JsonSerializer> Callback { get; }
     }
 }

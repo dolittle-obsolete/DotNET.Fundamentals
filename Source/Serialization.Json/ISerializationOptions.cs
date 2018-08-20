@@ -27,5 +27,10 @@ namespace Dolittle.Serialization.Json
         /// Gets additional <see cref="JsonConverter">converters</see>
         /// </summary>
         IEnumerable<JsonConverter> Converters { get; }
+
+        /// <summary>
+        /// Gets the callback that can be used to work directly with the <see cref="JsonSerializer">Newtonsoft serializer</see>
+        /// </summary>
+        Action<JsonSerializer>  Callback { get; }
     }
 }

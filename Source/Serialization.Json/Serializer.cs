@@ -280,6 +280,7 @@ namespace Dolittle.Serialization.Json
             };
             _converters.ForEach(serializer.Converters.Add);
             _converters.AddRange(options.Converters);
+            options.Callback(serializer);
 
             return serializer;
         }
