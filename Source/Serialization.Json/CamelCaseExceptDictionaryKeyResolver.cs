@@ -1,7 +1,11 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 using System;
 using Newtonsoft.Json.Serialization;
 
-namespace Dolittle.Build.Topology
+namespace Dolittle.Serialization.Json
 {
     /// <summary>
     /// Represents a <see cref="CamelCasePropertyNamesContractResolver"/>that ignores the casing of Dictionary keys
