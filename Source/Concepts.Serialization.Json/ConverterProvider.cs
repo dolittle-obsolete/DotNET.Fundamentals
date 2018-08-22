@@ -30,7 +30,7 @@ namespace Dolittle.Concepts.Serialization.Json
         {
             return new JsonConverter[] {
                 new ConceptConverter(),
-                new ConceptDictionaryConverter(_logger)
+                new ConceptDictionaryConverter()
             };
         }
     }

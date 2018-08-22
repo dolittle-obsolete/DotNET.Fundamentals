@@ -22,17 +22,6 @@ namespace Dolittle.Concepts.Serialization.Json
     public class ConceptDictionaryConverter : JsonConverter, IRequireSerializer
     {
         private ISerializer _serializer;
-        private ILogger _logger;
-
-        /// <summary>
-        /// Instantiates an instance of the <see cref="ConceptDictionaryConverter" />
-        /// </summary>
-        /// <param name="logger">For logging</param>
-        public ConceptDictionaryConverter(ILogger logger)
-        {
-            _logger = logger;
-        }
-
         /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
@@ -45,14 +34,6 @@ namespace Dolittle.Concepts.Serialization.Json
             return false;
         }
 
-        KeyValuePair<object,object> BuildKeyValuePair(JObject obj, Type keyType, Type valueType)
-        {
-            var prop = obj.Properties().First();
-            var key = ConceptFactory.CreateConceptInstance(keyType, prop.Name);
-            var value = valueType == typeof(object) ? prop.First() : _serializer.FromJson(valueType, prop.Value.ToString());
-            return new KeyValuePair<object,object>(key,value);
-        }
-
         /// <inheritdoc/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -60,8 +41,8 @@ namespace Dolittle.Concepts.Serialization.Json
             var keyValueType = keyType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
             var valueType = objectType.GetTypeInfo().GetGenericArguments()[1];
             var dictionary = new Dictionary<object,object>();
-            JArray entries = JArray.Load(reader);
-            foreach(var entry in entries.Children<JObject>().ToList())
+            JObject jsonDictionary = JObject.Load(reader);
+            foreach(var entry in jsonDictionary.Properties())
             { 
                 try
                 {
@@ -70,8 +51,7 @@ namespace Dolittle.Concepts.Serialization.Json
                 } 
                 catch(Exception ex)
                 {
-                    _logger.Error($"Error reading json: {ex.Message}");
-                    throw;
+                    throw ex;
                 }
             }
             try
@@ -87,8 +67,7 @@ namespace Dolittle.Concepts.Serialization.Json
             } 
             catch (Exception ex)
             {
-                _logger.Error($"Error building dictionary: {ex.Message}");
-                throw;
+                throw ex;
             }
         }
 
@@ -100,17 +79,16 @@ namespace Dolittle.Concepts.Serialization.Json
             IEnumerable values = (IEnumerable)type.GetProperty("Values").GetValue(value, null);
             IEnumerator valueEnumerator = values.GetEnumerator();
 
-            writer.WriteStartArray();
+            writer.WriteStartObject();
             foreach (object key in keys)
             {
                 valueEnumerator.MoveNext();
 
-                writer.WriteStartObject();
                 writer.WritePropertyName(key.ToString());
                 serializer.Serialize(writer, valueEnumerator.Current);
-                writer.WriteEndObject();
+                
             }
-            writer.WriteEndArray();
+            writer.WriteEndObject();
         }
 
         /// <summary>
@@ -120,6 +98,14 @@ namespace Dolittle.Concepts.Serialization.Json
         public void Add(ISerializer serializer)
         {
             _serializer = serializer;
+        }
+
+        KeyValuePair<object,object> BuildKeyValuePair(JProperty prop, Type keyType, Type valueType)
+        {
+            var key = ConceptFactory.CreateConceptInstance(keyType, prop.Name);
+            
+            var value = valueType == typeof(object) ? prop.First() : _serializer.FromJson(valueType, prop.Value.ToString());
+            return new KeyValuePair<object,object>(key,value);
         }
     }
 }
