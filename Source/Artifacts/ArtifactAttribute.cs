@@ -15,20 +15,20 @@ namespace Dolittle.Artifacts
         /// <summary>
         /// Initializes a new instance of <see cref="ArtifactAttribute"/>
         /// </summary>
-        /// <param name="id"><see cref="ArtifactId"/> of the artifact</param>
+        /// <param name="id">String representation of a <see cref="Guid"/> for the artifact</param>
         /// <remarks>
         /// It will default to the <see cref="ArtifactGeneration.First">first generation</see>
         /// </remarks>
-        public ArtifactAttribute(ArtifactId id) : this(id, ArtifactGeneration.First) { }
+        public ArtifactAttribute(string id) : this(id, ArtifactGeneration.First) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ArtifactAttribute"/>
         /// </summary>
         /// <param name="id"><see cref="ArtifactId"/> of the artifact</param>
         /// <param name="generation"><see cref="ArtifactGeneration"/></param>
-        public ArtifactAttribute(ArtifactId id, ArtifactGeneration generation)
+        public ArtifactAttribute(string id, int generation)
         {
-            Artifact = new Artifact(id, generation);
+            Artifact = new Artifact(Guid.Parse(id), generation);
         }
 
         /// <summary>
