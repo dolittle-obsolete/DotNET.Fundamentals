@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
+using Dolittle.Logging;
 using Dolittle.Types;
 
 namespace Dolittle.Bootstrapping
@@ -20,7 +21,12 @@ namespace Dolittle.Bootstrapping
         public static void Start(IContainer container)
         {
             var procedures = container.Get<IInstancesOf<ICanPerformBootProcedure>>();
-            procedures.ForEach(_ => _.Perform());
+            var logger = container.Get<ILogger>();
+            procedures.ForEach(_ => 
+            {
+                logger.Information($"Performing boot procedure called '{_.GetType().AssemblyQualifiedName}'");
+                _.Perform();
+            });
         }
     }
 }

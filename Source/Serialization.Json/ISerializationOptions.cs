@@ -29,6 +29,11 @@ namespace Dolittle.Serialization.Json
         IEnumerable<JsonConverter> Converters { get; }
 
         /// <summary>
+        /// Gets wether or not to ignore discovered converters
+        /// </summary>
+        bool IgnoreDiscoveredConverters { get; }
+
+        /// <summary>
         /// Gets the callback that can be used to work directly with the <see cref="JsonSerializer">Newtonsoft serializer</see>
         /// </summary>
         Action<JsonSerializer>  Callback { get; }
