@@ -63,7 +63,7 @@ namespace Dolittle.Concepts.Serialization.Json
                 {
 
                     if (_logger != null) _logger.Error($"Error reading json: {ex.Message}");
-                    throw ex;
+                    throw;
                 }
             }
             try
@@ -80,7 +80,7 @@ namespace Dolittle.Concepts.Serialization.Json
             catch (Exception ex)
             {
                 if (_logger != null) _logger.Error($"Error reading json: {ex.Message}");
-                throw ex;
+                throw;
             }
         }
 
