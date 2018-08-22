@@ -21,7 +21,17 @@ namespace Dolittle.Concepts.Serialization.Json
     /// </summary>
     public class ConceptDictionaryConverter : JsonConverter, IRequireSerializer
     {
-        private ISerializer _serializer;
+        ISerializer _serializer;
+        readonly ILogger _logger;
+
+        /// <summary>
+        /// Instantiates an instance of the <see cref="ConceptDictionaryConverter" />
+        /// </summary>
+        /// <param name="logger">For logging</param>
+        public ConceptDictionaryConverter(ILogger logger = null)
+        {
+            _logger = logger;
+        }
         /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
@@ -51,6 +61,8 @@ namespace Dolittle.Concepts.Serialization.Json
                 } 
                 catch(Exception ex)
                 {
+
+                    if (_logger != null) _logger.Error($"Error reading json: {ex.Message}");
                     throw ex;
                 }
             }
@@ -67,6 +79,7 @@ namespace Dolittle.Concepts.Serialization.Json
             } 
             catch (Exception ex)
             {
+                if (_logger != null) _logger.Error($"Error reading json: {ex.Message}");
                 throw ex;
             }
         }
