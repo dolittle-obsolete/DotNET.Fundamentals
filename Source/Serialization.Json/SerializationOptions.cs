@@ -85,6 +85,6 @@ namespace Dolittle.Serialization.Json
         public Action<JsonSerializer> Callback { get; }
 
         /// <inheritdoc/>
-        public bool IgnoreDefaultConverters { get; }
+        public bool IgnoreDiscoveredConverters { get; }
     }
 }

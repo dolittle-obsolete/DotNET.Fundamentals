@@ -278,7 +278,7 @@ namespace Dolittle.Serialization.Json
                 TypeNameHandling = typeNameHandling,
                 ContractResolver = contractResolver,
             };
-            if( !options.IgnoreDefaultConverters ) _converters.ForEach(serializer.Converters.Add);
+            if( !options.IgnoreDiscoveredConverters ) _converters.ForEach(serializer.Converters.Add);
             options.Converters.ForEach(serializer.Converters.Add);
             options.Callback(serializer);
 
