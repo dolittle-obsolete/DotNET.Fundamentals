@@ -50,6 +50,7 @@ namespace Dolittle.Serialization.Json
         /// <param name="flags">The serialization flags</param>
         /// <param name="converters">A collection of additional <see cref="JsonConverter">converters</see></param>
         /// <param name="callback">A callback for working directly with the <see cref="JsonSerializer"/> for configuring how the serializer works</param>
+        /// <param name="ignoreDefaultConverters">Wether or not to ingore the default discovered Json converters</param>
         /// <remarks>
         /// All instances of this class or subclasses must be immutable, because mapping from
         /// serialization options to contract resolvers are cached for performance reasons.
@@ -57,7 +58,8 @@ namespace Dolittle.Serialization.Json
         protected SerializationOptions(
             SerializationOptionsFlags flags,
             IEnumerable<JsonConverter> converters = null,
-            Action<JsonSerializer> callback = null)
+            Action<JsonSerializer> callback = null,
+            bool ignoreDefaultConverters = false)
         {
             Flags = flags;
             if( converters == null ) Converters = new JsonConverter[0];
@@ -81,5 +83,8 @@ namespace Dolittle.Serialization.Json
 
         /// <inheritdoc/>
         public Action<JsonSerializer> Callback { get; }
+
+        /// <inheritdoc/>
+        public bool IgnoreDefaultConverters { get; }
     }
 }
