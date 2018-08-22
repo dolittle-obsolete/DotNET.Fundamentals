@@ -290,7 +290,17 @@ namespace Dolittle.Reflection
         /// <returns>true if immutable, false otherwise</returns>
         public static bool IsImmutable(this Type type)
         {
-            return !type.GetProperties().Any(pi => pi.CanWrite);
+            return !type.GetSettableProperties().Any();
+        }
+
+        /// <summary>
+        /// Indicates whether the Type has any public properties to get or set state
+        /// </summary>
+        /// <param name="type">The type to check</param>
+        /// <returns>True if there are public properties (get or set), false otherwise</returns>
+        public static bool HasVisibleProperties(this Type type)
+        {
+            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any();
         }
 
         static IEnumerable<Type> BaseTypes(this Type type)
