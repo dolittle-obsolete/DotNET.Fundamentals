@@ -54,15 +54,11 @@ namespace Dolittle.Serialization.Json
 
             _converters.Add(new ExceptionConverter());
             _converters.Add(new CamelCaseToPascalCaseExpandoObjectConverter());
-            _converterProviders.ForEach(provider => provider.Provide().ForEach(c => 
-            {
-                if(c is IRequireSerializer)
-                {
-                    (c as IRequireSerializer).Add(this);
-                }
-                _converters.Add(c);
-            }));
+            _converterProviders.ForEach(provider => provider.Provide().ForEach(_converters.Add));
+
+            SetSerializerForConvertersRequiringIt(_converters);
         }
+
 
         /// <inheritdoc/>
         public T FromJson<T>(string json, ISerializationOptions options = null)
@@ -279,10 +275,16 @@ namespace Dolittle.Serialization.Json
                 ContractResolver = contractResolver,
             };
             if( !options.IgnoreDiscoveredConverters ) _converters.ForEach(serializer.Converters.Add);
+            SetSerializerForConvertersRequiringIt(options.Converters);
             options.Converters.ForEach(serializer.Converters.Add);
             options.Callback(serializer);
 
             return serializer;
+        }
+
+        void SetSerializerForConvertersRequiringIt(IEnumerable<JsonConverter> converters)
+        {
+            converters.Where(_ => _ is IRequireSerializer).ForEach(_ => (_ as IRequireSerializer).Add(this));
         }
     }
 }
