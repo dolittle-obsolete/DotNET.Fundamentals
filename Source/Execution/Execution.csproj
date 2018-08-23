@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.Execution</AssemblyName>
   </PropertyGroup>
 
@@ -10,5 +10,7 @@
   <ItemGroup>
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\Concepts\Concepts.csproj" />
+  </ItemGroup>
 </Project>
