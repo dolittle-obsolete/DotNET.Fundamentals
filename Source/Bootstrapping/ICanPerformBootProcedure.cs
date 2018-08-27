@@ -10,6 +10,13 @@ namespace Dolittle.Bootstrapping
     public interface ICanPerformBootProcedure
     {
         /// <summary>
+        /// Method that gets called to check if boot procedure can be performed
+        /// If it can't be performed it's usually because of something not being
+        /// ready and the system should then queue it for later.
+        /// </summary>
+        bool CanPerform();
+
+        /// <summary>
         /// Method that gets called during booting of an application
         /// </summary>
         void Perform();

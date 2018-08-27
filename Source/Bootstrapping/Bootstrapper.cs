@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
 using Dolittle.Logging;
@@ -22,11 +23,22 @@ namespace Dolittle.Bootstrapping
         {
             var procedures = container.Get<IInstancesOf<ICanPerformBootProcedure>>();
             var logger = container.Get<ILogger>();
-            procedures.ForEach(_ => 
+            var queue = new Queue<ICanPerformBootProcedure>(procedures);
+
+            while (queue.Count > 0)
             {
-                logger.Information($"Performing boot procedure called '{_.GetType().AssemblyQualifiedName}'");
-                _.Perform();
-            });
+                var procedure = queue.Dequeue();
+                if (procedure.CanPerform())
+                {
+                    logger.Information($"Performing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
+                    procedure.Perform();
+                }
+                else
+                {
+                    logger.Information($"Re-enqueing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
+                    queue.Enqueue(procedure);
+                }
+            }
         }
     }
 }
