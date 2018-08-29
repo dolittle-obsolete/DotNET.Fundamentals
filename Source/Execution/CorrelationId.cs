@@ -17,7 +17,7 @@ namespace Dolittle.Execution
         /// <summary>
         /// Creates an empty <see cref="CorrelationId" />
         /// </summary>
-        public CorrelationId() => new CorrelationId { Value = Guid.Empty };
+        public CorrelationId() => new CorrelationId(Guid.Empty);
 
         /// <summary>
         /// Instantiates a <see cref="CorrelationId" /> with the specified value
