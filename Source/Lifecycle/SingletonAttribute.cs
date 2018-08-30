@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace Dolittle.Execution
+namespace Dolittle.Lifecycle
 {
     /// <summary>
     /// Indicates that a class is Singleton and should be treated as such

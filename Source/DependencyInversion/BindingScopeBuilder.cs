@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
 using System.Reflection;
-using Dolittle.Execution;
+using Dolittle.Lifecycle;
 using Dolittle.Reflection;
 
 namespace Dolittle.DependencyInversion

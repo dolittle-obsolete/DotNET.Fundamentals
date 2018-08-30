@@ -10,7 +10,10 @@
   <ItemGroup>
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
   </ItemGroup>
+  
   <ItemGroup>
+    <ProjectReference Include="..\Applications\Applications.csproj" />
     <ProjectReference Include="..\Concepts\Concepts.csproj" />
+    <ProjectReference Include="..\Tenancy\Tenancy.csproj" />
   </ItemGroup>
 </Project>

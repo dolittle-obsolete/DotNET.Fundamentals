@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Dolittle.Collections;
-using Dolittle.Execution;
+using Dolittle.Lifecycle;
 using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies

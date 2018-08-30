@@ -1,4 +1,4 @@
-using Dolittle.Execution;
+using Dolittle.Lifecycle;
 
 namespace Dolittle.DependencyInversion.for_BindingScopeBuilder
 {

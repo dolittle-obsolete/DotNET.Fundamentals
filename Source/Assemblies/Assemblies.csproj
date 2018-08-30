@@ -9,8 +9,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.4" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Execution\Execution.csproj" />
     <ProjectReference Include="..\IO\IO.csproj" />
+    <ProjectReference Include="..\Lifecycle\Lifecycle.csproj" />
     <ProjectReference Include="..\Logging\Logging.csproj" />
     <ProjectReference Include="..\Reflection\Reflection.csproj" />
     <ProjectReference Include="..\Specifications\Specifications.csproj" />

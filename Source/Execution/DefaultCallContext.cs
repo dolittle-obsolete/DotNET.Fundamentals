@@ -17,21 +17,22 @@ namespace Dolittle.Execution
 
         static Dictionary<string, object> Data => _data ?? (_data = new Dictionary<string, object>());
 
-#pragma warning disable 1591 // Xml Comments
+        /// <inheritdoc/>
         public bool HasData(string key)
         {
             return Data.ContainsKey(key);
         }
 
+        /// <inheritdoc/>
         public T GetData<T>(string key)
         {
             return (T)Data[key];
         }
 
+        /// <inheritdoc/>
         public void SetData(string key, object data)
         {
             Data[key] = data;
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }

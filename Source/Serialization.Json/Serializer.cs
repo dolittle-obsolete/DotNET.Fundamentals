@@ -12,7 +12,7 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
-using Dolittle.Execution;
+using Dolittle.Lifecycle;
 using Dolittle.Reflection;
 using Dolittle.Serialization;
 using Dolittle.Strings;
