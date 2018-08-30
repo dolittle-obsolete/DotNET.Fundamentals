@@ -1,0 +1,18 @@
+{
+    "eventStore": {
+        "type": "mongodb",
+        "configurations": {
+            "8da33f79-c774-474b-a8ae-e51922d5e1e7": {
+                "connectionString": "mongodb://localhost:27017/eventstore"
+            }    
+        }
+    },
+    "readModels": {
+        "type": "mongodb",
+        "configurations": {
+            "8da33f79-c774-474b-a8ae-e51922d5e1e7": {
+                "connectionString": "mongodb://localhost:27017/readmodels"
+            }    
+        }
+    }
+}
