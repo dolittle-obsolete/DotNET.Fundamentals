@@ -5,5 +5,5 @@ namespace Dolittle.Specs.Concepts.for_ConceptFactory
 {
     public class GuidConcept : ConceptAs<Guid>
     {
-    }
+    }    
 }

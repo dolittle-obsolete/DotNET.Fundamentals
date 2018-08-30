@@ -24,36 +24,46 @@ namespace Dolittle.Concepts
             var val = new object();
 
             var valueProperty = type.GetTypeInfo().GetProperty("Value");
-
             var genericArgumentType = GetPrimitiveTypeConceptIsBasedOn(type);
-            if (genericArgumentType == typeof (Guid))
-            {
-                val = value == null ? Guid.Empty : Guid.Parse(value.ToString());
-            }
 
-            if (valueProperty.PropertyType.IsAPrimitiveType())
+            if (genericArgumentType.IsGuid())
             {
-                val = value ?? Activator.CreateInstance(valueProperty.PropertyType);
-            }
-
-            if (valueProperty.PropertyType == typeof (string))
+                if(value == null)
+                {
+                    val = Guid.Empty;
+                }
+                else if (value.GetType().IsGuid())
+                {
+                    val = value;
+                }
+                else if(value.GetType().IsString())
+                {
+                    val = Guid.Parse(value.ToString());
+                }
+                else if(value.GetType() == typeof(Byte[]))
+                {
+                    val = new Guid(value as Byte[]);
+                }
+                else
+                {
+                    val = Guid.Empty;
+                }
+            } 
+            else if (genericArgumentType.IsString())
             {
                 val = value ?? string.Empty;
-            }
-            
-            if (valueProperty.PropertyType == typeof (DateTime))
+            } 
+            else  if (genericArgumentType.IsDate())
             {
                 val = value ?? default(DateTime);
             }
-
-            if (valueProperty.PropertyType == typeof (DateTimeOffset))
+            else if (genericArgumentType.IsDateTimeOffset())
             {
                 val = value ?? default(DateTimeOffset);
-            }
-
-            if(IsGuidFromString(genericArgumentType,val))
+            } 
+            else if (genericArgumentType.IsAPrimitiveType())
             {
-                val = val == null ? Guid.Empty : new Guid(val as string);
+                val = value ?? Activator.CreateInstance(valueProperty.PropertyType);
             }
 
             if (val.GetType() != genericArgumentType && !IsGuidFromString(genericArgumentType,val))

@@ -69,13 +69,24 @@ namespace Dolittle.Reflection
         }
 
         /// <summary>
+        /// Check if the type is of the type specified in the generic param
+        /// </summary>
+        /// <typeparam name="T">Type of the instance</typeparam>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is a date, false if not</returns>
+        public static bool Is<T>(this Type type)
+        {
+            return type == typeof (T) || Nullable.GetUnderlyingType(type) == typeof (T);
+        }
+
+        /// <summary>
         /// Check if a type is a Date or not
         /// </summary>
         /// <param name="type"><see cref="Type"/> to check</param>
         /// <returns>True if type is a date, false if not</returns>
         public static bool IsDate(this Type type)
         {
-            return type == typeof (DateTime) || Nullable.GetUnderlyingType(type) == typeof (DateTime);
+            return Is<DateTime>(type);
         }
 
         /// <summary>
@@ -85,7 +96,7 @@ namespace Dolittle.Reflection
         /// <returns>True if type is a date, false if not</returns>
         public static bool IsDateTimeOffset(this Type type)
         {
-            return type == typeof (DateTimeOffset) || Nullable.GetUnderlyingType(type) == typeof (DateTimeOffset);
+            return Is<DateTimeOffset>(type);
         }
         
 
@@ -96,8 +107,28 @@ namespace Dolittle.Reflection
         /// <returns>True if type is a boolean, false if not</returns>
         public static bool IsBoolean(this Type type)
         {
-            return type == typeof (Boolean) || Nullable.GetUnderlyingType(type) == typeof (Boolean);
+            return Is<Boolean>(type);
         }
+
+        /// <summary>
+        /// Check if a type is a String or not
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is a string, false otherwise</returns>
+        public static bool IsString(this Type type)
+        {
+            return Is<string>(type);
+        }  
+
+        /// <summary>
+        /// Check if a type is a Guid or not
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is a Guid, false otherwise</returns>
+        public static bool IsGuid(this Type type)
+        {
+            return Is<Guid>(type);
+        }        
 
         /// <summary>
         /// Check if a type has a default constructor that does not take any arguments
