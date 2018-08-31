@@ -2,17 +2,13 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
-
-namespace Dolittle.Lifecycle
+namespace Dolittle.DependencyInversion.Scopes
 {
     /// <summary>
-    /// Indicates that a class is Singleton and should be treated as such
-    /// for any factory creating an instance of a class marked with this
+    /// Represents a <see cref="IScope"/> for singleton per tenant - one instance per process per tenant
+    /// Adhering to the highlander principle; there can be only one - per planet. I digress
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class SingletonAttribute : Attribute
-    {
+    public class SingletonPerTenant : IScope
+    { 
     }
-
 }

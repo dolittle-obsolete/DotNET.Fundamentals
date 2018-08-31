@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Security.Claims;
 using System.Threading;
 using Dolittle.Applications;
+using Dolittle.Lifecycle;
 using Dolittle.Tenancy;
 
 namespace Dolittle.Execution
@@ -13,6 +14,7 @@ namespace Dolittle.Execution
     /// <summary>
     /// Represents an implementation of <see cref="IExecutionContextManager"/>
     /// </summary>
+    [Singleton]
     public class ExecutionContextManager : IExecutionContextManager
     {
         static AsyncLocal<IExecutionContext> _executionContext = new AsyncLocal<IExecutionContext>();

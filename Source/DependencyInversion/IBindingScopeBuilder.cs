@@ -18,6 +18,14 @@ namespace Dolittle.DependencyInversion
         void Singleton();
 
         /// <summary>
+        /// Sets the scope to Singleton per tenant; adhering to the highlander principle - "There can be only one" (PS: per planet - or tenant in this case)
+        /// </summary>
+        /// <remarks>
+        /// Important to read the highlander principle with the scottish accent of Sean Connery
+        /// </remarks>
+        void SingletonPerTenant();
+
+        /// <summary>
         /// Builds the Binding
         /// </summary>
         /// <returns>The resulting <see cref="Binding"/></returns>

@@ -7,11 +7,11 @@ using System;
 namespace Dolittle.Lifecycle
 {
     /// <summary>
-    /// Indicates that a class is Singleton and should be treated as such
+    /// Indicates that a class is Singleton per tenant and should be treated as such
     /// for any factory creating an instance of a class marked with this
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class SingletonAttribute : Attribute
+    public class SingletonPerTenantAttribute : Attribute
     {
     }
 
