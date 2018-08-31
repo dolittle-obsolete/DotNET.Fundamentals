@@ -26,13 +26,21 @@ namespace Dolittle.Execution
         /// <param name="environment">Which <see cref="Environment"/> the system is running in</param>
          void SetConstants(Application application, BoundedContext boundedContext, Environment environment);
 
+
         /// <summary>
-        /// 
+        /// Set current execution context for a <see cref="TenantId"/>
         /// </summary>
-        /// <param name="correlationId"></param>
-        /// <param name="tenant"></param>
-        /// <param name="principal"></param>
-        /// <returns></returns>
-        IExecutionContext GetFor(CorrelationId correlationId, TenantId tenant, ClaimsPrincipal principal);
+        /// <param name="tenant"><see cref="TenantId"/> to set for</param>
+        /// <returns>Current <see cref="IExecutionContext"/></returns>
+        IExecutionContext CurrentFor(TenantId tenant);
+
+        /// <summary>
+        /// Set current execution context for a <see cref="TenantId"/> with <see cref="CorrelationId"/> and <see cref="ClaimsPrincipal"/>
+        /// </summary>
+        /// <param name="tenant"><see cref="TenantId"/> to set for</param>
+        /// <param name="correlationId"><see cref="CorrelationId"/> to associate</param>
+        /// <param name="principal"><see cref="ClaimsPrincipal"/> to assocatie</param>
+        /// <returns>Current <see cref="IExecutionContext"/></returns>
+        IExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, ClaimsPrincipal principal);
     }
 }

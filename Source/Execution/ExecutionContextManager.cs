@@ -42,11 +42,17 @@ namespace Dolittle.Execution
             _environment = environment;
         }
 
+        /// <inheritdoc/>
+        public IExecutionContext CurrentFor(TenantId tenant)
+        {
+            return CurrentFor(tenant, CorrelationId.New(), new ClaimsPrincipal());
+        }
+
 
         /// <inheritdoc/>
-        public IExecutionContext GetFor(CorrelationId correlationId, TenantId tenant, ClaimsPrincipal principal)
+        public IExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, ClaimsPrincipal principal)
         {
-            return new ExecutionContext(
+            var executionContext = new ExecutionContext(
                 _application, 
                 _boundedContext, 
                 tenant, 
@@ -54,6 +60,10 @@ namespace Dolittle.Execution
                 correlationId, 
                 principal, 
                 CultureInfo.CurrentCulture);
+
+            Current = executionContext;
+
+            return executionContext;
         }
     }
 }
