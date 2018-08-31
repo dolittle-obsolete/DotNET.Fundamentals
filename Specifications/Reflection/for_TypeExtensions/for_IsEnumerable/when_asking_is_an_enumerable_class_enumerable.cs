@@ -31,7 +31,7 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
             IEnumerable_of_complex_type_is_enumerable = typeof(IEnumerable<ComplexType>).IsEnumerable();
         };
 
-        It should_consider_IEnumerale_as_enumerable = () => IEnumerable_is_enumerable.ShouldBeTrue();
+        It should_consider_IEnumerable_as_enumerable = () => IEnumerable_is_enumerable.ShouldBeTrue();
         It should_consider_ICollection_as_enumerable = () => ICollection_is_enumerable.ShouldBeTrue();
         It should_consider_array_of_object_as_enumerable = () => array_of_object_is_enumerable.ShouldBeTrue();
         It should_consider_IEnumerable_of_string_as_enumerable = () => IEnumerable_of_string_is_enumerable.ShouldBeTrue();
