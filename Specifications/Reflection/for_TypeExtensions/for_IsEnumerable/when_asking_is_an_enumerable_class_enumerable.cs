@@ -17,6 +17,8 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
         static bool IEnumerable_of_IEnumerable_of_object_is_enumerable;
         static bool IEnumerable_of_complex_type_is_enumerable;
         static bool object_is_enumerable;
+        static bool string_is_enumerable;
+        static bool char_is_enumerable;
         static bool Dictionary_is_enumerable;
         
 
@@ -29,6 +31,11 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
             IEnumerable_of_string_is_enumerable = typeof(IEnumerable<string>).IsEnumerable();
             IEnumerable_of_IEnumerable_of_object_is_enumerable = typeof(IEnumerable<IEnumerable<object>>).IsEnumerable();
             IEnumerable_of_complex_type_is_enumerable = typeof(IEnumerable<ComplexType>).IsEnumerable();
+
+            object_is_enumerable = typeof(object).IsEnumerable();
+            string_is_enumerable = typeof(string).IsEnumerable();
+            char_is_enumerable = typeof(char).IsEnumerable();
+            Dictionary_is_enumerable = typeof(Dictionary<,>).IsEnumerable();
         };
 
         It should_consider_IEnumerable_as_enumerable = () => IEnumerable_is_enumerable.ShouldBeTrue();
@@ -38,7 +45,10 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
         It should_consider_IEnumerable_of_object_as_enumerable = () => IEnumerable_of_object_is_enumerable.ShouldBeTrue();
         It should_consider_IEnumerable_of_IEnumerable_of_object_is_enumerable = () => IEnumerable_of_IEnumerable_of_object_is_enumerable.ShouldBeTrue();
         It should_consider_IEnumerable_of_complex_type_as_enumerable = () => IEnumerable_of_complex_type_is_enumerable.ShouldBeTrue();
-        
+        It should_consider_object_as_not_enumerable = () => object_is_enumerable.ShouldBeFalse();
+        It should_consider_string_as_not_enumerable = () => string_is_enumerable.ShouldBeFalse();
+        It should_consider_char_as_not_enumerable = () => char_is_enumerable.ShouldBeFalse();
+        It should_consider_Dictionary_as_not_enumerable = () => Dictionary_is_enumerable.ShouldBeFalse();
         
     }
 }

@@ -69,13 +69,13 @@ namespace Dolittle.Reflection
         }
 
         /// <summary>
-        /// Check if a type is enumerable
+        /// Check if a type is enumerable. Note that string is an IEnumerable, but in this case the string is excluded
         /// </summary>
         /// <param name="type"><see cref="Type"/> to check</param>
-        /// <returns>True if type is enumerable, false if not</returns>
+        /// <returns>True if type is enumerable, false if not an enumerable</returns>
         public static bool IsEnumerable(this Type type)
         {
-            return typeof(System.Collections.IEnumerable).IsAssignableFrom(type);
+            return !type.IsAPrimitiveType() && !type.IsString() && typeof(System.Collections.IEnumerable).IsAssignableFrom(type);
         }
 
         /// <summary>
