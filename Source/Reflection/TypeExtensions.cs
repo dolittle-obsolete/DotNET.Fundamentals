@@ -69,6 +69,16 @@ namespace Dolittle.Reflection
         }
 
         /// <summary>
+        /// Check if a type is enumerable
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is enumerable, false if not</returns>
+        public static bool IsEnumerable(this Type type)
+        {
+            return typeof(System.Collections.IEnumerable).IsAssignableFrom(type);
+        }
+
+        /// <summary>
         /// Check if the type is of the type specified in the generic param
         /// </summary>
         /// <typeparam name="T">Type of the instance</typeparam>
