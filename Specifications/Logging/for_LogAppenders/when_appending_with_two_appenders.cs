@@ -2,7 +2,7 @@
 using Machine.Specifications;
 using Dolittle.Logging;
 
-namespace Dolittle.Specs.Logging.for_LogAppenders
+namespace Dolittle.Logging.for_LogAppenders
 {
     public class when_appending_with_two_appenders : given.two_appenders
     {

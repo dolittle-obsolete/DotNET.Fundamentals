@@ -2,7 +2,7 @@
 using Machine.Specifications;
 using Moq;
 
-namespace Dolittle.Specs.Logging.for_LogAppenders.given
+namespace Dolittle.Logging.for_LogAppenders.given
 {
     public class one_appender : all_dependencies
     {

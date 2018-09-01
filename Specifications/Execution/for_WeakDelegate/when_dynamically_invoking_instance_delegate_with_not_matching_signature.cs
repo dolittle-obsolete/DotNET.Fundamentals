@@ -2,7 +2,7 @@
 using Dolittle.Execution;
 using Machine.Specifications;
 
-namespace Dolittle.Specs.Execution.for_WeakDelegate
+namespace Dolittle.Execution.for_WeakDelegate
 {
     public class when_dynamically_invoking_instance_delegate_with_not_matching_signature
     {
