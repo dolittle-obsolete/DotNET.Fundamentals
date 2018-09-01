@@ -18,18 +18,15 @@ namespace Dolittle.Execution.for_ExecutionContextManager
             first_tenant = Guid.NewGuid();
             second_tenant = Guid.NewGuid();
 
-            var first_manual_event = new ManualResetEvent(false);
-            var second_manual_event = new ManualResetEvent(false);
-
             var first_thread = new Thread(() => 
             {
                 execution_context_manager.CurrentFor(first_tenant);
                 var first_nested_thread = new Thread(() => 
                 {
                     first_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray());
-                    first_manual_event.Set();
                 });
                 first_nested_thread.Start();
+                first_nested_thread.Join();
             });
 
             var second_thread = new Thread(() => 
@@ -38,16 +35,15 @@ namespace Dolittle.Execution.for_ExecutionContextManager
                 var second_nested_thread = new Thread(() => 
                 {
                     second_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray());
-                    second_manual_event.Set();
                 });
                 second_nested_thread.Start();
+                second_nested_thread.Join();
             });
 
             second_thread.Start();
             first_thread.Start();
-
-            first_manual_event.WaitOne();
-            second_manual_event.WaitOne();
+            first_thread.Join();
+            second_thread.Join();
         };
 
         It should_have_first_tenant_in_first_context = () => first_result.ShouldEqual(first_tenant);
