@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -76,7 +75,7 @@ namespace Dolittle.Reflection
         /// <returns>True if type is enumerable, false if not an enumerable</returns>
         public static bool IsEnumerable(this Type type)
         {
-            return !type.IsAPrimitiveType() && !type.IsString() && type.Implements(typeof(IEnumerable));
+            return !type.IsAPrimitiveType() && !type.IsString() && typeof(System.Collections.IEnumerable).IsAssignableFrom(type);
         }
 
         /// <summary>
