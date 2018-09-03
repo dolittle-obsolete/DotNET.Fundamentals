@@ -1,7 +1,6 @@
-namespace Execution.for_Ensure.when_ensuring_nullable_argument_property_is_not_null
+namespace Dolittle.Execution.for_Ensure.when_ensuring_nullable_argument_property_is_not_null
 {
     using System;
-    using Dolittle.Execution;
     using Machine.Specifications;
 
     [Subject(typeof(Ensure))]

@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using Dolittle.Execution;
+using Dolittle.Lifecycle;
 using Dolittle.Types;
 
 namespace Dolittle.Security

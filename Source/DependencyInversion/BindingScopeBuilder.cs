@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
 using System.Reflection;
-using Dolittle.Execution;
+using Dolittle.Lifecycle;
 using Dolittle.Reflection;
 
 namespace Dolittle.DependencyInversion
@@ -36,10 +36,23 @@ namespace Dolittle.DependencyInversion
         }
 
         /// <inheritdoc/>
+        public void SingletonPerTenant()
+        {
+            _binding = new Binding(
+                _binding.Service,
+                _binding.Strategy,
+                new Scopes.SingletonPerTenant());
+        }
+
+        /// <inheritdoc/>
         public Binding Build()
         {
             if( !(_binding.Scope is Scopes.Singleton) && _binding.Strategy.GetTargetType().HasAttribute<SingletonAttribute>() )
                 Singleton();
+
+            if( !(_binding.Scope is Scopes.SingletonPerTenant) && _binding.Strategy.GetTargetType().HasAttribute<SingletonPerTenantAttribute>() )
+                SingletonPerTenant();
+
 
             return _binding;
         }

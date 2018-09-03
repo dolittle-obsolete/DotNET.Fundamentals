@@ -11,7 +11,7 @@ namespace Dolittle.PropertyBags
     using System.Reflection;
     using System.Collections.Generic;
     using System.Collections.Concurrent;
-    using Dolittle.Execution;
+    using Dolittle.Lifecycle;
     using Dolittle.Reflection;
     using Dolittle.Collections;
     using Dolittle.Strings;

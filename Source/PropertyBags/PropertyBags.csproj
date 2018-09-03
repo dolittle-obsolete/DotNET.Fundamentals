@@ -8,10 +8,11 @@
   <Import Project="../../Build/MSBuild/default.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="../../Source/Dynamic/Dynamic.csproj" />
-    <ProjectReference Include="../../Source/Concepts/Concepts.csproj" />
-    <ProjectReference Include="../../Source/Reflection/Reflection.csproj" />  
-    <ProjectReference Include="../../Source/Types/Types.csproj" />
-    <ProjectReference Include="../../Source/Strings/Strings.csproj" />
+    <ProjectReference Include="../Dynamic/Dynamic.csproj" />
+    <ProjectReference Include="../Concepts/Concepts.csproj" />
+    <ProjectReference Include="../Reflection/Reflection.csproj" />  
+    <ProjectReference Include="../Lifecycle/Lifecycle.csproj" />
+    <ProjectReference Include="../Types/Types.csproj" />
+    <ProjectReference Include="../Strings/Strings.csproj" />
   </ItemGroup>
 </Project>

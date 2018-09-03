@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Execution\Execution.csproj" />
+    <ProjectReference Include="..\Lifecycle\Lifecycle.csproj" />
     <ProjectReference Include="..\Types\Types.csproj" />
   </ItemGroup>
 

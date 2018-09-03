@@ -3,7 +3,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Specs.Logging.for_LogAppenders
+namespace Dolittle.Logging.for_LogAppenders
 {
     public class when_constructing_with_two_instances_of_log_appenders_configurators : given.no_log_appenders
     {

@@ -1,7 +1,7 @@
 ﻿using Dolittle.Logging;
 using Machine.Specifications;
 
-namespace Dolittle.Specs.Logging.for_LogAppenders.given
+namespace Dolittle.Logging.for_LogAppenders.given
 {
     public class no_log_appenders : all_dependencies
     {

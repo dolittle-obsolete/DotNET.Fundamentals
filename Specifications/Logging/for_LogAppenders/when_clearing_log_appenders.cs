@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace Dolittle.Specs.Logging.for_LogAppenders
+namespace Dolittle.Logging.for_LogAppenders
 {
     public class when_clearing_log_appenders : given.one_appender
     {

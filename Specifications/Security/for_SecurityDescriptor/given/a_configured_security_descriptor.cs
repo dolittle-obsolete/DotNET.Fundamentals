@@ -1,5 +1,4 @@
 ﻿using Dolittle.DependencyInversion;
-using Dolittle.Execution;
 using Dolittle.Security;
 using Machine.Specifications;
 using Moq;

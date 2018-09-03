@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Dolittle.Execution;
+using Dolittle.Lifecycle;
 
 namespace Dolittle.Serialization.Protobuf
 {

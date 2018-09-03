@@ -1,9 +1,8 @@
 ﻿using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
-using Dolittle.Logging;
 
-namespace Dolittle.Specs.Logging.for_LogAppenders
+namespace Dolittle.Logging.for_LogAppenders
 {
     public class when_adding_log_appender : given.no_log_appenders
     {
