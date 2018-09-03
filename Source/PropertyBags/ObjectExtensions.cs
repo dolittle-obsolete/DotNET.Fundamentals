@@ -53,9 +53,9 @@ namespace Dolittle.PropertyBags
         }
         static object ConstructEnumerable(object obj, Type propType)
         {
-            if (typeof(Dictionary<,>).IsAssignableFrom(propType))
+            if (propType.ImplementsOpenGeneric(typeof(IDictionary<,>)))
                 throw new ArgumentException("property type cannot be Dictionary<,>");
-            var elementType = GetEnumerableElementType(propType);
+            var elementType = propType.GetEnumerableElementType();
             var enumerableObject = obj as IEnumerable;
 
             var resultList = new List<object>();
@@ -63,24 +63,6 @@ namespace Dolittle.PropertyBags
                 resultList.Add(GetPropertyBagObjectValue(element, elementType));
 
             return resultList.ToArray();
-        }
-
-        // https://stackoverflow.com/questions/906499/getting-type-t-from-ienumerablet
-        static Type GetEnumerableElementType(Type propType)
-        {
-            Type elementType;
-            if (propType.IsArray)
-                elementType = propType.GetElementType();
-            else if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                elementType = propType.GetGenericArguments()[0];
-            else 
-            {
-                elementType = propType.GetInterfaces()
-                    .Where(t => t.IsGenericType &&
-                        t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                    .Select(t => t.GenericTypeArguments[0]).FirstOrDefault();
-            }
-            return elementType;
         }
     }
 }
