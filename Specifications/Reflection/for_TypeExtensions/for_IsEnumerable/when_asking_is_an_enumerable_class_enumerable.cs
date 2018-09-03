@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Machine.Specifications;
 
@@ -6,6 +7,20 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
     class ComplexType 
     {
         public int MyProperty { get; set; }
+    }
+
+    class MyEnumerable : IEnumerable<ComplexType>
+    {
+        IEnumerable<ComplexType> _list = new List<ComplexType>();
+        public IEnumerator<ComplexType> GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
     }
     public class when_asking_is_an_enumerable_class_enumerable
     {
@@ -16,6 +31,7 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
         static bool IEnumerable_of_object_is_enumerable;
         static bool IEnumerable_of_IEnumerable_of_object_is_enumerable;
         static bool IEnumerable_of_complex_type_is_enumerable;
+        static bool MyEnumerable_is_enumerable;
         static bool object_is_enumerable;
         static bool string_is_enumerable;
         static bool char_is_enumerable;
@@ -29,6 +45,7 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
             IEnumerable_of_string_is_enumerable = typeof(IEnumerable<string>).IsEnumerable();
             IEnumerable_of_IEnumerable_of_object_is_enumerable = typeof(IEnumerable<IEnumerable<object>>).IsEnumerable();
             IEnumerable_of_complex_type_is_enumerable = typeof(IEnumerable<ComplexType>).IsEnumerable();
+            MyEnumerable_is_enumerable = typeof(MyEnumerable).IsEnumerable();
 
             object_is_enumerable = typeof(object).IsEnumerable();
             string_is_enumerable = typeof(string).IsEnumerable();
@@ -42,6 +59,7 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
         It should_consider_IEnumerable_of_object_as_enumerable = () => IEnumerable_of_object_is_enumerable.ShouldBeTrue();
         It should_consider_IEnumerable_of_IEnumerable_of_object_is_enumerable = () => IEnumerable_of_IEnumerable_of_object_is_enumerable.ShouldBeTrue();
         It should_consider_IEnumerable_of_complex_type_as_enumerable = () => IEnumerable_of_complex_type_is_enumerable.ShouldBeTrue();
+        It should_consider_MyEnumerable_as_enumerable = () => MyEnumerable_is_enumerable.ShouldBeTrue();
         It should_consider_object_as_not_enumerable = () => object_is_enumerable.ShouldBeFalse();
         It should_consider_string_as_not_enumerable = () => string_is_enumerable.ShouldBeFalse();
         It should_consider_char_as_not_enumerable = () => char_is_enumerable.ShouldBeFalse();
