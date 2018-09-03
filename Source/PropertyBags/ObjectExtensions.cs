@@ -4,7 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Dolittle.Concepts;
 using Dolittle.Reflection;
@@ -31,11 +33,36 @@ namespace Dolittle.PropertyBags
 
             foreach (var property in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
-                var value = property.PropertyType.IsAPrimitiveType() ? property.GetValue(obj) : property.PropertyType.IsConcept() ? property.GetValue(obj)?.GetConceptValue() : property.GetValue(obj).ToPropertyBag();
+                var value = GetPropertyBagObjectValue(property.GetValue(obj), property.PropertyType); 
                 values.Add(property.Name, value);
             }
 
             return new PropertyBag(values);    
+        }
+
+        static object GetPropertyBagObjectValue(object obj, Type type)
+        {
+            return 
+                type.IsEnumerable() ? 
+                    ConstructEnumerable(obj, type) 
+                    : type.IsAPrimitiveType() ? 
+                    obj 
+                    : type.IsConcept() ? 
+                        obj?.GetConceptValue() 
+                        : obj.ToPropertyBag();
+        }
+        static object ConstructEnumerable(object obj, Type propType)
+        {
+            if (propType.ImplementsOpenGeneric(typeof(IDictionary<,>)))
+                throw new ArgumentException("property type cannot be Dictionary<,>");
+            var elementType = propType.GetEnumerableElementType();
+            var enumerableObject = obj as IEnumerable;
+
+            var resultList = new List<object>();
+            foreach (var element in enumerableObject)
+                resultList.Add(GetPropertyBagObjectValue(element, elementType));
+
+            return resultList.ToArray();
         }
     }
 }

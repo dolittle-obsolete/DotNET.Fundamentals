@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -66,6 +67,16 @@ namespace Dolittle.Reflection
         {
             return NumericTypes.Contains(type) ||
                    NumericTypes.Contains(Nullable.GetUnderlyingType(type));
+        }
+
+        /// <summary>
+        /// Check if a type is enumerable. Note that string is an IEnumerable, but in this case the string is excluded
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is enumerable, false if not an enumerable</returns>
+        public static bool IsEnumerable(this Type type)
+        {
+            return !type.IsAPrimitiveType() && !type.IsString() && typeof(System.Collections.IEnumerable).IsAssignableFrom(type);
         }
 
         /// <summary>
@@ -208,6 +219,29 @@ namespace Dolittle.Reflection
         public static PropertyInfo[] GetSettableProperties(this Type type)
         {
             return type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanWrite).ToArray();
+        }
+
+        // https://stackoverflow.com/questions/906499/getting-type-t-from-ienumerablet
+        /// <summary>
+        /// Gets the element type of an enumerable
+        /// </summary>
+        /// <param name="enumerableType">The <see cref="Type">type of the enumerable</see></param>
+        /// <returns></returns>
+        public static Type GetEnumerableElementType(this Type enumerableType)
+        {
+            Type elementType;
+            if (enumerableType.IsArray)
+                elementType = enumerableType.GetElementType();
+            else if (enumerableType.IsGenericType && enumerableType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                elementType = enumerableType.GetGenericArguments()[0];
+            else 
+            {
+                elementType = enumerableType.GetInterfaces()
+                    .Where(t => t.IsGenericType &&
+                        t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                    .Select(t => t.GenericTypeArguments[0]).FirstOrDefault();
+            }
+            return elementType;
         }
 
         /// <summary>
