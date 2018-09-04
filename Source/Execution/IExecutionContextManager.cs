@@ -9,14 +9,14 @@ using Dolittle.Tenancy;
 namespace Dolittle.Execution
 {
     /// <summary>
-    /// Defines the manager for <see cref="IExecutionContext"/>
+    /// Defines the manager for <see cref="ExecutionContext"/>
     /// </summary>
     public interface IExecutionContextManager
     {
         /// <summary>
-        /// Gets or sets the current <see cref="IExecutionContext"/>
+        /// Gets or sets the current <see cref="ExecutionContext"/>
         /// </summary>
-        IExecutionContext Current { get; set; }
+        ExecutionContext Current { get; set; }
 
         /// <summary>
         /// Set constants that are used typically within a running process
@@ -31,8 +31,8 @@ namespace Dolittle.Execution
         /// Set current execution context for a <see cref="TenantId"/>
         /// </summary>
         /// <param name="tenant"><see cref="TenantId"/> to set for</param>
-        /// <returns>Current <see cref="IExecutionContext"/></returns>
-        IExecutionContext CurrentFor(TenantId tenant);
+        /// <returns>Current <see cref="ExecutionContext"/></returns>
+        ExecutionContext CurrentFor(TenantId tenant);
 
         /// <summary>
         /// Set current execution context for a <see cref="TenantId"/> with <see cref="CorrelationId"/> and <see cref="ClaimsPrincipal"/>
@@ -40,7 +40,7 @@ namespace Dolittle.Execution
         /// <param name="tenant"><see cref="TenantId"/> to set for</param>
         /// <param name="correlationId"><see cref="CorrelationId"/> to associate</param>
         /// <param name="principal"><see cref="ClaimsPrincipal"/> to assocatie</param>
-        /// <returns>Current <see cref="IExecutionContext"/></returns>
-        IExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, ClaimsPrincipal principal);
+        /// <returns>Current <see cref="ExecutionContext"/></returns>
+        ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, ClaimsPrincipal principal);
     }
 }

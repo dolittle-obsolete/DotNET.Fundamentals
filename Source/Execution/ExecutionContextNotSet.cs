@@ -7,7 +7,7 @@ using System;
 namespace Dolittle.Execution
 {
     /// <summary>
-    /// Exception that gets thrown when <see cref="IExecutionContext"/> is not set
+    /// Exception that gets thrown when <see cref="ExecutionContext"/> is not set
     /// </summary>
     public class ExecutionContextNotSet : Exception {}
 }

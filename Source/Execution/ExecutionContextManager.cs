@@ -17,7 +17,7 @@ namespace Dolittle.Execution
     [Singleton]
     public class ExecutionContextManager : IExecutionContextManager
     {
-        static AsyncLocal<IExecutionContext> _executionContext = new AsyncLocal<IExecutionContext>();
+        static AsyncLocal<ExecutionContext> _executionContext = new AsyncLocal<ExecutionContext>();
 
         Application _application;
         BoundedContext _boundedContext;
@@ -25,7 +25,7 @@ namespace Dolittle.Execution
 
 
         /// <inheritdoc/>
-        public IExecutionContext Current
+        public ExecutionContext Current
         {
             get 
             {
@@ -45,14 +45,14 @@ namespace Dolittle.Execution
         }
 
         /// <inheritdoc/>
-        public IExecutionContext CurrentFor(TenantId tenant)
+        public ExecutionContext CurrentFor(TenantId tenant)
         {
             return CurrentFor(tenant, CorrelationId.New(), new ClaimsPrincipal());
         }
 
 
         /// <inheritdoc/>
-        public IExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, ClaimsPrincipal principal)
+        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, ClaimsPrincipal principal)
         {
             var executionContext = new ExecutionContext(
                 _application, 

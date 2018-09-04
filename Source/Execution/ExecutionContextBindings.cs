@@ -8,7 +8,7 @@ using Dolittle.DependencyInversion;
 namespace Dolittle.Execution
 {
     /// <summary>
-    /// Provides bindings for <see cref="IExecutionContext"/>
+    /// Provides bindings for <see cref="ExecutionContext"/>
     /// </summary>
     public class ExecutionContextBindings : ICanProvideBindings
     {
@@ -17,7 +17,7 @@ namespace Dolittle.Execution
         {
             var executionContextManager = new ExecutionContextManager();
             builder.Bind<IExecutionContextManager>().To(executionContextManager);
-            builder.Bind<IExecutionContext>().To(() => executionContextManager.Current);
+            builder.Bind<ExecutionContext>().To(() => executionContextManager.Current);
         }
     }
 }
