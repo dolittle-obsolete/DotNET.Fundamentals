@@ -6,8 +6,12 @@
 namespace Dolittle.PropertyBags
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Dolittle.Concepts;
+    using Dolittle.Reflection;
 
     /// <summary>
     /// Extensions for Type to help with <see cref="PropertyBag" />
@@ -35,6 +39,43 @@ namespace Dolittle.PropertyBags
         {
             return type.GetTypeInfo().DeclaredConstructors.SingleOrDefault(c => c.GetParameters().Length == 1 
                                                                                 && c.GetParameters().First().ParameterType == typeof(PropertyBag));
+        }
+
+        /// <summary>
+        /// Constructs the <see cref="object">obj</see> as an object
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static object GetPropertyBagObjectValue(this Type type, object obj)
+        {
+            return 
+                type.IsEnumerable() ? 
+                    type.ConstructEnumerable(obj) 
+                    : type.IsAPrimitiveType() ? 
+                    obj 
+                    : type.IsConcept() ? 
+                        obj?.GetConceptValue() 
+                        : obj.ToPropertyBag();
+        }
+        /// <summary>
+        /// Constructs an <see cref="IEnumerable"/> as an object
+        /// </summary>
+        /// <param name="propType"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static object ConstructEnumerable(this Type propType, object obj)
+        {
+            if (propType.ImplementsOpenGeneric(typeof(IDictionary<,>)))
+                throw new ArgumentException("property type cannot be Dictionary<,>");
+            var elementType = propType.GetEnumerableElementType();
+            var enumerableObject = obj as IEnumerable;
+
+            var resultList = new List<object>();
+            foreach (var element in enumerableObject)
+                resultList.Add(elementType.GetPropertyBagObjectValue(element));
+
+            return resultList.ToArray();
         }
     }
 }
