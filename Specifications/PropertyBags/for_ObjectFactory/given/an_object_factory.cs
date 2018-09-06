@@ -57,7 +57,6 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.given
             yield return new ImmutableTypeConstructorBasedFactory(new ConstructorProvider());
             yield return new MutableTypeSetterBasedFactory();
             yield return new MutableTypeConstructorBasedFactory(new ConstructorProvider());
-            yield return new EnumerableFactory();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dolittle.Collections;
 using Dolittle.Concepts;
 using Dolittle.PropertyBags;
 using Machine.Specifications;
@@ -19,7 +20,7 @@ namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property
 
         Establish context = () => 
         {
-            var first_dictionary = new Dictionary<string, object>
+            var first_dictionary = new NullFreeDictionary<string, object>
             { 
                 {"string", "with a value"},
                 {"integer", 42},
@@ -27,7 +28,7 @@ namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property
                 {"Concept", new StringConcept("A Concept")}
             };
 
-            var second_dictionary = new Dictionary<string, object>
+            var second_dictionary = new NullFreeDictionary<string, object>
             { 
                 {"2_string", "with a value"},
                 {"2_integer", 42},
