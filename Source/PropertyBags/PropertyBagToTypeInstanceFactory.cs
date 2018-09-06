@@ -11,6 +11,7 @@ namespace Dolittle.PropertyBags
     using System.Collections.Generic;
     using Dolittle.Collections;
     using Dolittle.Strings;
+    using Dolittle.Reflection;
 
     /// <summary>
     /// Creates an instance of a type using the provided constructor and <see cref="PropertyBag" /> source
@@ -41,7 +42,15 @@ namespace Dolittle.PropertyBags
             else 
             {
                 parameters.ForEach(pi => {
-                    _parameterAccessors.Add((pb) => pb[pi.Name.ToPascalCase()]);
+                    _parameterAccessors.Add((pb) => 
+                    {
+                        if (! pb.ContainsKey(pi.Name.ToPascalCase()))
+                            return null;
+                        if (pi.ParameterType.IsEnumerable())
+                            return pi.ParameterType.ConstructEnumerable(factory, pb[pi.Name.ToPascalCase()]);
+                        return pb[pi.Name.ToPascalCase()];
+                        //QUESTION: Shouldn't this do almost exactly the same as InstancePropertySetter? If so, we would need
+                    });
                 });
             }
 

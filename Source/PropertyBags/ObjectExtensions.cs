@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Dolittle.Collections;
 using Dolittle.Concepts;
 using Dolittle.Reflection;
 
@@ -29,7 +30,7 @@ namespace Dolittle.PropertyBags
             if(obj == null)
                 return null;
 
-            Dictionary<string,object> values = new Dictionary<string, object>();
+            INullFreeDictionary<string,object> values = new NullFreeDictionary<string, object>();
 
             foreach (var property in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
@@ -38,6 +39,45 @@ namespace Dolittle.PropertyBags
             }
             return new PropertyBag(values);    
         }
+        /// <summary>
+        /// Constructs the <see cref="object">obj</see> as an object suitable for a <see cref="PropertyBag"/>
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        static object GetPropertyBagObjectValue(this Type type, object obj)
+        {
+            
+            return 
+                type.IsEnumerable() ? 
+                    type.ConstructEnumerable(obj) 
+                    : type.IsAPrimitiveType() ? 
+                    obj 
+                    : type.IsConcept() ? 
+                        obj?.GetConceptValue() 
+                        : obj.ToPropertyBag();
+        }
+        /// <summary>
+        /// Constructs an <see cref="IEnumerable"/> as an object suitable for a <see cref="PropertyBag"/>
+        /// </summary>
+        /// <param name="propType"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        static object ConstructEnumerable(this Type propType, object obj)
+        {
+            if (obj == null) return null;
+            if (propType.ImplementsOpenGeneric(typeof(IDictionary<,>)))
+                throw new ArgumentException("property type cannot be Dictionary<,>");
+            var elementType = propType.GetEnumerableElementType();
+            var enumerableObject = obj as IEnumerable;
 
+            if (enumerableObject == null) return null;
+            
+            var resultList = new List<object>();
+            foreach (var element in enumerableObject)
+                resultList.Add(elementType.GetPropertyBagObjectValue(element));
+
+            return resultList.ToArray();
+        }
     }
 }

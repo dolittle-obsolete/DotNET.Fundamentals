@@ -11,7 +11,10 @@ namespace Dolittle.PropertyBags
     using Dolittle.Reflection;
     using Dolittle.Collections;
     using Dolittle.Concepts;
-    
+    using System.Collections.Concurrent;
+    using System.Collections;
+    using System.Reflection;
+
     /// <summary>
     /// Sets public properties on an object given a source
     /// </summary>
@@ -34,6 +37,9 @@ namespace Dolittle.PropertyBags
                 _setters.Add(Actions.GetPropertySetter(type,pi));
                 _accessors.Add((pb) => 
                 {
+                    if (!pb.ContainsKey(pi.Name))
+                        return null;
+                    
                     var value = pb[pi.Name];
                     if(value == null)
                         return value;
@@ -43,10 +49,15 @@ namespace Dolittle.PropertyBags
                     if(pi.PropertyType.IsConcept())
                         return ConceptFactory.CreateConceptInstance(pi.PropertyType,value);
 
-                    return factory.Build(pi.PropertyType,value as PropertyBag);
+                    if (pi.PropertyType.IsEnumerable())
+                        return pi.PropertyType.ConstructEnumerable(factory, value);
+                    
+
+                    return factory.Build(pi.PropertyType, value as PropertyBag);
                 });
             });
         }
+
         /// <summary>
         /// The Type that this sets properties for
         /// </summary>

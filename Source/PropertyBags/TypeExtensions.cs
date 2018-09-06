@@ -42,40 +42,51 @@ namespace Dolittle.PropertyBags
         }
 
         /// <summary>
-        /// Constructs the <see cref="object">obj</see> as an object
+        /// Constructs a generic List based on the type of the enumerable and the input object
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="obj"></param>
+        /// <param name="enumerableType">The List's type</param>
+        /// <param name="factory">The <see cref="IObjectFactory"/> for creating the list's objects</param>
+        /// <param name="obj">The object from which the list's element will be built of</param>
         /// <returns></returns>
-        public static object GetPropertyBagObjectValue(this Type type, object obj)
+        public static dynamic ConstructEnumerable(this Type enumerableType, IObjectFactory factory, object obj)
         {
-            return 
-                type.IsEnumerable() ? 
-                    type.ConstructEnumerable(obj) 
-                    : type.IsAPrimitiveType() ? 
-                    obj 
-                    : type.IsConcept() ? 
-                        obj?.GetConceptValue() 
-                        : obj.ToPropertyBag();
+            ThrowIfNotEnumerableType(enumerableType);
+            ThrowIfObjectIsNotEnumerable(obj);
+            var elementType = enumerableType.GetEnumerableElementType();
+            dynamic list = Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType));
+            
+            foreach (object element in obj as IEnumerable)
+            {
+                if (element == null) 
+                    list.Add(null);
+                else if (element.GetType().Equals(typeof(PropertyBag))) 
+                {
+                    var method = typeof(IObjectFactory).GetMethods(BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Instance).FirstOrDefault(m => m.Name.Equals("Build") && m.GetGenericArguments().Count() == 1);
+                    ThrowIfGenericMethodNotFound(method);
+                    method = method.MakeGenericMethod(new Type[] {elementType});
+                    dynamic actualValue = method.Invoke(factory, new object[] {element as PropertyBag});
+                    list.Add(actualValue);
+                }
+                else
+                    list.Add((dynamic)element);
+            }
+            return list.ToArray();
+            
         }
-        /// <summary>
-        /// Constructs an <see cref="IEnumerable"/> as an object
-        /// </summary>
-        /// <param name="propType"></param>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static object ConstructEnumerable(this Type propType, object obj)
+
+        static void ThrowIfObjectIsNotEnumerable(object obj)
         {
-            if (propType.ImplementsOpenGeneric(typeof(IDictionary<,>)))
-                throw new ArgumentException("property type cannot be Dictionary<,>");
-            var elementType = propType.GetEnumerableElementType();
-            var enumerableObject = obj as IEnumerable;
+            if ((obj as IEnumerable) == null) throw new ObjectIsNotEnumerable("The object is not enumerable");
+        }
 
-            var resultList = new List<object>();
-            foreach (var element in enumerableObject)
-                resultList.Add(elementType.GetPropertyBagObjectValue(element));
+        static void ThrowIfNotEnumerableType(Type type)
+        {
+            if (!type.IsEnumerable()) throw new TypeIsNotEnumerable(type);
+        }
 
-            return resultList.ToArray();
+        static void ThrowIfGenericMethodNotFound(MethodInfo method)
+        {
+            if (method == null) throw new GenericBuildMethodNotFound($"Generic method taking one generic argument called Build was not found in tbe {typeof(IObjectFactory).Name}");
         }
     }
 }
