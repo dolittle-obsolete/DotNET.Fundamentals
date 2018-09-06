@@ -6,19 +6,19 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
     public class when_enumerable_property_is_null : given.an_object_factory
     {
         static IObjectFactory factory;
-        static EnumerableWithPrimitiveElements enumerable_type;
+        static MutableWithEnumerableWithPrimitiveElements enumerable_type;
         static PropertyBag source;
-        static EnumerableWithPrimitiveElements result;
+        static MutableWithEnumerableWithPrimitiveElements result;
         Establish context = () => 
         {
             factory = instance;
-            enumerable_type = new EnumerableWithPrimitiveElements();
+            enumerable_type = new MutableWithEnumerableWithPrimitiveElements();
             source = enumerable_type.ToPropertyBag();
         };
 
-        Because of = () => result = factory.Build<EnumerableWithPrimitiveElements>(source);
+        Because of = () => result = factory.Build<MutableWithEnumerableWithPrimitiveElements>(source);
 
-        It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<EnumerableWithPrimitiveElements>();
+        It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<MutableWithEnumerableWithPrimitiveElements>();
 
         It enumerable_should_be_null = () => result.Enumerable.ShouldBeNull();
     }

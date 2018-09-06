@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 namespace Dolittle.PropertyBags.Specs
 {
-    public class EnumerableWithComplexElements
+    public class MutableWithEnumerableWithComplexElements
     {
 
         public IEnumerable<ComplexImmutableWithMultipleParameterConstructor> Enumerable {get; set;}

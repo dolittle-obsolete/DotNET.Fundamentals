@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Dolittle.PropertyBags.Specs
 {
-    public class EnumerableWithPrimitiveElements
+    public class MutableWithEnumerableWithPrimitiveElements
     {
         public IEnumerable<string> Enumerable {get; set; } 
     }
