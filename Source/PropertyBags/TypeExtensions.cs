@@ -59,7 +59,7 @@ namespace Dolittle.PropertyBags
             {
                 if (element == null) 
                     list.Add(null);
-                else if (element.GetType().Equals(typeof(PropertyBag))) 
+                else if (element.GetType().Equals(typeof(PropertyBag)) || !element.GetType().IsAPrimitiveType()) 
                 {
                     var method = typeof(IObjectFactory).GetMethods(BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Instance).FirstOrDefault(m => m.Name.Equals("Build") && m.GetGenericArguments().Count() == 1);
                     ThrowIfGenericMethodNotFound(method);
@@ -72,6 +72,47 @@ namespace Dolittle.PropertyBags
             }
             return list.ToArray();
             
+        }
+
+        /// <summary>
+        /// Constructs the <see cref="object">obj</see> as an object suitable for a <see cref="PropertyBag"/>
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static object GetPropertyBagObjectValue(this Type type, object obj)
+        {
+            
+            return 
+                type.IsEnumerable() ? 
+                    type.ConstructEnumerableForPropertyBag(obj) 
+                    : type.IsAPrimitiveType() ? 
+                    obj 
+                    : type.IsConcept() ? 
+                        obj?.GetConceptValue() 
+                        : obj.ToPropertyBag();
+        }
+        /// <summary>
+        /// Constructs an <see cref="IEnumerable"/> as an object suitable for a <see cref="PropertyBag"/>
+        /// </summary>
+        /// <param name="propType"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static object ConstructEnumerableForPropertyBag(this Type propType, object obj)
+        {
+            if (obj == null) return null;
+            if (propType.ImplementsOpenGeneric(typeof(IDictionary<,>)))
+                throw new ArgumentException("property type cannot be Dictionary<,>");
+            var elementType = propType.GetEnumerableElementType();
+            var enumerableObject = obj as IEnumerable;
+
+            if (enumerableObject == null) return null;
+            
+            var resultList = new List<object>();
+            foreach (var element in enumerableObject)
+                resultList.Add(elementType.GetPropertyBagObjectValue(element));
+
+            return resultList.ToArray();
         }
 
         static void ThrowIfObjectIsNotEnumerable(object obj)

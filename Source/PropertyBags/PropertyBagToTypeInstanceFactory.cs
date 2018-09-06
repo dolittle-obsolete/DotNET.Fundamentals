@@ -47,9 +47,8 @@ namespace Dolittle.PropertyBags
                         if (! pb.ContainsKey(pi.Name.ToPascalCase()))
                             return null;
                         if (pi.ParameterType.IsEnumerable())
-                            return pi.ParameterType.ConstructEnumerable(factory, pb[pi.Name.ToPascalCase()]);
+                            return pi.ParameterType.ConstructEnumerableForPropertyBag(pb[pi.Name.ToPascalCase()]);
                         return pb[pi.Name.ToPascalCase()];
-                        //QUESTION: Shouldn't this do almost exactly the same as InstancePropertySetter? If so, we would need
                     });
                 });
             }
