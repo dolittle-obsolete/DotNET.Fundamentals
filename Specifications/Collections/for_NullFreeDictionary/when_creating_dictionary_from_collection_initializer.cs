@@ -4,7 +4,7 @@ namespace Dolittle.Collections.Specs.for_NullFreeDictionary
 {
     public class when_creating_dictionary_from_collection_initializer
     {
-        static INullFreeDictionary<string, string> null_free_dictionary;
+        static NullFreeDictionary<string, string> null_free_dictionary;
 
         Because of = () => null_free_dictionary = new NullFreeDictionary<string, string>()
         {

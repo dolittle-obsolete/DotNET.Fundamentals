@@ -3,7 +3,7 @@ namespace Dolittle.Collections.Specs.for_NullFreeDictionary
 {
     public class when_creating_dictionary_with_Add
     {
-        static INullFreeDictionary<string, string> null_free_dictionary;
+        static NullFreeDictionary<string, string> null_free_dictionary;
 
         Establish context = () => null_free_dictionary = new NullFreeDictionary<string, string>();
         Because of = () => 

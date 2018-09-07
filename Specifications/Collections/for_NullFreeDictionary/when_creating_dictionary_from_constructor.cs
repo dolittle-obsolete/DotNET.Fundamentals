@@ -19,7 +19,7 @@ namespace Dolittle.Collections.Specs.for_NullFreeDictionary
                 }
             };
 
-        static INullFreeDictionary<string, string> null_free_dictionary;
+        static NullFreeDictionary<string, string> null_free_dictionary;
 
         Because of = () => null_free_dictionary = new NullFreeDictionary<string, string>(standard_dictionary);
 
