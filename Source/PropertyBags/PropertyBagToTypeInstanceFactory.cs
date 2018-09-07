@@ -42,14 +42,7 @@ namespace Dolittle.PropertyBags
             else 
             {
                 parameters.ForEach(pi => {
-                    _parameterAccessors.Add((pb) => 
-                    {
-                        if (! pb.ContainsKey(pi.Name.ToPascalCase()))
-                            return null;
-                        if (pi.ParameterType.IsEnumerable())
-                            return pi.ParameterType.ConstructEnumerableForPropertyBag(pb[pi.Name.ToPascalCase()]);
-                        return pb[pi.Name.ToPascalCase()];
-                    });
+                    _parameterAccessors.Add((pb) => pb.ConstructInstanceOfType(pi, factory));
                 });
             }
 

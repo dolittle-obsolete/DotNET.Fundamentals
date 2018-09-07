@@ -35,26 +35,7 @@ namespace Dolittle.PropertyBags
 
             props.ForEach(pi => {
                 _setters.Add(Actions.GetPropertySetter(type,pi));
-                _accessors.Add((pb) => 
-                {
-                    if (!pb.ContainsKey(pi.Name))
-                        return null;
-                    
-                    var value = pb[pi.Name];
-                    if(value == null)
-                        return value;
-                    if(pi.PropertyType.IsAPrimitiveType() || pi.PropertyType == typeof(PropertyBag))
-                        return value;
-
-                    if(pi.PropertyType.IsConcept())
-                        return ConceptFactory.CreateConceptInstance(pi.PropertyType,value);
-
-                    if (pi.PropertyType.IsEnumerable())
-                        return pi.PropertyType.ConstructEnumerable(factory, value);
-                    
-
-                    return factory.Build(pi.PropertyType, value as PropertyBag);
-                });
+                _accessors.Add((pb) => pb.ConstructInstanceOfType(pi, factory));
             });
         }
 
