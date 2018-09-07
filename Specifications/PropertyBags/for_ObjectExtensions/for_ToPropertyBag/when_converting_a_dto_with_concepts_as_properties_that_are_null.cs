@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
@@ -14,15 +15,15 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
         Because of = () => result = source.ToPropertyBag();
 
         It should_create_a_property_bag = () => (result as PropertyBag).ShouldNotBeNull();
-        It should_have_the_null_values_for_the_concepts = () =>
+        It should_throw_KeyNotFound_exceptions_when_getting_the_concepts = () =>
         {           
-            (result as PropertyBag)["StringConcept"].ShouldBeNull();
-            (result as PropertyBag)["LongConcept"].ShouldBeNull();
+            Catch.Exception( () => (result as PropertyBag)["StringConcept"]).ShouldBeOfExactType<KeyNotFoundException>();
+            Catch.Exception( () => (result as PropertyBag)["LongConcept"]).ShouldBeOfExactType<KeyNotFoundException>();
         };
-        It should_have_keys_for_the_concepts = () =>
+        It should_not_have_keys_for_the_concepts = () =>
         {           
-            (result as PropertyBag).ContainsKey("StringConcept").ShouldBeTrue();
-            (result as PropertyBag).ContainsKey("LongConcept").ShouldBeTrue();
+            (result as PropertyBag).ContainsKey("StringConcept").ShouldBeFalse();
+            (result as PropertyBag).ContainsKey("LongConcept").ShouldBeFalse();
         };
     }    
 }

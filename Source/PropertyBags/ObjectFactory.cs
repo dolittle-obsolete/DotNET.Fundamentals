@@ -43,6 +43,8 @@ namespace Dolittle.PropertyBags
         ///<inheritdoc />
         public object Build(Type type, PropertyBag source)
         {
+            if (source == null) 
+                return null;
             var lazyFactory = _cachedFactories.GetOrAdd(type, (t) => new Lazy<ITypeFactory>(() => GetTypeFactoryForType(t)));
             return lazyFactory.Value.Build(type, this, source);
         }
@@ -50,7 +52,7 @@ namespace Dolittle.PropertyBags
         ///<inheritdoc />
         public T Build<T>(PropertyBag source)
         {
-            return (T)Build(typeof(T),source);
+            return (T)Build(typeof(T), source);
         }
 
         ///<inheritdoc />

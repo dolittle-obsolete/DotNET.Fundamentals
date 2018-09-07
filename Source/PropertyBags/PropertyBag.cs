@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolittle.Collections;
 using Dolittle.Dynamic;
 
 namespace Dolittle.PropertyBags
@@ -19,8 +20,9 @@ namespace Dolittle.PropertyBags
         /// 
         /// </summary>
         /// <param name="values"></param>
-        public PropertyBag(IDictionary<string,object> values) : base(values)
+        public PropertyBag(NullFreeDictionary<string,object> values) : base(values)
         {
+            
         }
 
         /// <summary>
@@ -99,7 +101,7 @@ namespace Dolittle.PropertyBags
         /// 
         /// </summary>
         /// <param name="dictionary"></param>
-        public static implicit operator PropertyBag(Dictionary<string,object> dictionary)
+        public static implicit operator PropertyBag(NullFreeDictionary<string,object> dictionary)
         {
             return new PropertyBag(dictionary);
         }

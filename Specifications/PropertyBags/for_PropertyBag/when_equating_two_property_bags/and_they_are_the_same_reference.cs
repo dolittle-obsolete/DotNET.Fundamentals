@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Machine.Specifications;
 using Dolittle.PropertyBags;
+using Dolittle.Collections;
 
 namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property_bags
 {
@@ -16,7 +17,7 @@ namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property
 
         Establish context = () => 
         {
-            var dictionary = new Dictionary<string, object>
+            var dictionary = new NullFreeDictionary<string, object>
             { 
                 {"string", "with a value"},
                 {"integer", 42},

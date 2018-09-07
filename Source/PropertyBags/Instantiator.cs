@@ -44,21 +44,7 @@ namespace Dolittle.PropertyBags
             {
                 var index = Expression.Constant(i);
                 var paramType = paramsInfo[i].ParameterType;              
-                var accessorExp = Expression.ArrayIndex(param, index);
-                Expression getValueExp = null;  
-                if(paramType.IsAPrimitiveType() || paramType == typeof(PropertyBag))
-                {
-                    getValueExp = Expression.Convert(accessorExp, paramType);              
-                }            
-                else if(paramType.IsConcept())
-                {
-                    getValueExp = Expressions.GetConceptExpression(paramType,accessorExp);
-                }
-                else
-                {
-                    getValueExp = Expressions.GetBuildExpression(paramType,factory,accessorExp);
-                }
-                argsExp[i] = getValueExp;
+                argsExp[i] = Expression.Convert(Expression.ArrayIndex(param, index), paramType);
             }                  
 
             var newExp = Expression.New(ctor,argsExp);                  
