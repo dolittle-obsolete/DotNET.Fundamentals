@@ -30,7 +30,7 @@ namespace Dolittle.PropertyBags
             if(obj == null)
                 return null;
 
-            INullFreeDictionary<string,object> values = new NullFreeDictionary<string, object>();
+            NullFreeDictionary<string,object> values = new NullFreeDictionary<string, object>();
 
             foreach (var property in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {

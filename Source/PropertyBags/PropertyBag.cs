@@ -20,7 +20,7 @@ namespace Dolittle.PropertyBags
         /// 
         /// </summary>
         /// <param name="values"></param>
-        public PropertyBag(INullFreeDictionary<string,object> values) : base(values)
+        public PropertyBag(NullFreeDictionary<string,object> values) : base(values)
         {
             
         }

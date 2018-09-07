@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Dolittle.Collections
 {
     /// <inheritdoc/>
-    public class NullFreeDictionary<TKey, TValue> : INullFreeDictionary<TKey, TValue>
+    public class NullFreeDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         readonly IDictionary<TKey, TValue> _dict;
         /// <inheritdoc/>
