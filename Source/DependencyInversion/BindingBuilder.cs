@@ -80,6 +80,18 @@ namespace Dolittle.DependencyInversion
         }
 
         /// <inheritdoc/>
+        public IBindingScopeBuilder To(Func<IContainer, object> callbackWithContainer)
+        {
+            _binding = new Binding(
+                _binding.Service,
+                new Strategies.CallbackWithContainer(callbackWithContainer),
+                _binding.Scope);
+
+            _scopeBuilder = new BindingScopeBuilder(_binding);
+            return _scopeBuilder;
+        }
+
+        /// <inheritdoc/>
         public Binding Build()
         {
             _binding = _scopeBuilder.Build();
@@ -132,6 +144,18 @@ namespace Dolittle.DependencyInversion
              _binding = new Binding(
                 _binding.Service,
                 new Strategies.Callback<T>(callback),
+                _binding.Scope);
+
+            _scopeBuilder = new BindingScopeBuilder(_binding);
+            return _scopeBuilder;
+       }
+
+        /// <inheritdoc/>
+        public IBindingScopeBuilder To(Func<IContainer, T> callbackWithContainer)
+        {
+             _binding = new Binding(
+                _binding.Service,
+                new Strategies.CallbackWithContainer<T>(callbackWithContainer),
                 _binding.Scope);
 
             _scopeBuilder = new BindingScopeBuilder(_binding);

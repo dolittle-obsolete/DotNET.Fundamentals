@@ -9,13 +9,13 @@ namespace Dolittle.DependencyInversion.Strategies
     /// <summary>
     /// Represents an <see cref="IActivationStrategy"/> that gets activated through a callback
     /// </summary>
-    public class Callback : IActivationStrategy
+    public class CallbackWithContainer : IActivationStrategy
     {
         /// <summary>
         /// Initializes a new instance of <see cref="Callback"/>
         /// </summary>
         /// <param name="target">The callback target</param>
-        public Callback(Func<object> target)
+        public CallbackWithContainer(Func<IContainer, object> target)
         {
             Target = target;
         }
@@ -23,7 +23,7 @@ namespace Dolittle.DependencyInversion.Strategies
         /// <summary>
         /// Gets the target
         /// </summary>
-        public Func<object> Target {  get; }
+        public Func<IContainer, object> Target {  get; }
 
         /// <inheritdoc/>
         public System.Type GetTargetType()
@@ -35,13 +35,13 @@ namespace Dolittle.DependencyInversion.Strategies
     /// <summary>
     /// Represents a generic <see cref="Callback"/>
     /// </summary>
-    public class Callback<T> : Callback
+    public class CallbackWithContainer<T> : CallbackWithContainer
     {
         /// <summary>
         /// Initializes a new instance of <see cref="Callback"/>
         /// </summary>
         /// <param name="target"></param>
-        public Callback(Func<T> target) : base(() => target())
+        public CallbackWithContainer(Func<IContainer, T> target) : base((IContainer container) => target(container))
         { }
     }
 }
