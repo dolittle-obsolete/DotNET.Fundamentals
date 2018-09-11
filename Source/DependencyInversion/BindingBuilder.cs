@@ -15,7 +15,7 @@ namespace Dolittle.DependencyInversion
         /// The binding we're currently building
         /// </summary>
         protected Binding _binding;
-        
+
         /// <summary>
         /// The scope builder we're currently building with
         /// </summary>
@@ -60,7 +60,7 @@ namespace Dolittle.DependencyInversion
         {
             _binding = new Binding(
                 _binding.Service,
-                new Strategies.Constant (constant),
+                new Strategies.Constant(constant),
                 _binding.Scope);
 
             _scopeBuilder = new BindingScopeBuilder(_binding);
@@ -73,18 +73,6 @@ namespace Dolittle.DependencyInversion
             _binding = new Binding(
                 _binding.Service,
                 new Strategies.Callback(callback),
-                _binding.Scope);
-
-            _scopeBuilder = new BindingScopeBuilder(_binding);
-            return _scopeBuilder;
-        }
-
-        /// <inheritdoc/>
-        public IBindingScopeBuilder To(Func<IContainer, object> callbackWithContainer)
-        {
-            _binding = new Binding(
-                _binding.Service,
-                new Strategies.CallbackWithContainer(callbackWithContainer),
                 _binding.Scope);
 
             _scopeBuilder = new BindingScopeBuilder(_binding);
@@ -109,10 +97,8 @@ namespace Dolittle.DependencyInversion
         /// </summary>
         /// <param name="binding"></param>
         /// <returns></returns>
-        public BindingBuilder(Binding binding) : base (binding)
-        {
-        }
-
+        public BindingBuilder(Binding binding) : base(binding)
+        { }
 
         /// <inheritdoc/>
         IBindingScopeBuilder IBindingBuilder<T>.To<TTarget>()
@@ -141,25 +127,13 @@ namespace Dolittle.DependencyInversion
         /// <inheritdoc/>
         public IBindingScopeBuilder To(Func<T> callback)
         {
-             _binding = new Binding(
+            _binding = new Binding(
                 _binding.Service,
                 new Strategies.Callback<T>(callback),
                 _binding.Scope);
 
             _scopeBuilder = new BindingScopeBuilder(_binding);
             return _scopeBuilder;
-       }
-
-        /// <inheritdoc/>
-        public IBindingScopeBuilder To(Func<IContainer, T> callbackWithContainer)
-        {
-             _binding = new Binding(
-                _binding.Service,
-                new Strategies.CallbackWithContainer<T>(callbackWithContainer),
-                _binding.Scope);
-
-            _scopeBuilder = new BindingScopeBuilder(_binding);
-            return _scopeBuilder;
-       }
-    }    
+        }
+    }
 }

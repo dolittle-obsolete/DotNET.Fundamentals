@@ -36,12 +36,6 @@ namespace Dolittle.DependencyInversion
         IBindingScopeBuilder To(Func<object> callback);
 
         /// <summary>
-        /// Bind to a callback that expects an instance of the <see cref="IContainer"/>
-        /// </summary>
-        /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
-        IBindingScopeBuilder To(Func<IContainer, object> callbackWithContainer);
-
-        /// <summary>
         /// Builds the Binding
         /// </summary>
         /// <returns>The resulting <see cref="Binding"/></returns>
@@ -71,11 +65,5 @@ namespace Dolittle.DependencyInversion
         /// </summary>
         /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
         IBindingScopeBuilder To(Func<T> callback);
-
-        /// <summary>
-        /// Bind to a type that expects an instance of the <see cref="IContainer"/>
-        /// </summary>
-        /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
-        IBindingScopeBuilder To(Func<IContainer, T> callbackWithContainer);
-    }
+   }
 }
