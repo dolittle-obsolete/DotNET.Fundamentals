@@ -2,7 +2,7 @@ using Machine.Specifications;
 
 namespace Dolittle.DependencyInversion.for_BindingBuilder
 {
-    public class when_binding_to_generic_type_with_generic_service : given.a_null_binding_for_generic_builder
+    public class when_binding_to_generic_type_using_generic_service : given.a_null_binding_for_generic_builder
     {
         static Binding result;
 

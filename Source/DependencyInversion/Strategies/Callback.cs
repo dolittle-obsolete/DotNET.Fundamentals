@@ -23,8 +23,7 @@ namespace Dolittle.DependencyInversion.Strategies
         /// <summary>
         /// Gets the target
         /// </summary>
-        public Func<object> Target { get; }
-
+        public Func<object> Target {  get; }
 
         /// <inheritdoc/>
         public System.Type GetTargetType()
@@ -42,9 +41,7 @@ namespace Dolittle.DependencyInversion.Strategies
         /// Initializes a new instance of <see cref="Callback"/>
         /// </summary>
         /// <param name="target"></param>
-        public Callback(Func<T> target)
-            : base(() => target())
-        {
-       }
+        public Callback(Func<T> target) : base(() => target())
+        { }
     }
 }

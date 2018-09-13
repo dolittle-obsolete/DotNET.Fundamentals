@@ -2,7 +2,6 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 using System;
 
 namespace Dolittle.DependencyInversion
@@ -66,5 +65,5 @@ namespace Dolittle.DependencyInversion
         /// </summary>
         /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
         IBindingScopeBuilder To(Func<T> callback);
-    }
+   }
 }
