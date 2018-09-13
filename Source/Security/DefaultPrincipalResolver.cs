@@ -22,7 +22,7 @@ namespace Dolittle.Security
             if( ClaimsPrincipal.Current == null )
             {
                 var identity = new ClaimsIdentity();
-                identity.AddClaim(new Claim(identity.NameClaimType, AnonymousUserName));
+                identity.AddClaim(new System.Security.Claims.Claim(identity.NameClaimType, AnonymousUserName));
                 var principal = new ClaimsPrincipal(identity);
                 return principal;
             }
