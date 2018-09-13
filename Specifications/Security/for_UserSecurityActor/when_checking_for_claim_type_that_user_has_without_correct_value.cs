@@ -11,7 +11,7 @@ namespace Dolittle.Security.Specs.for_UserSecurityActor
         const string claim_type = "Something";
         static bool result;
 
-        Establish context = () => identity.AddClaim(new Claim(claim_type, "42"));
+        Establish context = () => identity.AddClaim(new System.Security.Claims.Claim(claim_type, "42"));
 
         Because of = () => result = actor.HasClaimTypeWithValue("Something", "43");
 

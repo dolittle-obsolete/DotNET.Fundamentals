@@ -14,9 +14,9 @@ namespace Dolittle.Security.Specs.for_UserSecurityActor
         Establish context = () => 
         {
             identity.AddClaims(new[] {
-                new Claim(ClaimTypes.Role, first_role),
-                new Claim(ClaimTypes.Role, second_role),
-                new Claim(ClaimTypes.Role, third_role)
+                new System.Security.Claims.Claim(ClaimTypes.Role, first_role),
+                new System.Security.Claims.Claim(ClaimTypes.Role, second_role),
+                new System.Security.Claims.Claim(ClaimTypes.Role, third_role)
             });
         };
 
