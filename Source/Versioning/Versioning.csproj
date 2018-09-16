@@ -1,10 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-  <Import Project="../../Build/MSBuild/default.props"/>
+<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.Versioning</AssemblyName>
-    <OutputType>library</OutputType>
   </PropertyGroup>
+
+  <Import Project="../../Build/MSBuild/default.props"></Import>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Concepts\Concepts.csproj" />
+  </ItemGroup>
 
 </Project>
