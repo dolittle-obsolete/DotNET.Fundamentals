@@ -2,12 +2,14 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using Dolittle.Concepts;
+
 namespace Dolittle.Versioning
 {
     /// <summary>
     /// Represents a version number adhering to the SemVer 2.0 standard
     /// </summary>
-    public class Version
+    public class Version : Value<Version>
     {
         /// <summary>
         /// Initialize a new instance of <see cref="Version"/>
