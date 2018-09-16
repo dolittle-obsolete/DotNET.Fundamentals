@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Dolittle.Applications;
 using Dolittle.Concepts;
 using Dolittle.Tenancy;
+using Dolittle.Security;
 
 namespace Dolittle.Execution
 {
@@ -23,7 +24,7 @@ namespace Dolittle.Execution
         /// <param name="tenant"><see cref="TenantId"/> that is currently part of the <see cref="ExecutionContext"/></param>
         /// <param name="environment"><see cref="Environment"/> for this <see cref="ExecutionContext"/></param>
         /// <param name="correlationId"><see cref="CorrelationId"/> for this <see cref="ExecutionContext"/></param>
-        /// <param name="principal"><see cref="ClaimsPrincipal"/> to populate with</param>
+        /// <param name="claims"><see cref="Claims"/> to populate with</param>
         /// <param name="cultureInfo"><see cref="CultureInfo"/> for the <see cref="ExecutionContext"/></param>
         public ExecutionContext(
             Application application,
@@ -31,7 +32,7 @@ namespace Dolittle.Execution
             TenantId tenant,
             Environment environment,
             CorrelationId correlationId,
-            ClaimsPrincipal principal,
+            Claims claims,
             CultureInfo cultureInfo)
         {
             Application = application;
@@ -39,7 +40,7 @@ namespace Dolittle.Execution
             Tenant = tenant;
             Environment = environment;
             CorrelationId = correlationId;
-            Principal = principal;
+            Claims = claims;
             Culture = cultureInfo;
         }
 
@@ -69,9 +70,9 @@ namespace Dolittle.Execution
         public CorrelationId CorrelationId { get; }
 
         /// <summary>
-        /// Gets the <see cref="ClaimsPrincipal"/> for the <see cref="ExecutionContext">execution context</see>
+        /// Gets the <see cref="Claims"/> for the <see cref="ExecutionContext">execution context</see>
         /// </summary>
-        public ClaimsPrincipal Principal { get; }
+        public Claims Claims { get; }
 
         /// <summary>
         /// Gets the <see cref="CultureInfo"/> for the <see cref="ExecutionContext">execution context</see>

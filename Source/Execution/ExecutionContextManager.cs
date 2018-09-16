@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading;
 using Dolittle.Applications;
 using Dolittle.Lifecycle;
+using Dolittle.Security;
 using Dolittle.Tenancy;
 
 namespace Dolittle.Execution
@@ -60,7 +61,7 @@ namespace Dolittle.Execution
                 tenant, 
                 _environment, 
                 correlationId, 
-                principal, 
+                principal.ToClaims(), 
                 CultureInfo.CurrentCulture);
 
             Current = executionContext;

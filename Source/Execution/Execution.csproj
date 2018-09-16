@@ -16,5 +16,6 @@
     <ProjectReference Include="..\Concepts\Concepts.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\Tenancy\Tenancy.csproj" />
+    <ProjectReference Include="..\Security\Security.csproj" />
   </ItemGroup>
 </Project>
