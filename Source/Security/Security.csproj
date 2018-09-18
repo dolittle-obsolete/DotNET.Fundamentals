@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Lifecycle\Lifecycle.csproj" />
     <ProjectReference Include="..\Types\Types.csproj" />
+    <ProjectReference Include="..\Concepts\Concepts.csproj" />
   </ItemGroup>
 
 </Project>
