@@ -37,7 +37,6 @@ $ Build\build.sh
 | ------- | ------- | ------ |
 | .NET Fundamentals | [![NuGet](https://img.shields.io/nuget/v/Dolittle.Assemblies.svg)](https://www.nuget.org/packages?q=Dolittle) | [![MyGet](https://img.shields.io/myget/Dolittle/vpre/Dolittle.Assemblies.svg)](https://www.myget.org/gallery/Dolittle) |
 
-
 ## Build Status
 
 
