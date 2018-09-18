@@ -39,7 +39,6 @@ $ Build\build.sh
 
 ## Build Status
 
-
 | Project | Windows | Linux / macOS |
 | -------- | ------ | ------------- |
 | .NET Fundamentals | [![Build status](https://ci.appveyor.com/api/projects/status/r53j9v19idi903ol?svg=true)](https://ci.appveyor.com/project/Dolittle/dotnet-fundamentals) [![AppVeyor tests](https://img.shields.io/appveyor/tests/Dolittle/dotnet-fundamentals.svg)]() | [![Travis Build Status](https://travis-ci.org/Dolittle/DotNET.Fundamentals.svg?branch=master)](https://travis-ci.org/Dolittle/DotNET.Fundamentals) |
