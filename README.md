@@ -43,7 +43,6 @@ $ Build\build.sh
 | -------- | ------ | ------------- |
 | .NET Fundamentals | [![Build status](https://ci.appveyor.com/api/projects/status/r53j9v19idi903ol?svg=true)](https://ci.appveyor.com/project/Dolittle/dotnet-fundamentals) [![AppVeyor tests](https://img.shields.io/appveyor/tests/Dolittle/dotnet-fundamentals.svg)]() | [![Travis Build Status](https://travis-ci.org/Dolittle/DotNET.Fundamentals.svg?branch=master)](https://travis-ci.org/Dolittle/DotNET.Fundamentals) |
 
-
 ## Visual Studio
 
 You can open the `.sln` file in the root of the repository and just build directly.
