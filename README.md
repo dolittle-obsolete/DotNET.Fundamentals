@@ -37,14 +37,11 @@ $ Build\build.sh
 | ------- | ------- | ------ |
 | .NET Fundamentals | [![NuGet](https://img.shields.io/nuget/v/Dolittle.Assemblies.svg)](https://www.nuget.org/packages?q=Dolittle) | [![MyGet](https://img.shields.io/myget/Dolittle/vpre/Dolittle.Assemblies.svg)](https://www.myget.org/gallery/Dolittle) |
 
-
 ## Build Status
-
 
 | Project | Windows | Linux / macOS |
 | -------- | ------ | ------------- |
 | .NET Fundamentals | [![Build status](https://ci.appveyor.com/api/projects/status/r53j9v19idi903ol?svg=true)](https://ci.appveyor.com/project/Dolittle/dotnet-fundamentals) [![AppVeyor tests](https://img.shields.io/appveyor/tests/Dolittle/dotnet-fundamentals.svg)]() | [![Travis Build Status](https://travis-ci.org/Dolittle/DotNET.Fundamentals.svg?branch=master)](https://travis-ci.org/Dolittle/DotNET.Fundamentals) |
-
 
 ## Visual Studio
 
