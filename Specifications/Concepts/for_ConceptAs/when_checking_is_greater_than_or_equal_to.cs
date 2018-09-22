@@ -4,6 +4,7 @@ using Dolittle.Specs.Concepts.given;
 
 namespace Dolittle.Specs.Concepts.for_ConceptAs
 {
+    #pragma warning disable 1718
     [Subject(typeof(ConceptAs<>))]
     public class when_checking_is_greater_than_or_equal_to : given.test_concepts
     {
@@ -20,7 +21,6 @@ namespace Dolittle.Specs.Concepts.for_ConceptAs
         static bool most_is_greater_than_or_equal_to_self;
         static bool most_is_greater_than_or_equal_to_primitive_value;
 
-        static bool blah;
         Because of = () =>
         {
             least_is_greater_than_or_equal_to_most = least >= most;
@@ -50,4 +50,5 @@ namespace Dolittle.Specs.Concepts.for_ConceptAs
         It determines_most_is_not_greater_than_or_equal_to_self = () =>  most_is_greater_than_or_equal_to_self.ShouldBeTrue(); 
         It determines_most_is_not_greater_than_or_equal_to_primitive_value = () =>  most_is_greater_than_or_equal_to_primitive_value.ShouldBeTrue();
     }
+    #pragma warning restore 1718
 }

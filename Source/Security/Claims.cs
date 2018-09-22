@@ -19,7 +19,7 @@ namespace Dolittle.Security
     /// <summary>
     /// Represents a set of <see cref="Claim">Claims</see>
     /// </summary>
-    public class Claims : IEnumerable<Claim>
+    public class Claims : IEnumerable<Claim>, IEquatable<Claims>
     {  
         private List<Claim> _claims = new List<Claim>();
 
@@ -30,6 +30,89 @@ namespace Dolittle.Security
         public Claims(IEnumerable<Claim> claims)
         {
             _claims.AddRange(claims ?? Enumerable.Empty<Claim>());
+        }
+
+        /// <summary>
+        /// Determines if two Claims objects are equal
+        /// True if it contains the same claims ( in any order )
+        /// </summary>
+        /// <param name="other">The other <see cref="Claims" /> object to compare to</param>
+        /// <returns>True if equal, False otherwise</returns>
+        public bool Equals(Claims other)
+        {
+            if(other == null || other.Count() != this.Count())
+                return false;
+
+            var thisClaims = _claims.OrderBy(_ => _.Name).ThenBy(_ => _.ValueType).ThenBy(_ => _.Value).ToArray();
+            var otherClaims = other.OrderBy(_ => _.Name).ThenBy(_ => _.ValueType).ThenBy(_ => _.Value).ToArray();
+
+            for (int i = 0; i < thisClaims.Count(); i++)
+            {
+                if (!object.Equals(thisClaims[i], otherClaims[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Determines if two Claims objects are equal
+        /// True if it contains the same claims ( in any order )
+        /// </summary>
+        /// <param name="other">The other object to compare to</param>
+        /// <returns>True if equal, False otherwise</returns>
+        public override bool Equals(object other)
+        {
+            return Equals(other as Claims);
+        }
+
+        /// <summary>
+        /// Gets a HashCode representing the value of all the claims
+        /// </summary>
+        /// <returns>The hashcode</returns>
+        public override int GetHashCode()
+        {
+            var array = _claims.OrderBy(_ => _.Name).ThenBy(_ => _.ValueType).ThenBy(_ => _.Value).ToArray();
+            unchecked
+            {
+                int hash = 17;
+
+                // get hash code for all items in array
+                foreach (var item in array)
+                {
+                    hash = hash * 23 + ((item != null) ? item.GetHashCode() : 0);
+                }
+
+                return hash;
+            }
+        }
+
+
+        /// <summary>
+        /// Uses the same equality as the Equals method
+        /// </summary>
+        /// <param name="first">First Claim</param>
+        /// <param name="second">Second Claim</param>
+        /// <returns>True if equals, false otherwise</returns>
+        public static bool operator == (Claims first, Claims second) 
+        {
+            if(Object.Equals(first,null) && Object.Equals(second,null))
+                return true;
+            if(Object.Equals(first,null))
+                return false;
+            return first.Equals(second);
+        }
+
+        /// <summary>
+        /// Uses the same equality as the Equals method
+        /// </summary>
+        /// <param name="first">First Claim</param>
+        /// <param name="second">Second Claim</param>
+        /// <returns>True if not equals, false otherwise</returns>
+        public static bool operator != (Claims first, Claims second) 
+        {
+            return !(first == second);
         }
 
         /// <summary>
