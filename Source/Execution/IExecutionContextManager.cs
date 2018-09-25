@@ -35,6 +35,14 @@ namespace Dolittle.Execution
         ExecutionContext CurrentFor(TenantId tenant);
 
         /// <summary>
+        /// Set current execution context for a <see cref="TenantId"/>
+        /// </summary>
+        /// <param name="tenant"><see cref="TenantId"/> to set for</param>
+        /// <param name="correlationId"><see cref="CorrelationId"/> to associate</param>
+        /// <returns>Current <see cref="ExecutionContext"/></returns>
+        ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId);
+
+        /// <summary>
         /// Set current execution context for a <see cref="TenantId"/> with <see cref="CorrelationId"/> and <see cref="ClaimsPrincipal"/>
         /// </summary>
         /// <param name="tenant"><see cref="TenantId"/> to set for</param>

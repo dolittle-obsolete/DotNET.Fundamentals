@@ -51,6 +51,11 @@ namespace Dolittle.Execution
             return CurrentFor(tenant, CorrelationId.New(), new ClaimsPrincipal());
         }
 
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId)
+        {
+            return CurrentFor(tenant, CorrelationId.New(), correlationId, new ClaimsPrincipal());
+        }
 
         /// <inheritdoc/>
         public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, ClaimsPrincipal principal)
