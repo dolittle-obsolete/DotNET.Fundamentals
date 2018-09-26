@@ -6,6 +6,7 @@ using Dolittle.Collections;
 
 namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property_bags
 {
+    # pragma warning disable 1718
     [Subject(typeof(PropertyBag),"Equals")]    
     public class and_they_are_the_same_reference
     {
@@ -39,4 +40,5 @@ namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property
         It should_be_equal_based_on_the_operator = () => is_equal_based_on_operator.ShouldBeTrue();
         It should_have_the_same_hashcode = () => have_the_same_hashcode.ShouldBeTrue();
     }
+    # pragma warning restore 1718
 }
