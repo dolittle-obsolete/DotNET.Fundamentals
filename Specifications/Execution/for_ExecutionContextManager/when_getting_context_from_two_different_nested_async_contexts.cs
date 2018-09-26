@@ -18,14 +18,14 @@ namespace Dolittle.Execution.for_ExecutionContextManager
             second_tenant = Guid.NewGuid();
             var firstTask = Task.Run(() =>
             {
-                execution_context_manager.CurrentFor(first_tenant);
+                execution_context_manager.CurrentFor(first_tenant,"",0,"");
 
                 Task.Run(() => first_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray())).Wait();
             });
 
             var secondTask = Task.Run(() =>
             {
-                execution_context_manager.CurrentFor(second_tenant);
+                execution_context_manager.CurrentFor(second_tenant,"",0,"");
 
                 Task.Run(() => second_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray())).Wait();
             });

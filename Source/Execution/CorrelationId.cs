@@ -10,9 +10,13 @@ namespace Dolittle.Execution
     {
         /// <summary>
         /// Represents an Empty <see cref="CorrelationId" />
-        /// 
         /// </summary>
         public static readonly CorrelationId Empty = Guid.Empty;
+
+        /// <summary>
+        /// Represents the correlation used by the system
+        /// </summary>
+        public static readonly CorrelationId System = Guid.Parse("868ff40f-a133-4d0f-bfdd-18d726181e01");
 
         /// <summary>
         /// Creates an empty <see cref="CorrelationId" />

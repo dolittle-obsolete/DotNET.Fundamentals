@@ -24,6 +24,11 @@ namespace Dolittle.Security
         private List<Claim> _claims = new List<Claim>();
 
         /// <summary>
+        /// Gets the empty representation of <see cref="Claims"/>
+        /// </summary>
+        public static readonly Claims Empty = new Claims(new Claim[0]);
+
+        /// <summary>
         /// Instantiates a set of Claims with the provided claims
         /// </summary>
         /// <param name="claims">The claims to populate</param>
