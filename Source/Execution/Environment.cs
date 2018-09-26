@@ -12,6 +12,11 @@ namespace Dolittle.Execution
     public class Environment : ConceptAs<string>
     {
         /// <summary>
+        /// Represents an undetermined environment 
+        /// </summary>
+        public static readonly Environment Undetermined = "Undetermined";
+
+        /// <summary>
         /// Implicitly convert from <see cref="string"/> to <see cref="Environment"/>
         /// </summary>
         public static implicit operator Environment(string environment)
