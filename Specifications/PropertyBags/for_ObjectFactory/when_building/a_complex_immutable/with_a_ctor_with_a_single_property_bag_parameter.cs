@@ -1,6 +1,7 @@
 ﻿namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_complex_immutable
 {
     using Machine.Specifications;
+    using Dolittle.Reflection;
     using Dolittle.PropertyBags;
     using Dolittle.PropertyBags.Specs;
     using System;
@@ -11,7 +12,7 @@
         static IObjectFactory factory;
         static ComplexImmutableWithMultipleParameterConstructor immutable_type;
         static PropertyBag source;
-        static object result;
+        static dynamic result;
         Establish context = () => 
         {
             factory = instance;
@@ -21,7 +22,16 @@
 
         Because of = () => result = factory.Build(typeof(ComplexImmutableWithMultipleParameterConstructor), source);
 
-        It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<ComplexImmutableWithMultipleParameterConstructor>();
-        It should_have_the_same_properties_as_the_source = () => result.ShouldEqual(immutable_type);
+        It should_build_an_instance_of_the_type = () => (result as object).ShouldBeOfExactType<ComplexImmutableWithMultipleParameterConstructor>();
+        It should_have_the_same_properties_as_the_source = () => 
+        {
+            immutable_type.IntProperty.ShouldEqual((int)result.IntProperty);
+            immutable_type.StringProperty.ShouldEqual((string)result.StringProperty);
+            immutable_type.DateTimeProperty.ToUniversalTime().ShouldBeCloseTo((DateTime)result.DateTimeProperty,TimeSpan.FromMilliseconds(1));
+            (immutable_type.Nested as object).ShouldBeOfExactType<ImmutableWithMultipleParameterConstructor>();
+            immutable_type.Nested.IntProperty.ShouldEqual((int)result.Nested.IntProperty);
+            immutable_type.Nested.StringProperty.ShouldEqual((string)result.Nested.StringProperty);
+            immutable_type.Nested.DateTimeProperty.ToUniversalTime().ShouldBeCloseTo((DateTime)result.Nested.DateTimeProperty,TimeSpan.FromMilliseconds(1));
+        };
     }
 }

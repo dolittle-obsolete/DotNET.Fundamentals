@@ -3,6 +3,7 @@ namespace Dolittle.PropertyBags.Specs
     using System;
     using Dolittle.PropertyBags;
     using Dolittle.Concepts;
+    using Dolittle.Reflection;
     public class ImmutableWithPropertyBagConstructor : Value<ImmutableWithPropertyBagConstructor>
     {
         public ImmutableWithPropertyBagConstructor(PropertyBag propertyBag)
@@ -10,7 +11,7 @@ namespace Dolittle.PropertyBags.Specs
             var dynamic = propertyBag as dynamic;
             IntProperty = (int)propertyBag[nameof(IntProperty)];
             StringProperty = (string)propertyBag[nameof(StringProperty)];
-            DateTimeProperty = (DateTime)propertyBag[nameof(DateTimeProperty)];
+            DateTimeProperty =((long)propertyBag[nameof(DateTimeProperty)]).ToDateTime();
         }
 
         public int IntProperty { get; }

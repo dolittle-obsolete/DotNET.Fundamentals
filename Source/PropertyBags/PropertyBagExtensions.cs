@@ -42,6 +42,10 @@ namespace Dolittle.PropertyBags
             var value = pb[pbKey];
             if(value == null)
                 return null;
+            if(targetType.IsDate())
+                return BuildDate(value);
+            if(targetType.IsDateTimeOffset())
+                return BuildDateTimeOffset(value);    
             if(targetType.IsAPrimitiveType() || targetType == typeof(PropertyBag))
                 return targetType == typeof(PropertyBag)? (PropertyBag)value : value;
             if(targetType.IsConcept())
@@ -50,6 +54,16 @@ namespace Dolittle.PropertyBags
                 return targetType.ConstructEnumerable(factory, value);
             
             return factory.Build(targetType, value as PropertyBag);
+        }
+
+        static DateTime BuildDate(object value)
+        {
+            return ((long)value).ToDateTime();
+        }
+
+        static DateTimeOffset BuildDateTimeOffset(object value)
+        {
+            return DateTimeOffset.FromUnixTimeMilliseconds((long)value);
         }
     }
 }
