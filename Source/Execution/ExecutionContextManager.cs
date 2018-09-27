@@ -38,6 +38,9 @@ namespace Dolittle.Execution
         public ExecutionContextManager(ILogger logger)
         {
             _logger = logger;
+            _application = Application.NotSet;
+            _boundedContext = BoundedContext.NotSet;
+            _environment = Environment.Undetermined;
         }
 
         /// <summary>
