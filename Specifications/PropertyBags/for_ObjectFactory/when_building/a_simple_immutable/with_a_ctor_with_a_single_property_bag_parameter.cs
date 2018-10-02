@@ -3,6 +3,7 @@
     using Machine.Specifications;
     using Dolittle.PropertyBags;
     using Dolittle.PropertyBags.Specs;
+    using Dolittle.Reflection;
     using System;
 
     [Subject(typeof(ObjectFactory), "Build")]
@@ -11,7 +12,7 @@
         static IObjectFactory factory;
         static ImmutableWithPropertyBagConstructor immutable_type;
         static PropertyBag source;
-        static object result;
+        static dynamic result;
         Establish context = () => 
         {
             factory = instance;
@@ -22,7 +23,10 @@
 
         Because of = () => result = factory.Build(typeof(ImmutableWithPropertyBagConstructor), source);
 
-        It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<ImmutableWithPropertyBagConstructor>();
-        It should_have_the_same_properties_as_the_source = () => result.ShouldEqual(immutable_type);
+        It should_build_an_instance_of_the_type = () => (result as object).ShouldBeOfExactType<ImmutableWithPropertyBagConstructor>();
+        It should_have_the_same_properties_as_the_source = () => 
+        {
+            (result as ImmutableWithPropertyBagConstructor).ShouldBeAnAccurateRepresentationOf(immutable_type);
+        };
     }
 }

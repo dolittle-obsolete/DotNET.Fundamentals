@@ -1,6 +1,7 @@
 using System;
 using Dolittle.Concepts;
 using Dolittle.PropertyBags;
+using Dolittle.Reflection;
 using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
@@ -19,9 +20,9 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
         It should_create_a_property_bag = () => (result as PropertyBag).ShouldNotBeNull();
         It should_have_the_primitive_properties = () =>
         {
-            ShouldExtensionMethods.ShouldEqual(result.String,source.String);
-            ShouldExtensionMethods.ShouldEqual(result.Int,source.Int);
-            ShouldExtensionMethods.ShouldEqual(result.DateTime,source.DateTime);
+            source.String.ShouldEqual((string)result.String);
+            source.Int.ShouldEqual((int)result.Int);
+            source.DateTime.ToUnixTimeMilliseconds().ShouldEqual((long)result.DateTime);
         };
     }
 }

@@ -1,4 +1,5 @@
 using Dolittle.DependencyInversion;
+using Dolittle.Execution;
 using Dolittle.Logging;
 using Machine.Specifications;
 using Moq;
@@ -10,11 +11,15 @@ namespace Dolittle.Bootstrapping.Specs.for_Bootstrapper.given
         protected static Mock<IContainer> container;
         protected static Mock<ILogger> logger;
 
+        protected static Mock<IExecutionContextManager> execution_context_manager;
+
         Establish context = () => 
         {
             logger = new Mock<ILogger>();
             container = new Mock<IContainer>();
             container.Setup(_ => _.Get<ILogger>()).Returns(logger.Object);
+            execution_context_manager = new Mock<IExecutionContextManager>();
+            container.Setup(_ => _.Get<IExecutionContextManager>()).Returns(execution_context_manager.Object);
         };
     }
 }

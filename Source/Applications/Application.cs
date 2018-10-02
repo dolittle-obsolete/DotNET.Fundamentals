@@ -13,6 +13,11 @@ namespace Dolittle.Applications
     public class Application : ConceptAs<Guid>
     {
         /// <summary>
+        /// Represents the identifier for a not set application
+        /// </summary>
+        public static readonly Application NotSet = Guid.Parse("4fe9492c-1d19-4e6b-be72-03208789906e");
+
+        /// <summary>
         /// Implicitly converts from a <see cref="Guid"/> to a <see cref="Application"/>
         /// </summary>
         /// <param name="application"><see cref="Guid"/> representing the application</param>

@@ -82,16 +82,40 @@ namespace Dolittle.PropertyBags
         /// <returns></returns>
         public static object GetPropertyBagObjectValue(this Type type, object obj)
         {
+            if(type.IsEnumerable())
+                return type.ConstructEnumerableForPropertyBag(obj);
+
+            if(type.IsConcept())
+                return obj?.GetConceptValue();
+
+            if(type.IsDate() || type.IsDateTimeOffset())
+                return GetDateAsUnixTime(type,obj);
+
+            if(type.IsAPrimitiveType())
+                return obj;
             
-            return 
-                type.IsEnumerable() ? 
-                    type.ConstructEnumerableForPropertyBag(obj) 
-                    : type.IsAPrimitiveType() ? 
-                    obj 
-                    : type.IsConcept() ? 
-                        obj?.GetConceptValue() 
-                        : obj.ToPropertyBag();
+            return obj.ToPropertyBag();
         }
+
+        static long? GetDateAsUnixTime(Type type, object obj)
+        {
+            try
+            {
+                if(type.IsNullable() && obj == null)
+                    return (long?)null;
+
+                return type.IsDate() ? new DateTimeOffset(((DateTime)obj).ToUniversalTime()).ToUniversalTime().ToUnixTimeMilliseconds() : ((DateTimeOffset)obj).ToUnixTimeMilliseconds();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(obj.ToString());
+                Console.WriteLine(ex);
+                throw;
+            }
+            
+        }
+
+
         /// <summary>
         /// Constructs an <see cref="IEnumerable"/> as an object suitable for a <see cref="PropertyBag"/>
         /// </summary>

@@ -30,6 +30,6 @@
         Because of = () => result = factory.Build(typeof(ComplexMutableTypeWithDefaultConstructor), source);
 
         It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<ComplexMutableTypeWithDefaultConstructor>();
-        It should_have_the_same_properties_as_the_source = () => result.ShouldEqual(mutable_type);
+        //It should_have_the_same_properties_as_the_source = () => (result as ComplexMutableTypeWithDefaultConstructor).ShouldBeAnAccurateRepresentationOf(mutable_type);
     }
 }

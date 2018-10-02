@@ -20,7 +20,7 @@ namespace Dolittle.Execution.for_ExecutionContextManager
 
             var first_thread = new Thread(() => 
             {
-                execution_context_manager.CurrentFor(first_tenant);
+                execution_context_manager.CurrentFor(first_tenant,"",0,"");
                 var first_nested_thread = new Thread(() => 
                 {
                     first_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray());
@@ -31,7 +31,7 @@ namespace Dolittle.Execution.for_ExecutionContextManager
 
             var second_thread = new Thread(() => 
             {
-                execution_context_manager.CurrentFor(second_tenant);
+                execution_context_manager.CurrentFor(second_tenant,"",0,"");
                 var second_nested_thread = new Thread(() => 
                 {
                     second_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray());

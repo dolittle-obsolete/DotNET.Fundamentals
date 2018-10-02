@@ -1,6 +1,7 @@
 using System;
 using Machine.Specifications;
 using Dolittle.PropertyBags;
+using Dolittle.Reflection;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
 {
@@ -17,18 +18,18 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
         It should_create_a_property_bag = () => (result as PropertyBag).ShouldNotBeNull();
         It should_have_the_primitive_properties = () =>
         {
-            ShouldExtensionMethods.ShouldEqual(result.String,source.String);
-            ShouldExtensionMethods.ShouldEqual(result.Int,source.Int);
-            ShouldExtensionMethods.ShouldEqual(result.DateTime,source.DateTime);
+            source.String.ShouldEqual((string)result.String);
+            source.Int.ShouldEqual((int)result.Int);
+            source.DateTime.ToUnixTimeMilliseconds().ShouldEqual((long)result.DateTime);
         };
 
         It should_have_the_complex_type_as_a_property_bag = () => (result.Child as PropertyBag).ShouldNotBeNull();
 
         It should_have_the_correct_properties_on_the_complex_type = () =>
         {
-            ShouldExtensionMethods.ShouldEqual(result.Child.String,source.Child.String);
-            ShouldExtensionMethods.ShouldEqual(result.Child.Int,source.Child.Int);
-            ShouldExtensionMethods.ShouldEqual(result.Child.DateTime,source.Child.DateTime);
+            source.Child.String.ShouldEqual((string)result.Child.String);
+            source.Child.Int.ShouldEqual((int)result.Child.Int);
+            source.Child.DateTime.ToUnixTimeMilliseconds().ShouldEqual(((long)result.Child.DateTime));
         };
     }
 }

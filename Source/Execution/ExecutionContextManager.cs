@@ -3,10 +3,12 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading;
 using Dolittle.Applications;
 using Dolittle.Lifecycle;
+using Dolittle.Logging;
 using Dolittle.Security;
 using Dolittle.Tenancy;
 
@@ -20,9 +22,49 @@ namespace Dolittle.Execution
     {
         static AsyncLocal<ExecutionContext> _executionContext = new AsyncLocal<ExecutionContext>();
 
+        static bool _initialExecutionContextSet = false;
+
+        readonly ILogger _logger;
+
         Application _application;
         BoundedContext _boundedContext;
         Environment _environment;
+
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ILogger"/>
+        /// </summary>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public ExecutionContextManager(ILogger logger)
+        {
+            _logger = logger;
+            _application = Application.NotSet;
+            _boundedContext = BoundedContext.NotSet;
+            _environment = Environment.Undetermined;
+        }
+
+        /// <summary>
+        /// Set the initial <see cref="ExecutionContext"/>
+        /// </summary>
+        /// <remarks>
+        /// This can only be called once per process and is typically called by entrypoints into Dolittle itself.
+        /// </remarks>
+        public static void SetInitialExecutionContext([CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0, [CallerMemberName] string member = "")
+        {
+            Logger.Internal.Information($"Setting initial execution context - called from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
+            if( _initialExecutionContextSet ) throw new InitialExecutionContextHasAlreadyBeenSet();
+
+            _initialExecutionContextSet = true;
+
+            _executionContext.Value = new ExecutionContext(
+                Application.NotSet,
+                BoundedContext.NotSet,
+                TenantId.System,
+                Environment.Undetermined,
+                CorrelationId.System,
+                Claims.Empty,
+                CultureInfo.InvariantCulture);
+        }
 
 
         /// <inheritdoc/>
@@ -34,7 +76,7 @@ namespace Dolittle.Execution
                 if( context == null ) throw new ExecutionContextNotSet();
                 return context;
             }
-            set {  _executionContext.Value = value; }
+            private set {  _executionContext.Value = value; }
         }
 
         /// <inheritdoc/>
@@ -46,14 +88,31 @@ namespace Dolittle.Execution
         }
 
         /// <inheritdoc/>
-        public ExecutionContext CurrentFor(TenantId tenant)
+        public ExecutionContext System(string filePath, int lineNumber, string member)
         {
-            return CurrentFor(tenant, CorrelationId.New(), new ClaimsPrincipal());
+            return CurrentFor(TenantId.System, CorrelationId.System, filePath, lineNumber, member);
         }
 
+        /// <inheritdoc/>
+        public ExecutionContext System(CorrelationId correlationId, string filePath, int lineNumber, string member)
+        {
+            return CurrentFor(TenantId.System, correlationId, filePath, lineNumber, member);
+        }
 
         /// <inheritdoc/>
-        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, ClaimsPrincipal principal)
+        public ExecutionContext CurrentFor(TenantId tenant, string filePath, int lineNumber, string member)
+        {
+            return CurrentFor(tenant, CorrelationId.New(), Claims.Empty, filePath, lineNumber, member);
+        }
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId,string filePath, int lineNumber, string member)
+        {
+            return CurrentFor(tenant, correlationId, Claims.Empty, filePath, lineNumber, member);
+        }
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, Claims claims, string filePath, int lineNumber, string member)
         {
             var executionContext = new ExecutionContext(
                 _application, 
@@ -61,12 +120,19 @@ namespace Dolittle.Execution
                 tenant, 
                 _environment, 
                 correlationId, 
-                principal.ToClaims(), 
+                claims, 
                 CultureInfo.CurrentCulture);
 
-            Current = executionContext;
+            return CurrentFor(executionContext, filePath, lineNumber, member);
+        }
 
-            return executionContext;
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(ExecutionContext context, string filePath, int lineNumber, string member)
+        {
+            _logger.Information($"Setting execution context ({context}) - from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
+            Current = context;
+            return context;
         }
     }
 }

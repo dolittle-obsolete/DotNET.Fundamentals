@@ -27,6 +27,6 @@
         Because of = () => result = factory.Build(typeof(MutableTypeWithDefaultConstructor), source);
 
         It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<MutableTypeWithDefaultConstructor>();
-        It should_have_the_same_properties_as_the_source = () => result.ShouldEqual(mutable_type);
+        It should_have_the_same_properties_as_the_source = () => (result as MutableTypeWithDefaultConstructor).ShouldBeAnAccurateRepresentationOf(mutable_type);
     }
 }
