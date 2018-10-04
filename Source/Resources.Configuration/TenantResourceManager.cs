@@ -44,7 +44,7 @@ namespace Dolittle.Resources.Configuration
             _serializer = serializer;
             var resourceFileContent = ReadResourceFile();
 
-            _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, ResourceConfiguration>>(resourceFileContent);
+            _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, ResourceConfiguration>>(resourceFileContent, _serializationOptions);
         }
         /// <inheritdoc/>
         public T GetConfigurationFor<T>(TenantId tenantId) where T : class
