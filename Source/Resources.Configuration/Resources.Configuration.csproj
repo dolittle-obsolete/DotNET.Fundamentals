@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Dolittle.Resources.Configuration</RootNamespace>
+    <AssemblyName>Dolittle.Resources.Configuration</AssemblyName>
+  </PropertyGroup>
+
+  <Import Project="../../Build/MSBuild/default.props" />
+
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Concepts\Concepts.csproj" />
+    <ProjectReference Include="..\Tenancy\Tenancy.csproj" />
+    <ProjectReference Include="..\Execution\Execution.csproj" />
+    <ProjectReference Include="..\Lifecycle\Lifecycle.csproj" />
+    <ProjectReference Include="..\Resources\Resources.csproj" />
+    <ProjectReference Include="..\Types\Types.csproj" />
+    <ProjectReference Include="..\Serialization.Json\Serialization.Json.csproj" />
+    
+    
+    
+  </ItemGroup>
+
+</Project>
