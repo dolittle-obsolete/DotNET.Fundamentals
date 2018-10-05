@@ -15,9 +15,9 @@ namespace Dolittle.Resources.Configuration
     [Singleton]
     public class TenantResourceManager : ITenantResourceManager
     {
-        static string _path = Path.Combine(".dolittle", "resources.json");
+        static readonly string _path = Path.Combine(".dolittle", "resources.json");
 
-        IInstancesOf<IRepresentAResourceType> _resourceTypeRepresentations;
+        IInstancesOf<ICanDefineAResource> _resourceDefinitions;
         ISerializer _serializer;
         ILogger _logger;
         
@@ -27,12 +27,12 @@ namespace Dolittle.Resources.Configuration
         /// <summary>
         /// Instantiates an instance of <see cref="TenantResourceManager"/>
         /// </summary>
-        /// <param name="resourceTypeRepresentations"></param>
+        /// <param name="resourceDefinitions"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public TenantResourceManager(IInstancesOf<IRepresentAResourceType> resourceTypeRepresentations, ISerializer serializer, ILogger logger)
+        public TenantResourceManager(IInstancesOf<ICanDefineAResource> resourceDefinitions, ISerializer serializer, ILogger logger)
         {
-            _resourceTypeRepresentations = resourceTypeRepresentations;
+            _resourceDefinitions = resourceDefinitions;
             _serializer = serializer;
             _logger = logger;
 
@@ -40,18 +40,20 @@ namespace Dolittle.Resources.Configuration
 
             _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, ResourceConfiguration>>(resourceFileContent);
         }
+        
         /// <inheritdoc/>
         public T GetConfigurationFor<T>(TenantId tenantId) where T : class
         {
             var resourceType = RetrieveResourceType<T>();
             var configurationObjectAsString = _resourceConfigurationsByTenant[tenantId].Resources[resourceType].ToString();
             var configurationObject = _serializer.FromJson<T>(configurationObjectAsString); 
+
             return (T)configurationObject;
         }
 
         ResourceType RetrieveResourceType<T>()
         {
-            var resourceTypesMatchingType = _resourceTypeRepresentations.Where(_ => _.ConfigurationType.Equals(typeof(T)));
+            var resourceTypesMatchingType = _resourceDefinitions.Where(_ => _.ConfigurationObjectType.Equals(typeof(T)));
             if (!resourceTypesMatchingType.Any()) throw new NoResourceTypeMatchingConfigurationType(typeof(T));
             if (resourceTypesMatchingType.Count() > 1) throw new ConfigurationTypeMappedToMultipleResourceTypes(typeof(T));
 

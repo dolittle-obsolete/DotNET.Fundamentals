@@ -15,7 +15,7 @@ namespace Dolittle.Resources
         /// <summary>
         /// Gets the <see cref="ResourceType"/> it represents
         /// </summary>
-        ResourceType    ResourceType { get; }
+        ResourceType ResourceType { get; }
 
         /// <summary>
         /// Gets the <see cref="ResourceTypeName"/> of the resource - identified typically in configuration files
