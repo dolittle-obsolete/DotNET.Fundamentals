@@ -9,7 +9,7 @@ namespace Dolittle.Resources.Configuration
         /// <summary>
         /// Gets the <see cref="ResourceType"/>
         /// </summary>
-         ResourceType Type { get; }
+        ResourceType ResourceType { get; }
         
         /// <summary>
         /// Gets the <see cref="Type"/> of the Configuration

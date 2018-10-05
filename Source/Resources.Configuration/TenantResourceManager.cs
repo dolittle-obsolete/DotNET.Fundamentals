@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Dolittle.Lifecycle;
+using Dolittle.Logging;
 using Dolittle.Serialization.Json;
 using Dolittle.Tenancy;
 using Dolittle.Types;
@@ -14,23 +15,13 @@ namespace Dolittle.Resources.Configuration
     [Singleton]
     public class TenantResourceManager : ITenantResourceManager
     {
-        const string _path = ".dolittle/resources.json";
-        // readonly ISerializationOptions _serializationOptions = SerializationOptions.Custom(callback:
-        //     serializer =>
-        //     {
-        //         serializer.ContractResolver = new CamelCaseExceptDictionaryKeyResolver();
-        //     }
-        // );
-        readonly ISerializationOptions _serializationOptions = SerializationOptions.Custom(callback:
-            serializer =>
-            {
-                serializer.ContractResolver = new CamelCaseExceptDictionaryKeyResolver();
-            });
+        static string _path = Path.Combine(".dolittle", "resources.json");
+
         IInstancesOf<IRepresentAResourceType> _resourceTypeRepresentations;
         ISerializer _serializer;
-
+        ILogger _logger;
         
-        IDictionary<TenantId, ResourceConfiguration> _resourceConfigurationsByTenant {get; }
+        IDictionary<TenantId, ResourceConfiguration> _resourceConfigurationsByTenant;
         
 
         /// <summary>
@@ -38,40 +29,40 @@ namespace Dolittle.Resources.Configuration
         /// </summary>
         /// <param name="resourceTypeRepresentations"></param>
         /// <param name="serializer"></param>
-        public TenantResourceManager(IInstancesOf<IRepresentAResourceType> resourceTypeRepresentations, ISerializer serializer)
+        /// <param name="logger"></param>
+        public TenantResourceManager(IInstancesOf<IRepresentAResourceType> resourceTypeRepresentations, ISerializer serializer, ILogger logger)
         {
             _resourceTypeRepresentations = resourceTypeRepresentations;
             _serializer = serializer;
+            _logger = logger;
+
             var resourceFileContent = ReadResourceFile();
 
-            _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, ResourceConfiguration>>(resourceFileContent, _serializationOptions);
+            _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, ResourceConfiguration>>(resourceFileContent);
         }
         /// <inheritdoc/>
         public T GetConfigurationFor<T>(TenantId tenantId) where T : class
         {
             var resourceType = RetrieveResourceType<T>();
-
-            return (T)_resourceConfigurationsByTenant[tenantId].Resources[resourceType];
+            var configurationObjectAsString = _resourceConfigurationsByTenant[tenantId].Resources[resourceType].ToString();
+            var configurationObject = _serializer.FromJson<T>(configurationObjectAsString); 
+            return (T)configurationObject;
         }
 
         ResourceType RetrieveResourceType<T>()
         {
-            var resourceTypesMatchingType = _resourceTypeRepresentations.Where(_ => _.Type.Equals(typeof(T)));
+            var resourceTypesMatchingType = _resourceTypeRepresentations.Where(_ => _.ConfigurationType.Equals(typeof(T)));
             if (!resourceTypesMatchingType.Any()) throw new NoResourceTypeMatchingConfigurationType(typeof(T));
             if (resourceTypesMatchingType.Count() > 1) throw new ConfigurationTypeMappedToMultipleResourceTypes(typeof(T));
-            return resourceTypesMatchingType.First().Type;
 
+            return resourceTypesMatchingType.First().ResourceType;
         }
 
         string ReadResourceFile()
         {
-            var path = GetPath();
+            var path = Path.Combine(Directory.GetCurrentDirectory(), _path);
             if (! File.Exists(path)) throw new MissingResourcesFile();
             return File.ReadAllText(path);
-        }
-        string GetPath()
-        {
-            return Path.Combine(Directory.GetCurrentDirectory(), _path);
         }
     }
 }

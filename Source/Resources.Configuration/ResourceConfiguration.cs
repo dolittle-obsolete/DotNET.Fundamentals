@@ -10,6 +10,6 @@ namespace Dolittle.Resources.Configuration
         /// <summary>
         /// Gets the resource configuration
         /// </summary>
-        public IDictionary<ResourceType, object> Resources {get; } = new Dictionary<ResourceType, object>();
+        public IDictionary<ResourceType, object> Resources {get; set; } = new Dictionary<ResourceType, object>();
     }
 }
