@@ -7,12 +7,12 @@ using Dolittle.Types;
 namespace Dolittle.Resources.Configuration.Bootstrap
 {
     /// <summary>
-    /// 
+    /// Represents the entrypoint for bootstrapping the Resource System
     /// </summary>
     public class EntryPoint
     {
         /// <summary>
-        /// Initializes the Resource System
+        /// Initializes the Resource System 
         /// </summary>
         /// <param name="typeFinder"></param>
         public static void Initialize(ITypeFinder typeFinder)

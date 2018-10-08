@@ -18,7 +18,6 @@ namespace Dolittle.Resources.Configuration
         /// <param name="message"></param>
         /// <returns></returns>
         public InvalidResourceTypeRepresentationFound(string message) : base(message)
-        {
-        }
+        { }
     }
 }
