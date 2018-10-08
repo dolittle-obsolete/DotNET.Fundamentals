@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,11 +22,11 @@ namespace Dolittle.Resources.Configuration
     {
         static readonly string _path = Path.Combine(".dolittle", "resources.json");
 
-        IInstancesOf<ICanDefineAResource> _resourceDefinitions;
+        IInstancesOf<IRepresentAResourceType> _resourceDefinitions;
         ISerializer _serializer;
         ILogger _logger;
         
-        IDictionary<TenantId, ResourceConfiguration> _resourceConfigurationsByTenant;
+        IDictionary<TenantId, Dictionary<ResourceType, object>> _resourceConfigurationsByTenant;
         
 
         /// <summary>
@@ -30,7 +35,7 @@ namespace Dolittle.Resources.Configuration
         /// <param name="resourceDefinitions"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public TenantResourceManager(IInstancesOf<ICanDefineAResource> resourceDefinitions, ISerializer serializer, ILogger logger)
+        public TenantResourceManager(IInstancesOf<IRepresentAResourceType> resourceDefinitions, ISerializer serializer, ILogger logger)
         {
             _resourceDefinitions = resourceDefinitions;
             _serializer = serializer;
@@ -38,17 +43,17 @@ namespace Dolittle.Resources.Configuration
 
             var resourceFileContent = ReadResourceFile();
 
-            _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, ResourceConfiguration>>(resourceFileContent);
+            _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, Dictionary<ResourceType, object>>>(resourceFileContent);
         }
         
         /// <inheritdoc/>
         public T GetConfigurationFor<T>(TenantId tenantId) where T : class
         {
             var resourceType = RetrieveResourceType<T>();
-            var configurationObjectAsString = _resourceConfigurationsByTenant[tenantId].Resources[resourceType].ToString();
+            var configurationObjectAsString = _resourceConfigurationsByTenant[tenantId][resourceType].ToString();
             var configurationObject = _serializer.FromJson<T>(configurationObjectAsString); 
 
-            return (T)configurationObject;
+            return configurationObject;
         }
 
         ResourceType RetrieveResourceType<T>()
@@ -57,7 +62,7 @@ namespace Dolittle.Resources.Configuration
             if (!resourceTypesMatchingType.Any()) throw new NoResourceTypeMatchingConfigurationType(typeof(T));
             if (resourceTypesMatchingType.Count() > 1) throw new ConfigurationTypeMappedToMultipleResourceTypes(typeof(T));
 
-            return resourceTypesMatchingType.First().ResourceType;
+            return resourceTypesMatchingType.First().Type;
         }
 
         string ReadResourceFile()

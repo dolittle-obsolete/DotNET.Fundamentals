@@ -8,16 +8,16 @@ using System.Runtime.Serialization;
 namespace Dolittle.Resources.Configuration
 {
     /// <summary>
-    /// The Exception that gets thrown when trying to find a <see cref="ResourceType"/> mapping to a specific <see cref="Type"/>
+    /// The exception that gets thrown when multiple implementations for the same service is discovered
     /// </summary>
-    public class NoResourceTypeMatchingConfigurationType : Exception
+    public class MultipleImplementationsFoundForService : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="NoResourceTypeMatchingConfigurationType"/>
+        /// Instantiates an instance of <see cref="MultipleImplementationsFoundForService"/>
         /// </summary>
-        /// <param name="type"></param>
-        public NoResourceTypeMatchingConfigurationType(Type type)
-            : base($"Could not map the Type {type.FullName} up to a {typeof(ResourceType).FullName}")
-        {}
+        /// <param name="service"></param>
+        public MultipleImplementationsFoundForService(Type service)
+            : base($"Multiple implementations for the service {service.FullName} was found")
+        { }
     }
 }

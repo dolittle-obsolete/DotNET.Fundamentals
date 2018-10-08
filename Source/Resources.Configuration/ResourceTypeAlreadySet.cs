@@ -8,16 +8,18 @@ using System.Runtime.Serialization;
 namespace Dolittle.Resources.Configuration
 {
     /// <summary>
-    /// The Exception that gets thrown when trying to find a <see cref="ResourceType"/> mapping to a specific <see cref="Type"/>
+    /// The exception that gets thrown when a ResourceType has already been mapped up to a ResourceTypeImplementation
     /// </summary>
-    public class NoResourceTypeMatchingConfigurationType : Exception
+    public class ResourceTypeAlreadySet : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="NoResourceTypeMatchingConfigurationType"/>
+        /// Instantiates an instance of <see cref="ResourceTypeAlreadySet"/>
         /// </summary>
-        /// <param name="type"></param>
-        public NoResourceTypeMatchingConfigurationType(Type type)
-            : base($"Could not map the Type {type.FullName} up to a {typeof(ResourceType).FullName}")
-        {}
+        /// <param name="resourceType"></param>
+        /// <param name="resourceTypeImplementation"></param>
+        public ResourceTypeAlreadySet(ResourceType resourceType, ResourceTypeImplementation resourceTypeImplementation)
+            : base($"")
+        { }
+
     }
 }

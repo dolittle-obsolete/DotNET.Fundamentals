@@ -14,14 +14,13 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Concepts\Concepts.csproj" />
+    <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\Tenancy\Tenancy.csproj" />
     <ProjectReference Include="..\Execution\Execution.csproj" />
     <ProjectReference Include="..\Lifecycle\Lifecycle.csproj" />
     <ProjectReference Include="..\Resources\Resources.csproj" />
     <ProjectReference Include="..\Types\Types.csproj" />
     <ProjectReference Include="..\Serialization.Json\Serialization.Json.csproj" />
-    
-    
     
   </ItemGroup>
 

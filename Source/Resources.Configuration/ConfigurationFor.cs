@@ -11,8 +11,7 @@ namespace Dolittle.Resources.Configuration
 {
     /// <inheritdoc/>
     [SingletonPerTenant]
-    public class ConfigurationFor<T> : IConfigurationFor<T> 
-        where T : class
+    public class ConfigurationFor<T> : IConfigurationFor<T> where T : class
     {
         /// <summary>
         /// Instantiates an instance of <see cref="ConfigurationFor{T}"/>
@@ -22,7 +21,6 @@ namespace Dolittle.Resources.Configuration
         public ConfigurationFor(ITenantResourceManager tenantResourceManager, IExecutionContextManager executionContextManager) 
         {
             Instance = tenantResourceManager.GetConfigurationFor<T>(executionContextManager.Current.Tenant);
-               
         }
         /// <inheritdoc/>
         public T Instance {get; }

@@ -2,26 +2,22 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Collections.Generic;
-using Dolittle.Tenancy;
+using Dolittle.Concepts;
 
 namespace Dolittle.Resources
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ResourceTypeConfiguration
+    public class ResourceTypeImplementation : ConceptAs<string>
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <value></value>
-        public ResourceTypeName Type { get; set; }
 
         /// <summary>
-        /// 
+        /// Implicitly converts from a <see cref="string"/> to an <see cref="ResourceTypeImplementation"/>
         /// </summary>
-        /// <value></value>
-        public Dictionary<TenantId, object>   Configurations { get; set; }
+        public static implicit operator ResourceTypeImplementation(string value)
+        {
+            return new ResourceTypeImplementation { Value = value };
+        }
     }
 }
