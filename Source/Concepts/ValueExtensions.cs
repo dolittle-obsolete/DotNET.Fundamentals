@@ -56,5 +56,15 @@ namespace Dolittle.Concepts
             }
             return null;
         }
+
+        /// <summary>
+        /// Gets the closing type T for the Value{T}
+        /// </summary>
+        /// <param name="instance">The Value{T} instance to get the type of T for</param>
+        /// <returns>The closing T type if the instance is a Value{T} instance, otherwise null</returns>
+        public static Type GetValueType(this Object instance)
+        {
+            return GetValueType(instance?.GetType());
+        }
     }
 }
