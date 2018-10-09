@@ -9,7 +9,12 @@ namespace Dolittle.PropertyBags.Specs
     public static class ShouldExtensions
     {
         private const string NULL = "[NULL]";
+
         public static void ShouldBeAnAccurateRepresentationOf<T>(this Value<T> source, Value<T> other) where T : Value<T>
+        {
+            IsAnAccurateRepresentationOf(source,other);
+        }
+        static void IsAnAccurateRepresentationOf<T>(Value<T> source, Value<T> other) where T : Value<T>
         {
             if (other == null)
                 throw new SpecificationException("The comparison object is null");
@@ -18,7 +23,7 @@ namespace Dolittle.PropertyBags.Specs
             var otherType = other.GetType();
 
             if (t != otherType)
-                throw new SpecificationException($"Should be of type {t.FullName} but is of type {other.GetType().FullName}");
+                throw new SpecificationException($"Should be of type {t.FullName} but is of type {otherType.FullName}");
 
             var fields = t.BaseType.GetMethod("GetFields",BindingFlags.Instance | BindingFlags.NonPublic).Invoke(source,new object[0]) as IEnumerable<FieldInfo>;
 
@@ -70,6 +75,16 @@ namespace Dolittle.PropertyBags.Specs
                         first.DateTime.ShouldBeCloseTo(((DateTimeOffset)value2).DateTime.ToUniversalTime(),TimeSpan.FromMilliseconds(1));
                     }
                 } 
+                else if (field.FieldType.IsValue())
+                {
+                    if(value1 != null || value2 != null)
+                    {
+                        var type = field.FieldType.GetValueType();
+                        var method = typeof(ShouldExtensions).GetMethod("IsAnAccurateRepresentationOf", BindingFlags.Static | BindingFlags.NonPublic);
+                        MethodInfo generic = method.MakeGenericMethod(type);
+                        generic.Invoke(null, new object[]{value1,value2});
+                    }
+                } 
                 else if(value1 != null || value2 != null)
                 {
 
@@ -82,7 +97,6 @@ namespace Dolittle.PropertyBags.Specs
                         Console.WriteLine(ex.ToString());
                         throw;
                     }
-                    
                 }  
             }
         }
