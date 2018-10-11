@@ -34,17 +34,13 @@ namespace Dolittle.DependencyInversion
         /// </summary>
         /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
         IBindingScopeBuilder To(Func<object> callback);
-        /// <summary>
-        /// Bind to the type returned from the callback
-        /// </summary>
-        /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
-        IBindingScopeBuilder To(CallbackToType callbackToType);
-        /// <summary>
-        /// Bind to the type returned from the callback
-        /// </summary>
-        /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
-        IBindingScopeBuilder ToTypeCallback(Func<Type> callback);
 
+        /// <summary>
+        /// Bind to a callback
+        /// </summary>
+        /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
+        IBindingScopeBuilder To(Func<Type> callback);
+        
         /// <summary>
         /// Builds the Binding
         /// </summary>

@@ -18,13 +18,12 @@ namespace Dolittle.Resources.Configuration
     public class ResourceSystemBindings : ICanProvideBindings
     {
         internal static ITypeFinder TypeFinder;
-        static IResourceConfiguration _resourceConfiguration;
 
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
-            _resourceConfiguration = new ResourceConfiguration(TypeFinder);
-            builder.Bind<IResourceConfiguration>().To(_resourceConfiguration);
+            var resourceConfiguration = new ResourceConfiguration(TypeFinder);
+            builder.Bind<IResourceConfiguration>().To(resourceConfiguration);
 
             var resourceTypeTypes = TypeFinder.FindMultiple<IAmAResourceType>();
             resourceTypeTypes.ForEach(_ => 
@@ -32,7 +31,7 @@ namespace Dolittle.Resources.Configuration
                 ThrowIfNoDefaultConstructor(_);
             });
             var resourceTypeServices = resourceTypeTypes.Select(_ => Activator.CreateInstance(_) as IAmAResourceType).SelectMany(_ => _.Services);
-            resourceTypeServices.ForEach(_ => builder.Bind(_).ToTypeCallback(() => _resourceConfiguration.GetImplementationFor(_)));
+            resourceTypeServices.ForEach(_ => builder.Bind(_).To(() => resourceConfiguration.GetImplementationFor(_)));
         }
         void ThrowIfNoDefaultConstructor(Type resourceTypeType)
         {
