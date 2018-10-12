@@ -6,7 +6,7 @@
 namespace Dolittle.Resources.Configuration
 {
     /// <summary>
-    /// Represents a configuration for a Resource
+    /// Represents a configuration for a <see cref="IRepresentAResourceType"> resource representation</see>
     /// </summary>
     /// <typeparam name="T">The type of the Configuration</typeparam>
     public interface IConfigurationFor<T> where T : class

@@ -42,7 +42,6 @@ namespace Dolittle.Resources.Configuration
             _logger = logger;
 
             var resourceFileContent = ReadResourceFile();
-
             _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, Dictionary<ResourceType, object>>>(resourceFileContent);
         }
         
@@ -50,7 +49,8 @@ namespace Dolittle.Resources.Configuration
         public T GetConfigurationFor<T>(TenantId tenantId) where T : class
         {
             var resourceType = RetrieveResourceType<T>();
-            var configurationObjectAsString = _resourceConfigurationsByTenant[tenantId][resourceType].ToString();
+            
+            var configurationObjectAsString = GetResourceConfigurationJson(tenantId, resourceType);
             var configurationObject = _serializer.FromJson<T>(configurationObjectAsString); 
 
             return configurationObject;
@@ -70,6 +70,15 @@ namespace Dolittle.Resources.Configuration
             var path = Path.Combine(Directory.GetCurrentDirectory(), _path);
             if (! File.Exists(path)) throw new MissingResourcesFile();
             return File.ReadAllText(path);
+        }
+
+        string GetResourceConfigurationJson(TenantId tenantId, ResourceType resourceType)
+        {
+            if (!_resourceConfigurationsByTenant.ContainsKey(tenantId)) throw new TenantIdNotPresentInResourceFile(tenantId);
+            var configurationByResourceType = _resourceConfigurationsByTenant[tenantId];
+            if (! configurationByResourceType.ContainsKey(resourceType)) throw new ResourceTypeNotFoundInResourceFile(tenantId, resourceType);
+
+            return configurationByResourceType[resourceType].ToString();
         }
     }
 }

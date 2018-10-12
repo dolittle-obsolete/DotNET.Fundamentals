@@ -26,10 +26,8 @@ namespace Dolittle.Resources.Configuration
             builder.Bind<IResourceConfiguration>().To(resourceConfiguration);
 
             var resourceTypeTypes = TypeFinder.FindMultiple<IAmAResourceType>();
-            resourceTypeTypes.ForEach(_ => 
-            {
-                ThrowIfNoDefaultConstructor(_);
-            });
+            resourceTypeTypes.ForEach(_ => ThrowIfNoDefaultConstructor(_));
+
             var resourceTypeServices = resourceTypeTypes.Select(_ => Activator.CreateInstance(_) as IAmAResourceType).SelectMany(_ => _.Services);
             resourceTypeServices.ForEach(_ => builder.Bind(_).To(() => resourceConfiguration.GetImplementationFor(_)));
         }

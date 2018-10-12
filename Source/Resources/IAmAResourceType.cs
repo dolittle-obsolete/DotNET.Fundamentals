@@ -18,7 +18,7 @@ namespace Dolittle.Resources
         /// </summary>
         ResourceType Name { get; }
         /// <summary>
-        /// Gets the services 
+        /// Gets the services related to the <see cref="ResourceType"/>
         /// </summary>
         IEnumerable<Type> Services { get; }
     }

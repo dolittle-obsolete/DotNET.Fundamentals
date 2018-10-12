@@ -8,7 +8,7 @@ using Dolittle.Tenancy;
 namespace Dolittle.Resources.Configuration
 {
     /// <summary>
-    /// Defines a system for managing the resources of a Tenant
+    /// Defines a system for loading the resources from a configuration file containing the resources
     /// </summary>
     public interface ITenantResourceManager
     {

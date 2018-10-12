@@ -17,7 +17,6 @@ namespace Dolittle.Resources.Configuration
     public class ResourceConfiguration : IResourceConfiguration
     {
         ITypeFinder _typeFinder;
-
         IEnumerable<IRepresentAResourceType> _resourceTypeRepresentations;
         IDictionary<ResourceType, ResourceTypeImplementation> _resources = new Dictionary<ResourceType, ResourceTypeImplementation>();
 
@@ -26,14 +25,10 @@ namespace Dolittle.Resources.Configuration
         {
             _typeFinder = typeFinder;
             var resourceTypeRepresentationTypes = _typeFinder.FindMultiple<IRepresentAResourceType>();
-            resourceTypeRepresentationTypes.ForEach(_ => 
-            {
-                ThrowIfNoDefaultConstructor(_);
-
-            });
+            resourceTypeRepresentationTypes.ForEach(_ => ThrowIfNoDefaultConstructor(_));
             _resourceTypeRepresentations = resourceTypeRepresentationTypes.Select(_ => Activator.CreateInstance(_) as IRepresentAResourceType);
+            ThrowIfMultipleResourcesWithSameTypeAndImplementation(_resourceTypeRepresentations);
         }
-
 
         /// <inheritdoc/>
         public Type GetImplementationFor(Type service)
@@ -60,6 +55,16 @@ namespace Dolittle.Resources.Configuration
         void ThrowIfNoDefaultConstructor(Type resourceTypeRepresentationType)
         {
             if (! resourceTypeRepresentationType.HasDefaultConstructor()) throw new InvalidResourceTypeFound($"The ResourceType representation {resourceTypeRepresentationType.FullName} must have default constructor.");
+        }
+
+        void ThrowIfMultipleResourcesWithSameTypeAndImplementation(IEnumerable<IRepresentAResourceType> resourceTypeRepresentations)
+        {
+            var resourcesGroupedByResourceType = resourceTypeRepresentations.GroupBy(_ => _.Type);
+            resourcesGroupedByResourceType.ForEach(group => 
+            {
+                var numResources = group.Count();
+                if (group.GroupBy(_ => _.ImplementationName).Count() != numResources) throw new FoundDuplicateResourceDefinition(group.Key);
+            });
         }
     }
 }

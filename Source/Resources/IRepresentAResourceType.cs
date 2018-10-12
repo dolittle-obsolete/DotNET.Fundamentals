@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace Dolittle.Resources
 {
     /// <summary>
-    /// Defines a system that defines a resource
+    /// Defines a full representation of a <see cref="ResourceType"/> of a specific <see cref="ResourceTypeImplementation"/>. 
     /// </summary>
     public interface IRepresentAResourceType
     {
@@ -28,7 +28,7 @@ namespace Dolittle.Resources
         Type ConfigurationObjectType { get; }
 
         /// <summary>
-        /// Gets the types that'll be bound at bootstrap
+        /// Gets the bindings, the service => implementation map
         /// </summary>
         IDictionary<Type, Type> Bindings { get; }
     }
