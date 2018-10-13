@@ -5,14 +5,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Dolittle.Lifecycle;
 using Dolittle.Logging;
 using Dolittle.Serialization.Json;
 using Dolittle.Tenancy;
 using Dolittle.Types;
-using Newtonsoft.Json;
 
 namespace Dolittle.Resources.Configuration
 {
@@ -20,29 +18,18 @@ namespace Dolittle.Resources.Configuration
     [Singleton]
     public class TenantResourceManager : ITenantResourceManager
     {
-        static readonly string _path = Path.Combine(".dolittle", "resources.json");
-
         IInstancesOf<IRepresentAResourceType> _resourceDefinitions;
-        ISerializer _serializer;
-        ILogger _logger;
-        
-        IDictionary<TenantId, Dictionary<ResourceType, object>> _resourceConfigurationsByTenant;
-        
+        ICanProvideResourceConfigurationsByTenant _resourceConfigurationByTenantProvider;
 
         /// <summary>
         /// Instantiates an instance of <see cref="TenantResourceManager"/>
         /// </summary>
         /// <param name="resourceDefinitions"></param>
-        /// <param name="serializer"></param>
-        /// <param name="logger"></param>
-        public TenantResourceManager(IInstancesOf<IRepresentAResourceType> resourceDefinitions, ISerializer serializer, ILogger logger)
+        /// <param name="resourceConfigurationByTenantProvider"></param>
+        public TenantResourceManager(IInstancesOf<IRepresentAResourceType> resourceDefinitions, ICanProvideResourceConfigurationsByTenant resourceConfigurationByTenantProvider)
         {
             _resourceDefinitions = resourceDefinitions;
-            _serializer = serializer;
-            _logger = logger;
-
-            var resourceFileContent = ReadResourceFile();
-            _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, Dictionary<ResourceType, object>>>(resourceFileContent);
+            _resourceConfigurationByTenantProvider = resourceConfigurationByTenantProvider;
         }
         
         /// <inheritdoc/>
@@ -50,10 +37,7 @@ namespace Dolittle.Resources.Configuration
         {
             var resourceType = RetrieveResourceType<T>();
             
-            var configurationObjectAsString = GetResourceConfigurationJson(tenantId, resourceType);
-            var configurationObject = _serializer.FromJson<T>(configurationObjectAsString); 
-
-            return configurationObject;
+            return _resourceConfigurationByTenantProvider.ConfigurationFor<T>(tenantId, resourceType);
         }
 
         ResourceType RetrieveResourceType<T>()
@@ -63,22 +47,6 @@ namespace Dolittle.Resources.Configuration
             if (resourceTypesMatchingType.Count() > 1) throw new ConfigurationTypeMappedToMultipleResourceTypes(typeof(T));
 
             return resourceTypesMatchingType.First().Type;
-        }
-
-        string ReadResourceFile()
-        {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), _path);
-            if (! File.Exists(path)) throw new MissingResourcesFile();
-            return File.ReadAllText(path);
-        }
-
-        string GetResourceConfigurationJson(TenantId tenantId, ResourceType resourceType)
-        {
-            if (!_resourceConfigurationsByTenant.ContainsKey(tenantId)) throw new TenantIdNotPresentInResourceFile(tenantId);
-            var configurationByResourceType = _resourceConfigurationsByTenant[tenantId];
-            if (! configurationByResourceType.ContainsKey(resourceType)) throw new ResourceTypeNotFoundInResourceFile(tenantId, resourceType);
-
-            return configurationByResourceType[resourceType].ToString();
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Dolittle.Resources.Configuration
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
+            builder.Bind<ICanProvideResourceConfigurationsByTenant>().To<DolittleResourceConfigurationsByTenantProvider>();
             var resourceConfiguration = new ResourceConfiguration(TypeFinder);
             builder.Bind<IResourceConfiguration>().To(resourceConfiguration);
 
