@@ -43,8 +43,9 @@ namespace Dolittle.Resources.Configuration
         ResourceType RetrieveResourceType<T>()
         {
             var resourceTypesMatchingType = _resourceDefinitions.Where(_ => _.ConfigurationObjectType.Equals(typeof(T))).ToArray();
-            if (!resourceTypesMatchingType.Any()) throw new NoResourceTypeMatchingConfigurationType(typeof(T));
-            if (resourceTypesMatchingType.Length > 1) throw new ConfigurationTypeMappedToMultipleResourceTypes(typeof(T));
+            var length = resourceTypesMatchingType.Length;
+            if (length == 0) throw new NoResourceTypeMatchingConfigurationType(typeof(T));
+            if (length > 1) throw new ConfigurationTypeMappedToMultipleResourceTypes(typeof(T));
 
             return resourceTypesMatchingType[0].Type;
         }
