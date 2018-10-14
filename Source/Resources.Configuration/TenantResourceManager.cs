@@ -18,7 +18,7 @@ namespace Dolittle.Resources.Configuration
     [Singleton]
     public class TenantResourceManager : ITenantResourceManager
     {
-        IInstancesOf<IRepresentAResourceType> _resourceDefinitions;
+        IEnumerable<IRepresentAResourceType> _resourceDefinitions;
         ICanProvideResourceConfigurationsByTenant _resourceConfigurationByTenantProvider;
 
         /// <summary>
@@ -42,11 +42,11 @@ namespace Dolittle.Resources.Configuration
 
         ResourceType RetrieveResourceType<T>()
         {
-            var resourceTypesMatchingType = _resourceDefinitions.Where(_ => _.ConfigurationObjectType.Equals(typeof(T)));
+            var resourceTypesMatchingType = _resourceDefinitions.Where(_ => _.ConfigurationObjectType.Equals(typeof(T))).ToArray();
             if (!resourceTypesMatchingType.Any()) throw new NoResourceTypeMatchingConfigurationType(typeof(T));
-            if (resourceTypesMatchingType.Count() > 1) throw new ConfigurationTypeMappedToMultipleResourceTypes(typeof(T));
+            if (resourceTypesMatchingType.Length > 1) throw new ConfigurationTypeMappedToMultipleResourceTypes(typeof(T));
 
-            return resourceTypesMatchingType.First().Type;
+            return resourceTypesMatchingType[0].Type;
         }
     }
 }
