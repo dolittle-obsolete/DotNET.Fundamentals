@@ -6,7 +6,7 @@ using System;
 
 namespace Dolittle.Resources.Configuration.Specs.given
 {
-    public class EventStore : IEventStore
+    public class Geodesics : IGeodesics
     {
         
     }
