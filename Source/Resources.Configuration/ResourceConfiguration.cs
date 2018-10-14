@@ -39,11 +39,12 @@ namespace Dolittle.Resources.Configuration
                 if (! _resources.ContainsKey(resourceType)) return false;
                 var resourceTypeImplementation = _.ImplementationName;
                 return resourceTypeImplementation == _resources[resourceType];
-            });
-            if (! results.Any()) throw new ImplementationForServiceNotFound(service);
-            if (results.Count() > 1) throw new MultipleImplementationsFoundForService(service);
+            }).ToArray();
+            var length = results.Length;
+            if (length == 0) throw new ImplementationForServiceNotFound(service);
+            if (length > 1) throw new MultipleImplementationsFoundForService(service);
 
-            return results.First().Bindings[service];
+            return results[0].Bindings[service];
         }
         /// <inheritdoc/>
         public void SetResourceType(ResourceType resourceType, ResourceTypeImplementation resourceTypeImplementation)
