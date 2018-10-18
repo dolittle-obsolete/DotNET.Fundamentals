@@ -2,21 +2,22 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Dolittle.Concepts;
+using Dolittle.Types;
 
-namespace Dolittle.Resources
+namespace Dolittle.Resources.Configuration.Bootstrap
 {
     /// <summary>
-    /// Represents the type of a resource (readModels, eventStore, ...)
+    /// Represents the entrypoint for bootstrapping the Resource System
     /// </summary>
-    public class ResourceType : ConceptAs<string>
+    public class EntryPoint
     {
         /// <summary>
-        /// Implicitly converts from a <see cref="string"/> to an <see cref="ResourceType"/>
+        /// Initializes the Resource System 
         /// </summary>
-        public static implicit operator ResourceType(string value)
+        /// <param name="typeFinder"></param>
+        public static void Initialize(ITypeFinder typeFinder)
         {
-            return new ResourceType { Value = value };
-        }
+            ResourceSystemBindings.TypeFinder = typeFinder;
+        } 
     }
 }

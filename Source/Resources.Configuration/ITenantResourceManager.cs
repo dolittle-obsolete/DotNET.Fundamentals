@@ -2,26 +2,19 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Collections.Generic;
+using System;
 using Dolittle.Tenancy;
 
-namespace Dolittle.Resources
+namespace Dolittle.Resources.Configuration
 {
     /// <summary>
-    /// 
+    /// Defines a system for loading the resources from a configuration file containing the resources
     /// </summary>
-    public class ResourceTypeConfiguration
+    public interface ITenantResourceManager
     {
         /// <summary>
-        /// 
+        /// Gets a configuration 
         /// </summary>
-        /// <value></value>
-        public ResourceTypeName Type { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <value></value>
-        public Dictionary<TenantId, object>   Configurations { get; set; }
+        T GetConfigurationFor<T>(TenantId tenantId) where T : class;
     }
 }

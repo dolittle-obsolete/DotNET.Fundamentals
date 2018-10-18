@@ -2,21 +2,18 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Dolittle.Concepts;
 
-namespace Dolittle.Resources
+namespace Dolittle.Resources.Configuration
 {
     /// <summary>
-    /// Represents the type of a resource (readModels, eventStore, ...)
+    /// Represents a configuration for a <see cref="IRepresentAResourceType"> resource representation</see>
     /// </summary>
-    public class ResourceType : ConceptAs<string>
+    /// <typeparam name="T">The type of the Configuration</typeparam>
+    public interface IConfigurationFor<T> where T : class
     {
         /// <summary>
-        /// Implicitly converts from a <see cref="string"/> to an <see cref="ResourceType"/>
+        /// Retrieves the configuration instance
         /// </summary>
-        public static implicit operator ResourceType(string value)
-        {
-            return new ResourceType { Value = value };
-        }
+        T Instance {get; } 
     }
 }

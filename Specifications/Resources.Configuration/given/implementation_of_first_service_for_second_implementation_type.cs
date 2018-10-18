@@ -2,15 +2,14 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Dolittle.Concepts;
+ 
+using System;
+using System.Collections.Generic;
 
-namespace Dolittle.Resources
+namespace Dolittle.Resources.Configuration.Specs.given
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ResourceTypeName : ConceptAs<string>
+    public class implementation_of_first_service_for_second_implementation_type : first_service
     {
-
+        
     }
 }

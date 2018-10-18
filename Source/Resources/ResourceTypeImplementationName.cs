@@ -7,16 +7,17 @@ using Dolittle.Concepts;
 namespace Dolittle.Resources
 {
     /// <summary>
-    /// Represents the type of a resource (readModels, eventStore, ...)
+    /// 
     /// </summary>
-    public class ResourceType : ConceptAs<string>
+    public class ResourceTypeImplementation : ConceptAs<string>
     {
+
         /// <summary>
-        /// Implicitly converts from a <see cref="string"/> to an <see cref="ResourceType"/>
+        /// Implicitly converts from a <see cref="string"/> to an <see cref="ResourceTypeImplementation"/>
         /// </summary>
-        public static implicit operator ResourceType(string value)
+        public static implicit operator ResourceTypeImplementation(string value)
         {
-            return new ResourceType { Value = value };
+            return new ResourceTypeImplementation { Value = value };
         }
     }
 }

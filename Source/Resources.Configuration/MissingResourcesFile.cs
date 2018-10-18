@@ -2,21 +2,22 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Dolittle.Concepts;
+using System;
+using System.Runtime.Serialization;
 
-namespace Dolittle.Resources
+namespace Dolittle.Resources.Configuration
 {
     /// <summary>
-    /// Represents the type of a resource (readModels, eventStore, ...)
+    /// The Exception that gets thrown when the resources file is not present
     /// </summary>
-    public class ResourceType : ConceptAs<string>
+    public class MissingResourcesFile : Exception
     {
         /// <summary>
-        /// Implicitly converts from a <see cref="string"/> to an <see cref="ResourceType"/>
+        /// Instantiates an instance of <see cref="MissingResourcesFile"/>
         /// </summary>
-        public static implicit operator ResourceType(string value)
+        public MissingResourcesFile()
+            : base($"Could not find .dolittle/resources.json")
         {
-            return new ResourceType { Value = value };
         }
     }
 }

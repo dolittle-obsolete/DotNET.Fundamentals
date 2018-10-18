@@ -78,6 +78,17 @@ namespace Dolittle.DependencyInversion
             _scopeBuilder = new BindingScopeBuilder(_binding);
             return _scopeBuilder;
         }
+        /// <inheritdoc/>
+        public IBindingScopeBuilder To(Func<Type> callback)
+        {
+            _binding = new Binding(
+                _binding.Service,
+                new Strategies.TypeCallback(callback),
+                _binding.Scope);
+
+            _scopeBuilder = new BindingScopeBuilder(_binding);
+            return _scopeBuilder;
+        }
 
         /// <inheritdoc/>
         public Binding Build()
