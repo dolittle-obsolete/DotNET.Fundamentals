@@ -18,6 +18,6 @@ namespace Dolittle.Resources.Configuration.Specs.for_TenantResourceManager
         Because of_trying_to_get_the_configuration_for_the_second_resource_type = () => exception_result = Catch.Exception(() => tenant_resource_manager.GetConfigurationFor<configuration_for_second_resource_type>(tenant_id));
 
         It should_throw_an_exception = () => exception_result.ShouldNotBeNull();
-        It should_throw_NoResourceTypeMatchingConfigurationType = () => exception_result.ShouldBeOfExactType(typeof(NoResourceTypeMatchingConfigurationType));
+        It should_throw_no_resource_type_matching_configuration_type = () => exception_result.ShouldBeOfExactType(typeof(NoResourceTypeMatchingConfigurationType));
     }
 }

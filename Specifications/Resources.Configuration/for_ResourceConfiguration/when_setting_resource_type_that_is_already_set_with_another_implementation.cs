@@ -25,7 +25,7 @@ namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
         Because of = () => result_exception = Catch.Exception(() => resource_configuration.SetResourceType(first_resource_type, second_resource_type_implementation));
 
         It should_throw_an_exception = () => result_exception.ShouldNotBeNull();
-        It should_throw_ResourceTypeAlreadySet = () => result_exception.ShouldBeOfExactType(typeof(ResourceTypeAlreadySet));
-        
+        It should_throw_resource_type_already_set = () => result_exception.ShouldBeOfExactType(typeof(ResourceTypeAlreadySet));
+
     }
 }

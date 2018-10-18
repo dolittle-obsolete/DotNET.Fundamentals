@@ -8,7 +8,7 @@ using Dolittle.Resources.Configuration.Specs.given;
 
 namespace Dolittle.Resources.Configuration.Specs.for_TenantResourceManager
 {
-    public class when_getting_configuration_for_read_models_with_correct_setup : given.a_resource_type_with_one_service_and_a_system_providing_its_configuration
+    public class when_getting_configuration_when_that_configuration_type_is_a_used_by_a_resource_representation : given.a_resource_type_with_one_service_and_a_system_providing_its_configuration
     {
         static TenantResourceManager tenant_resource_manager;
         static configuration_for_first_resource_type configuration;

@@ -26,7 +26,7 @@ namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
         Because of = () => result_exception = Catch.Exception(() => resource_configuration.GetImplementationFor(service_type));
 
         It should_throw_an_exception = () => result_exception.ShouldNotBeNull();
-        It should_throw_MultipleImplementationsFoundForService = () => result_exception.ShouldBeOfExactType(typeof(MultipleImplementationsFoundForService));
+        It should_throw_multiple_implementations_found_for_service = () => result_exception.ShouldBeOfExactType(typeof(MultipleImplementationsFoundForService));
 
     }
 }
