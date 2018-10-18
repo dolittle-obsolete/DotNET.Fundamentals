@@ -12,7 +12,7 @@ using Moq;
 
 namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration.given
 {
-    public class a_type_finder_that_finds_a_resource_representation_for_mongo_db_event_store : all_dependencies
+    public class a_type_finder_that_finds_a_resource_type_with_second_and_third_service_for_second_resource_type_and_first_implementation : all_dependencies
     {
         protected static Mock<ITypeFinder> type_finder_mock;
         
@@ -20,7 +20,7 @@ namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration.given
         {
             var resource_type_representation_types = new List<Type>
             {
-                typeof(ResourceRepresentationForMongoDbEventStore)
+                typeof(resource_type_with_second_and_third_service_for_second_resource_type_and_first_implementation)
             };
             type_finder_mock = new Mock<ITypeFinder>();
             type_finder_mock.Setup(_ => _.FindMultiple<IRepresentAResourceType>()).Returns(resource_type_representation_types);

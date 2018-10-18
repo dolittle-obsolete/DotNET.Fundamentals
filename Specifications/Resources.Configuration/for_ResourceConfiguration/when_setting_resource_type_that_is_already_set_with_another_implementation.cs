@@ -9,9 +9,9 @@ using Machine.Specifications;
 
 namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
 {
-    public class when_setting_resource_type_that_is_already_set_with_another_implementation : given.a_type_finder_that_finds_a_resource_representation_for_mongo_db_read_models
+    public class when_setting_resource_type_that_is_already_set_with_another_implementation : given.a_type_finder_that_finds_a_resource_type_with_first_service_for_first_resource_type_and_first_implementation
     {
-        static readonly Type service_type = typeof(IEventStore);
+        static readonly Type service_type = typeof(second_service);
         static ResourceConfiguration resource_configuration;
 
         static Exception result_exception;
@@ -19,13 +19,12 @@ namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
         Establish context = () => 
         {
             resource_configuration = new ResourceConfiguration(type_finder_mock.Object);
-            resource_configuration.SetResourceType(read_models_resource_type, mongo_db_resource_type_implementation);
+            resource_configuration.SetResourceType(first_resource_type, first_resource_type_implementation);
         };
 
-        Because of = () => result_exception = Catch.Exception(() => resource_configuration.SetResourceType(read_models_resource_type, azure_resource_type_implementation));
+        Because of = () => result_exception = Catch.Exception(() => resource_configuration.SetResourceType(first_resource_type, second_resource_type_implementation));
 
         It should_throw_an_exception = () => result_exception.ShouldNotBeNull();
         It should_throw_ResourceTypeAlreadySet = () => result_exception.ShouldBeOfExactType(typeof(ResourceTypeAlreadySet));
-
     }
 }

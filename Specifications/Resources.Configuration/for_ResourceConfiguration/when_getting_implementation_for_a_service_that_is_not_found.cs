@@ -9,9 +9,9 @@ using Machine.Specifications;
 
 namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
 {
-    public class when_getting_implementation_for_a_service_that_is_not_found : given.a_type_finder_that_finds_a_resource_representation_for_mongo_db_read_models
+    public class when_getting_implementation_for_a_service_that_is_not_found : given.a_type_finder_that_finds_a_resource_type_with_first_service_for_first_resource_type_and_first_implementation
     {
-        static readonly Type service_type = typeof(IEventStore);
+        static readonly Type service_type = typeof(second_service);
         static ResourceConfiguration resource_configuration;
 
         static Exception result_exception;
@@ -19,7 +19,7 @@ namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
         Establish context = () => 
         {
             resource_configuration = new ResourceConfiguration(type_finder_mock.Object);
-            resource_configuration.SetResourceType(read_models_resource_type, mongo_db_resource_type_implementation);
+            resource_configuration.SetResourceType(first_resource_type, first_resource_type_implementation);
         };
 
         Because of = () => result_exception = Catch.Exception(() => resource_configuration.GetImplementationFor(service_type));

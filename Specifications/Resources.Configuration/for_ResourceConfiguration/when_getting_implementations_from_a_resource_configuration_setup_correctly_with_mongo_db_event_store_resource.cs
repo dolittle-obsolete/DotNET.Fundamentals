@@ -9,11 +9,11 @@ using Machine.Specifications;
 
 namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
 {
-    public class when_getting_implementations_from_a_resource_configuration_setup_correctly_with_mongo_db_event_store_resource : given.a_type_finder_that_finds_a_resource_representation_for_mongo_db_event_store
+    public class when_getting_implementations_from_a_resource_configuration_setup_correctly_with_mongo_db_event_store_resource : given.a_type_finder_that_finds_a_resource_type_with_second_and_third_service_for_second_resource_type_and_first_implementation
     {
-        static readonly Type first_service_type = typeof(IEventStore);
-        static readonly Type first_service_type_correct_implementation_type = typeof(EventStore);
-        static readonly Type second_service_type = typeof(IGeodesics);
+        static readonly Type first_service_type = typeof(second_service);
+        static readonly Type first_service_type_correct_implementation_type = typeof(implementation_of_second_service_for_first_implementation_type);
+        static readonly Type second_service_type = typeof(third_service);
         static readonly Type second_service_type_correct_implementation_type = typeof(Geodesics);
         static ResourceConfiguration resource_configuration;
 
@@ -23,7 +23,7 @@ namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
         Establish context = () => 
         {
             resource_configuration = new ResourceConfiguration(type_finder_mock.Object);
-            resource_configuration.SetResourceType(event_store_resource_type, mongo_db_resource_type_implementation);
+            resource_configuration.SetResourceType(second_resource_type, first_resource_type_implementation);
         };
 
         Because of = () => 

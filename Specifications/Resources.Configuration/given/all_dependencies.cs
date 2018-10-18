@@ -10,11 +10,10 @@ namespace Dolittle.Resources.Configuration.Specs.given
     public class all_dependencies
     {
         protected static readonly TenantId tenant_id = TenantId.System; 
-        protected static readonly ResourceType read_models_resource_type = "readModels";
-        protected static readonly ResourceType event_store_resource_type = "eventStore";
-        protected static readonly ResourceType another_resource_type = "anotherResourceType";
-        protected static readonly ResourceTypeImplementation mongo_db_resource_type_implementation = "MongoDB";
-
-        protected static readonly ResourceTypeImplementation azure_resource_type_implementation = "Azure";
+        public static readonly ResourceType first_resource_type = "first_resource_type";
+        public static readonly ResourceType second_resource_type = "second_resource_type";
+        public static readonly ResourceType third_resource_type = "third_resource_type";
+        public static readonly ResourceTypeImplementation first_resource_type_implementation = "first_resource_type_implementation";
+        public static readonly ResourceTypeImplementation second_resource_type_implementation = "second_resource_type_implementation";
     }
 }

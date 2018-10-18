@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Dolittle.Resources.Configuration.Specs.given
 {
-    public class ReadModelRepositoryFor<T> : IReadModelRepositoryFor<T> where T : class
+    public interface third_service
     {
         
     }
