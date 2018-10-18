@@ -26,5 +26,6 @@ namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
 
         It should_throw_an_exception = () => result_exception.ShouldNotBeNull();
         It should_throw_ResourceTypeAlreadySet = () => result_exception.ShouldBeOfExactType(typeof(ResourceTypeAlreadySet));
+        
     }
 }
