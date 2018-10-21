@@ -14,7 +14,7 @@ namespace Dolittle.Tenancy.Configuration
     [Singleton]
     public class TenantMapManager : ITenantMapManager
     {
-        readonly string _path = Path.Combine(".dolittle", "resources.json");
+        readonly string _path = Path.Combine(".dolittle", "tenant-map.json");
         const string _strategyJsonKey = "strategy";
         
         readonly IEnumerable<IRepresentATenantStrategy> _tenantStrategyRepresentations;
