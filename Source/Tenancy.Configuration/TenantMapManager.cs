@@ -16,8 +16,7 @@ namespace Dolittle.Tenancy.Configuration
     {
         readonly string _path = Path.Combine(".dolittle", "tenant-map.json");
         const string _strategyJsonKey = "strategy";
-        
-        readonly IEnumerable<IRepresentATenantStrategy> _tenantStrategyRepresentations;
+    
         readonly ISerializer _serializer;
         readonly TenantStrategy _tenantStrategy;
         readonly string _strategyConfigurationAsString;
@@ -25,12 +24,9 @@ namespace Dolittle.Tenancy.Configuration
         /// <summary>
         /// Instantiates an instance of <see cref="TenantMapManager"/>
         /// </summary>
-        /// <param name="instancesOfTenantStrategyRepresentations"></param>
         /// <param name="serializer"></param>
-        public TenantMapManager(IInstancesOf<IRepresentATenantStrategy> instancesOfTenantStrategyRepresentations, ISerializer serializer)
+        public TenantMapManager(ISerializer serializer)
         {
-            while(!System.Diagnostics.Debugger.IsAttached) System.Threading.Thread.Sleep(20);
-            _tenantStrategyRepresentations = instancesOfTenantStrategyRepresentations;
             _serializer = serializer;
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), _path);
