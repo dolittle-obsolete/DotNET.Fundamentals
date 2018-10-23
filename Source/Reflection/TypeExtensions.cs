@@ -15,12 +15,12 @@ namespace Dolittle.Reflection
     /// </summary>
     public static class TypeExtensions
     {
-        static HashSet<Type> AdditionalPrimitiveTypes = new HashSet<Type>
+        readonly static HashSet<Type> AdditionalPrimitiveTypes = new HashSet<Type>
             {
                 typeof(decimal),typeof(string),typeof(Guid),typeof(DateTime),typeof(DateTimeOffset),typeof(TimeSpan)
             }; 
 
-        static HashSet<Type> NumericTypes = new HashSet<Type>
+        readonly static HashSet<Type> NumericTypes = new HashSet<Type>
         {
             typeof(byte), typeof(sbyte),
             typeof(short), typeof(int), typeof(long),
@@ -28,6 +28,13 @@ namespace Dolittle.Reflection
             typeof(double), typeof(decimal), typeof(Single)
         };
 
+        readonly static HashSet<Type> DictionaryInterfaces = new HashSet<Type>
+        {
+            typeof(IDictionary<,>),
+            typeof(IDictionary),
+            typeof(IReadOnlyDictionary<,>)
+        };
+        
         static ITypeInfo GetTypeInfo(Type type)
         {
             var typeInfoType = typeof(TypeInfo<>).MakeGenericType(type);
@@ -77,6 +84,16 @@ namespace Dolittle.Reflection
         public static bool IsEnumerable(this Type type)
         {
             return !type.IsAPrimitiveType() && !type.IsString() && typeof(System.Collections.IEnumerable).IsAssignableFrom(type);
+        }
+        /// <summary>
+        /// Check if a type is a Dictionary.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsDictionary(this Type type)
+        {
+            // https://stackoverflow.com/a/29649496
+            return type.GetInterfaces().Append(type).Any(t => DictionaryInterfaces.Any(i => i == t || t.GetTypeInfo().IsGenericType && i == t.GetGenericTypeDefinition()));
         }
 
         /// <summary>
