@@ -3,6 +3,7 @@ using System.Reflection;
 using Dolittle.Concepts;
 using Dolittle.Reflection;
 using Dolittle.Strings;
+using Dolittle.Time;
 
 namespace Dolittle.PropertyBags
 {
