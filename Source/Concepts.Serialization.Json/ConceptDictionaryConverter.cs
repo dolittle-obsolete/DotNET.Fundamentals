@@ -35,7 +35,7 @@ namespace Dolittle.Concepts.Serialization.Json
         /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
-            if (objectType.HasInterface(typeof(IDictionary<,>)) && objectType.GetTypeInfo().IsGenericType ) 
+            if (objectType.IsDictionary()) 
             {
                 var keyType = objectType.GetTypeInfo().GetGenericArguments()[0].GetTypeInfo().BaseType;
                 return keyType.IsConcept();

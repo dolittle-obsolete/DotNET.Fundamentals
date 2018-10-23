@@ -1,6 +1,6 @@
 using System;
 
-namespace Dolittle.Reflection
+namespace Dolittle.Time
 {
     /// <summary>
     /// Extensions for DateTime
