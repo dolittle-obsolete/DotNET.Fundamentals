@@ -4,6 +4,7 @@ namespace Dolittle.PropertyBags.Specs
     using Dolittle.PropertyBags;
     using Dolittle.Concepts;
     using Dolittle.Reflection;
+    using Dolittle.Time;
     public class ImmutableWithPropertyBagConstructor : Value<ImmutableWithPropertyBagConstructor>
     {
         public ImmutableWithPropertyBagConstructor(PropertyBag propertyBag)

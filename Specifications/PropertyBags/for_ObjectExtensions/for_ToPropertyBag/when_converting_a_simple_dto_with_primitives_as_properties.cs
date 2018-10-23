@@ -2,6 +2,7 @@ using System;
 using Dolittle.Concepts;
 using Dolittle.PropertyBags;
 using Dolittle.Reflection;
+using Dolittle.Time;
 using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag

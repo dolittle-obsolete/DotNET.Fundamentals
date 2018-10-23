@@ -1,6 +1,7 @@
 using System;
 using Machine.Specifications;
 using Dolittle.Reflection;
+using Dolittle.Time;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
 {
