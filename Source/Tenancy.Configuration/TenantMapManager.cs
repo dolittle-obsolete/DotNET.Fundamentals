@@ -1,12 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using Dolittle.Lifecycle;
-using Dolittle.Serialization.Json;
-using Dolittle.Types;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 
 namespace Dolittle.Tenancy.Configuration
 {
@@ -14,36 +7,19 @@ namespace Dolittle.Tenancy.Configuration
     [Singleton]
     public class TenantMapManager : ITenantMapManager
     {
-        readonly string _path = Path.Combine(".dolittle", "tenant-map.json");
-        const string _strategyJsonKey = "strategy";
-    
-        readonly ISerializer _serializer;
-        readonly TenantStrategy _tenantStrategy;
-        readonly string _strategyConfigurationAsString;
+        readonly ITenantStrategyLoader _tenantStrategyLoader;
 
         /// <summary>
         /// Instantiates an instance of <see cref="TenantMapManager"/>
         /// </summary>
-        /// <param name="serializer"></param>
-        public TenantMapManager(ISerializer serializer)
+        /// <param name="tenantStrategyLoader"></param>
+        public TenantMapManager(ITenantStrategyLoader tenantStrategyLoader)
         {
-            _serializer = serializer;
-
-            var path = Path.Combine(Directory.GetCurrentDirectory(), _path);
-            
-            if (File.Exists(path)) 
-            {
-                var fileContent = File.ReadAllText(path);
-                var jsonObject = JObject.Parse(fileContent);
-                _tenantStrategy = (string)jsonObject[_strategyJsonKey];
-                jsonObject.Remove(_strategyJsonKey);
-                _strategyConfigurationAsString = jsonObject.ToString(Formatting.None);
-            }
-            
+            _tenantStrategyLoader = tenantStrategyLoader;
         }
 
         /// <inheritdoc/>
-        public TenantStrategy Strategy => _tenantStrategy;
+        public TenantStrategy Strategy => _tenantStrategyLoader.Strategy;
 
         /// <inheritdoc/>
         public T InstanceOfStrategy<T>() where T : class => (T)InstanceOfStrategy(typeof(T));
@@ -51,8 +27,8 @@ namespace Dolittle.Tenancy.Configuration
         /// <inheritdoc/>
         public object InstanceOfStrategy(Type strategyType)
         {
-            var instance = _serializer.FromJson(strategyType, _strategyConfigurationAsString);
-            if (instance == null) throw new WrongStrategyConfiguration(strategyType);
+            var instance = _tenantStrategyLoader.GetStrategyInstance(strategyType);
+            if (instance == null || !strategyType.IsInstanceOfType(instance)) throw new WrongStrategyConfiguration(strategyType);
 
             return instance;
         }
