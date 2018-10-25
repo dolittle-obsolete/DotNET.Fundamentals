@@ -116,9 +116,16 @@ namespace Dolittle.Concepts.Serialization.Json
         KeyValuePair<object,object> BuildKeyValuePair(JProperty prop, Type keyType, Type valueType)
         {
             var key = ConceptFactory.CreateConceptInstance(keyType, prop.Name);
+            var valueProp = prop.Value;
+            object value = null;
+            if (valueType.IsAPrimitiveType())
+                value = valueProp.ToObject(valueType);
+            else if (valueType.IsConcept())
+                value = ConceptFactory.CreateConceptInstance(valueType, valueProp.ToObject(valueType.GetConceptValueType()));
+            else
+                value = valueType == typeof(object) ? prop.First() : _serializer.FromJson(valueType, prop.Value.ToString());
             
-            var value = valueType == typeof(object) ? prop.First() : _serializer.FromJson(valueType, prop.Value.ToString());
-            return new KeyValuePair<object,object>(key,value);
+            return new KeyValuePair<object,object>(key, value);
         }
     }
 }
