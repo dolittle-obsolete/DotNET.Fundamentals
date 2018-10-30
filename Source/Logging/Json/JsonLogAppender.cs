@@ -11,7 +11,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 #endif
 
-namespace Dolittle.Logging
+namespace Dolittle.Logging.Json
 {
 #if (NET461)
     /// <summary>
