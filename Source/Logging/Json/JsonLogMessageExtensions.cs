@@ -44,8 +44,9 @@ namespace Dolittle.Logging.Json
         }
         static void WriteProperty(string propName, object value, bool requiresComma = false)
         {
-			_sb.AppendFormat("\"{0}\":", propName.ToCamelCase());
+			_sb.AppendFormat("\"{0}\": ", propName.ToCamelCase());
             WriteObject(value);
+            if (requiresComma) _sb.Append(", ");
         }
         static void WriteObject(object obj, bool requiresComma = false)
         {
