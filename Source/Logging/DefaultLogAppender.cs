@@ -24,7 +24,16 @@ namespace Dolittle.Logging
 #endif
     public class DefaultLogAppender : ILogAppender
     {
+        GetCurrentLoggingContext _getCurrentLoggingContext;
 #if (NET461)
+        /// <summary>
+        /// Initializes a new instance of <see cref="DefaultLogAppender"/>
+        /// </summary>
+        /// <param name="getCurrentLoggingContext"></param>
+        public DefaultLogAppender(GetCurrentLoggingContext getCurrentLoggingContext)
+        {
+            _getCurrentLoggingContext = getCurrentLoggingContext;
+        }
         /// <inheritdoc/>
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
         {
@@ -37,10 +46,11 @@ namespace Dolittle.Logging
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultLogAppender"/>
         /// </summary>
+        /// <param name="getCurrentLoggingContext"></param>
         /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use</param>
-        public DefaultLogAppender(ILoggerFactory loggerFactory)
+        public DefaultLogAppender(GetCurrentLoggingContext getCurrentLoggingContext, ILoggerFactory loggerFactory)
         {
-            
+            _getCurrentLoggingContext = getCurrentLoggingContext;
             _loggerFactory = loggerFactory;
         }
 
@@ -48,6 +58,8 @@ namespace Dolittle.Logging
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
         {
             Microsoft.Extensions.Logging.ILogger logger;
+            var loggingContext = _getCurrentLoggingContext();
+            
             var loggerKey = Path.GetFileNameWithoutExtension(filePath);
             if (!_loggers.ContainsKey(loggerKey))
             {
