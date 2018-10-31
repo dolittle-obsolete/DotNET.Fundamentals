@@ -16,23 +16,21 @@ namespace Dolittle.Logging.Json
         /// </summary>
         /// <param name="logLevel"></param>
         /// <param name="timestamp"></param>
-        /// <param name="application"></param>
-        /// <param name="boundedContext"></param>
-        /// <param name="tenant"></param>
-        /// <param name="correlationId"></param>
+        /// <param name="loggingContext"></param>
         /// <param name="filePath"></param>
         /// <param name="lineNumber"></param>
         /// <param name="member"></param>
         /// <param name="message"></param>
         /// <param name="stackTrace"></param>
-        public JsonLogMessage(string logLevel, DateTimeOffset timestamp, Guid application, Guid boundedContext, Guid tenant, Guid correlationId, string filePath, int lineNumber, string member, string message, string stackTrace) 
+        public JsonLogMessage(string logLevel, DateTimeOffset timestamp, LoggingContext loggingContext, string filePath, int lineNumber, string member, string message, string stackTrace) 
         {
             LogLevel = logLevel;
             Timestamp = timestamp;
-            Application = application;
-            BoundedContext = boundedContext;
-            Tenant = tenant;
-            CorrelationId = correlationId;
+            Application = loggingContext.Application;
+            BoundedContext = loggingContext.BoundedContext;
+            TenantId = loggingContext.TenantId;
+            Environment = loggingContext.Environment;
+            CorrelationId = loggingContext.CorrelationId;
             FilePath = filePath;
             LineNumber = lineNumber;
             Member = member;
@@ -59,7 +57,12 @@ namespace Dolittle.Logging.Json
         /// <summary>
         /// The Tenant Id
         /// </summary>
-        public Guid Tenant {get;}
+        public Guid TenantId {get;}
+        /// <summary>
+        /// The environment of the process that logged this message
+        /// </summary>
+        /// <value></value>
+        public string Environment {get;}
         /// <summary>
         /// The Correlation Id
         /// </summary>

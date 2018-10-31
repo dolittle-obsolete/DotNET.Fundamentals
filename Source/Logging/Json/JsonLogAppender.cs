@@ -14,6 +14,17 @@ namespace Dolittle.Logging.Json
     /// </summary>
     public class JsonLogAppender : ILogAppender
     {
+        GetCurrentLoggingContext _getCurrentLoggingContext;
+
+        /// <summary>
+        /// Instantiates an instance of <see cref="JsonLogAppender"/>
+        /// </summary>
+        /// <param name="getCurrentLoggingContext"></param>    
+        public JsonLogAppender(GetCurrentLoggingContext getCurrentLoggingContext)
+        {
+            _getCurrentLoggingContext = getCurrentLoggingContext;
+        }
+        
         /// <inheritdoc/>
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
         {   
@@ -36,8 +47,8 @@ namespace Dolittle.Logging.Json
                     writer = Console.Error;
                     break;
             }
-            return writer;
 
+            return writer;
         }
 
         static string LogLevelAsString(LogLevel level)
@@ -69,13 +80,11 @@ namespace Dolittle.Logging.Json
         
         JsonLogMessage CreateLogMessage(string filePath, int lineNumber, string member, string message, string logLevel, Exception exception = null)
         {
+
             return new JsonLogMessage(
                 logLevel,
-                DateTimeOffset.Now, 
-                Guid.NewGuid(), 
-                Guid.NewGuid(),
-                Guid.NewGuid(), 
-                Guid.NewGuid(), 
+                DateTimeOffset.Now,
+                _getCurrentLoggingContext(),
                 filePath, 
                 lineNumber, 
                 member, 
