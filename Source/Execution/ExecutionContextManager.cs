@@ -49,7 +49,7 @@ namespace Dolittle.Execution
         /// <remarks>
         /// This can only be called once per process and is typically called by entrypoints into Dolittle itself.
         /// </remarks>
-        public static void SetInitialExecutionContext([CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0, [CallerMemberName] string member = "")
+        public static ExecutionContext SetInitialExecutionContext([CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0, [CallerMemberName] string member = "")
         {
             Logger.Internal.Information($"Setting initial execution context - called from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
             if( _initialExecutionContextSet ) throw new InitialExecutionContextHasAlreadyBeenSet();
@@ -64,6 +64,8 @@ namespace Dolittle.Execution
                 CorrelationId.System,
                 Claims.Empty,
                 CultureInfo.InvariantCulture);
+
+            return _executionContext.Value;
         }
 
 
