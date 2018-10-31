@@ -67,7 +67,7 @@ namespace Dolittle.Logging.Json
 		}
         static void WriteString(string obj)
         {
-            _sb.AppendFormat("\"{0}\"", obj.Replace(@"\", "" ).Replace("\"", "\\\""));
+            _sb.Append(System.Web.HttpUtility.JavaScriptStringEncode(obj, addDoubleQuotes:true));
         }
         static void WriteGuid(Guid obj)
         {
