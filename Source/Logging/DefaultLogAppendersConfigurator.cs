@@ -47,6 +47,7 @@ namespace Dolittle.Logging
             var defaultLogAppender = new DefaultLogAppender(_getCurrentLoggingContext, _loggerFactory);
 #endif
             appenders.Add(defaultLogAppender);
+            appenders.Add(new Json.JsonLogAppender(_getCurrentLoggingContext));
         }
     }
 }
