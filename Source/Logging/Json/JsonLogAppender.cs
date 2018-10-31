@@ -5,69 +5,83 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if (NET461)
 using System.Diagnostics;
-#else
-using Microsoft.Extensions.Logging;
-#endif
-
 namespace Dolittle.Logging.Json
 {
-#if (NET461)
+
     /// <summary>
     /// Represents a default implementation of <see cref="ILogAppender"/> for using System.Diagnostics.Debug
     /// </summary>
-#else
-    /// <summary>
-    /// Represents a default implementation of <see cref="ILogAppender"/> for using ILogger
-    /// </summary>
-#endif
     public class JsonLogAppender : ILogAppender
     {
-#if (NET461)
         /// <inheritdoc/>
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
-        {
-            Debug.WriteLine($"[{level}] - {message}", $"{filePath}[{lineNumber}] - {member}");
-        }
-#else
-        ILoggerFactory _loggerFactory;
-        Dictionary<string, Microsoft.Extensions.Logging.ILogger> _loggers = new Dictionary<string, Microsoft.Extensions.Logging.ILogger>();
+        {   
+            var writer = ChooseWriter(level);
+            var logMessage = CreateLogMessage(filePath, lineNumber, member, message, LogLevelAsString(level), exception);
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="JsonLogAppender"/>
-        /// </summary>
-        /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use</param>
-        public JsonLogAppender(ILoggerFactory loggerFactory)
-        {
-            
-            _loggerFactory = loggerFactory;
+            var jsonMessage = logMessage.ToJson();
+            writer.WriteLine(jsonMessage);
         }
 
-        /// <inheritdoc/>
-        public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
+        static TextWriter ChooseWriter(LogLevel level)
         {
-            Microsoft.Extensions.Logging.ILogger logger;
-            var loggerKey = Path.GetFileNameWithoutExtension(filePath);
-            if (!_loggers.ContainsKey(loggerKey))
+            var writer = Console.Out;
+            switch (level)
             {
-                logger = _loggerFactory.CreateLogger(loggerKey);
-                _loggers[loggerKey] = logger;
+                case LogLevel.Critical:
+                    writer = Console.Error;
+                    break;
+                case LogLevel.Error:
+                    writer = Console.Error;
+                    break;
             }
-            else logger = _loggers[loggerKey];
+            return writer;
 
-            message = $"[{member}({lineNumber})]-{message}";
-
-            switch( level )
-            {
-                case LogLevel.Trace: logger.LogTrace(message); break;
-                case LogLevel.Debug: logger.LogDebug(message); break;
-                case LogLevel.Info: logger.LogInformation(message); break;
-                case LogLevel.Warning: logger.LogWarning(message); break;
-                case LogLevel.Critical: logger.LogCritical(message); break;
-                case LogLevel.Error: logger.LogError(0, exception, message); break;
-            }
         }
-#endif
+
+        static string LogLevelAsString(LogLevel level)
+        {
+            var levelString = string.Empty;
+            switch (level)
+            {
+                case LogLevel.Critical:
+                    levelString = "fatal";
+                    break;
+                case LogLevel.Error:
+                    levelString = "error";
+                    break;
+                case LogLevel.Warning:
+                    levelString = "warn";
+                    break;
+                case LogLevel.Info:
+                    levelString = "info";
+                    break;
+                case LogLevel.Debug:
+                    levelString = "debug";
+                    break;
+                case LogLevel.Trace:
+                    levelString = "trace";
+                    break;
+            }
+            return levelString;
+        }
+        
+        JsonLogMessage CreateLogMessage(string filePath, int lineNumber, string member, string message, string logLevel, Exception exception = null)
+        {
+            return new JsonLogMessage(
+                logLevel,
+                DateTimeOffset.Now, 
+                Guid.NewGuid(), 
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                Guid.NewGuid(), 
+                filePath, 
+                lineNumber, 
+                member, 
+                message,
+                exception?.StackTrace ?? string.Empty
+                );
+        }
     }
 }
