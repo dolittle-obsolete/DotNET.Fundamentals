@@ -5,41 +5,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if (NET461)
-using System.Diagnostics;
-#else
 using Microsoft.Extensions.Logging;
-#endif
 
 namespace Dolittle.Logging
 {
-#if (NET461)
-    /// <summary>
-    /// Represents a default implementation of <see cref="ILogAppender"/> for using System.Diagnostics.Debug
-    /// </summary>
-#else
+
     /// <summary>
     /// Represents a default implementation of <see cref="ILogAppender"/> for using ILogger
     /// </summary>
-#endif
     public class DefaultLogAppender : ILogAppender
     {
         GetCurrentLoggingContext _getCurrentLoggingContext;
-#if (NET461)
-        /// <summary>
-        /// Initializes a new instance of <see cref="DefaultLogAppender"/>
-        /// </summary>
-        /// <param name="getCurrentLoggingContext"></param>
-        public DefaultLogAppender(GetCurrentLoggingContext getCurrentLoggingContext)
-        {
-            _getCurrentLoggingContext = getCurrentLoggingContext;
-        }
-        /// <inheritdoc/>
-        public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
-        {
-            Debug.WriteLine($"[{level}] - {message}", $"{filePath}[{lineNumber}] - {member}");
-        }
-#else
         ILoggerFactory _loggerFactory;
         Dictionary<string, Microsoft.Extensions.Logging.ILogger> _loggers = new Dictionary<string, Microsoft.Extensions.Logging.ILogger>();
 
@@ -80,6 +56,5 @@ namespace Dolittle.Logging
                 case LogLevel.Error: logger.LogError(0, exception, message); break;
             }
         }
-#endif
     }
 }
