@@ -26,9 +26,6 @@ namespace Dolittle.Logging
         /// <inheritdoc/>
         public void Configure(ILogAppenders appenders)
         {
-            var defaultLogAppender = new DefaultLogAppender(_getCurrentLoggingContext, _loggerFactory);
-
-            appenders.Add(defaultLogAppender);
             appenders.Add(new Json.JsonLogAppender(_getCurrentLoggingContext));
         }
     }
