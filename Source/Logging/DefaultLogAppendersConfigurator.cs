@@ -10,23 +10,27 @@ namespace Dolittle.Logging
     /// </summary>
     public class DefaultLogAppendersConfigurator : ICanConfigureLogAppenders
     {
-        GetCurrentLoggingContext _getCurrentLoggingContext;
-        ILoggerFactory _loggerFactory;
+        readonly GetCurrentLoggingContext _getCurrentLoggingContext;
+        readonly ILoggerFactory _loggerFactory;
+        readonly string _environment;
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultLogAppendersConfigurator"/>
         /// </summary>
         /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use</param>
         /// <param name="getCurrentLoggingContext"></param>
-        public DefaultLogAppendersConfigurator(ILoggerFactory loggerFactory, GetCurrentLoggingContext getCurrentLoggingContext)
+        /// <param name="environment"></param>
+        public DefaultLogAppendersConfigurator(ILoggerFactory loggerFactory, GetCurrentLoggingContext getCurrentLoggingContext, string environment)
         {
             _loggerFactory = loggerFactory;
             _getCurrentLoggingContext = getCurrentLoggingContext;
+            _environment = environment;
         }
 
         /// <inheritdoc/>
         public void Configure(ILogAppenders appenders)
         {
-            appenders.Add(new Json.JsonLogAppender(_getCurrentLoggingContext));
+            if (_environment == "Production") appenders.Add(new Json.JsonLogAppender(_getCurrentLoggingContext));
+            else appenders.Add(new DefaultLogAppender(_getCurrentLoggingContext, _loggerFactory));
         }
     }
 }
