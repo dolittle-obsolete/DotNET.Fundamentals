@@ -6,10 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Assemblies\Assemblies.csproj" />
         <ProjectReference Include="..\Collections\Collections.csproj" />
         <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
-        <ProjectReference Include="..\Types\Types.csproj" />
         <ProjectReference Include="..\Execution\Execution.csproj" />
+        <ProjectReference Include="..\Types\Types.csproj" />
     </ItemGroup>
 
 </Project>
