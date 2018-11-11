@@ -21,8 +21,10 @@ namespace Dolittle.Logging
         /// Initializes a new instance of <see cref="LogAppenders"/>
         /// </summary>
         /// <param name="logAppendersConfigurators"><see cref="IEnumerable{T}">Instances of <see cref="ICanConfigureLogAppenders"/></see></param>
-        public LogAppenders(IEnumerable<ICanConfigureLogAppenders> logAppendersConfigurators)
+        /// <param name="defaultLogAppender">Default <see cref="ILogAppender"/> - if any - optional</param>
+        public LogAppenders(IEnumerable<ICanConfigureLogAppenders> logAppendersConfigurators, ILogAppender defaultLogAppender = null)
         {
+            if( defaultLogAppender != null ) Add(defaultLogAppender);
             logAppendersConfigurators.ForEach(l => l.Configure(this));
         }
 
