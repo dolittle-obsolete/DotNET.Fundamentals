@@ -5,12 +5,16 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using Dolittle.Assemblies;
 using Dolittle.DependencyInversion;
 using Dolittle.Execution;
 using Dolittle.Logging;
+using Dolittle.Logging.Json;
+using Dolittle.Scheduling;
 using Microsoft.Extensions.Logging;
 using Environment = Dolittle.Execution.Environment;
+using ExecutionContext = Dolittle.Execution.ExecutionContext;
 
 namespace Dolittle.Bootstrapping
 {
@@ -25,10 +29,18 @@ namespace Dolittle.Bootstrapping
         Type _containerType;
         ILoggerFactory _loggerFactory = null;
         bool _isProduction = true;
-    
+
+        ExecutionContext _initialExecutionContext;
+        IExecutionContextManager _executionContextManager;
+        IContainer _container;
+
+        bool _skipBootProcedures = false;
+        bool _synchronousScheduling = false;
+
+        readonly AsyncLocal<LoggingContext>  _currentLoggingContext = new AsyncLocal<LoggingContext>();    
 
         /// <summary>
-        /// 
+        /// Start configuring the <see cref="Bootloader"/>
         /// </summary>
         /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
         public static Bootloader Configure()
@@ -79,6 +91,7 @@ namespace Dolittle.Bootstrapping
         /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
         public Bootloader SynchronousShceduling()
         {
+            _synchronousScheduling = true;
             return this;
         }
 
@@ -105,34 +118,69 @@ namespace Dolittle.Bootstrapping
         }
 
         /// <summary>
+        /// Tells the bootloader to skip any <see cref="ICanPerformBootProcedure">boot procedures</see>
+        /// </summary>
+        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
+        public Bootloader SkipBootprocedures()
+        {
+            _skipBootProcedures = true;
+            return this;
+        }
+
+        /// <summary>
         /// Start booting
         /// </summary>
-        public void Start()
+        public BootloaderResult Start()
         {
             var l = _loggerFactory;
             var p = _isProduction;
-            /*
-            ExecutionContextManager.SetInitialExecutionContext();
+            IScheduler scheduler = _synchronousScheduling?
+                (IScheduler)new AsyncScheduler():
+                (IScheduler)new SyncScheduler();
+
+            
+            _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
             var loggerFactory = _loggerFactory;
             if( loggerFactory == null ) loggerFactory = new LoggerFactory();
-
+            
             var environment = _isProduction?Environment.Production:Environment.Development;
             ILogAppender logAppender = _isProduction?
-                new Json.JsonLogAppender(loggerFactory, GetCurrentLoggingContext, environment):
-                new DefaultLogAppender(GetCurrentLoggingContext, logerFactory);
-
+                (ILogAppender)new JsonLogAppender(GetCurrentLoggingContext):
+                (ILogAppender)new DefaultLogAppender(GetCurrentLoggingContext, loggerFactory);
 
             var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(loggerFactory, logAppender, _entryAssembly);
-            */
+            var logger = new Logger(logAppenders);
+
+            var assemblies = Dolittle.Assemblies.Bootstrap.Boot.Start(logger, _entryAssembly);
+            var typeFinder = Dolittle.Types.Bootstrap.Boot.Start(assemblies, scheduler, _entryAssembly);
+            Dolittle.Resources.Configuration.Bootstrap.Boot.Start(typeFinder);
+            
+            var bindings = new[] {
+                new BindingBuilder(Binding.For(typeof(IAssemblies))).To(assemblies).Build(),
+                new BindingBuilder(Binding.For(typeof(Logging.ILogger))).To(logger).Build(),
+                new BindingBuilder(Binding.For(typeof(IScheduler))).To(scheduler).Build()
+            };
+
+            var dependencyInversionBootResult = _containerType != null ? 
+                (Dolittle.DependencyInversion.Bootstrap.BootResult)Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, logger, _containerType, bindings):
+                (Dolittle.DependencyInversion.Bootstrap.BootResult)Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, logger, bindings);
+
+            _container = dependencyInversionBootResult.Container;
+
+            var result = new BootloaderResult(_container, typeFinder, assemblies, dependencyInversionBootResult.Bindings);
+
+            if( !_skipBootProcedures ) Bootstrapper.Start(_container);
+
+            return result;
         }
 
-        /*
+        
         LoggingContext GetCurrentLoggingContext()
         {
             Dolittle.Execution.ExecutionContext executionContext = null;
 
-            if( _executionContextManager == null && Container != null )
-                _executionContextManager = Container.Get<IExecutionContextManager>();
+            if( _executionContextManager == null && _container != null )
+                _executionContextManager = _container.Get<IExecutionContextManager>();
 
             if (LoggingContextIsSet())
             {
@@ -148,6 +196,21 @@ namespace Dolittle.Bootstrapping
 
             return loggingContext;
         }
-        */
+
+        bool LoggingContextIsSet() => 
+            _currentLoggingContext != null && _currentLoggingContext.Value != null;
+
+        void SetLatestLoggingContext() => 
+            _currentLoggingContext.Value = CreateLoggingContextFrom(_executionContextManager.Current);
+            
+        
+        LoggingContext CreateLoggingContextFrom(Dolittle.Execution.ExecutionContext executionContext) =>
+            new LoggingContext {
+                Application = executionContext.Application,
+                BoundedContext = executionContext.BoundedContext,
+                CorrelationId = executionContext.CorrelationId,
+                Environment = executionContext.Environment,
+                TenantId = executionContext.Tenant
+            };       
     }
 }

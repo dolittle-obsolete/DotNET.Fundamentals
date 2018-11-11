@@ -8,9 +8,10 @@
     <ItemGroup>
         <ProjectReference Include="..\Assemblies\Assemblies.csproj" />
         <ProjectReference Include="..\Collections\Collections.csproj" />
-        <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
+        <ProjectReference Include="..\DependencyInversion.Bootstrap\DependencyInversion.Bootstrap.csproj" />
         <ProjectReference Include="..\Execution\Execution.csproj" />
         <ProjectReference Include="..\Logging\Logging.csproj" />
+        <ProjectReference Include="..\Resources.Configuration\Resources.Configuration.csproj" />
         <ProjectReference Include="..\Scheduling\Scheduling.csproj" />
         <ProjectReference Include="..\Types\Types.csproj" />
 
