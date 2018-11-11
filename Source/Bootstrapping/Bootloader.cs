@@ -36,7 +36,7 @@ namespace Dolittle.Bootstrapping
 
         bool _skipBootProcedures = false;
         bool _synchronousScheduling = false;
-
+        ILogAppender _logAppender;
         readonly AsyncLocal<LoggingContext>  _currentLoggingContext = new AsyncLocal<LoggingContext>();    
 
         /// <summary>
@@ -72,6 +72,18 @@ namespace Dolittle.Bootstrapping
         /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
         public Bootloader UseLoggerFactory(ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
+            return this;
+        }
+
+        /// <summary>
+        /// Use a specific <see cref="ILogAppender"/>
+        /// </summary>
+        /// <param name="logAppender"><see cref="ILogAppender"/> to use</param>
+        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
+        public Bootloader UseLogAppender(ILogAppender logAppender)
+        {
+            _logAppender = logAppender;
             return this;
         }
 
@@ -137,21 +149,22 @@ namespace Dolittle.Bootstrapping
             IScheduler scheduler = _synchronousScheduling?
                 (IScheduler)new AsyncScheduler():
                 (IScheduler)new SyncScheduler();
-
             
             _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
             var loggerFactory = _loggerFactory;
             if( loggerFactory == null ) loggerFactory = new LoggerFactory();
             
             var environment = _isProduction?Environment.Production:Environment.Development;
-            ILogAppender logAppender = _isProduction?
+            ILogAppender logAppender = _logAppender;
+            
+            if( logAppender == null ) logAppender = _isProduction?
                 (ILogAppender)new JsonLogAppender(GetCurrentLoggingContext):
                 (ILogAppender)new DefaultLogAppender(GetCurrentLoggingContext, loggerFactory);
 
             var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(loggerFactory, logAppender, _entryAssembly);
             var logger = new Logger(logAppenders);
 
-            var assemblies = Dolittle.Assemblies.Bootstrap.Boot.Start(logger, _entryAssembly);
+            var assemblies = Dolittle.Assemblies.Bootstrap.Boot.Start(logger, _entryAssembly, _assemblyProvider);
             var typeFinder = Dolittle.Types.Bootstrap.Boot.Start(assemblies, scheduler, _entryAssembly);
             Dolittle.Resources.Configuration.Bootstrap.Boot.Start(typeFinder);
             
