@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using Dolittle.Lifecycle;
 using Dolittle.Reflection;
 using Dolittle.Types;
-using Dolittle.Execution;
 using Dolittle.Logging;
+using Dolittle.Scheduling;
 
 namespace Dolittle.DependencyInversion.Conventions
 {

@@ -10,6 +10,7 @@ using Dolittle.Assemblies;
 using Dolittle.DependencyInversion.Conventions;
 using Dolittle.Logging;
 using Dolittle.Reflection;
+using Dolittle.Scheduling;
 using Dolittle.Types;
 
 namespace Dolittle.DependencyInversion.Bootstrap
@@ -25,12 +26,13 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// </summary>
         /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
+        /// <param name="scheduler"><see cref="IScheduler"/> for scheduling work</param>
         /// <param name="logger"><see cref="ILogger"/> for doing logging</param>
         /// <returns><see cref="IBindingCollection"/>></returns>
-        public static IBindingCollection DiscoverBindings(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger)
+        public static IBindingCollection DiscoverBindings(IAssemblies assemblies, ITypeFinder typeFinder, IScheduler scheduler, ILogger logger)
         {
             logger.Information("Discover Bindings");
-            var bindingConventionManager = new BindingConventionManager(typeFinder);
+            var bindingConventionManager = new BindingConventionManager(typeFinder, scheduler, logger);
 
             logger.Information("Discover and setup bindings");
             var bindingsFromConventions = bindingConventionManager.DiscoverAndSetupBindings();
@@ -54,10 +56,11 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// </summary>
         /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
+        /// <param name="scheduler"><see cref="IScheduler"/> for scheduling work</param>
         /// <param name="logger"><see cref="ILogger"/> for doing logging</param>
         /// <param name="bindings">Additional bindings</param>
         /// <returns>Configured <see cref="IContainer"/> and <see cref="IBindingCollection"/></returns>
-        public static BootResult Start(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, IEnumerable<Binding> bindings = null)
+        public static BootResult Start(IAssemblies assemblies, ITypeFinder typeFinder, IScheduler scheduler, ILogger logger, IEnumerable<Binding> bindings = null)
         {
             logger.Information("DependencyInversion start");
 
@@ -67,7 +70,7 @@ namespace Dolittle.DependencyInversion.Bootstrap
             otherBindings.Add(Bind(typeof(IContainer), () => container, true));
 
             logger.Information("Build bindings");
-            var bindingCollection = BuildBindings(assemblies, typeFinder, logger, otherBindings);
+            var bindingCollection = BuildBindings(assemblies, typeFinder, scheduler, logger, otherBindings);
 
             logger.Information("Discover container");
             container = DiscoverAndConfigureContainer(assemblies, typeFinder, bindingCollection);
@@ -83,22 +86,23 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
         /// <param name="logger"><see cref="ILogger"/> for doing logging</param>
+        /// <param name="scheduler"><see cref="IScheduler"/> for scheduling work</param>
         /// <param name="containerType"><see cref="Type"/>Container type</param>
         /// <param name="bindings">Additional bindings</param>
         /// <returns>Configured <see cref="IContainer"/> and <see cref="IBindingCollection"/></returns>
-        public static IBindingCollection Start(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, Type containerType, IEnumerable<Binding> bindings = null)
+        public static IBindingCollection Start(IAssemblies assemblies, ITypeFinder typeFinder, IScheduler scheduler, ILogger logger, Type containerType, IEnumerable<Binding> bindings = null)
         {
             var otherBindings = new List<Binding>();
             if( bindings != null ) otherBindings.AddRange(bindings);
             otherBindings.Add(Bind(typeof(IContainer), containerType, true));
-            var bindingCollection = BuildBindings(assemblies, typeFinder, logger, otherBindings);
+            var bindingCollection = BuildBindings(assemblies, typeFinder, scheduler, logger, otherBindings);
             return bindingCollection;
         }
 
-        static IBindingCollection BuildBindings(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, IEnumerable<Binding> bindings)
+        static IBindingCollection BuildBindings(IAssemblies assemblies, ITypeFinder typeFinder, IScheduler scheduler, ILogger logger, IEnumerable<Binding> bindings)
         {
             logger.Information("Discover bindings");
-            var discoveredBindings = DiscoverBindings(assemblies, typeFinder, logger);
+            var discoveredBindings = DiscoverBindings(assemblies, typeFinder, scheduler, logger);
 
             var otherBindings = new List<Binding>();
             
