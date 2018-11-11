@@ -38,7 +38,7 @@ namespace Dolittle.DependencyInversion.Bootstrap
             var bindingsFromConventions = bindingConventionManager.DiscoverAndSetupBindings();
 
             logger.Information("Discover binding providers and get bindings");
-            var bindingsFromProviders = DiscoverBindingProvidersAndGetBindings(typeFinder);
+            var bindingsFromProviders = DiscoverBindingProvidersAndGetBindings(typeFinder, scheduler);
 
             logger.Information("Compose bindings in new collection");
             var bindingCollection = new BindingCollection(bindingsFromConventions, bindingsFromProviders);
@@ -145,12 +145,12 @@ namespace Dolittle.DependencyInversion.Bootstrap
         }
         
 
-        static IBindingCollection DiscoverBindingProvidersAndGetBindings(ITypeFinder typeFinder)
+        static IBindingCollection DiscoverBindingProvidersAndGetBindings(ITypeFinder typeFinder, IScheduler scheduler)
         {
             var bindingProviders = typeFinder.FindMultiple<ICanProvideBindings>();
             var bindingCollections = new ConcurrentBag<IBindingCollection>();
 
-            Parallel.ForEach(bindingProviders, bindingProviderType =>
+            scheduler.PerformForEach(bindingProviders, bindingProviderType =>
             {
                 ThrowIfBindingProviderIsMissingDefaultConstructor(bindingProviderType);
                 var bindingProvider = Activator.CreateInstance(bindingProviderType)as ICanProvideBindings;
