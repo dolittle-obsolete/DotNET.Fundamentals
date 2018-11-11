@@ -1,7 +1,9 @@
-﻿namespace Dolittle.Execution
+﻿/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+namespace Dolittle.Execution
 {
-    //TODO: should not be in Events.Store ... should move to DotNet.Fundamentals
-
     using System;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
