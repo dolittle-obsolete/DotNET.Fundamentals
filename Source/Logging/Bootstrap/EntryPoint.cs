@@ -23,9 +23,9 @@ namespace Dolittle.Logging.Bootstrap
         /// <see cref="ILogAppenders"/>
         /// </summary>
         /// <returns>An instance of <see cref="ILogAppenders"/> that can be used</returns>
-        public static ILogAppenders Initialize(ILoggerFactory loggerFactory)
+        public static ILogAppenders Initialize(ILoggerFactory loggerFactory, Assembly assembly = null)
         {
-            var assembly = Assembly.GetEntryAssembly();
+            if( assembly == null ) assembly = Assembly.GetEntryAssembly();
             var types = assembly.GetTypes();
 
             var configuratorTypes = types.Where(t => t.HasInterface<ICanConfigureLogAppenders>());
