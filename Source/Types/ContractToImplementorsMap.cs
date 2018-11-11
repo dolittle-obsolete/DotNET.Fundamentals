@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Dolittle.Reflection;
+using Dolittle.Scheduling;
 
 namespace Dolittle.Types
 {
@@ -17,8 +18,19 @@ namespace Dolittle.Types
     /// </summary>
     public class ContractToImplementorsMap : IContractToImplementorsMap
     {
+        readonly IScheduler _scheduler;
         ConcurrentDictionary<Type, ConcurrentDictionary<string, Type>> _contractsAndImplementors = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Type>>();
         ConcurrentDictionary<Type, Type> _allTypes = new ConcurrentDictionary<Type, Type>();
+        
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ContractToImplementorsMap"/>
+        /// </summary>
+        /// <param name="scheduler"></param>
+        public ContractToImplementorsMap(IScheduler scheduler)
+        {
+            _scheduler = scheduler;
+        }
 
         /// <inheritdoc/>
         public IEnumerable<Type> All { get { return _allTypes.Keys; } }
@@ -51,7 +63,7 @@ namespace Dolittle.Types
         void MapTypes(IEnumerable<Type> types)
         {
             var implementors = types.Where(IsImplementation);
-            Parallel.ForEach(implementors, implementor =>
+            _scheduler.PerformForEach(implementors, implementor => 
             {
                 var baseAndImplementingTypes = implementor.AllBaseAndImplementingTypes();
                 foreach( var contract in baseAndImplementingTypes ) GetImplementingTypesFor(contract)[GetKeyFor(implementor)] = implementor;

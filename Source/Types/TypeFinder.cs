@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Dolittle.Assemblies;
+using Dolittle.Scheduling;
 
 namespace Dolittle.Types
 {
@@ -17,18 +18,21 @@ namespace Dolittle.Types
     /// </summary>
     public class TypeFinder : ITypeFinder
     {
-        IAssemblies _assemblies;
-        IContractToImplementorsMap _contractToImplementorsMap;
+        readonly IAssemblies _assemblies;
+        readonly IContractToImplementorsMap _contractToImplementorsMap;
+        readonly IScheduler _scheduler;
 
         /// <summary>
         /// Initializes a new instance of <see cref="TypeFinder"/>
         /// </summary>
         /// <param name="assemblies"><see cref="IAssemblies"/> for getting assemblies</param>
         /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
-        public TypeFinder(IAssemblies assemblies, IContractToImplementorsMap contractToImplementorsMap)
+        /// <param name="scheduler"><see cref="IScheduler"/> for scheduling work</param>
+        public TypeFinder(IAssemblies assemblies, IContractToImplementorsMap contractToImplementorsMap, IScheduler scheduler)
         {
             _assemblies = assemblies;
             _contractToImplementorsMap = contractToImplementorsMap;
+            _scheduler = scheduler;
 
             CollectTypes();
         }
@@ -76,7 +80,7 @@ namespace Dolittle.Types
         void CollectTypes()
         {
             var assemblies = _assemblies.GetAll();
-            Parallel.ForEach(assemblies, assembly =>
+            _scheduler.PerformForEach(assemblies, assembly => 
             {
                 try
                 {
