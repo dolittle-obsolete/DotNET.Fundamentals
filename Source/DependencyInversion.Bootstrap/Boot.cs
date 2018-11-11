@@ -25,14 +25,27 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// </summary>
         /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for doing discovery</param>
+        /// <param name="logger"><see cref="ILogger"/> for doing logging</param>
         /// <returns><see cref="IBindingCollection"/>></returns>
-        public static IBindingCollection DiscoverBindings(IAssemblies assemblies, ITypeFinder typeFinder)
+        public static IBindingCollection DiscoverBindings(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger)
         {
+            logger.Information("Discover Bindings");
             var bindingConventionManager = new BindingConventionManager(typeFinder);
+
+            logger.Information("Discover and setup bindings");
             var bindingsFromConventions = bindingConventionManager.DiscoverAndSetupBindings();
+
+            logger.Information("Discover binding providers and get bindings");
             var bindingsFromProviders = DiscoverBindingProvidersAndGetBindings(typeFinder);
 
+            logger.Information("Compose bindings in new collection");
             var bindingCollection = new BindingCollection(bindingsFromConventions, bindingsFromProviders);
+
+            foreach( var binding in bindingCollection )
+            {
+                logger.Information($"Discovered Binding : {binding.Service.AssemblyQualifiedName} - {binding.Strategy.GetType().Name}");
+            }
+
             return bindingCollection;
         }
 
@@ -46,13 +59,20 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// <returns>Configured <see cref="IContainer"/> and <see cref="IBindingCollection"/></returns>
         public static BootResult Start(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, IEnumerable<Binding> bindings = null)
         {
+            logger.Information("DependencyInversion start");
+
             IContainer container = null;
             var otherBindings = new List<Binding>();
             if( bindings != null ) otherBindings.AddRange(bindings);
             otherBindings.Add(Bind(typeof(IContainer), () => container, true));
+
+            logger.Information("Build bindings");
             var bindingCollection = BuildBindings(assemblies, typeFinder, logger, otherBindings);
 
+            logger.Information("Discover container");
             container = DiscoverAndConfigureContainer(assemblies, typeFinder, bindingCollection);
+
+            logger.Information("Return boot result");
             return new BootResult(container, bindingCollection);
         }
 
@@ -77,15 +97,20 @@ namespace Dolittle.DependencyInversion.Bootstrap
 
         static IBindingCollection BuildBindings(IAssemblies assemblies, ITypeFinder typeFinder, ILogger logger, IEnumerable<Binding> bindings)
         {
-            var discoveredBindings = DiscoverBindings(assemblies, typeFinder);
+            logger.Information("Discover bindings");
+            var discoveredBindings = DiscoverBindings(assemblies, typeFinder, logger);
 
             var otherBindings = new List<Binding>();
             
+            logger.Information("Add other bindings");
             otherBindings.Add(Bind(typeof(IAssemblies), assemblies));
             otherBindings.Add(Bind(typeof(ITypeFinder), typeFinder));
             otherBindings.Add(Bind(typeof(ILogger), logger));
 
+            logger.Information("Add bindings found");
             if (bindings != null) otherBindings.AddRange(bindings);
+
+            logger.Information("Create a new binding collection");
 
             var bindingCollection = new BindingCollection(discoveredBindings, otherBindings);
             return bindingCollection;
