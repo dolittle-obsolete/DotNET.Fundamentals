@@ -21,6 +21,11 @@ namespace Dolittle.Tenancy
         /// Gets the tenant used when outside the scope of a tenant, typically the system
         /// </summary>
         public static readonly TenantId System = Guid.Parse("08831584-e016-42f6-bc5e-c4f098fed42b");
+        
+        /// <summary>
+        /// Gets the tenant used for development 
+        /// </summary>
+        public static readonly TenantId Development = Guid.Parse("445f8ea8-1a6f-40d7-b2fc-796dba92dc44");
 
         /// <summary>
         /// Implicitly convert from <see cref="Guid"/> to <see cref="TenantId"/>

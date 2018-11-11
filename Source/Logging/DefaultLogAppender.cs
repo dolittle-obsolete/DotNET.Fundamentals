@@ -5,42 +5,28 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if (NET461)
-using System.Diagnostics;
-#else
 using Microsoft.Extensions.Logging;
-#endif
 
 namespace Dolittle.Logging
 {
-#if (NET461)
-    /// <summary>
-    /// Represents a default implementation of <see cref="ILogAppender"/> for using System.Diagnostics.Debug
-    /// </summary>
-#else
+
     /// <summary>
     /// Represents a default implementation of <see cref="ILogAppender"/> for using ILogger
     /// </summary>
-#endif
     public class DefaultLogAppender : ILogAppender
     {
-#if (NET461)
-        /// <inheritdoc/>
-        public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
-        {
-            Debug.WriteLine($"[{level}] - {message}", $"{filePath}[{lineNumber}] - {member}");
-        }
-#else
+        GetCurrentLoggingContext _getCurrentLoggingContext;
         ILoggerFactory _loggerFactory;
         Dictionary<string, Microsoft.Extensions.Logging.ILogger> _loggers = new Dictionary<string, Microsoft.Extensions.Logging.ILogger>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultLogAppender"/>
         /// </summary>
+        /// <param name="getCurrentLoggingContext"></param>
         /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use</param>
-        public DefaultLogAppender(ILoggerFactory loggerFactory)
+        public DefaultLogAppender(GetCurrentLoggingContext getCurrentLoggingContext, ILoggerFactory loggerFactory)
         {
-            
+            _getCurrentLoggingContext = getCurrentLoggingContext;
             _loggerFactory = loggerFactory;
         }
 
@@ -48,6 +34,8 @@ namespace Dolittle.Logging
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
         {
             Microsoft.Extensions.Logging.ILogger logger;
+            var loggingContext = _getCurrentLoggingContext();
+            
             var loggerKey = Path.GetFileNameWithoutExtension(filePath);
             if (!_loggers.ContainsKey(loggerKey))
             {
@@ -68,6 +56,5 @@ namespace Dolittle.Logging
                 case LogLevel.Error: logger.LogError(0, exception, message); break;
             }
         }
-#endif
     }
 }
