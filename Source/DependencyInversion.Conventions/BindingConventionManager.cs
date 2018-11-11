@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Dolittle.Lifecycle;
 using Dolittle.Reflection;
 using Dolittle.Types;
+using Dolittle.Execution;
+using Dolittle.Logging;
 
 namespace Dolittle.DependencyInversion.Conventions
 {
@@ -21,33 +23,45 @@ namespace Dolittle.DependencyInversion.Conventions
     {
         readonly ITypeFinder _typeFinder;
         readonly List<Type> _conventions;
+        readonly IScheduler _scheduler;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance <see cref="BindingConventionManager"/>
         /// </summary>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> to discover binding conventions with</param>
-        public BindingConventionManager(ITypeFinder typeFinder)
+        /// <param name="scheduler"><see cref="IScheduler"/> used for scheduling work</param>
+        /// <param name="logger"><see cref="ILogger"/> used for logging</param>
+        public BindingConventionManager(ITypeFinder typeFinder, IScheduler scheduler, ILogger logger)
         {
             _typeFinder = typeFinder;
             _conventions = new List<Type>();
+            _scheduler = scheduler;
+            _logger = logger;
         }
 
         /// <inheritdoc/>
         public IBindingCollection DiscoverAndSetupBindings()
         {
+            _logger.Information("Discover and setup bindings");
             var bindingCollections = new ConcurrentBag<IBindingCollection>();
 
             var allTypes = _typeFinder.All;
 
+            _logger.Information("Find all binding conventions");
             var conventionTypes = _typeFinder.FindMultiple<IBindingConvention>();
-            Parallel.ForEach(conventionTypes, conventionType =>
+
+            _scheduler.PerformForEach(conventionTypes, conventionType => 
             {
+                _logger.Information($"Handle convention type {conventionType.AssemblyQualifiedName}");
                 ThrowIfBindingConventionIsMissingDefaultConstructor(conventionType);
+
                 var convention = Activator.CreateInstance(conventionType)as IBindingConvention;
                 var servicesToResolve = allTypes.Where(service => convention.CanResolve(service));
 
                 var bindings = new ConcurrentBag<Binding>();
-                Parallel.ForEach(servicesToResolve, service =>
+
+                _scheduler.PerformForEach(servicesToResolve, service => 
                 {
                     var bindingBuilder = new BindingBuilder(Binding.For(service));
                     convention.Resolve(service, bindingBuilder);
