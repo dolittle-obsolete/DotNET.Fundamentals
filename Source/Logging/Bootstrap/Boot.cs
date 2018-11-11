@@ -16,14 +16,14 @@ namespace Dolittle.Logging.Bootstrap
     /// <summary>
     /// Represents the entrypoint for initializating Logging
     /// </summary>
-    public class EntryPoint
+    public class Boot
     {
         /// <summary>
         /// Discover any <see cref="ICanConfigureLogAppenders"/> from the entry assembly and setup 
         /// <see cref="ILogAppenders"/>
         /// </summary>
         /// <returns>An instance of <see cref="ILogAppenders"/> that can be used</returns>
-        public static ILogAppenders Initialize(ILoggerFactory loggerFactory, GetCurrentLoggingContext getCurrentLoggingContext, Assembly assembly = null)
+        public static ILogAppenders Start(ILoggerFactory loggerFactory, ILogAppender defaultLogAppender = null, Assembly assembly = null)
         {
             if( assembly == null ) assembly = Assembly.GetEntryAssembly();
             var types = assembly.GetTypes();
@@ -31,7 +31,6 @@ namespace Dolittle.Logging.Bootstrap
             var configuratorTypes = types.Where(t => t.HasInterface<ICanConfigureLogAppenders>());
 
             var configurators = new List<ICanConfigureLogAppenders>();
-            configurators.Add(new DefaultLogAppendersConfigurator(loggerFactory, getCurrentLoggingContext, environment));
             configuratorTypes.ForEach(c =>
             {
                 ThrowIfLogAppenderConfiguratorIsMissingDefaultConstructor(c);
@@ -39,7 +38,7 @@ namespace Dolittle.Logging.Bootstrap
                 configurators.Add(configurator);
             });
 
-            var logAppenders = new LogAppenders(configurators);
+            var logAppenders = new LogAppenders(configurators, defaultLogAppender);
             return logAppenders;
         }
 
