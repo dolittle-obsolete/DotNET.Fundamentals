@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using Dolittle.Collections;
 
-namespace Dolittle.Execution
+namespace Dolittle.Scheduling
 {
     /// <summary>
     /// Represents a <see cref="IScheduler"/> for scheduling synchronously

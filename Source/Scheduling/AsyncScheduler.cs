@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Dolittle.Execution
+namespace Dolittle.Scheduling
 {
     /// <summary>
     /// Represents an implementation of <see cref="IScheduler"/> for scheduling asynchronously

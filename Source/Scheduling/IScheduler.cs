@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Dolittle.Execution
+namespace Dolittle.Scheduling
 {
     /// <summary>
     /// Defines an abstraction for scheduling work
