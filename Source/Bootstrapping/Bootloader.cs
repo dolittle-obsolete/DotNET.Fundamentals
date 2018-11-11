@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using Dolittle.Assemblies;
 using Dolittle.DependencyInversion;
+using Dolittle.Execution;
+using Dolittle.Logging;
+using Microsoft.Extensions.Logging;
+using Environment = Dolittle.Execution.Environment;
 
 namespace Dolittle.Bootstrapping
 {
@@ -19,6 +23,9 @@ namespace Dolittle.Bootstrapping
         Assembly _entryAssembly;
         ICanProvideAssemblies   _assemblyProvider;
         Type _containerType;
+        ILoggerFactory _loggerFactory = null;
+        bool _isProduction = true;
+    
 
         /// <summary>
         /// 
@@ -47,11 +54,22 @@ namespace Dolittle.Bootstrapping
         }
 
         /// <summary>
+        /// Use a specific <see cref="ILoggerFactory"/>
+        /// </summary>
+        /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use</param>
+        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
+        public Bootloader UseLoggerFactory(ILoggerFactory loggerFactory)
+        {
+            return this;
+        }
+
+        /// <summary>
         /// Run in development mode
         /// </summary>
         /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
         public Bootloader Development()
         {
+            _isProduction = false;
             return this;
         }
 
@@ -91,6 +109,45 @@ namespace Dolittle.Bootstrapping
         /// </summary>
         public void Start()
         {
+            var l = _loggerFactory;
+            var p = _isProduction;
+            /*
+            ExecutionContextManager.SetInitialExecutionContext();
+            var loggerFactory = _loggerFactory;
+            if( loggerFactory == null ) loggerFactory = new LoggerFactory();
+
+            var environment = _isProduction?Environment.Production:Environment.Development;
+            ILogAppender logAppender = _isProduction?
+                new Json.JsonLogAppender(loggerFactory, GetCurrentLoggingContext, environment):
+                new DefaultLogAppender(GetCurrentLoggingContext, logerFactory);
+
+
+            var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(loggerFactory, logAppender, _entryAssembly);
+            */
         }
+
+        /*
+        LoggingContext GetCurrentLoggingContext()
+        {
+            Dolittle.Execution.ExecutionContext executionContext = null;
+
+            if( _executionContextManager == null && Container != null )
+                _executionContextManager = Container.Get<IExecutionContextManager>();
+
+            if (LoggingContextIsSet())
+            {
+                if (_executionContextManager != null) SetLatestLoggingContext();
+                return _currentLoggingContext.Value;
+            }
+            
+            if( _executionContextManager != null ) executionContext = _executionContextManager.Current;
+            else executionContext = _initialExecutionContext;
+
+            var loggingContext = CreateLoggingContextFrom(executionContext);
+            _currentLoggingContext.Value = loggingContext;
+
+            return loggingContext;
+        }
+        */
     }
 }
