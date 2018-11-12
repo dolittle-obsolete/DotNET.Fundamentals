@@ -147,8 +147,8 @@ namespace Dolittle.Bootstrapping
             var l = _loggerFactory;
             var p = _isProduction;
             IScheduler scheduler = _synchronousScheduling?
-                (IScheduler)new AsyncScheduler():
-                (IScheduler)new SyncScheduler();
+                (IScheduler)new SyncScheduler():
+                (IScheduler)new AsyncScheduler();
             
             _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
             var loggerFactory = _loggerFactory;
@@ -162,7 +162,9 @@ namespace Dolittle.Bootstrapping
                 (ILogAppender)new DefaultLogAppender(GetCurrentLoggingContext, loggerFactory);
 
             var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(loggerFactory, logAppender, _entryAssembly);
-            var logger = new Logger(logAppenders);
+            Logging.ILogger logger = new Logger(logAppenders);
+
+            logger.Information($"Using {scheduler.GetType().Name} as scheduler");
 
             var assemblies = Dolittle.Assemblies.Bootstrap.Boot.Start(logger, _entryAssembly, _assemblyProvider);
             var typeFinder = Dolittle.Types.Bootstrap.Boot.Start(assemblies, scheduler, _entryAssembly);
