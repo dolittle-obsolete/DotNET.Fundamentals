@@ -101,7 +101,7 @@ namespace Dolittle.Bootstrapping
         /// Run solution using synchronous scheduling
         /// </summary>
         /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public Bootloader SynchronousShceduling()
+        public Bootloader SynchronousScheduling()
         {
             _synchronousScheduling = true;
             return this;
@@ -176,13 +176,21 @@ namespace Dolittle.Bootstrapping
                 new BindingBuilder(Binding.For(typeof(IScheduler))).To(scheduler).Build()
             };
 
-            var dependencyInversionBootResult = _containerType != null ? 
-                (Dolittle.DependencyInversion.Bootstrap.BootResult)Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, logger, _containerType, bindings):
-                (Dolittle.DependencyInversion.Bootstrap.BootResult)Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, logger, bindings);
 
-            _container = dependencyInversionBootResult.Container;
+            IBindingCollection resultingBindings;
 
-            var result = new BootloaderResult(_container, typeFinder, assemblies, dependencyInversionBootResult.Bindings);
+            if( _containerType != null ) 
+            {
+                resultingBindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, logger, _containerType, bindings);
+            } 
+            else 
+            {
+                var bootResult = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, logger, bindings);
+                resultingBindings = bootResult.Bindings;
+                _container = bootResult.Container;
+            }
+
+            var result = new BootloaderResult(_container, typeFinder, assemblies, resultingBindings);
 
             if( !_skipBootProcedures ) Bootstrapper.Start(_container);
 
