@@ -192,10 +192,10 @@ namespace Dolittle.Bootstrapping
 
             var result = new BootloaderResult(_container, typeFinder, assemblies, resultingBindings);
 
-            if( !_skipBootProcedures ) Bootstrapper.Start(_container);
+            if( !_skipBootProcedures && _container != null ) Bootstrapper.Start(_container);
 
             return result;
-        }
+        }     
 
         
         LoggingContext GetCurrentLoggingContext()
