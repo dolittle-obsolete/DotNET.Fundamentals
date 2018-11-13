@@ -9,13 +9,13 @@ namespace Dolittle.Resources.Configuration.Bootstrap
     /// <summary>
     /// Represents the entrypoint for bootstrapping the Resource System
     /// </summary>
-    public class EntryPoint
+    public class Boot
     {
         /// <summary>
         /// Initializes the Resource System 
         /// </summary>
         /// <param name="typeFinder"></param>
-        public static void Initialize(ITypeFinder typeFinder)
+        public static void Start(ITypeFinder typeFinder)
         {
             ResourceSystemBindings.TypeFinder = typeFinder;
         } 

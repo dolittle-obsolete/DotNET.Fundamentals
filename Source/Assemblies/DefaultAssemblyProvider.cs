@@ -20,10 +20,11 @@ namespace Dolittle.Assemblies
         /// Initializes a new instance of <see cref="DefaultAssemblyProvider"/>
         /// </summary>
         /// <param name="logger">Logger for logging</param>
-        public DefaultAssemblyProvider(ILogger logger)
+        /// <param name="entryAssembly"><see cref="Assembly">Entry assembly</see> - if null, it will try to get entry assembly</param>
+        public DefaultAssemblyProvider(ILogger logger, Assembly entryAssembly = null)
         {
-            var entryAssembly = Assembly.GetEntryAssembly();
-            var dependencyModel = DependencyContext.Load(entryAssembly); 
+            if( entryAssembly == null ) entryAssembly = Assembly.GetEntryAssembly();
+            var dependencyModel = DependencyContext.Load(entryAssembly);
 
             logger.Information($"Dependency model has {dependencyModel.RuntimeLibraries.Count()} libraries");
             Libraries = dependencyModel.RuntimeLibraries.Cast<RuntimeLibrary>().Where(_ => _.RuntimeAssemblyGroups.Count() > 0).ToArray();

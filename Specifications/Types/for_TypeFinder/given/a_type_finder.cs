@@ -5,6 +5,7 @@
 using System;
 using System.Reflection;
 using Dolittle.Assemblies;
+using Dolittle.Scheduling;
 using Machine.Specifications;
 using Moq;
 
@@ -38,7 +39,7 @@ namespace Dolittle.Types.Specs.for_TypeFinder.given
 
             contract_to_implementors_map_mock = new Mock<IContractToImplementorsMap>();
             contract_to_implementors_map_mock.SetupGet(c => c.All).Returns(types);            
-            type_finder = new TypeFinder(assemblies_mock.Object, contract_to_implementors_map_mock.Object);
+            type_finder = new TypeFinder(assemblies_mock.Object, contract_to_implementors_map_mock.Object, new SyncScheduler());
         };
     }
 }

@@ -17,6 +17,16 @@ namespace Dolittle.Execution
         public static readonly Environment Undetermined = "Undetermined";
 
         /// <summary>
+        /// Represents a production like environment 
+        /// </summary>
+        public static readonly Environment Production = "Production";
+
+        /// <summary>
+        /// Represents a development like environment
+        /// </summary>
+        public static readonly Environment Development = "Development";
+
+        /// <summary>
         /// Implicitly convert from <see cref="string"/> to <see cref="Environment"/>
         /// </summary>
         public static implicit operator Environment(string environment)

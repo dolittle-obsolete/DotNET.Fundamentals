@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Machine.Specifications;
+using Dolittle.Scheduling;
 
 namespace Dolittle.Types.Specs.for_ContractToImplementorsMap.given
 {
@@ -10,6 +11,6 @@ namespace Dolittle.Types.Specs.for_ContractToImplementorsMap.given
     {
         protected static ContractToImplementorsMap map;
 
-        Establish context = () => map = new ContractToImplementorsMap();
+        Establish context = () => map = new ContractToImplementorsMap(new SyncScheduler());
     }
 }
