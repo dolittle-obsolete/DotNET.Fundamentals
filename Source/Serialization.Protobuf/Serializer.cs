@@ -167,15 +167,10 @@ namespace Dolittle.Serialization.Protobuf
             {
                 value = inputStream.ReadBool();
             }
-            else if (type == typeof(DateTimeOffset))
+            else if (type == typeof(DateTimeOffset) || type == typeof(DateTime))
             {
-                value = DateTimeOffset.FromFileTime(inputStream.ReadInt64());
+                value = DateTimeOffset.FromUnixTimeMilliseconds(inputStream.ReadInt64());
             }
-            else if (type == typeof(DateTime))
-            {
-                value = DateTime.FromFileTimeUtc(inputStream.ReadInt64());
-            }
-
             if (converter != null) value = converter.ConvertFrom(targetType, value);
             return value;
         }
@@ -232,15 +227,10 @@ namespace Dolittle.Serialization.Protobuf
                 outputStream.WriteTag(number, WireType.Varint);
                 outputStream.WriteBool((bool)value);
             }
-            else if (type == typeof(DateTimeOffset))
+            else if (type == typeof(DateTimeOffset) || type == typeof(DateTime))
             {
                 outputStream.WriteTag(number, WireType.Varint);
-                outputStream.WriteInt64(((DateTimeOffset)value).ToFileTime());
-            }
-            else if (type == typeof(DateTime))
-            {
-                outputStream.WriteTag(number, WireType.Varint);
-                outputStream.WriteInt64(((DateTime)value).ToFileTimeUtc());
+                outputStream.WriteInt64(((DateTimeOffset)value).ToUnixTimeMilliseconds());
             }
         }
 
@@ -304,13 +294,9 @@ namespace Dolittle.Serialization.Protobuf
                 {
                     size += CodedOutputStream.ComputeBoolSize((bool) value);
                 }
-                else if (type == typeof(DateTimeOffset) )
+                else if (type == typeof(DateTimeOffset) || type == typeof(DateTime))
                 {
-                    size += CodedOutputStream.ComputeInt64Size(((DateTimeOffset)value).ToFileTime());
-                }
-                else if (type == typeof(DateTime) )
-                {
-                    size += CodedOutputStream.ComputeInt64Size(((DateTime)value).ToFileTimeUtc());
+                    size += CodedOutputStream.ComputeInt64Size(((DateTimeOffset)value).ToUnixTimeMilliseconds());
                 }
             });
 
