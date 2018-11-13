@@ -34,26 +34,29 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// <param name="logger"><see cref="ILogger"/> for doing logging</param>
         /// <param name="bindings">Additional bindings</param>
         /// <returns>Configured <see cref="IContainer"/> and <see cref="IBindingCollection"/></returns>
-        public static BootResult Start(IAssemblies assemblies, ITypeFinder typeFinder, IScheduler scheduler, ILogger logger, IEnumerable<Binding> bindings = null)
+        public static BootResult Start(
+            IAssemblies assemblies,
+            ITypeFinder typeFinder,
+            IScheduler scheduler,
+            ILogger logger,
+            IEnumerable<Binding> bindings = null)
         {
             logger.Information("DependencyInversion start");
             var bootContainer = new BootContainer(assemblies, typeFinder, scheduler, logger, () => _container);
             _container = bootContainer;
 
-            IContainer container = null;
             var otherBindings = new List<Binding>();
             if( bindings != null ) otherBindings.AddRange(bindings);
-            otherBindings.Add(Bind(typeof(IContainer), () => container, true));
+            otherBindings.Add(Bind(typeof(IContainer), () => _container, false));
 
             logger.Information("Build bindings");
             var bindingCollection = BuildBindings(bootContainer, assemblies, typeFinder, scheduler, logger, otherBindings);
 
             logger.Information("Discover container");
-            container = DiscoverAndConfigureContainer(bootContainer, assemblies, typeFinder, bindingCollection);
-            _container = container;
+            _container = DiscoverAndConfigureContainer(bootContainer, assemblies, typeFinder, bindingCollection);
 
             logger.Information("Return boot result");
-            return new BootResult(container, bindingCollection);
+            return new BootResult(_container, bindingCollection);
         }
 
 
