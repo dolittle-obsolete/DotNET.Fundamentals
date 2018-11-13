@@ -8,6 +8,20 @@ namespace Dolittle.Time
     public static class DateTimeExtensions
     {
         /// <summary>
+        /// Performs a lossy equals algorithm
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static bool LossyEquals(this DateTime first, DateTimeOffset second) => second.LossyEquals(first);
+        /// <summary>
+        /// Performs a lossy equals algorithm
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static bool LossyEquals(this DateTime first, DateTime second) => new DateTimeOffset(first.ToUniversalTime()).LossyEquals((second.ToUniversalTime()));
+        /// <summary>
         /// Converts the date to Unix Time in Milliseconds
         /// </summary>
         /// <param name="dateTime"></param>

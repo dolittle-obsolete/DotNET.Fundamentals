@@ -170,6 +170,7 @@ namespace Dolittle.Serialization.Protobuf
             else if (type == typeof(DateTimeOffset) || type == typeof(DateTime))
             {
                 value = DateTimeOffset.FromUnixTimeMilliseconds(inputStream.ReadInt64());
+                if (type == typeof(DateTime)) value = ((DateTimeOffset)value).UtcDateTime;
             }
             if (converter != null) value = converter.ConvertFrom(targetType, value);
             return value;
@@ -227,10 +228,15 @@ namespace Dolittle.Serialization.Protobuf
                 outputStream.WriteTag(number, WireType.Varint);
                 outputStream.WriteBool((bool)value);
             }
-            else if (type == typeof(DateTimeOffset) || type == typeof(DateTime))
+            else if (type == typeof(DateTimeOffset))
             {
                 outputStream.WriteTag(number, WireType.Varint);
                 outputStream.WriteInt64(((DateTimeOffset)value).ToUnixTimeMilliseconds());
+            }
+            else if (type == typeof(DateTime))
+            {
+                outputStream.WriteTag(number, WireType.Varint);
+                outputStream.WriteInt64(new DateTimeOffset(((DateTime)value).ToUniversalTime()).ToUnixTimeMilliseconds());
             }
         }
 
@@ -294,9 +300,13 @@ namespace Dolittle.Serialization.Protobuf
                 {
                     size += CodedOutputStream.ComputeBoolSize((bool) value);
                 }
-                else if (type == typeof(DateTimeOffset) || type == typeof(DateTime))
+                else if (type == typeof(DateTimeOffset))
                 {
                     size += CodedOutputStream.ComputeInt64Size(((DateTimeOffset)value).ToUnixTimeMilliseconds());
+                }
+                else if (type == typeof(DateTime))
+                {
+                    size += CodedOutputStream.ComputeInt64Size(new DateTimeOffset(((DateTime)value).ToUniversalTime()).ToUnixTimeMilliseconds());
                 }
             });
 
