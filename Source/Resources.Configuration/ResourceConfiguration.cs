@@ -51,6 +51,7 @@ namespace Dolittle.Resources.Configuration
         /// <inheritdoc/>
         public void ConfigureResourceTypes(IDictionary<ResourceType, ResourceTypeImplementation> resourceTypeToImplementationMap)
         {
+            if (IsConfigured) throw new ResourceConfigurationAlreadyConfigured();
             _resources = resourceTypeToImplementationMap;
             IsConfigured = true;
         }
