@@ -25,19 +25,26 @@ namespace Dolittle.DependencyInversion.Conventions
         readonly List<Type> _conventions;
         readonly IScheduler _scheduler;
         readonly ILogger _logger;
+        private readonly IContainer _bootContainer;
 
         /// <summary>
         /// Initializes a new instance <see cref="BindingConventionManager"/>
         /// </summary>
+        /// <param name="bootContainer"><see cref="IContainer"/> used during booting</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> to discover binding conventions with</param>
         /// <param name="scheduler"><see cref="IScheduler"/> used for scheduling work</param>
         /// <param name="logger"><see cref="ILogger"/> used for logging</param>
-        public BindingConventionManager(ITypeFinder typeFinder, IScheduler scheduler, ILogger logger)
+        public BindingConventionManager(
+            IContainer bootContainer,
+            ITypeFinder typeFinder,
+            IScheduler scheduler,
+            ILogger logger)
         {
             _typeFinder = typeFinder;
             _conventions = new List<Type>();
             _scheduler = scheduler;
             _logger = logger;
+            _bootContainer = bootContainer;
         }
 
         /// <inheritdoc/>
@@ -54,9 +61,8 @@ namespace Dolittle.DependencyInversion.Conventions
             _scheduler.PerformForEach(conventionTypes, conventionType => 
             {
                 _logger.Information($"Handle convention type {conventionType.AssemblyQualifiedName}");
-                ThrowIfBindingConventionIsMissingDefaultConstructor(conventionType);
 
-                var convention = Activator.CreateInstance(conventionType)as IBindingConvention;
+                var convention = _bootContainer.Get(conventionType) as IBindingConvention;
                 var servicesToResolve = allTypes.Where(service => convention.CanResolve(service));
 
                 var bindings = new ConcurrentBag<Binding>();
@@ -74,11 +80,6 @@ namespace Dolittle.DependencyInversion.Conventions
 
             var aggregatedBindingCollection = new BindingCollection(bindingCollections.ToArray());
             return aggregatedBindingCollection;
-        }
-
-        static void ThrowIfBindingConventionIsMissingDefaultConstructor(Type bindingProvider)
-        {
-            if (!bindingProvider.HasDefaultConstructor())throw new BindingConventionMustHaveADefaultConstructor(bindingProvider);
         }
     }
 }
