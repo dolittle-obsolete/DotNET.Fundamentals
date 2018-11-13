@@ -16,28 +16,31 @@ namespace Dolittle.DependencyInversion.Bootstrap
     /// <summary>
     /// Represents a <see cref="IContainer"/> used during booting
     /// </summary>
-    public class BootContainer : IContainer
+    internal class BootContainer : IContainer
     {
         readonly Dictionary<Type, object>    _bindings;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="BootContainer"/>
         /// </summary>
-        /// <param name="assemblies"></param>
-        /// <param name="typeFinder"></param>
-        /// <param name="scheduler"></param>
-        /// <param name="logger"></param>
+        /// <param name="assemblies"><see cref="IAssemblies"/> with all assemblies available</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding available types</param>
+        /// <param name="scheduler"><see cref="IScheduler"/> for scheduling work</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        /// <param name="getContainer"><see cref="GetContainer"/> for getting container</param>
         public BootContainer(
             IAssemblies assemblies,
             ITypeFinder typeFinder,
             IScheduler scheduler,
-            ILogger logger)
+            ILogger logger,
+            GetContainer getContainer)
         {
             _bindings = new Dictionary<Type, object> {
                 { typeof(IAssemblies), assemblies },
                 { typeof(ITypeFinder), typeFinder },
                 { typeof(IScheduler), scheduler },
-                { typeof(ILogger), logger }
+                { typeof(ILogger), logger },
+                { typeof(GetContainer), getContainer }
             };
         }
 

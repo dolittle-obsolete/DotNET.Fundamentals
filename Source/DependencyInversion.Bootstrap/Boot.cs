@@ -23,6 +23,8 @@ namespace Dolittle.DependencyInversion.Bootstrap
     /// </summary>
     public class Boot
     {
+        static IContainer _container;
+
         /// <summary>
         /// Initialize the entire DependencyInversion pipeline
         /// </summary>
@@ -35,7 +37,8 @@ namespace Dolittle.DependencyInversion.Bootstrap
         public static BootResult Start(IAssemblies assemblies, ITypeFinder typeFinder, IScheduler scheduler, ILogger logger, IEnumerable<Binding> bindings = null)
         {
             logger.Information("DependencyInversion start");
-            var bootContainer = new BootContainer(assemblies, typeFinder, scheduler, logger);
+            var bootContainer = new BootContainer(assemblies, typeFinder, scheduler, logger, () => _container);
+            _container = bootContainer;
 
             IContainer container = null;
             var otherBindings = new List<Binding>();
@@ -47,6 +50,7 @@ namespace Dolittle.DependencyInversion.Bootstrap
 
             logger.Information("Discover container");
             container = DiscoverAndConfigureContainer(bootContainer, assemblies, typeFinder, bindingCollection);
+            _container = container;
 
             logger.Information("Return boot result");
             return new BootResult(container, bindingCollection);
@@ -71,13 +75,23 @@ namespace Dolittle.DependencyInversion.Bootstrap
             Type containerType,
             IEnumerable<Binding> bindings = null)
         {
-            var bootContainer = new BootContainer(assemblies, typeFinder, scheduler, logger);
+            var bootContainer = new BootContainer(assemblies, typeFinder, scheduler, logger, () => _container);
+            _container = bootContainer;
 
             var otherBindings = new List<Binding>();
             if( bindings != null ) otherBindings.AddRange(bindings);
             otherBindings.Add(Bind(typeof(IContainer), containerType, true));
             var bindingCollection = BuildBindings(bootContainer, assemblies, typeFinder, scheduler, logger, otherBindings);
             return bindingCollection;
+        }
+
+        /// <summary>
+        /// Method that gets called when <see cref="IContainer"/> is ready
+        /// </summary>
+        /// <param name="container"><see cref="IContainer"/> instance</param>
+        public static void ContainerReady(IContainer container)
+        {
+            _container = container;
         }
 
         static IBindingCollection BuildBindings(
