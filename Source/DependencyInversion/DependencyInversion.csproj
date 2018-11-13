@@ -9,8 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Assemblies\Assemblies.csproj" />
     <ProjectReference Include="..\Collections\Collections.csproj" />
-    <ProjectReference Include="..\Reflection\Reflection.csproj" />
     <ProjectReference Include="..\Lifecycle\Lifecycle.csproj" />
+    <ProjectReference Include="..\Reflection\Reflection.csproj" />
   </ItemGroup>  
 
 </Project>
