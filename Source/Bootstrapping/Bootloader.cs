@@ -181,6 +181,7 @@ namespace Dolittle.Bootstrapping
 
             if( _containerType != null ) 
             {
+                logger.Information($"Starting DependencyInversion with predefined container type '{_containerType.AssemblyQualifiedName}'");
                 resultingBindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, logger, _containerType, bindings);
             } 
             else 
@@ -188,6 +189,7 @@ namespace Dolittle.Bootstrapping
                 var bootResult = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, logger, bindings);
                 resultingBindings = bootResult.Bindings;
                 _container = bootResult.Container;
+                logger.Information($"Using container of type '{_container.GetType().AssemblyQualifiedName}'");
             }
 
             var result = new BootloaderResult(_container, typeFinder, assemblies, resultingBindings);
