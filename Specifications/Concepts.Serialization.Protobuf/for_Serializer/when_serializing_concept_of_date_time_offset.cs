@@ -2,6 +2,7 @@ using System;
 using Dolittle.Concepts;
 using Machine.Specifications;
 using Dolittle.Serialization.Protobuf;
+using Dolittle.Time;
 
 namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer
 {
@@ -28,6 +29,6 @@ namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer
             deserialized = serializer.FromProtobuf<type_for_serialization>(bytes);
         };
 
-        It should_hold_the_correct_value = () => deserialized.concept.ShouldEqual(original.concept);
+        It should_hold_the_correct_value = () => deserialized.concept.Value.LossyEquals(original.concept.Value).ShouldBeTrue();
     }
 }

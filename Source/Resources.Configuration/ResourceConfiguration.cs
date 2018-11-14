@@ -16,6 +16,8 @@ namespace Dolittle.Resources.Configuration
     [Singleton]
     public class ResourceConfiguration : IResourceConfiguration
     {
+        /// <inherit/>
+        public bool IsConfigured {get; private set;}
         ITypeFinder _typeFinder;
         IEnumerable<IRepresentAResourceType> _resourceTypeRepresentations;
         IDictionary<ResourceType, ResourceTypeImplementation> _resources = new Dictionary<ResourceType, ResourceTypeImplementation>();
@@ -47,10 +49,11 @@ namespace Dolittle.Resources.Configuration
             return results[0].Bindings[service];
         }
         /// <inheritdoc/>
-        public void SetResourceType(ResourceType resourceType, ResourceTypeImplementation resourceTypeImplementation)
+        public void ConfigureResourceTypes(IDictionary<ResourceType, ResourceTypeImplementation> resourceTypeToImplementationMap)
         {
-            if (_resources.ContainsKey(resourceType)) throw new ResourceTypeAlreadySet(resourceType, resourceTypeImplementation);
-            _resources.Add(resourceType, resourceTypeImplementation);
+            if (IsConfigured) throw new ResourceConfigurationAlreadyConfigured();
+            _resources = resourceTypeToImplementationMap;
+            IsConfigured = true;
         }
         
         void ThrowIfNoDefaultConstructor(Type resourceTypeRepresentationType)

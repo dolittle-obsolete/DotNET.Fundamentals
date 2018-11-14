@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 
 namespace Dolittle.Resources.Configuration
 {
@@ -12,6 +13,11 @@ namespace Dolittle.Resources.Configuration
     public interface IResourceConfiguration
     {
         /// <summary>
+        /// Gets whether or not the resource configuration system is configured
+        /// </summary>
+        /// <value></value>
+        bool IsConfigured {get;}
+        /// <summary>
         /// Gets the implementation for a specific service
         /// </summary>
         /// <param name="service"></param>
@@ -20,9 +26,8 @@ namespace Dolittle.Resources.Configuration
         /// <summary>
         /// Sets the ResourceType to ResourceTypeImplementation mapping 
         /// </summary>
-        /// <param name="resourceType"></param>
-        /// <param name="resourceTypeImplementation"></param>
-        void SetResourceType(ResourceType resourceType, ResourceTypeImplementation resourceTypeImplementation);
+        /// <param name="resourceTypeToImplementationMap"></param>
+        void ConfigureResourceTypes(IDictionary<ResourceType, ResourceTypeImplementation> resourceTypeToImplementationMap);
         
     }
 }
