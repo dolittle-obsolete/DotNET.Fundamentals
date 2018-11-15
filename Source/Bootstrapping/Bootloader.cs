@@ -198,7 +198,7 @@ namespace Dolittle.Bootstrapping
 
             if( !_skipBootProcedures && _container != null ) Bootstrapper.Start(_container);
 
-            _container.Get<IExecutionContextManager>().SetConstants(_container.Get<Application>(), _container.Get<BoundedContext>(), environment);
+            if (_container != null) _container.Get<IExecutionContextManager>().SetConstants(_container.Get<Application>(), _container.Get<BoundedContext>(), environment);
 
             return result;
         }     
