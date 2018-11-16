@@ -27,7 +27,7 @@ namespace Dolittle.Assemblies
         /// <param name="assembly">Assembly the context is for</param>
         public AssemblyContext(Assembly assembly)
         {           
-            AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(Assembly);
+            AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
             AssemblyLoadContext.Resolving += OnResolving;
 
             DependencyContext = DependencyContext.Load(Assembly);
