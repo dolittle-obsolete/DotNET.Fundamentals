@@ -27,10 +27,12 @@ namespace Dolittle.Assemblies
         /// <param name="assembly">Assembly the context is for</param>
         public AssemblyContext(Assembly assembly)
         {           
+            Assembly = assembly;
+            
             AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
             AssemblyLoadContext.Resolving += OnResolving;
 
-            DependencyContext = DependencyContext.Load(Assembly);
+            DependencyContext = DependencyContext.Load(assembly);
 
             var basePath = Path.GetDirectoryName(assembly.CodeBase);
 
