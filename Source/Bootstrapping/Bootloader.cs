@@ -168,7 +168,6 @@ namespace Dolittle.Bootstrapping
 
             var assemblies = Dolittle.Assemblies.Bootstrap.Boot.Start(logger, _entryAssembly, _assemblyProvider);
             var typeFinder = Dolittle.Types.Bootstrap.Boot.Start(assemblies, scheduler, _entryAssembly);
-            Dolittle.Resources.Configuration.Bootstrap.Boot.Start(typeFinder);
             
             var bindings = new[] {
                 new BindingBuilder(Binding.For(typeof(IAssemblies))).To(assemblies).Build(),
