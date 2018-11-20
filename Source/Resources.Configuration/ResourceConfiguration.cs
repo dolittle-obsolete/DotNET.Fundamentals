@@ -41,7 +41,11 @@ namespace Dolittle.Resources.Configuration
         /// <inheritdoc/>
         public Type GetImplementationFor(Type service)
         {
+            _logger.Information($"Get implementation for {service.AssemblyQualifiedName}");
             var resourceTypesRepresentationsWithService = _resourceTypeRepresentations.Where(_ => _.Bindings.ContainsKey(service));
+
+            resourceTypesRepresentationsWithService.ForEach(_ => _logger.Information($"Resource type with service binding : {_.ImplementationName}"));
+
             var results = resourceTypesRepresentationsWithService.Where(_ => {
                 var resourceType = _.Type;
                 if (! _resources.ContainsKey(resourceType)) return false;
@@ -54,6 +58,7 @@ namespace Dolittle.Resources.Configuration
 
             return results[0].Bindings[service];
         }
+        
         /// <inheritdoc/>
         public void SetResourceType(ResourceType resourceType, ResourceTypeImplementation resourceTypeImplementation)
         {
