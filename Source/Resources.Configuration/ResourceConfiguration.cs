@@ -9,6 +9,7 @@ using Dolittle.Lifecycle;
 using Dolittle.Types;
 using Dolittle.Collections;
 using Dolittle.Reflection;
+using Dolittle.Logging;
 
 namespace Dolittle.Resources.Configuration
 {
@@ -16,18 +17,25 @@ namespace Dolittle.Resources.Configuration
     [Singleton]
     public class ResourceConfiguration : IResourceConfiguration
     {
-        ITypeFinder _typeFinder;
-        IEnumerable<IRepresentAResourceType> _resourceTypeRepresentations;
-        IDictionary<ResourceType, ResourceTypeImplementation> _resources = new Dictionary<ResourceType, ResourceTypeImplementation>();
+        readonly ITypeFinder _typeFinder;
+        readonly ILogger _logger;
+        readonly IEnumerable<IRepresentAResourceType> _resourceTypeRepresentations;
+        readonly IDictionary<ResourceType, ResourceTypeImplementation> _resources = new Dictionary<ResourceType, ResourceTypeImplementation>();
 
         /// <inheritdoc/>
-        public ResourceConfiguration(ITypeFinder typeFinder)
+        public ResourceConfiguration(ITypeFinder typeFinder, ILogger logger)
         {
             _typeFinder = typeFinder;
             var resourceTypeRepresentationTypes = _typeFinder.FindMultiple<IRepresentAResourceType>();
-            resourceTypeRepresentationTypes.ForEach(_ => ThrowIfNoDefaultConstructor(_));
+            resourceTypeRepresentationTypes.ForEach(_ => 
+            {
+                logger.Information($"Discovered resource type representation : '{_.AssemblyQualifiedName}'");
+                ThrowIfNoDefaultConstructor(_);
+            });
+
             _resourceTypeRepresentations = resourceTypeRepresentationTypes.Select(_ => Activator.CreateInstance(_) as IRepresentAResourceType);
             ThrowIfMultipleResourcesWithSameTypeAndImplementation(_resourceTypeRepresentations);
+            _logger = logger;
         }
 
         /// <inheritdoc/>

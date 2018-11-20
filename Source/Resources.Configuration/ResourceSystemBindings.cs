@@ -9,6 +9,7 @@ using Dolittle.DependencyInversion;
 using Dolittle.Reflection;
 using Dolittle.Types;
 using Dolittle.Collections;
+using Dolittle.Logging;
 
 namespace Dolittle.Resources.Configuration
 {
@@ -17,16 +18,29 @@ namespace Dolittle.Resources.Configuration
     /// </summary>
     public class ResourceSystemBindings : ICanProvideBindings
     {
-        internal static ITypeFinder TypeFinder;
+        readonly ITypeFinder _typeFinder;
+        readonly ILogger _logger;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ResourceSystemBindings"/>
+        /// </summary>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> used for discovering types by the resource system</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public ResourceSystemBindings(ITypeFinder typeFinder, ILogger logger)
+        {
+            _typeFinder = typeFinder;
+            _logger = logger;
+        }
+
 
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
             builder.Bind<ICanProvideResourceConfigurationsByTenant>().To<DolittleResourceConfigurationsByTenantProvider>();
-            var resourceConfiguration = new ResourceConfiguration(TypeFinder);
+            var resourceConfiguration = new ResourceConfiguration(_typeFinder, _logger);
             builder.Bind<IResourceConfiguration>().To(resourceConfiguration);
 
-            var resourceTypeTypes = TypeFinder.FindMultiple<IAmAResourceType>();
+            var resourceTypeTypes = _typeFinder.FindMultiple<IAmAResourceType>();
             resourceTypeTypes.ForEach(_ => ThrowIfNoDefaultConstructor(_));
 
             var resourceTypeServices = resourceTypeTypes.Select(_ => Activator.CreateInstance(_) as IAmAResourceType).SelectMany(_ => _.Services);
