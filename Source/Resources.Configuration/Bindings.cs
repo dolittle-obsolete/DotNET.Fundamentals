@@ -16,17 +16,17 @@ namespace Dolittle.Resources.Configuration
     /// <summary>
     /// Represents a system that provides the bindings for the Resource system
     /// </summary>
-    public class ResourceSystemBindings : ICanProvideBindings
+    public class Bindings : ICanProvideBindings
     {
         readonly ITypeFinder _typeFinder;
         readonly ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ResourceSystemBindings"/>
+        /// Initializes a new instance of <see cref="Bindings"/>
         /// </summary>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> used for discovering types by the resource system</param>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
-        public ResourceSystemBindings(ITypeFinder typeFinder, ILogger logger)
+        public Bindings(ITypeFinder typeFinder, ILogger logger)
         {
             _typeFinder = typeFinder;
             _logger = logger;
@@ -36,7 +36,7 @@ namespace Dolittle.Resources.Configuration
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
-            builder.Bind<ICanProvideResourceConfigurationsByTenant>().To<DolittleResourceConfigurationsByTenantProvider>();
+            builder.Bind<ICanProvideResourceConfigurationsByTenant>().To<ResourceConfigurationsByTenantProvider>();
             var resourceConfiguration = new ResourceConfiguration(_typeFinder, _logger);
             builder.Bind<IResourceConfiguration>().To(resourceConfiguration);
 
