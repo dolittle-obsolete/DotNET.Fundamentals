@@ -1,4 +1,5 @@
 using System;
+using Dolittle.Time;
 using Machine.Specifications;
 
 namespace Dolittle.Serialization.Protobuf.for_Serializer
@@ -39,8 +40,9 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
         It should_hold_the_correct_float = () => deserialized.a_float.ShouldEqual(original.a_float);
         It should_hold_the_correct_double = () => deserialized.a_double.ShouldEqual(original.a_double);
         It should_hold_the_correct_string = () => deserialized.a_string.ShouldEqual(original.a_string);
-        It should_hold_the_correct_date_time = () => deserialized.a_date_time.ShouldEqual(original.a_date_time);
-        It should_hold_the_correct_date_time_offset = () => deserialized.a_date_time_offset.ShouldEqual(original.a_date_time_offset);
+        It should_hold_the_correct_date_time = () => deserialized.a_date_time.LossyEquals(original.a_date_time).ShouldBeTrue();
+        It should_hold_the_correct_date_time_offset = () => deserialized.a_date_time_offset.LossyEquals(original.a_date_time_offset).ShouldBeTrue();
+
         
     }
 }

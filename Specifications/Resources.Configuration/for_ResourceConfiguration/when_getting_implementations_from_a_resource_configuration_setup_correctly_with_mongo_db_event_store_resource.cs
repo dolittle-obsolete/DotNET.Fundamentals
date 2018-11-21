@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using Dolittle.Resources.Configuration.Specs.given;
 using Machine.Specifications;
 
@@ -23,7 +24,7 @@ namespace Dolittle.Resources.Configuration.Specs.for_ResourceConfiguration
         Establish context = () => 
         {
             resource_configuration = new ResourceConfiguration(type_finder_mock.Object);
-            resource_configuration.SetResourceType(second_resource_type, first_resource_type_implementation);
+            resource_configuration.ConfigureResourceTypes(new Dictionary<ResourceType, ResourceTypeImplementation>{{second_resource_type, first_resource_type_implementation}});
         };
 
         Because of = () => 

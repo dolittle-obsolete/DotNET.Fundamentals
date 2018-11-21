@@ -8,6 +8,8 @@
   <Import Project="../../Build/MSBuild/specs.props"></Import>
 
   <ItemGroup>
+
+    <ProjectReference Include="..\..\Source\Time\Time.csproj" />
     <ProjectReference Include="..\..\Source\Serialization.Protobuf\Serialization.Protobuf.csproj" />
     <ProjectReference Include="..\..\Source\Concepts.Serialization.Protobuf\Concepts.Serialization.Protobuf.csproj" />
   </ItemGroup>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+using Dolittle.Applications;
 using Dolittle.Assemblies;
 using Dolittle.DependencyInversion;
 using Dolittle.Execution;
@@ -172,7 +173,8 @@ namespace Dolittle.Bootstrapping
             var bindings = new[] {
                 new BindingBuilder(Binding.For(typeof(IAssemblies))).To(assemblies).Build(),
                 new BindingBuilder(Binding.For(typeof(Logging.ILogger))).To(logger).Build(),
-                new BindingBuilder(Binding.For(typeof(IScheduler))).To(scheduler).Build()
+                new BindingBuilder(Binding.For(typeof(IScheduler))).To(scheduler).Build(),
+                new BindingBuilder(Binding.For(typeof(Environment))).To(environment).Build()
             };
 
 
@@ -194,6 +196,8 @@ namespace Dolittle.Bootstrapping
             var result = new BootloaderResult(_container, typeFinder, assemblies, resultingBindings);
 
             if( !_skipBootProcedures && _container != null ) Bootstrapper.Start(_container);
+
+            if (_container != null) _container.Get<IExecutionContextManager>().SetConstants(_container.Get<Application>(), _container.Get<BoundedContext>(), environment);
 
             return result;
         }     

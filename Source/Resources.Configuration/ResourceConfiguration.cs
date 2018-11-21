@@ -20,7 +20,7 @@ namespace Dolittle.Resources.Configuration
         readonly ITypeFinder _typeFinder;
         readonly ILogger _logger;
         readonly IEnumerable<IRepresentAResourceType> _resourceTypeRepresentations;
-        readonly IDictionary<ResourceType, ResourceTypeImplementation> _resources = new Dictionary<ResourceType, ResourceTypeImplementation>();
+        IDictionary<ResourceType, ResourceTypeImplementation> _resources = new Dictionary<ResourceType, ResourceTypeImplementation>();
 
         /// <inheritdoc/>
         public ResourceConfiguration(ITypeFinder typeFinder, ILogger logger)
@@ -60,11 +60,16 @@ namespace Dolittle.Resources.Configuration
         }
         
         /// <inheritdoc/>
-        public void SetResourceType(ResourceType resourceType, ResourceTypeImplementation resourceTypeImplementation)
+        public void ConfigureResourceTypes(IDictionary<ResourceType, ResourceTypeImplementation> resourceTypeToImplementationMap)
         {
-            if (_resources.ContainsKey(resourceType)) throw new ResourceTypeAlreadySet(resourceType, resourceTypeImplementation);
-            _resources.Add(resourceType, resourceTypeImplementation);
+            //if (IsConfigured) throw new ResourceConfigurationAlreadyConfigured();
+            _resources = resourceTypeToImplementationMap;
+            IsConfigured = true;
         }
+
+        /// <inherit/>
+        public bool IsConfigured {get; private set;}
+
         
         void ThrowIfNoDefaultConstructor(Type resourceTypeRepresentationType)
         {
