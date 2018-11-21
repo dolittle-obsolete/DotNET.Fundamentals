@@ -14,10 +14,11 @@ namespace Dolittle.Configuration
         /// <summary>
         /// Method that gets called to check if it can be parsed
         /// </summary>
+        /// <param name="type"><see cref="Type"/> of <see cref="IConfigurationObject"/></param>
         /// <param name="filename">The filename of the configuration</param>
         /// <param name="content">The actual content of the file</param>
         /// <returns>True if it can parse, false if not</returns>
-        bool CanParse(string filename, string content);
+        bool CanParse(Type type, string filename, string content);
 
         /// <summary>
         /// Parse specific content coming from a file into a specified <see cref="IConfigurationObject"/> type

@@ -50,7 +50,7 @@ namespace Dolittle.Configuration
         {
             var filename = GetFilenameFor(type);
             var content = _fileSystem.ReadAllText(filename);
-            var instance = _parsers.Parse(type, content);
+            var instance = _parsers.Parse(type, filename, content);
             return instance;           
         }
 

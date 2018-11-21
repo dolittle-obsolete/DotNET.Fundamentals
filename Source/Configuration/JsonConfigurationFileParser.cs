@@ -4,7 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.IO;
+using Dolittle.DependencyInversion;
 using Dolittle.Serialization.Json;
+using Dolittle.Types;
 
 namespace Dolittle.Configuration
 {
@@ -18,14 +20,16 @@ namespace Dolittle.Configuration
         /// <summary>
         /// Initializes a new instance of <see cref="JsonConfigurationFileParser"/>
         /// </summary>
-        /// <param name="serializer">JSON <see cref="ISerializer">serializer</see> to use</param>
-        public JsonConfigurationFileParser(ISerializer serializer)
+        /// <param name="typeFinder"><see cref="ITypeFinder"/></param>
+        /// <param name="container"><see cerf="IContainer"/> used to get instances</param>
+        public JsonConfigurationFileParser(ITypeFinder typeFinder, IContainer container)
         {
-            _serializer = serializer;
+            var converterInstances = new InstancesOf<ICanProvideConverters>(typeFinder, container);
+            _serializer = new Serializer(container, converterInstances);
         }
 
         /// <inheritdoc/>
-        public bool CanParse(string filename, string content)
+        public bool CanParse(Type type, string filename, string content)
         {
             if( content.StartsWith("{") ) return true;
             return Path.GetExtension(filename).ToLowerInvariant().Equals("json");
