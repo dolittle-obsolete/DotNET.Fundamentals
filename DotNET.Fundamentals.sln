@@ -79,9 +79,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time", "Source\Time\Time.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rules", "Source\Rules\Rules.csproj", "{2DA68814-1B3E-4DF7-8645-4DA5889C15D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Source\Resources\Resources.csproj", "{6FACBDA5-1C3D-43AE-BEAE-FD39EDC6A4FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceTypes", "Source\ResourceTypes\ResourceTypes.csproj", "{6FACBDA5-1C3D-43AE-BEAE-FD39EDC6A4FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Specifications\Resources\Resources.csproj", "{77270B8D-52DF-4A95-BE22-B2CE234E2657}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceTypes", "Specifications\ResourceTypes\ResourceTypes.csproj", "{77270B8D-52DF-4A95-BE22-B2CE234E2657}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rules", "Specifications\Rules\Rules.csproj", "{008ABC84-0EF4-42F6-8486-D5B989369384}"
 EndProject
@@ -127,9 +127,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Versioning", "Source\Versio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Versioning", "Specifications\Versioning\Versioning.csproj", "{B9452765-A46C-4D26-95F5-068DF9D870A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources.Configuration", "Source\Resources.Configuration\Resources.Configuration.csproj", "{B69DB098-77B3-411A-B7AF-ED3154C9D065}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceTypes.Configuration", "Source\ResourceTypes.Configuration\ResourceTypes.Configuration.csproj", "{B69DB098-77B3-411A-B7AF-ED3154C9D065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources.Configuration", "Specifications\Resources.Configuration\Resources.Configuration.csproj", "{B76B938E-7B9D-4B67-A910-6BA94E0F80CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceTypes.Configuration", "Specifications\ResourceTypes.Configuration\ResourceTypes.Configuration.csproj", "{B76B938E-7B9D-4B67-A910-6BA94E0F80CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tenancy.Configuration", "Source\Tenancy.Configuration\Tenancy.Configuration.csproj", "{75056B70-2A89-4E4A-9ECD-7EA4B6343225}"
 EndProject
