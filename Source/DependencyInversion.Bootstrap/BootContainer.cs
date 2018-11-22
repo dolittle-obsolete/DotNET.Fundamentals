@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Dolittle.Assemblies;
-using Dolittle.Logging;
-using Dolittle.Scheduling;
+using Dolittle.Collections;
 using Dolittle.Types;
 
 namespace Dolittle.DependencyInversion.Bootstrap
@@ -18,30 +16,19 @@ namespace Dolittle.DependencyInversion.Bootstrap
     /// </summary>
     internal class BootContainer : IContainer
     {
-        readonly Dictionary<Type, object>    _bindings;
+        IDictionary<Type, object>    _bindings;
 
         /// <summary>
         /// Initializes a new instance of <see cref="BootContainer"/>
         /// </summary>
-        /// <param name="assemblies"><see cref="IAssemblies"/> with all assemblies available</param>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding available types</param>
-        /// <param name="scheduler"><see cref="IScheduler"/> for scheduling work</param>
-        /// <param name="logger"><see cref="ILogger"/> for logging</param>
-        /// <param name="getContainer"><see cref="GetContainer"/> for getting container</param>
-        public BootContainer(
-            IAssemblies assemblies,
-            ITypeFinder typeFinder,
-            IScheduler scheduler,
-            ILogger logger,
-            GetContainer getContainer)
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding types</param>
+        /// <param name="bindings"><see cref="IBindingCollection">Bindings</see> for the <see cref="BootContainer"/></param>
+        public BootContainer(ITypeFinder typeFinder, IBindingCollection bindings)
         {
-            _bindings = new Dictionary<Type, object> {
-                { typeof(IAssemblies), assemblies },
-                { typeof(ITypeFinder), typeFinder },
-                { typeof(IScheduler), scheduler },
-                { typeof(ILogger), logger },
-                { typeof(GetContainer), getContainer }
-            };
+            _bindings = ConvertBindings(bindings);
+            _bindings[typeof(IContainer)] = this;
+
+            ProvideBootBindings(typeFinder);
         }
 
         /// <inheritdoc/>
@@ -49,6 +36,11 @@ namespace Dolittle.DependencyInversion.Bootstrap
         {
             return (T)Get(typeof(T));
         }
+
+        /// <summary>
+        /// Gets the <see cref="IBindingCollection">bindings</see> discovered at boot
+        /// </summary>
+        public IBindingCollection   BootBindings { get; private set; }
 
         /// <inheritdoc/>
         public object Get(Type type)
@@ -72,6 +64,43 @@ namespace Dolittle.DependencyInversion.Bootstrap
 
             var bindingProvider = Activator.CreateInstance(type, instances.ToArray());
             return bindingProvider;
+        }
+
+        void ProvideBootBindings(ITypeFinder typeFinder)
+        {
+            var bindingCollections = new List<IBindingCollection>();
+            typeFinder
+                .FindMultiple<ICanProvideBootBindings>()
+                .ForEach(_ =>
+                {
+                    var instance = Get(_) as ICanProvideBootBindings;
+                    var builder = new BindingProviderBuilder();
+                    instance.Provide(builder);
+                    var bindingCollection = builder.Build();
+                    bindingCollections.Add(bindingCollection);
+
+                    var bindings = ConvertBindings(bindingCollection);
+                    bindings.ForEach(_bindings.Add);
+                });
+            BootBindings = new BindingCollection(bindingCollections.ToArray());
+        }
+
+        IDictionary<Type, object> ConvertBindings(IBindingCollection bindings)
+        {
+            return bindings.ToDictionary(
+                _ => _.Service,
+                _ => {
+                    switch( _.Strategy )
+                    {
+                        case Strategies.Constant constant: return constant.Target;
+                        case Strategies.Callback callback: return callback.Target;
+                        case Strategies.Type type: return type.Target;
+                        case Strategies.TypeCallback typeCallback: return typeCallback.Target;
+                    }
+
+                    return null;
+                }
+            );            
         }
     }
 }
