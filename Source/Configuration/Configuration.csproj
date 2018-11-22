@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\Concepts\Concepts.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
+    <ProjectReference Include="..\DependencyInversion.Bootstrap\DependencyInversion.Bootstrap.csproj" />
     <ProjectReference Include="..\Immutability\Immutability.csproj" />
     <ProjectReference Include="..\Reflection\Reflection.csproj" />
     <ProjectReference Include="..\Serialization.Json\Serialization.Json.csproj" />
