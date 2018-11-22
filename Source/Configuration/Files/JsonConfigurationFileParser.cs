@@ -8,7 +8,7 @@ using Dolittle.DependencyInversion;
 using Dolittle.Serialization.Json;
 using Dolittle.Types;
 
-namespace Dolittle.Configuration
+namespace Dolittle.Configuration.Files
 {
     /// <summary>
     /// Represents an implementation of <see cref="ICanParseConfigurationFile"/> for JSON

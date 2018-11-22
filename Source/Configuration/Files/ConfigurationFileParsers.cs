@@ -8,7 +8,7 @@ using System.Linq;
 using Dolittle.DependencyInversion;
 using Dolittle.Types;
 
-namespace Dolittle.Configuration
+namespace Dolittle.Configuration.Files
 {
     /// <summary>
     /// Represents an implementation of <see creF="IConfigurationFileParsers"/>

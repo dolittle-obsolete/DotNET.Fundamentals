@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace Dolittle.Configuration
+namespace Dolittle.Configuration.Files
 {
     /// <summary>
     /// 
@@ -23,6 +23,4 @@ namespace Dolittle.Configuration
             throw new NotImplementedException();
         }
     }
-
-
 }

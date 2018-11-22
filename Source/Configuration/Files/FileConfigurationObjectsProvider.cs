@@ -6,8 +6,9 @@ using System;
 using System.IO;
 using Dolittle.IO;
 
-namespace Dolittle.Configuration
+namespace Dolittle.Configuration.Files
 {
+
     /// <summary>
     /// Represents an implementation of <see cref="ICanProvideConfigurationObjects"/> for files on disk
     /// </summary>
@@ -28,7 +29,7 @@ namespace Dolittle.Configuration
         readonly IConfigurationFileParsers _parsers;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="FileConfigurationObjectsProvider"/>
         /// </summary>
         /// <param name="fileSystem"></param>
         /// <param name="parsers"></param>

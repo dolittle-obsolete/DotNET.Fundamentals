@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace Dolittle.Configuration
+namespace Dolittle.Configuration.Files
 {
     /// <summary>
     /// Represents a system that knows about all <see cref="ICanParseConfigurationFile">configuration file parsers</see>

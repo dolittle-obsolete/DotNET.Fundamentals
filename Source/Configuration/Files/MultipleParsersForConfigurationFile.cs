@@ -4,17 +4,18 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace Dolittle.Configuration
+namespace Dolittle.Configuration.Files
 {
     /// <summary>
-    /// Exception that gets thrown when there is no parser capable of parsing the configuration file
+    /// Exception that gets thrown when there are multiple <see cref="ICanParseConfigurationFile">parsers</see> for 
+    /// the same configuration file
     /// </summary>
-    public class MissingParserForConfigurationFile : Exception
+    public class MultipleParsersForConfigurationFile : Exception
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="MissingParserForConfigurationFile"/>
+        /// Initializes a new instance of <see cref="MultipleParsersForConfigurationFile"/>
         /// </summary>
         /// <param name="filename">Name of the file</param>
-        public MissingParserForConfigurationFile(string filename) : base($"Missing parser for configuration file '{filename}'") {}
+        public MultipleParsersForConfigurationFile(string filename) : base($"Multiple parsers for '{filename}' - unable to decide which to use") {}
     }
 }
