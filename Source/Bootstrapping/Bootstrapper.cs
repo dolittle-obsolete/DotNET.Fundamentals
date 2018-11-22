@@ -25,15 +25,17 @@ namespace Dolittle.Bootstrapping
         /// <summary>
         /// Start the boot
         /// </summary>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
         /// <param name="container"><see cref="IContainer"/> for getting instances</param>
-        public static void Start(IContainer container)
+        public static void Start(ILogger logger, IContainer container)
         {
+            logger.Information("Bootstrapper start all procedures");
             var procedures = container.Get<IInstancesOf<ICanPerformBootProcedure>>();
-            var logger = container.Get<ILogger>();
             var queue = new Queue<ICanPerformBootProcedure>(procedures);
             var executionContextManager = container.Get<IExecutionContextManager>();
             executionContextManager.System(BootstrapperCorrelationId);
 
+            logger.Information($"Starting to perform {queue.Count} boot procedures");
             while (queue.Count > 0)
             {
                 var procedure = queue.Dequeue();
