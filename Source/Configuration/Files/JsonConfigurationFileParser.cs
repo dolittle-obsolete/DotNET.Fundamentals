@@ -15,6 +15,13 @@ namespace Dolittle.Configuration.Files
     /// </summary>
     public class JsonConfigurationFileParser : ICanParseConfigurationFile
     {
+        readonly ISerializationOptions _serializationOptions = SerializationOptions.Custom(callback:
+            serializer =>
+            {
+                serializer.ContractResolver = new CamelCaseExceptDictionaryKeyResolver();
+            }
+        );
+
         readonly ISerializer _serializer;
 
         /// <summary>
@@ -38,7 +45,7 @@ namespace Dolittle.Configuration.Files
         /// <inheritdoc/>
         public object Parse(Type type, string filename, string content)
         {
-            return _serializer.FromJson(type, content);
+            return _serializer.FromJson(type, content, _serializationOptions);
         }
     }
 }
