@@ -5,6 +5,7 @@
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
 using Dolittle.Immutability;
+using Dolittle.Logging;
 using Dolittle.Types;
 
 namespace Dolittle.Configuration
@@ -17,29 +18,40 @@ namespace Dolittle.Configuration
     {
         readonly ITypeFinder _typeFinder;
         readonly IContainer _container;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Bindings"/>
         /// </summary>
         /// <param name="typeFinder"><see cref="ITypeFinder"/></param>
         /// <param name="container"><see cref="IContainer"/></param>
-        public Bindings(ITypeFinder typeFinder, IContainer container)
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public Bindings(
+            ITypeFinder typeFinder,
+            IContainer container,
+            ILogger logger)
         {
             _typeFinder = typeFinder;
             _container = container;
+            _logger = logger;
         }
 
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
-            var configurationObjectProviders = new ConfigurationObjectProviders(_typeFinder, _container);
+            var configurationObjectProviders = new ConfigurationObjectProviders(_typeFinder, _container, _logger);
             builder.Bind<IConfigurationObjectProviders>().To(configurationObjectProviders);
 
             var configurationObjectTypes = _typeFinder.FindMultiple<IConfigurationObject>();
             configurationObjectTypes.ForEach(_ => 
             {
+                _logger.Information($"Bind configuration object '{_.GetFriendlyConfigurationName()} - {_.AssemblyQualifiedName}'");
                 _.ShouldBeImmutable();
-                builder.Bind(_).To(() => configurationObjectProviders.Provide(_));
+                builder.Bind(_).To(() => {
+                    var instance = configurationObjectProviders.Provide(_);
+                    _logger.Information($"Providing configuration object '{_.GetFriendlyConfigurationName()} - {_.AssemblyQualifiedName}' - {instance.GetHashCode()}");
+                    return instance;
+                });
             });
         }
     }
