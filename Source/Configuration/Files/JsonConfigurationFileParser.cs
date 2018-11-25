@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using Dolittle.DependencyInversion;
+using Dolittle.Logging;
 using Dolittle.Serialization.Json;
 using Dolittle.Types;
 
@@ -23,16 +24,22 @@ namespace Dolittle.Configuration.Files
         );
 
         readonly ISerializer _serializer;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of <see cref="JsonConfigurationFileParser"/>
         /// </summary>
         /// <param name="typeFinder"><see cref="ITypeFinder"/></param>
         /// <param name="container"><see cerf="IContainer"/> used to get instances</param>
-        public JsonConfigurationFileParser(ITypeFinder typeFinder, IContainer container)
+        /// <param name="logger"></param>
+        public JsonConfigurationFileParser(
+            ITypeFinder typeFinder,
+            IContainer container,
+            ILogger logger)
         {
             var converterInstances = new InstancesOf<ICanProvideConverters>(typeFinder, container);
             _serializer = new Serializer(container, converterInstances);
+            _logger = logger;
         }
 
         /// <inheritdoc/>

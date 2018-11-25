@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolittle.DependencyInversion;
 using Dolittle.Lifecycle;
+using Dolittle.Logging;
 using Dolittle.Types;
 
 namespace Dolittle.Configuration
@@ -19,35 +20,51 @@ namespace Dolittle.Configuration
     {
         readonly ITypeFinder _typeFinder;
         readonly IContainer _container;
+        readonly ILogger _logger;
 
-        readonly IEnumerable<ICanProvideConfigurationObjects>   _providers;
+        readonly IEnumerable<ICanProvideConfigurationObjects> _providers;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ConfigurationObjectProviders"/>
         /// </summary>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding providers</param>
         /// <param name="container"><see cerf="IContainer"/> used to get instances</param>
-        public ConfigurationObjectProviders(ITypeFinder typeFinder, IContainer container)
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public ConfigurationObjectProviders(
+            ITypeFinder typeFinder,
+            IContainer container,
+            ILogger logger)
         {
             _typeFinder = typeFinder;
             _container = container;
+            _logger = logger;
 
             _providers = _typeFinder.FindMultiple<ICanProvideConfigurationObjects>()
-                                    .Select(_ => _container.Get(_) as ICanProvideConfigurationObjects).ToArray();
+                .Select(_ =>
+                {
+                    _logger.Information($"Configuration Object provider : {_.AssemblyQualifiedName}");
+                    return _container.Get(_) as ICanProvideConfigurationObjects;
+                }).ToArray();
+
         }
 
         /// <inheritdoc/>
         public object Provide(Type type)
         {
+            _logger.Information($"Try to provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
             var provider = GetProvidersFor(type).SingleOrDefault();
-            if( provider == null ) throw new MissingProviderForConfigurationObject(type);
+            if (provider == null) throw new MissingProviderForConfigurationObject(type);
+            _logger.Information($"Provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}' using {provider.GetType().AssemblyQualifiedName}");
             return provider.Provide(type);
         }
 
-
-        IEnumerable<ICanProvideConfigurationObjects>    GetProvidersFor(Type type)
+        IEnumerable<ICanProvideConfigurationObjects> GetProvidersFor(Type type)
         {
-            var providers = _providers.Where(_ => _.CanProvide(type));
+            var providers = _providers.Where(_ => 
+            {
+                _logger.Information($"Ask '{_.GetType().AssemblyQualifiedName}' if it can provide the configuration type '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
+                return _.CanProvide(type);
+            });
             ThrowIfMultipleProvidersCanProvide(type, providers);
             return providers;
         }
