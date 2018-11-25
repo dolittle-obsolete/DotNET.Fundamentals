@@ -195,8 +195,12 @@ namespace Dolittle.Bootstrapping
 
             var result = new BootloaderResult(_container, typeFinder, assemblies, resultingBindings);
 
-            logger.Information($"Start boot procedures");
-            if( !_skipBootProcedures && _container != null ) Bootstrapper.Start(logger, _container);
+            
+            if( !_skipBootProcedures && _container != null ) 
+            {
+                logger.Information($"Start boot procedures");
+                Bootstrapper.Start(logger, _container);
+            }
 
             if (_container != null) _container.Get<IExecutionContextManager>().SetConstants(_container.Get<Application>(), _container.Get<BoundedContext>(), environment);
 
