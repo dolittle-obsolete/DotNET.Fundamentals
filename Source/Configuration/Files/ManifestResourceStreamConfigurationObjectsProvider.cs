@@ -14,13 +14,13 @@ namespace Dolittle.Configuration.Files
         /// <inheritdoc/>
         public bool CanProvide(Type type)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         /// <inheritdoc/>
         public object Provide(Type type)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }
