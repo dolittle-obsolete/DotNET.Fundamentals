@@ -20,10 +20,14 @@ namespace Dolittle.Assemblies
         /// <summary>
         /// Initializes a new instance of <see cref="Assemblies"/>
         /// </summary>
-        public Assemblies(IAssemblyProvider assemblyProvider)
+        public Assemblies(Assembly entryAssembly, IAssemblyProvider assemblyProvider)
         {   
+            EntryAssembly = entryAssembly;
             _assemblies = assemblyProvider.GetAll();
         }
+
+        /// <inheritdoc/>
+        public Assembly EntryAssembly { get; }
 
         /// <inheritdoc/>
         public IEnumerable<Assembly> GetAll()
