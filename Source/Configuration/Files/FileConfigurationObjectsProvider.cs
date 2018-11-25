@@ -75,7 +75,7 @@ namespace Dolittle.Configuration.Files
             });
 
             if( instance != null  ) return instance;
-            throw new UnableToProvideConfigurationObject(typeof(FileConfigurationObjectsProvider), type);
+            throw new UnableToProvideConfigurationObject<FileConfigurationObjectsProvider>(type);
         }
 
         string GetFilenameFor(Type type, string basePath)
