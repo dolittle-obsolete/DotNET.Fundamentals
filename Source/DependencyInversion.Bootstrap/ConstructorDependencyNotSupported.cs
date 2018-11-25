@@ -19,7 +19,7 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// <param name="dependency"><see cref="Type"/> the wrong dependency</param>
         /// <param name="supportedDependencies"><see cref="IEnumerable{T}">Collection</see> of <see cref="Type">supported types</see></param>
         public ConstructorDependencyNotSupported(Type type, Type dependency, IEnumerable<Type> supportedDependencies) 
-            : base($"Constructor for '{type.AssemblyQualifiedName}' has an supported dependency of '{dependency.AssemblyQualifiedName}.\nSupported dependencies are {string.Join(".", supportedDependencies)}'")
+            : base($"Constructor for '{type.AssemblyQualifiedName}' has an unsupported dependency of '{dependency.AssemblyQualifiedName}.\nSupported dependencies are {string.Join(".", supportedDependencies)}'")
         {
 
         }
