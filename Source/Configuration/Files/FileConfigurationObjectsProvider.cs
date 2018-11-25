@@ -3,7 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.IO;
+using Dolittle.Collections;
 using Dolittle.IO;
 
 namespace Dolittle.Configuration.Files
@@ -28,6 +30,12 @@ namespace Dolittle.Configuration.Files
         readonly IFileSystem _fileSystem;
         readonly IConfigurationFileParsers _parsers;
 
+        readonly string[] SearchPaths = new[] {
+            BaseFolder,
+            "..",
+            "."
+        };
+
         /// <summary>
         /// Initializes a new instance of <see cref="FileConfigurationObjectsProvider"/>
         /// </summary>
@@ -42,22 +50,37 @@ namespace Dolittle.Configuration.Files
         /// <inheritdoc/>
         public bool CanProvide(Type type)
         {
-            var filename = GetFilenameFor(type);
-            return _fileSystem.Exists(filename);
+            var foundPaths = new List<string>();
+            SearchPaths.ForEach(_ => 
+            {
+                var filename = GetFilenameFor(type, _);
+                if( _fileSystem.Exists(filename) ) foundPaths.Add(filename);
+            });
+            if( foundPaths.Count > 1 ) throw new MultipleFilesAvailableOfSameType(type, foundPaths);
+            return foundPaths.Count > 0;
         }
 
         /// <inheritdoc/>
         public object Provide(Type type)
         {
-            var filename = GetFilenameFor(type);
-            var content = _fileSystem.ReadAllText(filename);
-            var instance = _parsers.Parse(type, filename, content);
-            return instance;           
+            object instance = null;
+            SearchPaths.ForEach(_ => 
+            {
+                var filename = GetFilenameFor(type, _);
+                if( _fileSystem.Exists(filename) )
+                {
+                    var content = _fileSystem.ReadAllText(filename);
+                    instance = _parsers.Parse(type, filename, content);
+                } 
+            });
+
+            if( instance != null  ) return instance;
+            throw new UnableToProvideConfigurationObject(typeof(FileConfigurationObjectsProvider), type);
         }
 
-        string GetFilenameFor(Type type)
+        string GetFilenameFor(Type type, string basePath)
         {
-            var path = Path.Combine(_fileSystem.GetCurrentDirectory(), BaseFolder, type.GetFriendlyConfigurationName(), ".json");
+            var path = Path.Combine(_fileSystem.GetCurrentDirectory(), basePath, $"{type.GetFriendlyConfigurationName()}.json");
             return path;
         }
     }
