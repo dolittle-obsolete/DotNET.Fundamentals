@@ -34,14 +34,15 @@ namespace Dolittle.Assemblies
 
             DependencyContext = DependencyContext.Load(assembly);
 
-            var basePath = Path.GetDirectoryName(assembly.CodeBase);
+            var codeBaseUri = new Uri(assembly.CodeBase);
+            var basePath = Path.GetDirectoryName(codeBaseUri.AbsolutePath);
 
             _assemblyResolver = new CompositeCompilationAssemblyResolver(new ICompilationAssemblyResolver[]
             {
                 new AppBaseCompilationAssemblyResolver(basePath),
-                    new ReferenceAssemblyPathResolver(),
-                    new PackageCompilationAssemblyResolver(),
-                    new PackageRuntimeStoreAssemblyResolver()
+                new ReferenceAssemblyPathResolver(),
+                new PackageCompilationAssemblyResolver(),
+                new PackageRuntimeStoreAssemblyResolver()
             });
         }
 
@@ -115,7 +116,7 @@ namespace Dolittle.Assemblies
                     library.RuntimeAssemblyGroups.SelectMany(g => g.AssetPaths),
                     library.Dependencies,
                     library.Serviceable,
-                    library.Path,
+                    library.Path ?? library.RuntimeAssemblyGroups.Select(g => g.AssetPaths.FirstOrDefault()).FirstOrDefault(),
                     library.HashPath);
 
                 var assemblies = new List<string>();
