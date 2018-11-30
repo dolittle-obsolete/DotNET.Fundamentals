@@ -20,13 +20,46 @@ using ExecutionContext = Dolittle.Execution.ExecutionContext;
 
 namespace Dolittle.Bootstrapping
 {
-
     /// <summary>
     /// Represents the starting point - the actual boot of an application with configuration options
     /// for what is possible to configure before actual booting
     /// </summary>
     public class Bootloader
     {
+        readonly Boot _boot;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Bootloader"/>
+        /// </summary>
+        /// <param name="boot"></param>
+        public Bootloader(Boot boot)
+        {
+            _boot = boot;
+        }
+
+        /// <summary>
+        /// Start booting
+        /// </summary>
+        public void Start()
+        {
+
+        }
+
+        /// <summary>
+        /// Configure boot
+        /// </summary>
+        /// <param name="builderDelegate">Builder delegete</param>
+        /// <returns><see cref="Bootloader"/> for booting</returns>
+        public static Bootloader Configure(Action<IBootBuilder> builderDelegate)
+        {
+            var builder = new BootBuilder();
+            builderDelegate(builder);
+            var boot = builder.Build();
+            var bootLoader = new Bootloader(boot);
+            return bootLoader;
+        }
+
+#if(false)
         Assembly _entryAssembly;
         ICanProvideAssemblies   _assemblyProvider;
         Type _containerType;
@@ -147,6 +180,62 @@ namespace Dolittle.Bootstrapping
         /// </summary>
         public BootloaderResult Start()
         {
+            /*
+                Stages / Phase / Sequence:
+                http://processors.wiki.ti.com/index.php/The_Boot_Process#
+
+                0: System
+                - FileSystem
+                - SystemClock
+                - Scheduler
+                - Logging 
+
+                1: Discovery
+                - Assemblies
+                - Types
+
+                2: Configuration
+                - Configuration objects
+
+                3: Bindings
+                - Discover through conventions
+                - Discover through binding providers
+
+                4: Boot procedures
+
+
+                ICanRunBefore<BootStage.MasterBootRecord>
+                
+                public interface IBootStageConfiguration
+                {
+
+                }
+
+                public interface ICanPerformBootStage
+                {
+                    BootStage BootStage { get; }
+                }
+
+                public interface ICanRunBeforeBootStage
+                {
+                    BootStage BootStage { get; }
+                }
+
+                public interface ICanRunAfterBootStage
+                {
+                    BootStage BootStage { get; }
+                }
+
+                public class BootInformation
+                {
+                    public BootStage CurrentStage { get; }
+                    public bool IsBooting { get; }
+                }
+                
+             */
+
+
+
             var l = _loggerFactory;
             var p = _isProduction;
             IScheduler scheduler = _synchronousScheduling?
@@ -244,6 +333,8 @@ namespace Dolittle.Bootstrapping
                 CorrelationId = executionContext.CorrelationId,
                 Environment = executionContext.Environment,
                 TenantId = executionContext.Tenant
-            };       
+            };
+#endif                   
+
     }
 }
