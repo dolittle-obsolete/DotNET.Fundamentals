@@ -30,13 +30,5 @@ namespace Dolittle.ResourceTypes.Configuration
         /// <typeparam name="T">The type of configuration object</typeparam>
         /// <returns></returns>
         T ConfigurationFor<T>(TenantId tenantId, ResourceType resourceType);
-
-        /// <summary>
-        /// Add a configuration for a <see cref="TenantId"/> and specific <see cref="ResourceType"/>
-        /// </summary>
-        /// <param name="tenantId"><see cref="TenantId"/> to add for</param>
-        /// <param name="resourceType"><see cref="ResourceType"/> to add for</param>
-        /// <param name="configurationObject">Specific configuration object the <see cref="ResourceType"/> is expecting</param>
-        void AddConfigurationFor(TenantId tenantId, ResourceType resourceType, object configurationObject);
     }
 }
