@@ -2,9 +2,9 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 using System;
 using System.Collections.Generic;
+using Dolittle.Logging;
 using Dolittle.ResourceTypes.Configuration.Specs.given;
 using Machine.Specifications;
 
@@ -20,7 +20,7 @@ namespace Dolittle.ResourceTypes.Configuration.Specs.for_ResourceConfiguration
 
         Establish context = () => 
         {
-            resource_configuration = new ResourceConfiguration(type_finder_mock.Object);
+            resource_configuration = new ResourceConfiguration(type_finder_mock.Object, Moq.Mock.Of<ILogger>());
             resource_configuration.ConfigureResourceTypes(new Dictionary<ResourceType, ResourceTypeImplementation>{{first_resource_type, first_resource_type_implementation}});
         };
 
