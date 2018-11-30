@@ -153,15 +153,15 @@ namespace Dolittle.DependencyInversion.Bootstrap
             IBindingCollection initialBindings,
             IEnumerable<Binding> bindings)
         {
-            logger.Information("Discover bindings");
+            logger.Trace("Discover bindings");
             var discoveredBindings = DiscoverBindings(bootContainer, assemblies, typeFinder, scheduler, logger);
 
-            logger.Information("Create a new binding collection");
+            logger.Trace("Create a new binding collection");
             var bindingCollection = new BindingCollection(initialBindings, discoveredBindings, bindings);
 
             foreach( var binding in bindingCollection )
             {
-                logger.Information($"Discovered Binding : {binding.Service.AssemblyQualifiedName} - {binding.Strategy.GetType().Name}");
+                logger.Trace($"Discovered Binding : {binding.Service.AssemblyQualifiedName} - {binding.Strategy.GetType().Name}");
             }
 
             var asmBindings = bindingCollection.Where(_ => _.Service == typeof(IAssemblies)).ToArray();
@@ -176,16 +176,16 @@ namespace Dolittle.DependencyInversion.Bootstrap
             IScheduler scheduler,
             ILogger logger)
         {
-            logger.Information("Discover Bindings");
+            logger.Trace("Discover Bindings");
             var bindingConventionManager = new BindingConventionManager(bootContainer, typeFinder, scheduler, logger);
 
-            logger.Information("Discover and setup bindings");
+            logger.Trace("Discover and setup bindings");
             var bindingsFromConventions = bindingConventionManager.DiscoverAndSetupBindings();
 
-            logger.Information("Discover binding providers and get bindings");
+            logger.Trace("Discover binding providers and get bindings");
             var bindingsFromProviders = DiscoverBindingProvidersAndGetBindings(bootContainer, typeFinder, scheduler);
 
-            logger.Information("Compose bindings in new collection");
+            logger.Trace("Compose bindings in new collection");
             var bindingCollection = new BindingCollection(bindingsFromProviders, bindingsFromConventions);
 
             return bindingCollection;

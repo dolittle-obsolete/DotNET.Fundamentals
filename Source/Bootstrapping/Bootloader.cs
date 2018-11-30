@@ -167,7 +167,7 @@ namespace Dolittle.Bootstrapping
             var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(loggerFactory, logAppender, _entryAssembly);
             Logging.ILogger logger = new Logger(logAppenders);
 
-            logger.Information($"Using {scheduler.GetType().Name} as scheduler");
+            logger.Trace($"Using {scheduler.GetType().Name} as scheduler");
 
             var fileSystem = new FileSystem();
 
@@ -182,7 +182,7 @@ namespace Dolittle.Bootstrapping
 
             if( _containerType != null ) 
             {
-                logger.Information($"Starting DependencyInversion with predefined container type '{_containerType.AssemblyQualifiedName}'");
+                logger.Trace($"Starting DependencyInversion with predefined container type '{_containerType.AssemblyQualifiedName}'");
                 resultingBindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, fileSystem, logger, _containerType, bindings);
             } 
             else 
@@ -190,7 +190,7 @@ namespace Dolittle.Bootstrapping
                 var bootResult = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, fileSystem, logger, bindings);
                 resultingBindings = bootResult.Bindings;
                 _container = bootResult.Container;
-                logger.Information($"Using container of type '{_container.GetType().AssemblyQualifiedName}'");
+                logger.Trace($"Using container of type '{_container.GetType().AssemblyQualifiedName}'");
             }
 
             var result = new BootloaderResult(_container, typeFinder, assemblies, resultingBindings);
@@ -198,8 +198,8 @@ namespace Dolittle.Bootstrapping
             
             if( !_skipBootProcedures && _container != null ) 
             {
-                logger.Information($"Start boot procedures");
-                Bootstrapper.Start(logger, _container);
+                logger.Trace($"Start boot procedures");
+                Bootstrapper.Start(_container, logger);
             }
 
             if (_container != null) _container.Get<IExecutionContextManager>().SetConstants(_container.Get<Application>(), _container.Get<BoundedContext>(), environment);

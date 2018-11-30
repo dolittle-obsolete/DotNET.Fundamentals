@@ -50,17 +50,17 @@ namespace Dolittle.DependencyInversion.Conventions
         /// <inheritdoc/>
         public IBindingCollection DiscoverAndSetupBindings()
         {
-            _logger.Information("Discover and setup bindings");
+            _logger.Trace("Discover and setup bindings");
             var bindingCollections = new ConcurrentBag<IBindingCollection>();
 
             var allTypes = _typeFinder.All;
 
-            _logger.Information("Find all binding conventions");
+            _logger.Trace("Find all binding conventions");
             var conventionTypes = _typeFinder.FindMultiple<IBindingConvention>();
 
-            _scheduler.PerformForEach(conventionTypes, conventionType => 
+            _scheduler.PerformForEach(conventionTypes, (Action<Type>)(conventionType => 
             {
-                _logger.Information($"Handle convention type {conventionType.AssemblyQualifiedName}");
+                _logger.Trace((string)$"Handle convention type {conventionType.AssemblyQualifiedName}");
 
                 var convention = _bootContainer.Get(conventionType) as IBindingConvention;
                 var servicesToResolve = allTypes.Where(service => convention.CanResolve(service));
@@ -76,7 +76,7 @@ namespace Dolittle.DependencyInversion.Conventions
 
                 var bindingCollection = new BindingCollection(bindings);
                 bindingCollections.Add(bindingCollection);
-            });
+            }));
 
             var aggregatedBindingCollection = new BindingCollection(bindingCollections.ToArray());
             return aggregatedBindingCollection;

@@ -25,28 +25,28 @@ namespace Dolittle.Bootstrapping
         /// <summary>
         /// Start the boot
         /// </summary>
-        /// <param name="logger"><see cref="ILogger"/> for logging</param>
         /// <param name="container"><see cref="IContainer"/> for getting instances</param>
-        public static void Start(ILogger logger, IContainer container)
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public static void Start(IContainer container, ILogger logger)
         {
-            logger.Information("Bootstrapper start all procedures");
+            logger.Trace("Bootstrapper start all procedures");
             var procedures = container.Get<IInstancesOf<ICanPerformBootProcedure>>();
             var queue = new Queue<ICanPerformBootProcedure>(procedures);
             var executionContextManager = container.Get<IExecutionContextManager>();
             executionContextManager.System(BootstrapperCorrelationId);
 
-            logger.Information($"Starting to perform {queue.Count} boot procedures");
+            logger.Trace($"Starting to perform {queue.Count} boot procedures");
             while (queue.Count > 0)
             {
                 var procedure = queue.Dequeue();
                 if (procedure.CanPerform())
                 {
-                    logger.Information($"Performing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
+                    logger.Trace($"Performing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
                     procedure.Perform();
                 }
                 else
                 {
-                    logger.Information($"Re-enqueing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
+                    logger.Trace($"Re-enqueing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
                     queue.Enqueue(procedure);
                 }
             }

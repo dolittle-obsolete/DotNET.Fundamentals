@@ -43,16 +43,16 @@ namespace Dolittle.Configuration
             builder.Bind<IConfigurationObjectProviders>().To(configurationObjectProviders);
 
             var configurationObjectTypes = _typeFinder.FindMultiple<IConfigurationObject>();
-            configurationObjectTypes.ForEach(_ => 
+            configurationObjectTypes.ForEach((System.Action<System.Type>)(_ => 
             {
-                _logger.Information($"Bind configuration object '{_.GetFriendlyConfigurationName()} - {_.AssemblyQualifiedName}'");
+                _logger.Trace((string)$"Bind configuration object '{_.GetFriendlyConfigurationName()} - {_.AssemblyQualifiedName}'");
                 _.ShouldBeImmutable();
-                builder.Bind(_).To(() => {
+                builder.Bind(_).To((System.Func<object>)(() => {
                     var instance = configurationObjectProviders.Provide(_);
-                    _logger.Information($"Providing configuration object '{_.GetFriendlyConfigurationName()} - {_.AssemblyQualifiedName}' - {instance.GetHashCode()}");
+                    _logger.Trace((string)$"Providing configuration object '{_.GetFriendlyConfigurationName()} - {_.AssemblyQualifiedName}' - {instance.GetHashCode()}");
                     return instance;
-                });
-            });
+                }));
+            }));
         }
     }
 }
