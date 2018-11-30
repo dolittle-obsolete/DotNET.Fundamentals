@@ -21,20 +21,16 @@ namespace Dolittle.Serialization.Json
     /// </summary>
     public class SerializerContractResolver : DefaultContractResolver
     {
-        readonly IContainer _container;
         readonly ISerializationOptions _options;
         readonly bool _ignoreReadOnlyProperties;
 
         /// <summary>
         /// Initializes a new instance of <see cref="SerializerContractResolver"/>
         /// </summary>
-        /// <param name="container">A <see cref="IContainer"/> to use for creating instances of types</param>
         /// <param name="options"><see cref="ISerializationOptions"/> to use during resolving</param>
-        /// <param name="ignoreReadOnlyProperties">Wether or not to ignore read only properties - default false</param>
-        
-        public SerializerContractResolver(IContainer container, ISerializationOptions options, bool ignoreReadOnlyProperties = false)
+        /// <param name="ignoreReadOnlyProperties">Wether or not to ignore read only properties - default false</param>       
+        public SerializerContractResolver(ISerializationOptions options, bool ignoreReadOnlyProperties = false)
         {
-            _container = container;
             _options = options;
             _ignoreReadOnlyProperties = ignoreReadOnlyProperties;
         }

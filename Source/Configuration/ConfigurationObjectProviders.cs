@@ -42,7 +42,7 @@ namespace Dolittle.Configuration
             _providers = _typeFinder.FindMultiple<ICanProvideConfigurationObjects>()
                 .Select(_ =>
                 {
-                    _logger.Information($"Configuration Object provider : {_.AssemblyQualifiedName}");
+                    _logger.Trace($"Configuration Object provider : {_.AssemblyQualifiedName}");
                     return _container.Get(_) as ICanProvideConfigurationObjects;
                 }).ToArray();
 
@@ -51,20 +51,20 @@ namespace Dolittle.Configuration
         /// <inheritdoc/>
         public object Provide(Type type)
         {
-            _logger.Information($"Try to provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
+            _logger.Trace($"Try to provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
             var provider = GetProvidersFor(type).SingleOrDefault();
             if (provider == null) throw new MissingProviderForConfigurationObject(type);
-            _logger.Information($"Provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}' using {provider.GetType().AssemblyQualifiedName}");
+            _logger.Trace($"Provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}' using {provider.GetType().AssemblyQualifiedName}");
             return provider.Provide(type);
         }
 
         IEnumerable<ICanProvideConfigurationObjects> GetProvidersFor(Type type)
         {
-            var providers = _providers.Where(_ => 
+            var providers = _providers.Where((Func<ICanProvideConfigurationObjects, bool>)(_ => 
             {
-                _logger.Information($"Ask '{_.GetType().AssemblyQualifiedName}' if it can provide the configuration type '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
+                _logger.Trace((string)$"Ask '{_.GetType().AssemblyQualifiedName}' if it can provide the configuration type '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
                 return _.CanProvide(type);
-            });
+            }));
             ThrowIfMultipleProvidersCanProvide(type, providers);
             return providers;
         }

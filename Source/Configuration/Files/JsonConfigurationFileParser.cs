@@ -38,7 +38,7 @@ namespace Dolittle.Configuration.Files
             ILogger logger)
         {
             var converterInstances = new InstancesOf<ICanProvideConverters>(typeFinder, container);
-            _serializer = new Serializer(container, converterInstances);
+            _serializer = new Serializer(converterInstances);
             _logger = logger;
         }
 

@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using Dolittle.Concepts;
@@ -37,7 +38,7 @@ namespace Dolittle.Concepts.Serialization.Json
         {
             if (objectType.IsDictionary()) 
             {
-                var keyType = objectType.GetTypeInfo().GetGenericArguments()[0].GetTypeInfo().BaseType;
+                var keyType = objectType.GetKeyTypeFromDictionary();
                 return keyType.IsConcept();
             }
 
@@ -47,9 +48,9 @@ namespace Dolittle.Concepts.Serialization.Json
         /// <inheritdoc/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var keyType = objectType.GetTypeInfo().GetGenericArguments()[0];
-            var keyValueType = keyType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
-            var valueType = objectType.GetTypeInfo().GetGenericArguments()[1];
+            var keyType = objectType.GetKeyTypeFromDictionary();
+            var keyValueType = keyType.GetConceptValueType();
+            var valueType = objectType.GetValueTypeFromDictionary();
             var dictionary = new Dictionary<object,object>();
             JObject jsonDictionary = JObject.Load(reader);
             foreach(var entry in jsonDictionary.Properties())
@@ -68,11 +69,28 @@ namespace Dolittle.Concepts.Serialization.Json
             }
             try
             {
-                var finalDictionaryType = typeof(Dictionary<,>).MakeGenericType(keyType,valueType);
-                var finalDictionary = (IDictionary)Activator.CreateInstance(finalDictionaryType);
+                var dictionaryType = typeof(Dictionary<,>).MakeGenericType(keyType,valueType);
+                var finalDictionary = Activator.CreateInstance(dictionaryType) as IDictionary;
                 foreach(var key in dictionary.Keys)
                 {
                     finalDictionary[key] = dictionary[key];
+                }
+                if( objectType.IsReadOnlyDictionary() ) 
+                {
+                    var constructor = objectType.GetConstructors().First();
+                    if( constructor != null ) 
+                    {
+                        var parameters = constructor.GetParameters();
+                        if( parameters.Length == 1 && parameters[0].ParameterType.IsDictionary() ) 
+                        {
+                            finalDictionary = constructor.Invoke(new[] {finalDictionary}) as IDictionary;
+                        } 
+                        else 
+                        {
+                            var readOnlyDictionaryType = typeof(ReadOnlyDictionary<,>).MakeGenericType(keyType,valueType);
+                            finalDictionary = Activator.CreateInstance(readOnlyDictionaryType, finalDictionary) as IDictionary;
+                        }
+                    }
                 }
 
                 return finalDictionary;
