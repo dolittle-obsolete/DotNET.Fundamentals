@@ -12,14 +12,15 @@ namespace Dolittle.ResourceTypes.Configuration
     /// <summary>
     /// The exception that gets thrown when resources for a <see cref="TenantId"/> is not found in the resource file.
     /// </summary>
-    public class TenantIdNotPresentInResourceFile : Exception
+    public class MissingResourceConfigurationForTenant : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="TenantIdNotPresentInResourceFile"/>
+        /// Instantiates an instance of <see cref="MissingResourceConfigurationForTenant"/>
         /// </summary>
-        /// <param name="tenantId">The id that's not found in the resource file</param>
-        public TenantIdNotPresentInResourceFile(TenantId tenantId)
-            : base($"Expected resources under a tenant with {typeof(TenantId).FullName}: '{tenantId.Value.ToString()}', but the {typeof(TenantId).FullName} was not found in the resource file.")
+        /// <param name="tenantId">The <see cref="TenantId"/> that has missing resource configuration</param>
+        public MissingResourceConfigurationForTenant(
+            TenantId tenantId)
+            : base($"Tenant with id '{tenantId}' does not have a any resource configurations'")
         { }
     }
 }

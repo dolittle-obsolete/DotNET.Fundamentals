@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using Dolittle.IO;
 using Dolittle.Lifecycle;
@@ -12,33 +13,40 @@ using Dolittle.Tenancy;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
-    /// <inheritdoc/>
+
+    /// <summary>
+    /// Represents an implementation of <see cref="ICanProvideResourceConfigurationsByTenant"/>
+    /// </summary>
     [Singleton]
     public class ResourceConfigurationsByTenantProvider : ICanProvideResourceConfigurationsByTenant
     {
-        static readonly string _path = Path.Combine(".dolittle", "resources.json");
-        
-        IDictionary<TenantId, Dictionary<ResourceType, object>> _resourceConfigurationsByTenant = new Dictionary<TenantId, Dictionary<ResourceType, object>>();
+        readonly ResourceConfigurationsByTenant _configuration;
+        readonly IDictionary<TenantId, IDictionary<ResourceType, object>> _resourceConfigurationsByTenant = new Dictionary<TenantId, IDictionary<ResourceType, object>>();
         readonly ISerializer _serializer;
 
         /// <summary>
         /// Instantiates an instance of <see cref="ResourceConfigurationsByTenantProvider"/>
         /// </summary>
-        /// <param name="serializer"><see cref="ISerializer"/> for serializing</param>
+        /// <param name="configuration">The <see cref="ResourceConfigurationsByTenant"/> configuration object</param>
+        /// <param name="serializer"><see cref="ISerializer"/></param>
         public ResourceConfigurationsByTenantProvider(
+            ResourceConfigurationsByTenant configuration,
             ISerializer serializer)
         {
+            _configuration = configuration;
             _serializer = serializer;
-
-            HandleResourceFile();
         }
 
         /// <inheritdoc/>
         public object ConfigurationFor(Type configurationType, TenantId tenantId, ResourceType resourceType)
         {
-            var configurationObject = GetResourceConfiguration(tenantId, resourceType);
-            if( configurationObject is string )
-                configurationObject = _serializer.FromJson(configurationType, configurationObject as string); 
+            var configurationObjects = GetConfigurationObjectsFor(tenantId);
+            if( configurationObjects.ContainsKey(resourceType)) return configurationObjects[resourceType];
+
+            var configuredObject = GetResourceConfiguration(tenantId, resourceType);
+            var json = _serializer.ToJson(configuredObject);
+            var configurationObject = _serializer.FromJson(configurationType, json);
+            configurationObjects[resourceType] = configurationObject;
 
             return configurationObject;
         }
@@ -49,17 +57,18 @@ namespace Dolittle.ResourceTypes.Configuration
             return (T)ConfigurationFor(typeof(T), tenantId, resourceType);
         }
 
-
-        /// <inheritdoc/>
-        public void AddConfigurationFor(TenantId tenantId, ResourceType resourceType, object configurationObject)
+        dynamic GetResourceConfiguration(TenantId tenantId, ResourceType resourceType)
         {
-            var configurationObjects = GetConfigurationObjectsFor(tenantId);
-            ThrowIfTenantAlreadyHasConfigurationForResourceType(tenantId, resourceType, configurationObjects);
+            ThrowIfMissingResourceConfigurationForTenant(tenantId);
+            var configurationByResourceType = _configuration[tenantId];
+            ThrowIfMissingConfigurationForResourceTypeForTenant(tenantId, resourceType, configurationByResourceType);
+
+            return configurationByResourceType[resourceType];
         }
 
-        Dictionary<ResourceType, object> GetConfigurationObjectsFor(TenantId tenantId)
+        IDictionary<ResourceType, object> GetConfigurationObjectsFor(TenantId tenantId)
         {
-            Dictionary<ResourceType, object> configurationObjects = null;
+            IDictionary<ResourceType, object> configurationObjects = null;
 
             if( _resourceConfigurationsByTenant.ContainsKey(tenantId))
                 configurationObjects = _resourceConfigurationsByTenant[tenantId];
@@ -73,27 +82,14 @@ namespace Dolittle.ResourceTypes.Configuration
             return configurationObjects;
         }
 
-        void ThrowIfTenantAlreadyHasConfigurationForResourceType(TenantId tenantId, ResourceType resourceType, Dictionary<ResourceType, object> configurationObjects)
+        void ThrowIfMissingResourceConfigurationForTenant(TenantId tenantId)
         {
-            if (configurationObjects.ContainsKey(resourceType)) throw new ResourceAlreadyHasConfigurationForTenant(tenantId, resourceType);
+            if (!_configuration.ContainsKey(tenantId)) throw new MissingResourceConfigurationForTenant(tenantId);
         }
 
-        void HandleResourceFile()
+        void ThrowIfMissingConfigurationForResourceTypeForTenant(TenantId tenantId, ResourceType resourceType, IDictionary<ResourceType, object> configurationByResourceType)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), _path);
-            if (! File.Exists(path)) return;
-            var content = File.ReadAllText(path);
-
-            _resourceConfigurationsByTenant = _serializer.FromJson<Dictionary<TenantId, Dictionary<ResourceType, object>>>(content);
-        }
-
-        object GetResourceConfiguration(TenantId tenantId, ResourceType resourceType)
-        {
-            if (!_resourceConfigurationsByTenant.ContainsKey(tenantId)) throw new TenantIdNotPresentInResourceFile(tenantId);
-            var configurationByResourceType = _resourceConfigurationsByTenant[tenantId];
-            if (! configurationByResourceType.ContainsKey(resourceType)) throw new ResourceTypeNotFoundInResourceFile(tenantId, resourceType);
-
-            return configurationByResourceType[resourceType];
+            if (!configurationByResourceType.ContainsKey(resourceType)) throw new MissingResourceConfigurationForResourceTypeForTenant(tenantId, resourceType);
         }
     }
 }
