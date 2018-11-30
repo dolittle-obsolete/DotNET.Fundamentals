@@ -7,6 +7,7 @@ namespace Dolittle.PropertyBags
 {
     using System;
     using System.Collections.Concurrent;
+    using Dolittle.Immutability;
     using Dolittle.Reflection;
 
     /// <summary>

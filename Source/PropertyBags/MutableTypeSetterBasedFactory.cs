@@ -9,6 +9,7 @@ namespace Dolittle.PropertyBags
     using System.Linq;
     using Dolittle.Reflection;
     using System.Collections.Concurrent;
+    using Dolittle.Immutability;
 
     /// <summary>
     /// Creates a mutable object using the default constructor then setting all the mutable properties
