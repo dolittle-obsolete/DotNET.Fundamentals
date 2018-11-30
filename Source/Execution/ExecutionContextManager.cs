@@ -51,7 +51,7 @@ namespace Dolittle.Execution
         /// </remarks>
         public static ExecutionContext SetInitialExecutionContext([CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0, [CallerMemberName] string member = "")
         {
-            Logger.Internal.Information($"Setting initial execution context - called from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
+            Logger.Internal.Trace($"Setting initial execution context - called from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
             if( _initialExecutionContextSet ) throw new InitialExecutionContextHasAlreadyBeenSet();
 
             _initialExecutionContextSet = true;
@@ -132,7 +132,7 @@ namespace Dolittle.Execution
         /// <inheritdoc/>
         public ExecutionContext CurrentFor(ExecutionContext context, string filePath, int lineNumber, string member)
         {
-            _logger.Information($"Setting execution context ({context}) - from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
+            _logger.Trace($"Setting execution context ({context}) - from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
             Current = context;
             return context;
         }
