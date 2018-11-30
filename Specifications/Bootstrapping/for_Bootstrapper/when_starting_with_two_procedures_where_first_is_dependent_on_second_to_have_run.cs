@@ -1,4 +1,7 @@
+using Dolittle.Logging;
 using Machine.Specifications;
+using Moq;
+using It=Machine.Specifications.It;
 
 namespace Dolittle.Bootstrapping.Specs.for_Bootstrapper
 {
@@ -17,7 +20,7 @@ namespace Dolittle.Bootstrapping.Specs.for_Bootstrapper
             first_procedure_can_perform = false;
         };
 
-        Because of = () => Bootstrapper.Start(container.Object);
+        Because of = () => Bootstrapper.Start(container.Object, Mock.Of<ILogger>());
 
         It should_perform_second_then_first = () => last_boot_procedure.ShouldEqual(first_procedure.Object);
     }
