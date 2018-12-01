@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Reflection;
 using Dolittle.Booting.Stages;
 using Dolittle.Execution;
 using Dolittle.IO;
@@ -13,43 +14,31 @@ namespace Dolittle.Booting
     /// <summary>
     /// Extensions for building <see cref="InitialSystemSettings"/> 
     /// </summary>
-    public static class InitialSystemBootBuilderExtensions
+    public static class BasicsBootBuilderExtensions
     {
         /// <summary>
         /// Set scheduling to be synchronous 
         /// </summary>
         /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
+        /// <param name="assembly"><see cref="Assembly"/> to use as entry assembly</param>
         /// <returns>Chained <see cref="BootBuilder"/></returns>
         /// <remarks>
-        /// Asynchronous scheduling is default
+        /// If an entry assembly is not specified, the system will use the <see cref="Assembly.GetEntryAssembly()"/> method
         /// </remarks>
-        public static IBootBuilder SynchronousScheduling(this IBootBuilder bootBuilder)
+        public static IBootBuilder WithEntryAsssembly(this IBootBuilder bootBuilder, Assembly assembly)
         {
-            bootBuilder.Set<InitialSystemSettings>(_ => _.Scheduler, new SyncScheduler());
+            bootBuilder.Set<BasicsSettings>(_ => _.EntryAssembly, assembly);
             return bootBuilder;
         }
 
         /// <summary>
-        /// Use a specific <see cref="IFileSystem"/>
+        /// Set <see cref="Environment"/> to development - default is production
         /// </summary>
         /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
-        /// <typeparam name="T">Type of <see cref="IFileSystem"/> to use</typeparam>
         /// <returns>Chained <see cref="BootBuilder"/></returns>
-        public static IBootBuilder UseFileSystem<T>(this IBootBuilder bootBuilder) where T:IFileSystem
+        public static IBootBuilder Development(this IBootBuilder bootBuilder)
         {
-            bootBuilder.Set<InitialSystemSettings>(_ => _.FileSystem, typeof(T));
-            return bootBuilder;
-        }
-
-        /// <summary>
-        /// Use a specific <see cref="ISystemClock"/>
-        /// </summary>
-        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
-        /// <typeparam name="T">Type of <see cref="ISystemClock"/> to use</typeparam>
-        /// <returns>Chained <see cref="BootBuilder"/></returns>
-        public static IBootBuilder UseSystemClock<T>(this IBootBuilder bootBuilder) where T:ISystemClock
-        {
-            bootBuilder.Set<InitialSystemSettings>(_ => _.SystemClock, typeof(T));
+            bootBuilder.Set<BasicsSettings>(_ => _.Environment, Environment.Development);
             return bootBuilder;
         }
     }

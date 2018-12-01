@@ -38,31 +38,8 @@ namespace Dolittle.Booting.Stages
         public Type SystemClock {  get; internal set;  }
 
         /// <summary>
-        /// Gets the <see cref="Environment"/> we're running in
-        /// </summary>
-        public Environment Environment {  get; internal set;  }
-
-        /// <summary>
-        /// Gets the entry <see cref="Assembly"/>
-        /// </summary>
-        /// <value></value>
-        public Assembly EntryAssembly { get; internal set;  }
-
-        /// <summary>
         /// Gets the <see cref="IContainer"/> used
         /// </summary>
         public IContainer Container { get; internal set;  }
-
-        /// <summary>
-        /// Gets the <see cref="ILogAppender"/> to use
-        /// </summary>
-        public ILogAppender LogAppender { get; internal set; }
-
-
-        /// <summary>
-        /// Gets the <see cref="ILoggerFactory"/> to use
-        /// </summary>
-        public ILoggerFactory LoggerFactory { get; internal set; }
-
     }
 }

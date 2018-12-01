@@ -63,31 +63,6 @@ namespace Dolittle.Booting
         }
 
 #if(false)
-        Assembly _entryAssembly;
-        ICanProvideAssemblies   _assemblyProvider;
-        Type _containerType;
-        ILoggerFactory _loggerFactory = null;
-        bool _isProduction = true;
-
-        ExecutionContext _initialExecutionContext;
-        IExecutionContextManager _executionContextManager;
-        IContainer _container;
-
-        bool _skipBootProcedures = false;
-        bool _synchronousScheduling = false;
-        ILogAppender _logAppender;
-        readonly AsyncLocal<LoggingContext>  _currentLoggingContext = new AsyncLocal<LoggingContext>();    
-
-        /// <summary>
-        /// Start configuring the <see cref="Bootloader"/>
-        /// </summary>
-        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public static Bootloader Configure()
-        {
-            var bootloader = new Bootloader();
-            return bootloader;
-        }
-
         /// <summary>
         /// Define which container to be used during application lifecycle
         /// </summary>
@@ -105,139 +80,10 @@ namespace Dolittle.Booting
         }
 
         /// <summary>
-        /// Use a specific <see cref="ILoggerFactory"/>
-        /// </summary>
-        /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use</param>
-        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public Bootloader UseLoggerFactory(ILoggerFactory loggerFactory)
-        {
-            _loggerFactory = loggerFactory;
-            return this;
-        }
-
-        /// <summary>
-        /// Use a specific <see cref="ILogAppender"/>
-        /// </summary>
-        /// <param name="logAppender"><see cref="ILogAppender"/> to use</param>
-        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public Bootloader UseLogAppender(ILogAppender logAppender)
-        {
-            _logAppender = logAppender;
-            return this;
-        }
-
-        /// <summary>
-        /// Run in development mode
-        /// </summary>
-        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public Bootloader Development()
-        {
-            _isProduction = false;
-            return this;
-        }
-
-        /// <summary>
-        /// Run solution using synchronous scheduling
-        /// </summary>
-        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public Bootloader SynchronousScheduling()
-        {
-            _synchronousScheduling = true;
-            return this;
-        }
-
-        /// <summary>
-        /// Specify entry assembly
-        /// </summary>
-        /// <param name="entryAssembly"><see cref="Assembly"/> which is considered the entry assembly</param>
-        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public Bootloader WithEntryAssembly(Assembly entryAssembly)
-        {
-            _entryAssembly = entryAssembly;
-            return this;
-        }
-
-        /// <summary>
-        /// Specify the known assemblies instead of discovering them
-        /// </summary>
-        /// <param name="assemblies"><see cref="IEnumerable{T}">Collection</see> of <see cref="AssemblyName"/> representing known assemblies</param>
-        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public Bootloader WithAssemblies(IEnumerable<AssemblyName> assemblies)
-        {
-            _assemblyProvider = new WellKnownAssembliesAssemblyProvider(assemblies);
-            return this;
-        }
-
-        /// <summary>
-        /// Tells the bootloader to skip any <see cref="ICanPerformBootProcedure">boot procedures</see>
-        /// </summary>
-        /// <returns>Chained <see cref="Bootloader"/> for configuration</returns>
-        public Bootloader SkipBootprocedures()
-        {
-            _skipBootProcedures = true;
-            return this;
-        }
-
-        /// <summary>
         /// Start booting
         /// </summary>
         public BootloaderResult Start()
         {
-            /*
-                Stages / Phase / Sequence:
-                http://processors.wiki.ti.com/index.php/The_Boot_Process#
-
-                0: System
-                - FileSystem
-                - SystemClock
-                - Scheduler
-                - Logging 
-
-                1: Discovery
-                - Assemblies
-                - Types
-
-                2: Configuration
-                - Configuration objects
-
-                3: Bindings
-                - Discover through conventions
-                - Discover through binding providers
-
-                4: Boot procedures
-
-
-                ICanRunBefore<BootStage.MasterBootRecord>
-                
-                public interface IBootStageConfiguration
-                {
-
-                }
-
-                public interface ICanPerformBootStage
-                {
-                    BootStage BootStage { get; }
-                }
-
-                public interface ICanRunBeforeBootStage
-                {
-                    BootStage BootStage { get; }
-                }
-
-                public interface ICanRunAfterBootStage
-                {
-                    BootStage BootStage { get; }
-                }
-
-                public class BootInformation
-                {
-                    public BootStage CurrentStage { get; }
-                    public bool IsBooting { get; }
-                }
-                
-             */
-
-
 
             var l = _loggerFactory;
             var p = _isProduction;
@@ -299,44 +145,6 @@ namespace Dolittle.Booting
             return result;
         }     
 
-        
-        LoggingContext GetCurrentLoggingContext()
-        {
-            Dolittle.Execution.ExecutionContext executionContext = null;
-
-            if( _executionContextManager == null && _container != null )
-                _executionContextManager = _container.Get<IExecutionContextManager>();
-
-            if (LoggingContextIsSet())
-            {
-                if (_executionContextManager != null) SetLatestLoggingContext();
-                return _currentLoggingContext.Value;
-            }
-            
-            if( _executionContextManager != null ) executionContext = _executionContextManager.Current;
-            else executionContext = _initialExecutionContext;
-
-            var loggingContext = CreateLoggingContextFrom(executionContext);
-            _currentLoggingContext.Value = loggingContext;
-
-            return loggingContext;
-        }
-
-        bool LoggingContextIsSet() => 
-            _currentLoggingContext != null && _currentLoggingContext.Value != null;
-
-        void SetLatestLoggingContext() => 
-            _currentLoggingContext.Value = CreateLoggingContextFrom(_executionContextManager.Current);
-            
-        
-        LoggingContext CreateLoggingContextFrom(Dolittle.Execution.ExecutionContext executionContext) =>
-            new LoggingContext {
-                Application = executionContext.Application,
-                BoundedContext = executionContext.BoundedContext,
-                CorrelationId = executionContext.CorrelationId,
-                Environment = executionContext.Environment,
-                TenantId = executionContext.Tenant
-            };
 #endif                   
 
     }

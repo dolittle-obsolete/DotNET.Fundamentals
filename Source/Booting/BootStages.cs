@@ -30,6 +30,8 @@ namespace Dolittle.Booting
         {
             _initialFixedStages = new ICanPerformPartOfBootStage[]
             {
+                new Basics(),
+                new Stages.Logging(),
                 new InitialSystem(),
                 new Discovery(),
                 new PostDiscovery(DiscoverBootStages)

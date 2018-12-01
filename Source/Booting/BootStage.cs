@@ -13,13 +13,31 @@ namespace Dolittle.Booting
     public enum BootStage
     {
         /// <summary>
+        /// Basics stage - fixed
+        /// </summary>
+        /// <remarks>
+        /// This stage is defined by the system and can't be swapped out. It also does not support
+        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>
+        /// </remarks>
+        Basics=1,
+
+        /// <summary>
+        /// Logging stage - fixed
+        /// </summary>
+        /// <remarks>
+        /// This stage is defined by the system and can't be swapped out. It also does not support
+        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>
+        /// </remarks>
+        Logging,
+
+        /// <summary>
         /// Initial system stage - fixed
         /// </summary>
         /// <remarks>
         /// This stage is defined by the system and can't be swapped out. It also does not support
         /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>
         /// </remarks>
-        InitialSystem=1,
+        InitialSystem,
 
         /// <summary>
         /// Discovery stage - fixed
