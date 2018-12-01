@@ -39,5 +39,10 @@ namespace Dolittle.Booting
         /// The logger
         /// </summary>
         public const string Logger = "Logger";
+
+        /// <summary>
+        /// Current Bindings
+        /// </summary>
+        public const string Bindings = "Bindings";
     }
 }
