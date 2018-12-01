@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.DependencyInversion;
 
-namespace Dolittle.Bootstrapping
+namespace Dolittle.Booting
 {
     /// <summary>
     /// Defines a builder for a <see cref="BootStage"/>
@@ -22,11 +22,21 @@ namespace Dolittle.Bootstrapping
         void UseContainer(IContainer container);
 
         /// <summary>
-        /// Associate a type with an instance
+        /// Associate a key with an object
         /// </summary>
-        /// <param name="instance">Instance of the type to associate with</param>
-        /// <typeparam name="T">Type to associate</typeparam>
-        void Associate<T>(T instance);
+        /// <param name="key">Key for the association</param>
+        /// <param name="value">Value of the association</param>
+        /// <remarks>
+        /// This is used throughout the boot process for passing information along from stages
+        /// </remarks>
+        void Associate(string key, object value);
+
+        /// <summary>
+        /// Get association by kejy
+        /// </summary>
+        /// <param name="key">Key for the association</param>
+        /// <returns>Instance associated</returns>
+        object GetAssociation(string key);
 
         /// <summary>
         /// Build the <see cref="BootStage"/> and return the <see cref="BootStageResult">result</see>

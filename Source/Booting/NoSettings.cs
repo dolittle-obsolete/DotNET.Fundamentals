@@ -6,12 +6,7 @@
 namespace Dolittle.Booting
 {
     /// <summary>
-    /// Defines the system for performing operations after a specific <see cref="BootStage"/>
+    /// If a <see cref="BootStage"/> does not have any settings - this is the representation of it
     /// </summary>
-    public interface ICanRunAfterBootStage<T> : ICanPerformPartOfBootStage<T> where T:IRepresentSettingsForBootStage
-    {
-
-    }
-
-
+    public class NoSettings : IRepresentSettingsForBootStage {}
 }

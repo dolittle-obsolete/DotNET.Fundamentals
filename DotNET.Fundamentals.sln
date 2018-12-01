@@ -115,9 +115,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyBags", "Source\Prop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyBags", "Specifications\PropertyBags\PropertyBags.csproj", "{28B59332-B699-4FC0-9D12-51829F3EB25C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrapping", "Source\Bootstrapping\Bootstrapping.csproj", "{6B71F948-5A19-437E-8F98-26FDFE162C43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booting", "Source\Booting\Booting.csproj", "{6B71F948-5A19-437E-8F98-26FDFE162C43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrapping", "Specifications\Bootstrapping\Bootstrapping.csproj", "{E52F2A4B-0448-48B1-B035-E4B8427218B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booting", "Specifications\Booting\Booting.csproj", "{E52F2A4B-0448-48B1-B035-E4B8427218B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tenancy", "Source\Tenancy\Tenancy.csproj", "{20476CC6-2943-46CD-8467-E52B1BB494B8}"
 EndProject

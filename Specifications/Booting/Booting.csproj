@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>Dolittle.Bootstrapping.Specs</AssemblyName>
+    <AssemblyName>Dolittle.Booting.Specs</AssemblyName>
   </PropertyGroup>
 
   <Import Project="../../Build/MSBuild/specs.props"></Import>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Bootstrapping\Bootstrapping.csproj" />
+    <ProjectReference Include="..\..\Source\Booting\Booting.csproj" />
   </ItemGroup>
 
 </Project>

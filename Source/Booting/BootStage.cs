@@ -3,7 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Dolittle.Bootstrapping
+using Dolittle.DependencyInversion;
+
+namespace Dolittle.Booting
 {
     /// <summary>
     /// Defines the different stages of booting
@@ -29,9 +31,9 @@ namespace Dolittle.Bootstrapping
         Discovery,
 
         /// <summary>
-        /// Start of boot
+        /// Prepare boot - after this stage there should be a <see cref="IContainer"/> available - most likely a temporary container used during booting
         /// </summary>
-        BootStart,
+        PrepareBoot,
 
         /// <summary>
         /// Configuration is hooked up. After this, all systems can start relying on configuration to be there.

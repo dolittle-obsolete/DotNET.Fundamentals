@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Dolittle.Bootstrapping
+namespace Dolittle.Booting
 {
     /// <summary>
     /// Defines a marker interface for representing configuration related to a <see cref="BootStage"/>

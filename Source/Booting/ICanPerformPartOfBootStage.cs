@@ -3,17 +3,25 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Dolittle.Bootstrapping
+namespace Dolittle.Booting
 {
     /// <summary>
-    /// Defines a system that is capable of performing operations as part of a <see cref="BootStage"/>
+    /// Defines the basis of a system that is capable of performing operations as part of a <see cref="BootStage"/>
     /// </summary>
-    public interface ICanPerformPartOfBootStage<T> where T:IRepresentSettingsForBootStage
+    public interface ICanPerformPartOfBootStage 
     {
         /// <summary>
         /// Gets the <see cref="BootStage"/> it supports
         /// </summary>
         BootStage BootStage { get; }
+    }
+
+    /// <summary>
+    /// Defines a system that is capable of performing operations as part of a <see cref="BootStage"/>
+    /// </summary>
+    public interface ICanPerformPartOfBootStage<T> : ICanPerformPartOfBootStage
+        where T:IRepresentSettingsForBootStage
+    {
 
         /// <summary>
         /// Method that gets called when system wants you to perform operations

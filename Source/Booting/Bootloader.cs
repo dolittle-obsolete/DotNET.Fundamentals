@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 using Environment = Dolittle.Execution.Environment;
 using ExecutionContext = Dolittle.Execution.ExecutionContext;
 
-namespace Dolittle.Bootstrapping
+namespace Dolittle.Booting
 {
     /// <summary>
     /// Represents the starting point - the actual boot of an application with configuration options
@@ -40,9 +40,12 @@ namespace Dolittle.Bootstrapping
         /// <summary>
         /// Start booting
         /// </summary>
-        public void Start()
+        public BootloaderResult Start()
         {
+            var bootStages = new BootStages();
+            bootStages.Perform(_boot);
 
+            return null;
         }
 
         /// <summary>

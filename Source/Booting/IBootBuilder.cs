@@ -3,7 +3,10 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Dolittle.Bootstrapping
+using System;
+using System.Linq.Expressions;
+
+namespace Dolittle.Booting
 {
     /// <summary>
     /// Defines the builder for <see cref="Boot"/>
@@ -11,11 +14,10 @@ namespace Dolittle.Bootstrapping
     public interface IBootBuilder
     {
         /// <summary>
-        /// Use a specific setting
+        /// 
         /// </summary>
-        /// <param name="settings">Setting to use</param>
-        /// <typeparam name="T">Type of setting</typeparam>
-        void Use<T>(T settings) where T: IRepresentSettingsForBootStage;
+        /// <typeparam name="TTarget "></typeparam>
+        void Set<TTarget>(Expression<Func<TTarget, object>> propertyExpression, object value) where TTarget:class, IRepresentSettingsForBootStage, new();
 
         /// <summary>
         /// Build the <see cref="Boot"/>

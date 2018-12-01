@@ -10,7 +10,7 @@ using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Types;
 
-namespace Dolittle.Bootstrapping
+namespace Dolittle.Booting
 {
     /// <summary>
     /// Represents the main bootstrapper that enables systems to be called during booting of the system

@@ -10,6 +10,7 @@
         <ProjectReference Include="..\Collections\Collections.csproj" />
         <ProjectReference Include="..\DependencyInversion.Bootstrap\DependencyInversion.Bootstrap.csproj" />
         <ProjectReference Include="..\Execution\Execution.csproj" />
+        <ProjectReference Include="..\IO\IO.csproj" />
         <ProjectReference Include="..\Logging\Logging.csproj" />
         <ProjectReference Include="..\Scheduling\Scheduling.csproj" />
         <ProjectReference Include="..\Time\Time.csproj" />

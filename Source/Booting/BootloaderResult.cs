@@ -2,11 +2,12 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
 using Dolittle.Assemblies;
 using Dolittle.DependencyInversion;
 using Dolittle.Types;
 
-namespace Dolittle.Bootstrapping
+namespace Dolittle.Booting
 {
     /// <summary>
     /// Represents the result of the <see cref="Bootloader"/> start
@@ -20,16 +21,19 @@ namespace Dolittle.Bootstrapping
         /// <param name="typeFinder"><see cref="ITypeFinder"/> configured</param>
         /// <param name="assemblies"><see cref="IAssemblies"/> configured</param>
         /// <param name="bindings"><see cref="IBindingCollection"/> configured</param>
+        /// <param name="bootStageResults"><see cref="BootStageResults">Results from each boot stage</see></param>
         public BootloaderResult(
-            IContainer container, 
-            ITypeFinder typeFinder, 
-            IAssemblies assemblies, 
-            IBindingCollection bindings)
+            IContainer container,
+            ITypeFinder typeFinder,
+            IAssemblies assemblies,
+            IBindingCollection bindings,
+            IEnumerable<BootStageResult> bootStageResults)
         {
             Container = container;
             TypeFinder = typeFinder;
             Assemblies = assemblies;
             Bindings = bindings;
+            BootStageResults = bootStageResults;
         }
 
         /// <summary>
@@ -51,5 +55,10 @@ namespace Dolittle.Bootstrapping
         /// Gets the <see cref="IBindingCollection">bindings</see> configured
         /// </summary>
         public IBindingCollection Bindings {  get; }
+
+        /// <summary>
+        /// Gets the <see cref="BootStageResults">results from each boot stage</see>
+        /// </summary>
+        public IEnumerable<BootStageResult> BootStageResults { get; }
     }
 }
