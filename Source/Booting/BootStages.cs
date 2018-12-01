@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Booting.Stages;
 using Dolittle.Collections;
+using Dolittle.DependencyInversion;
 using Dolittle.Reflection;
 using Dolittle.Types;
 
@@ -40,8 +41,10 @@ namespace Dolittle.Booting
         public IEnumerable<BootStageResult> Perform(Boot boot)
         {
             var results = new List<BootStageResult>();
-            var associations = new Dictionary<string, object>();
-
+            var aggregatedAssociations = new Dictionary<string, object>();
+            IContainer container = null;
+            var bindingCollection = new BindingCollection();
+            
             while (_stages.Count > 0)
             {
                 var stage = _stages.Dequeue();
@@ -49,13 +52,16 @@ namespace Dolittle.Booting
                 var settingsType = performer.GetGenericArguments() [0];
                 var settings = boot.GetSettingsByType(settingsType);
                 var method = performer.GetMethod("Perform", BindingFlags.Public | BindingFlags.Instance);
-                var builder = new BootStageBuilder(associations);
+
+                aggregatedAssociations[WellKnownAssociations.Bindings] = bindingCollection;
+                var builder = new BootStageBuilder(container:container,initialAssociations:aggregatedAssociations);
                 method.Invoke(stage, new object[] { settings, builder });
                 var result = builder.Build();
                 results.Add(result);
-                
-                // TODO: MAKE IMMUTABLE - WE SHOULD BE SEEING ONLY THE ASSOCIATIONS FROM THE STAGE - NOT ALL IN THE RESULT
-                result.Associations.ForEach(_ => associations[_.Key] = _.Value);
+
+                result.Associations.ForEach(_ => aggregatedAssociations[_.Key] = _.Value);
+
+                bindingCollection = new BindingCollection(bindingCollection, result.Bindings);
             }
 
             return results;
