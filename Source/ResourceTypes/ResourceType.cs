@@ -7,7 +7,7 @@ using Dolittle.Concepts;
 namespace Dolittle.ResourceTypes
 {
     /// <summary>
-    /// Represents the type of a resource (readModels, eventStore, ...)
+    /// Represents the type of a resource in the system
     /// </summary>
     public class ResourceType : ConceptAs<string>
     {

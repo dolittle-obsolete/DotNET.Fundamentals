@@ -14,9 +14,10 @@ namespace Dolittle.ResourceTypes
     public interface IAmAResourceType
     {
         /// <summary>
-        /// Gets the name of the resource type. for example "readModels" or "eventStore"
+        /// Gets the name of the resource type
         /// </summary>
         ResourceType Name { get; }
+
         /// <summary>
         /// Gets the services related to the <see cref="ResourceType"/>
         /// </summary>
