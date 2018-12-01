@@ -4,7 +4,7 @@ using Dolittle.Logging;
 using Machine.Specifications;
 using Moq;
 
-namespace Dolittle.Bootstrapping.Specs.for_Bootstrapper.given
+namespace Dolittle.Booting.Specs.for_Bootstrapper.given
 {
     public class all_dependencies
     {

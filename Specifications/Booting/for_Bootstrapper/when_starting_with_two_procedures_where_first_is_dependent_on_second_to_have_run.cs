@@ -3,7 +3,7 @@ using Machine.Specifications;
 using Moq;
 using It=Machine.Specifications.It;
 
-namespace Dolittle.Bootstrapping.Specs.for_Bootstrapper
+namespace Dolittle.Booting.Specs.for_Bootstrapper
 {
     public class when_starting_with_two_procedures_where_first_is_dependent_on_second_to_have_run : given.two_procedures
     {
