@@ -9,6 +9,7 @@ using System.Reflection;
 using Dolittle.Booting.Stages;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
+using Dolittle.Logging;
 using Dolittle.Reflection;
 using Dolittle.Types;
 
@@ -39,6 +40,8 @@ namespace Dolittle.Booting
             _stages = new Queue<ICanPerformPartOfBootStage>(_initialFixedStages);
         }
 
+        ILogger _logger;
+
         /// <inheritdoc/>
         public IEnumerable<BootStageResult> Perform(Boot boot)
         {
@@ -46,10 +49,16 @@ namespace Dolittle.Booting
             var aggregatedAssociations = new Dictionary<string, object>();
             IContainer container = null;
             var bindingCollection = new BindingCollection();
+            _logger = new NullLogger();
+
             
             while (_stages.Count > 0)
             {
                 var stage = _stages.Dequeue();
+                if( aggregatedAssociations.ContainsKey(WellKnownAssociations.Logger) ) _logger = aggregatedAssociations[WellKnownAssociations.Logger] as ILogger;
+
+                _logger.Information($"<********* BOOTSTAGE : {stage.BootStage} *********>");
+
                 var performer = stage.GetType().GetInterfaces().SingleOrDefault(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanPerformPartOfBootStage<>));
                 var settingsType = performer.GetGenericArguments() [0];
                 var settings = boot.GetSettingsByType(settingsType);
@@ -78,7 +87,8 @@ namespace Dolittle.Booting
                 {
                     ThrowIfMissingDefaultConstructorForBootStagePerformer(_);
                     return Activator.CreateInstance(_) as ICanPerformPartOfBootStage;
-                });
+                })
+                .OrderBy(_ => _.BootStage);
 
             bootStagePerformers.ForEach(_ => _stages.Enqueue(_));
         }
