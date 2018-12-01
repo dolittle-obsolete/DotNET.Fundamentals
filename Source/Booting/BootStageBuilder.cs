@@ -2,7 +2,6 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using Dolittle.DependencyInversion;
 
@@ -13,20 +12,36 @@ namespace Dolittle.Booting
     /// </summary>
     public class BootStageBuilder : IBootStageBuilder
     {
+        readonly Dictionary<string,object> _initialAssociations;
         readonly Dictionary<string, object> _associations = new Dictionary<string, object>();
         IContainer _container;
 
         /// <summary>
         /// Initializes a new instance of <see cref="BootStageBuilder"/>
         /// </summary>
-        public BootStageBuilder(IDictionary<string, object> initialAssociations = null)
+        /// <param name="container"><see cref="IContainer"/> to use for the stage building - optional, can be null</param>
+        /// <param name="initialAssociations"><see cref="IDictionary{TKey, TValue}"/> with initial associations</param>
+        public BootStageBuilder(IContainer container=null, IDictionary<string, object> initialAssociations = null)
         {
-            if( initialAssociations != null ) _associations = new Dictionary<string, object>(initialAssociations);
+            _container = container;
+            if (initialAssociations != null) _initialAssociations = new Dictionary<string, object>(initialAssociations);
+            else _initialAssociations = new Dictionary<string, object>();
             Bindings = new BindingProviderBuilder();
         }
 
         /// <inheritdoc/>
         public IBindingProviderBuilder Bindings { get; }
+
+        /// <inheritdoc/>
+        public IContainer Container
+        {
+            get
+            {
+                ThrowIfContainerIsNotSet();
+                return _container;
+            }
+        }
+
 
         /// <inheritdoc/>
         public void Associate(string key, object value)
@@ -37,9 +52,11 @@ namespace Dolittle.Booting
         /// <inheritdoc/>
         public object GetAssociation(string key)
         {
-            return _associations[key];
-        }
+            if( _associations.ContainsKey(key)) return _associations[key];
+            if( _initialAssociations.ContainsKey(key)) return _initialAssociations[key];
 
+            throw new MissingAssociation(key);
+        }
 
         /// <inheritdoc/>
         public BootStageResult Build()
@@ -48,11 +65,15 @@ namespace Dolittle.Booting
             return result;
         }
 
-
         /// <inheritdoc/>
         public void UseContainer(IContainer container)
         {
             _container = container;
+        }
+
+        void ThrowIfContainerIsNotSet()
+        {
+            if (_container == null) throw new ContainerNotSetYet();
         }
     }
 }

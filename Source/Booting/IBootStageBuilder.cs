@@ -6,6 +6,7 @@ using Dolittle.DependencyInversion;
 
 namespace Dolittle.Booting
 {
+
     /// <summary>
     /// Defines a builder for a <see cref="BootStage"/>
     /// </summary>
@@ -15,6 +16,12 @@ namespace Dolittle.Booting
         /// Gets the <see cref="IBindingProviderBuilder"/> for building specific 
         /// </summary>
         IBindingProviderBuilder Bindings { get; }
+
+        /// <summary>
+        /// Gets the current container - if not set, the exception <see cref="ContainerNotSetYet"/> will be thrown
+        /// </summary>
+        /// <exception cref="ContainerNotSetYet">Thrown when the <see cref="IContainer"/> is not set yet</exception>
+        IContainer Container { get; }
 
         /// <summary>
         /// Called to switch to a specific <see cref="IContainer"/> - any stage beyond this stage will use the <see cref="IContainer"/> specified
