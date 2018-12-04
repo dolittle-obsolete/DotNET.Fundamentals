@@ -47,10 +47,16 @@ namespace Dolittle.Booting
         /// <inheritdoc/>
         public BootStagesResult Perform(Boot boot)
         {
+            var newBindingsNotificationHub = new NewBindingsNotificationHub();
             var results = new List<BootStageResult>();
-            var aggregatedAssociations = new Dictionary<string, object>();
-            var bindingCollection = new BindingCollection();
+            var aggregatedAssociations = new Dictionary<string, object>() {
+                { WellKnownAssociations.NewBindingsNotificationHub, newBindingsNotificationHub }
+            };
+            var bindingCollection = new BindingCollection(new [] {
+                new BindingBuilder(Binding.For(typeof(GetContainer))).To((GetContainer)(() => _container)).Build()
+            });
             _logger = new NullLogger();
+
 
             while (_stages.Count > 0)
             {
@@ -80,6 +86,8 @@ namespace Dolittle.Booting
                 results.Add(result);
 
                 result.Associations.ForEach(_ => aggregatedAssociations[_.Key] = _.Value);
+
+                newBindingsNotificationHub.Notify(result.Bindings);
 
                 bindingCollection = new BindingCollection(bindingCollection, result.Bindings);
                 _container = result.Container;

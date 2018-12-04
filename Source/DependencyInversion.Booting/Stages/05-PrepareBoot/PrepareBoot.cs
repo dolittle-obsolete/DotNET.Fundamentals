@@ -18,9 +18,9 @@ namespace Dolittle.DependencyInversion.Booting.Stages
         /// <inheritdoc/>
         public void Perform(NoSettings settings, IBootStageBuilder builder)
         {
-            var typeFinder = builder.GetAssociation(WellKnownAssociations.TypeFinder) as ITypeFinder;
             var bindings = builder.GetAssociation(WellKnownAssociations.Bindings) as IBindingCollection;
-            var bootContainer = new BootContainer(typeFinder, bindings);
+            var newBindingsNotifier = builder.GetAssociation(WellKnownAssociations.NewBindingsNotificationHub) as ICanNotifyForNewBindings;
+            var bootContainer = new BootContainer(bindings, newBindingsNotifier);
             builder.UseContainer(bootContainer);
         }
     }

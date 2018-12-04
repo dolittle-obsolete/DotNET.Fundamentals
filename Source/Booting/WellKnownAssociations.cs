@@ -52,5 +52,10 @@ namespace Dolittle.Booting
         /// Current <see cref="IBindingCollection">bindings</see>
         /// </summary>
         public const string Bindings = "Bindings";
+
+        /// <summary>
+        /// The <see cref="ICanNotifyForNewBindings">notifications hub</see> for new <see cref="Binding">bindings</see>
+        /// </summary>
+        public const string NewBindingsNotificationHub = "NewBindingsNotificationHub";
     }
 }

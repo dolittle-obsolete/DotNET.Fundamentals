@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Dolittle.Booting;
 using Dolittle.Collections;
 using Dolittle.Types;
 
@@ -14,21 +15,21 @@ namespace Dolittle.DependencyInversion.Booting
     /// <summary>
     /// Represents a <see cref="IContainer"/> used during booting
     /// </summary>
-    internal class BootContainer : IContainer
+    public class BootContainer : IContainer
     {
         IDictionary<Type, object>    _bindings;
 
         /// <summary>
         /// Initializes a new instance of <see cref="BootContainer"/>
         /// </summary>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding types</param>
         /// <param name="bindings"><see cref="IBindingCollection">Bindings</see> for the <see cref="BootContainer"/></param>
-        public BootContainer(ITypeFinder typeFinder, IBindingCollection bindings)
+        /// <param name="newBindingsNotifier"><see cref="ICanNotifyForNewBindings">Notifier</see> of new <see cref="Binding">bindings</see></param>
+        public BootContainer(IBindingCollection bindings, ICanNotifyForNewBindings newBindingsNotifier)
         {
             _bindings = ConvertBindings(bindings);
             _bindings[typeof(IContainer)] = this;
 
-            ProvideBootBindings(typeFinder);
+            newBindingsNotifier.SubscribeTo(_ => ConvertBindings(_).ForEach(_bindings.Add));
         }
 
         /// <inheritdoc/>
@@ -58,32 +59,21 @@ namespace Dolittle.DependencyInversion.Booting
             {
                 if( !_bindings.ContainsKey(parameter.ParameterType)) 
                     throw new ConstructorDependencyNotSupported(type, parameter.ParameterType, _bindings.Select(_ => _.Key));
+
+                var binding = _bindings[parameter.ParameterType];
+                if( binding is Delegate && parameter.ParameterType != typeof(GetContainer) )
+                {
+                    var bindingDelegate = binding as Delegate;
+                    binding = bindingDelegate.DynamicInvoke();
+                }
                 
-                instances.Add(_bindings[parameter.ParameterType]);
+                instances.Add(binding);
             }
 
             var bindingProvider = constructor.Invoke(instances.ToArray());
             return bindingProvider;
         }
 
-        void ProvideBootBindings(ITypeFinder typeFinder)
-        {
-            var bindingCollections = new List<IBindingCollection>();
-            typeFinder
-                .FindMultiple<ICanProvideBootBindings>()
-                .ForEach(_ =>
-                {
-                    var instance = Get(_) as ICanProvideBootBindings;
-                    var builder = new BindingProviderBuilder();
-                    instance.Provide(builder);
-                    var bindingCollection = builder.Build();
-                    bindingCollections.Add(bindingCollection);
-
-                    var bindings = ConvertBindings(bindingCollection);
-                    bindings.ForEach(_bindings.Add);
-                });
-            BootBindings = new BindingCollection(bindingCollections.ToArray());
-        }
 
         IDictionary<Type, object> ConvertBindings(IBindingCollection bindings)
         {
