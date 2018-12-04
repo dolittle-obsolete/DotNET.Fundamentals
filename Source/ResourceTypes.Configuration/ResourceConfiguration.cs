@@ -10,6 +10,7 @@ using Dolittle.Types;
 using Dolittle.Collections;
 using Dolittle.Reflection;
 using Dolittle.Logging;
+using Dolittle.DependencyInversion;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
@@ -27,21 +28,18 @@ namespace Dolittle.ResourceTypes.Configuration
         /// <summary>
         /// Initializes a new instance of <see cref="ResourceConfiguration"/>
         /// </summary>
-        /// <param name="typeFinder"></param>
-        /// <param name="logger"></param>
-        public ResourceConfiguration(ITypeFinder typeFinder, ILogger logger)
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> used for discovering types by the resource system</param>
+        /// <param name="container"><see cref="IContainer"/> to use for getting instances</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public ResourceConfiguration(ITypeFinder typeFinder, IContainer container, ILogger logger)
         {
             logger.Information("ResourceConfiguration() - ctor");
 
             _typeFinder = typeFinder;
             var resourceTypeRepresentationTypes = _typeFinder.FindMultiple<IRepresentAResourceType>();
-            resourceTypeRepresentationTypes.ForEach(_ => 
-            {
-                logger.Trace($"Discovered resource type representation : '{_.AssemblyQualifiedName}'");
-                ThrowIfNoDefaultConstructor(_);
-            });
+            resourceTypeRepresentationTypes.ForEach(_ => logger.Information($"Discovered resource type representation : '{_.AssemblyQualifiedName}'"));
 
-            _resourceTypeRepresentations = resourceTypeRepresentationTypes.Select(_ => Activator.CreateInstance(_) as IRepresentAResourceType);
+            _resourceTypeRepresentations = resourceTypeRepresentationTypes.Select(_ => container.Get(_) as IRepresentAResourceType);
             ThrowIfMultipleResourcesWithSameTypeAndImplementation(_resourceTypeRepresentations);
             _logger = logger;
         }
@@ -54,7 +52,7 @@ namespace Dolittle.ResourceTypes.Configuration
 
             resourceTypesRepresentationsWithService.ForEach(_ => _logger.Information($"Resource type with service binding : {_.ImplementationName}"));
 
-            _logger.Trace("Current resources");
+            _logger.Trace($"Current resources : {_resources.Count}");
             _resources.ForEach(_ => _logger.Information($"Resource : {_.Key} - {_.Value}"));
 
             var results = resourceTypesRepresentationsWithService.Where(_ => {
@@ -84,12 +82,6 @@ namespace Dolittle.ResourceTypes.Configuration
 
         /// <inherit/>
         public bool IsConfigured {get; private set;}
-
-        
-        void ThrowIfNoDefaultConstructor(Type resourceTypeRepresentationType)
-        {
-            if (! resourceTypeRepresentationType.HasDefaultConstructor()) throw new InvalidResourceTypeFound($"The ResourceType representation {resourceTypeRepresentationType.FullName} must have default constructor.");
-        }
 
         void ThrowIfMultipleResourcesWithSameTypeAndImplementation(IEnumerable<IRepresentAResourceType> resourceTypeRepresentations)
         {
