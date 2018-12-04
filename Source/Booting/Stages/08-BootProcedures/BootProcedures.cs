@@ -23,15 +23,7 @@ namespace Dolittle.Booting.Stages
             {
                 var logger = builder.GetAssociation(WellKnownAssociations.Logger) as ILogger;
                 var typeFinder = builder.GetAssociation(WellKnownAssociations.TypeFinder) as ITypeFinder;
-                var procedures = typeFinder.FindMultiple<ICanPerformBootProcedure>();
-
-                procedures.ForEach(_ => logger.Information($"BootProcedure : {_.AssemblyQualifiedName}"));
-
-
-                
-
-                
-                Bootstrapper.Start(builder.Container, logger);
+                builder.Container.Get<IBootProcedures>().Perform();
             }
         }
     }
