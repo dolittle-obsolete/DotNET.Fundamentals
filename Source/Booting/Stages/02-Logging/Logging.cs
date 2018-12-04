@@ -45,10 +45,12 @@ namespace Dolittle.Booting.Stages
 
             var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(loggerFactory, logAppender, entryAssembly);
             Dolittle.Logging.ILogger logger = new Logger(logAppenders);
+            logger.Information($"<********* BOOTSTAGE : Logging *********>");
             builder.Associate(WellKnownAssociations.Logger, logger);
 
             _executionContextManager = new ExecutionContextManager(logger);
-            
+
+            builder.Bindings.Bind<Dolittle.Logging.ILogger>().To(logger);
 
             builder.Bindings.Bind<IExecutionContextManager>().To(_executionContextManager);
         }

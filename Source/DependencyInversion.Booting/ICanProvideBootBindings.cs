@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Dolittle.DependencyInversion.Bootstrap
+namespace Dolittle.DependencyInversion.Booting
 {
     /// <summary>
     /// Defines a system that can provide <see cref="Binding">bindings</see> critical for booting

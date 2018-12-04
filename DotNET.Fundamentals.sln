@@ -97,9 +97,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artifacts", "Specifications
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversion", "Specifications\DependencyInversion\DependencyInversion.csproj", "{F39F6574-15D4-4AFE-AB8B-67EB0A5626B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversion.Bootstrap", "Source\DependencyInversion.Bootstrap\DependencyInversion.Bootstrap.csproj", "{F94F09A6-CA08-44A1-AC96-C8D52EB3E931}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversion.Booting", "Source\DependencyInversion.Booting\DependencyInversion.Booting.csproj", "{F94F09A6-CA08-44A1-AC96-C8D52EB3E931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversion.Bootstrap", "Specifications\DependencyInversion.Bootstrap\DependencyInversion.Bootstrap.csproj", "{6E4E66B4-C743-498F-B83A-83ED0C5582F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversion.Booting", "Specifications\DependencyInversion.Booting\DependencyInversion.Booting.csproj", "{6E4E66B4-C743-498F-B83A-83ED0C5582F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serialization.Protobuf", "Source\Serialization.Protobuf\Serialization.Protobuf.csproj", "{64F1B27B-3A49-464D-8FE1-B4DA77856B84}"
 EndProject
@@ -138,6 +138,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduling", "Source\Scheduling\Scheduling.csproj", "{3A8FE26E-4559-424A-ADB0-81793DC6E346}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Immutability", "Specifications\Immutability\Immutability.csproj", "{2FD967F8-5D40-4514-AC74-D8CE16083E63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.Files", "Source\Configuration.Files\Configuration.Files.csproj", "{71555252-3D62-49C3-B85F-33DFFC0FEFDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -956,6 +958,18 @@ Global
 		{2FD967F8-5D40-4514-AC74-D8CE16083E63}.Release|x64.Build.0 = Release|Any CPU
 		{2FD967F8-5D40-4514-AC74-D8CE16083E63}.Release|x86.ActiveCfg = Release|Any CPU
 		{2FD967F8-5D40-4514-AC74-D8CE16083E63}.Release|x86.Build.0 = Release|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Debug|x64.Build.0 = Debug|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Debug|x86.Build.0 = Debug|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Release|x64.ActiveCfg = Release|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Release|x64.Build.0 = Release|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Release|x86.ActiveCfg = Release|Any CPU
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AAA185BC-0EA0-4804-9D7B-0E9B1D411070} = {780A06A2-8A9B-49DA-AA18-472C4F712673}
@@ -1024,5 +1038,6 @@ Global
 		{B8FF5229-7B43-4708-B61D-53D1E726A9C1} = {9F86DDBC-3B12-43A9-95F6-C6AD7B6553E2}
 		{3A8FE26E-4559-424A-ADB0-81793DC6E346} = {780A06A2-8A9B-49DA-AA18-472C4F712673}
 		{2FD967F8-5D40-4514-AC74-D8CE16083E63} = {9F86DDBC-3B12-43A9-95F6-C6AD7B6553E2}
+		{71555252-3D62-49C3-B85F-33DFFC0FEFDC} = {780A06A2-8A9B-49DA-AA18-472C4F712673}
 	EndGlobalSection
 EndGlobal

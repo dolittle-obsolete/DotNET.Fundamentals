@@ -2,7 +2,6 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 using Dolittle.DependencyInversion;
 
 namespace Dolittle.Booting
@@ -59,18 +58,13 @@ namespace Dolittle.Booting
         Configuration,
 
         /// <summary>
-        /// Main bindings hookup
+        /// Main <see cref="IContainer"/> hookup
         /// </summary>
-        Bindings,
+        Container,
 
         /// <summary>
         /// Main running of <see cref="ICanPerformBootProcedure">boot procedures</see>
         /// </summary>
-        BootProcedures,
-        
-        /// <summary>
-        /// The application stage - which typically means that the booting is over
-        /// </summary>
-        Application
+        BootProcedures        
     }
 }

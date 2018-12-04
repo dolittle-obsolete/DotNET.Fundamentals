@@ -24,8 +24,7 @@ namespace Dolittle.Booting.Stages
         /// <summary>
         /// Gets the <see cref="IFileSystem"/> to use
         /// </summary>
-        /// <value></value>
-        public Type FileSystem {  get; internal set; }
+        public IFileSystem FileSystem {  get; internal set; }
 
         /// <summary>
         /// Gets the <see cref="IScheduler"/> to use
@@ -35,7 +34,7 @@ namespace Dolittle.Booting.Stages
         /// <summary>
         /// Gets the <see cref="ISystemClock"/> to use
         /// </summary>
-        public Type SystemClock {  get; internal set;  }
+        public ISystemClock SystemClock {  get; internal set;  }
 
         /// <summary>
         /// Gets the <see cref="IContainer"/> used

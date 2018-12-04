@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Dolittle.DependencyInversion.Bootstrap
+namespace Dolittle.DependencyInversion.Booting
 {
     /// <summary>
     /// The exception that gets thrown when a constructor has dependencies that aren't supported
@@ -19,7 +19,7 @@ namespace Dolittle.DependencyInversion.Bootstrap
         /// <param name="dependency"><see cref="Type"/> the wrong dependency</param>
         /// <param name="supportedDependencies"><see cref="IEnumerable{T}">Collection</see> of <see cref="Type">supported types</see></param>
         public ConstructorDependencyNotSupported(Type type, Type dependency, IEnumerable<Type> supportedDependencies) 
-            : base($"Constructor for '{type.AssemblyQualifiedName}' has an unsupported dependency of '{dependency.AssemblyQualifiedName}.\nSupported dependencies are {string.Join(".", supportedDependencies)}'")
+            : base($"Constructor for '{type.AssemblyQualifiedName}' has an unsupported dependency of '{dependency.AssemblyQualifiedName}'.\nSupported dependencies are:\n\n{string.Join("\n", supportedDependencies)}\n\n")
         {
 
         }

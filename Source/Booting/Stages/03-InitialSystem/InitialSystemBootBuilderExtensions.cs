@@ -33,11 +33,11 @@ namespace Dolittle.Booting
         /// Use a specific <see cref="IFileSystem"/>
         /// </summary>
         /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
-        /// <typeparam name="T">Type of <see cref="IFileSystem"/> to use</typeparam>
+        /// <param name="fileSystem"><see cref="IFileSystem"/> to use</param>
         /// <returns>Chained <see cref="BootBuilder"/></returns>
-        public static IBootBuilder UseFileSystem<T>(this IBootBuilder bootBuilder) where T:IFileSystem
+        public static IBootBuilder UseFileSystem(this IBootBuilder bootBuilder, IFileSystem fileSystem)
         {
-            bootBuilder.Set<InitialSystemSettings>(_ => _.FileSystem, typeof(T));
+            bootBuilder.Set<InitialSystemSettings>(_ => _.FileSystem, fileSystem);
             return bootBuilder;
         }
 
@@ -45,11 +45,11 @@ namespace Dolittle.Booting
         /// Use a specific <see cref="ISystemClock"/>
         /// </summary>
         /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
-        /// <typeparam name="T">Type of <see cref="ISystemClock"/> to use</typeparam>
+        /// <param name="systemClock"><see cref="ISystemClock"/> to use</param>
         /// <returns>Chained <see cref="BootBuilder"/></returns>
-        public static IBootBuilder UseSystemClock<T>(this IBootBuilder bootBuilder) where T:ISystemClock
+        public static IBootBuilder UseSystemClock(this IBootBuilder bootBuilder, ISystemClock systemClock)
         {
-            bootBuilder.Set<InitialSystemSettings>(_ => _.SystemClock, typeof(T));
+            bootBuilder.Set<InitialSystemSettings>(_ => _.SystemClock, systemClock);
             return bootBuilder;
         }
     }

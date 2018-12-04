@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace Dolittle.DependencyInversion.Bootstrap
+namespace Dolittle.DependencyInversion.Booting
 {
     /// <summary>
     /// The exception that gets thrown when there are more than one constructors and only one is supported

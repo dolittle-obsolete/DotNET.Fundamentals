@@ -9,7 +9,7 @@ using System.Reflection;
 using Dolittle.Collections;
 using Dolittle.Types;
 
-namespace Dolittle.DependencyInversion.Bootstrap
+namespace Dolittle.DependencyInversion.Booting
 {
     /// <summary>
     /// Represents a <see cref="IContainer"/> used during booting
@@ -62,7 +62,7 @@ namespace Dolittle.DependencyInversion.Bootstrap
                 instances.Add(_bindings[parameter.ParameterType]);
             }
 
-            var bindingProvider = Activator.CreateInstance(type, instances.ToArray());
+            var bindingProvider = constructor.Invoke(instances.ToArray());
             return bindingProvider;
         }
 

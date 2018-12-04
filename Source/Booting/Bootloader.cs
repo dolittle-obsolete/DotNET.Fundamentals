@@ -3,20 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading;
-using Dolittle.Applications;
 using Dolittle.Assemblies;
 using Dolittle.DependencyInversion;
-using Dolittle.Execution;
-using Dolittle.IO;
-using Dolittle.Logging;
-using Dolittle.Logging.Json;
-using Dolittle.Scheduling;
-using Microsoft.Extensions.Logging;
-using Environment = Dolittle.Execution.Environment;
-using ExecutionContext = Dolittle.Execution.ExecutionContext;
+using Dolittle.Types;
 
 namespace Dolittle.Booting
 {
@@ -43,9 +32,16 @@ namespace Dolittle.Booting
         public BootloaderResult Start()
         {
             var bootStages = new BootStages();
-            bootStages.Perform(_boot);
+            var result = bootStages.Perform(_boot);
+            var bootloaderResult = new BootloaderResult(
+                result.Container,
+                result.GetAssociation(WellKnownAssociations.TypeFinder) as ITypeFinder,
+                result.GetAssociation(WellKnownAssociations.Assemblies) as IAssemblies,
+                result.GetAssociation(WellKnownAssociations.Bindings) as IBindingCollection,
+                result.BootStageResults
+            );
 
-            return null;
+            return bootloaderResult;
         }
 
         /// <summary>
@@ -121,11 +117,11 @@ namespace Dolittle.Booting
             if( _containerType != null ) 
             {
                 logger.Trace($"Starting DependencyInversion with predefined container type '{_containerType.AssemblyQualifiedName}'");
-                resultingBindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, fileSystem, logger, _containerType, bindings);
+                resultingBindings = Dolittle.DependencyInversion.Booting.Boot.Start(assemblies, typeFinder, scheduler, fileSystem, logger, _containerType, bindings);
             } 
             else 
             {
-                var bootResult = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, scheduler, fileSystem, logger, bindings);
+                var bootResult = Dolittle.DependencyInversion.Booting.Boot.Start(assemblies, typeFinder, scheduler, fileSystem, logger, bindings);
                 resultingBindings = bootResult.Bindings;
                 _container = bootResult.Container;
                 logger.Trace($"Using container of type '{_container.GetType().AssemblyQualifiedName}'");

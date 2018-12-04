@@ -15,6 +15,7 @@ using Dolittle.Types;
 
 namespace Dolittle.Booting
 {
+
     /// <summary>
     /// Represents an implementation of <see cref="IBootStages"/>
     /// </summary>
@@ -23,6 +24,7 @@ namespace Dolittle.Booting
         readonly IEnumerable<ICanPerformPartOfBootStage> _initialFixedStages;
 
         readonly Queue<ICanPerformPartOfBootStage> _stages;
+        IContainer _container = null;
 
         /// <summary>
         /// Initializes a new instance of <see cref="BootStages"/>
@@ -43,29 +45,36 @@ namespace Dolittle.Booting
         ILogger _logger;
 
         /// <inheritdoc/>
-        public IEnumerable<BootStageResult> Perform(Boot boot)
+        public BootStagesResult Perform(Boot boot)
         {
             var results = new List<BootStageResult>();
             var aggregatedAssociations = new Dictionary<string, object>();
-            IContainer container = null;
             var bindingCollection = new BindingCollection();
             _logger = new NullLogger();
 
-            
             while (_stages.Count > 0)
             {
                 var stage = _stages.Dequeue();
-                if( aggregatedAssociations.ContainsKey(WellKnownAssociations.Logger) ) _logger = aggregatedAssociations[WellKnownAssociations.Logger] as ILogger;
+                if (aggregatedAssociations.ContainsKey(WellKnownAssociations.Logger)) _logger = aggregatedAssociations[WellKnownAssociations.Logger] as ILogger;
 
-                _logger.Information($"<********* BOOTSTAGE : {stage.BootStage} *********>");
+                var interfaces = stage.GetType().GetInterfaces();
 
-                var performer = stage.GetType().GetInterfaces().SingleOrDefault(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanPerformPartOfBootStage<>));
+                var isBefore = interfaces.Any(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanRunBeforeBootStage<>));
+                var isAfter = interfaces.Any(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanRunAfterBootStage<>));
+
+                var suffix = string.Empty;
+                if (isBefore) suffix = " (before)";
+                if (isAfter) suffix = " (after)";
+
+                _logger.Information($"<********* BOOTSTAGE : {stage.BootStage}{suffix} *********>");
+
+                var performer = interfaces.SingleOrDefault(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanPerformPartOfBootStage<>));
                 var settingsType = performer.GetGenericArguments() [0];
                 var settings = boot.GetSettingsByType(settingsType);
                 var method = performer.GetMethod("Perform", BindingFlags.Public | BindingFlags.Instance);
 
                 aggregatedAssociations[WellKnownAssociations.Bindings] = bindingCollection;
-                var builder = new BootStageBuilder(container:container,initialAssociations:aggregatedAssociations);
+                var builder = new BootStageBuilder(container: _container, initialAssociations: aggregatedAssociations);
                 method.Invoke(stage, new object[] { settings, builder });
                 var result = builder.Build();
                 results.Add(result);
@@ -73,9 +82,11 @@ namespace Dolittle.Booting
                 result.Associations.ForEach(_ => aggregatedAssociations[_.Key] = _.Value);
 
                 bindingCollection = new BindingCollection(bindingCollection, result.Bindings);
+                _container = result.Container;
             }
 
-            return results;
+            var bootStagesResult = new BootStagesResult(_container, aggregatedAssociations, results);
+            return bootStagesResult;
         }
 
         void DiscoverBootStages(ITypeFinder typeFinder)
@@ -86,15 +97,56 @@ namespace Dolittle.Booting
                 .Select(_ =>
                 {
                     ThrowIfMissingDefaultConstructorForBootStagePerformer(_);
+                    if (_container != null) return _container.Get(_) as ICanPerformPartOfBootStage;
                     return Activator.CreateInstance(_) as ICanPerformPartOfBootStage;
                 })
                 .OrderBy(_ => _.BootStage);
 
-            bootStagePerformers.ForEach(_ => _stages.Enqueue(_));
+            bootStagePerformers.GroupBy(performer => performer.BootStage).ForEach(performers =>
+            {
+                var beforePerformers = performers.Where(_ => HasInterface(_, typeof(ICanRunBeforeBootStage<>)));
+                beforePerformers.ForEach(_stages.Enqueue);
+
+                var performer = performers.Single(_ => HasInterface(_, typeof(ICanPerformBootStage<>)));
+                _stages.Enqueue(performer);
+
+                var afterPerformers = performers.Where(_ => HasInterface(_, typeof(ICanRunAfterBootStage<>)));
+                afterPerformers.ForEach(_stages.Enqueue);
+            });
+
+            ThrowIfMissingBootStage(bootStagePerformers);
         }
         void ThrowIfMissingDefaultConstructorForBootStagePerformer(Type type)
         {
             if (!type.HasDefaultConstructor()) new MissingDefaultConstructorForBootStagePerformer(type);
+        }
+
+        void ThrowIfMissingBootStage(IEnumerable<ICanPerformPartOfBootStage> performers)
+        {
+            var bootStageValues = Enum
+                .GetValues(typeof(BootStage))
+                .Cast<BootStage>()
+                .Where(_ => !_initialFixedStages.Any(existing => existing.BootStage == _));
+
+            bootStageValues.ForEach(bootStage => 
+            {
+                var hasPerformer = performers.Any(performer =>
+                    {
+                        var interfaces = performer.GetType().GetInterfaces();
+
+                        var isBefore = interfaces.Any(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanRunBeforeBootStage<>));
+                        var isAfter = interfaces.Any(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanRunAfterBootStage<>));
+                        if( !isBefore && !isAfter ) return performer.BootStage == bootStage;
+                        return false;
+                    });
+                if( !hasPerformer ) throw new MissingBootStage(bootStage);
+            });
+        }
+
+        bool HasInterface(ICanPerformPartOfBootStage performer, Type interfaceType)
+        {
+            var interfaces = performer.GetType().GetInterfaces();
+            return interfaces.Any(_ => _.IsGenericType && _.GetGenericTypeDefinition() == interfaceType);
         }
     }
 }

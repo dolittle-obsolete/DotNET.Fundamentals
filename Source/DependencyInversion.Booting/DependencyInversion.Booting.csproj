@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Dolittle.DependencyInversion.Bootstrap</AssemblyName>
+    <AssemblyName>Dolittle.DependencyInversion.Booting</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Booting\Booting.csproj" />
     <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\DependencyInversion.Conventions\DependencyInversion.Conventions.csproj" />

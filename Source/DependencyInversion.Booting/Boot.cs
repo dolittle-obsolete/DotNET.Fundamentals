@@ -16,7 +16,7 @@ using Dolittle.Reflection;
 using Dolittle.Scheduling;
 using Dolittle.Types;
 
-namespace Dolittle.DependencyInversion.Bootstrap
+namespace Dolittle.DependencyInversion.Booting
 {
 
     /// <summary>

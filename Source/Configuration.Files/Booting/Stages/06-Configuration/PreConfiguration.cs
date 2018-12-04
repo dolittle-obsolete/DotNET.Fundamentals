@@ -3,34 +3,40 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using Dolittle.Booting;
 using Dolittle.DependencyInversion;
-using Dolittle.DependencyInversion.Bootstrap;
+using Dolittle.DependencyInversion.Booting;
 using Dolittle.Types;
 
-namespace Dolittle.Configuration.Files
+namespace Dolittle.Configuration.Files.Booting.Stages
 {
     /// <summary>
     /// Represents bindings for booting
     /// </summary>
-    public class BootBindings : ICanProvideBootBindings
+    public class PreConfiguration : ICanProvideBootBindings //ICanRunBeforeBootStage<NoSettings>
     {
+        /// <inheritdoc/>
+        public BootStage BootStage => BootStage.Configuration;
+
         readonly ITypeFinder _typeFinder;
-        readonly IContainer _container;
+        private readonly IContainer _container;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BootBindings"/>
+        /// 
         /// </summary>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding types</param>
-        /// <param name="container"><see cref="IContainer"/> for resolving instances</param>
-        public BootBindings(ITypeFinder typeFinder, IContainer container)
+        /// <param name="typeFinder"></param>
+        /// <param name="container"></param>
+        public PreConfiguration(ITypeFinder typeFinder, IContainer container)
         {
             _typeFinder = typeFinder;
             _container = container;
         }
 
         /// <inheritdoc/>
+        //public void Perform(NoSettings settings, IBootStageBuilder builder)
         public void Provide(IBindingProviderBuilder builder)
         {
+            //var typeFinder = builder.GetAssociation(WellKnownAssociations.TypeFinder) as ITypeFinder;
             var parsers = new ConfigurationFileParsers(_typeFinder, _container);
             builder.Bind<IConfigurationFileParsers>().To(parsers);
         }

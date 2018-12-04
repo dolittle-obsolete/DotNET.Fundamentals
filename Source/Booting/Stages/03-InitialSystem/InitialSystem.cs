@@ -23,10 +23,9 @@ namespace Dolittle.Booting.Stages
 
             builder.Associate(WellKnownAssociations.Scheduler, scheduler);
 
-            builder.Bindings.Bind<ISystemClock>().To(settings.SystemClock ?? typeof(SystemClock));;
-            builder.Bindings.Bind<IFileSystem>().To(settings.FileSystem ?? typeof(FileSystem));
+            builder.Bindings.Bind<ISystemClock>().To(settings.SystemClock ?? new SystemClock());;
+            builder.Bindings.Bind<IFileSystem>().To(settings.FileSystem ?? new FileSystem());
             builder.Bindings.Bind<IScheduler>().To(scheduler);
-            
         }
     }
 }
