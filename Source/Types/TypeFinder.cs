@@ -9,6 +9,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Dolittle.Assemblies;
+using Dolittle.Collections;
+using Dolittle.Logging;
 using Dolittle.Scheduling;
 
 namespace Dolittle.Types
@@ -21,6 +23,7 @@ namespace Dolittle.Types
         readonly IAssemblies _assemblies;
         readonly IContractToImplementorsMap _contractToImplementorsMap;
         readonly IScheduler _scheduler;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of <see cref="TypeFinder"/>
@@ -28,11 +31,17 @@ namespace Dolittle.Types
         /// <param name="assemblies"><see cref="IAssemblies"/> for getting assemblies</param>
         /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
         /// <param name="scheduler"><see cref="IScheduler"/> for scheduling work</param>
-        public TypeFinder(IAssemblies assemblies, IContractToImplementorsMap contractToImplementorsMap, IScheduler scheduler)
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public TypeFinder(
+            IAssemblies assemblies,
+            IContractToImplementorsMap contractToImplementorsMap,
+            IScheduler scheduler,
+            ILogger logger)
         {
             _assemblies = assemblies;
             _contractToImplementorsMap = contractToImplementorsMap;
             _scheduler = scheduler;
+            _logger = logger;
 
             CollectTypes();
         }
@@ -90,7 +99,7 @@ namespace Dolittle.Types
                 catch (ReflectionTypeLoadException ex)
                 {
                     foreach (var loaderException in ex.LoaderExceptions)
-                        Debug.WriteLine(string.Format("Failed to load: {0} {1}", loaderException.Source, loaderException.Message));
+                        _logger.Error($"Failed to load: {loaderException.Source} {loaderException.Message}");
                 }
             });
         }
