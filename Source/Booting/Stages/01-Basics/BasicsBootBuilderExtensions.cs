@@ -25,7 +25,7 @@ namespace Dolittle.Booting
         /// <remarks>
         /// If an entry assembly is not specified, the system will use the <see cref="Assembly.GetEntryAssembly()"/> method
         /// </remarks>
-        public static IBootBuilder WithEntryAsssembly(this IBootBuilder bootBuilder, Assembly assembly)
+        public static IBootBuilder WithEntryAssembly(this IBootBuilder bootBuilder, Assembly assembly)
         {
             bootBuilder.Set<BasicsSettings>(_ => _.EntryAssembly, assembly);
             return bootBuilder;
