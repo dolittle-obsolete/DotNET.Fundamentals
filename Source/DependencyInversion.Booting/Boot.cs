@@ -53,7 +53,6 @@ namespace Dolittle.DependencyInversion.Booting
             _container = bootContainer;
 
             var otherBindings = new List<Binding>();
-            otherBindings.AddRange(bootContainer.BootBindings);
             
             if( bindings != null ) otherBindings.AddRange(bindings);
             otherBindings.Add(Bind(typeof(IContainer), () => _container, false));
@@ -105,7 +104,6 @@ namespace Dolittle.DependencyInversion.Booting
             _container = bootContainer;
 
             var otherBindings = new List<Binding>();
-            otherBindings.AddRange(bootContainer.BootBindings);
 
             if( bindings != null ) otherBindings.AddRange(bindings);
             otherBindings.Add(Bind(typeof(IContainer), containerType, true));
