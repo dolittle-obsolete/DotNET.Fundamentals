@@ -38,11 +38,6 @@ namespace Dolittle.DependencyInversion.Booting
             return (T)Get(typeof(T));
         }
 
-        /// <summary>
-        /// Gets the <see cref="IBindingCollection">bindings</see> discovered at boot
-        /// </summary>
-        public IBindingCollection   BootBindings { get; private set; }
-
         /// <inheritdoc/>
         public object Get(Type type)
         {
