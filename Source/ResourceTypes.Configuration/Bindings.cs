@@ -20,16 +20,19 @@ namespace Dolittle.ResourceTypes.Configuration
     {
         readonly ITypeFinder _typeFinder;
         readonly ILogger _logger;
+        private readonly IContainer _container;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Bindings"/>
         /// </summary>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> used for discovering types by the resource system</param>
+        /// <param name="container"><see cref="IContainer"/> to use for getting instances</param>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
-        public Bindings(ITypeFinder typeFinder, ILogger logger)
+        public Bindings(ITypeFinder typeFinder, IContainer container, ILogger logger)
         {
             _typeFinder = typeFinder;
             _logger = logger;
+            _container = container;
         }
 
 
@@ -37,18 +40,13 @@ namespace Dolittle.ResourceTypes.Configuration
         public void Provide(IBindingProviderBuilder builder)
         {
             builder.Bind<ICanProvideResourceConfigurationsByTenant>().To<ResourceConfigurationsByTenantProvider>();
-            var resourceConfiguration = new ResourceConfiguration(_typeFinder, _logger);
+            var resourceConfiguration = new ResourceConfiguration(_typeFinder, _container, _logger);
             builder.Bind<IResourceConfiguration>().To(resourceConfiguration);
 
             var resourceTypeTypes = _typeFinder.FindMultiple<IAmAResourceType>();
-            resourceTypeTypes.ForEach(_ => ThrowIfNoDefaultConstructor(_));
 
-            var resourceTypeServices = resourceTypeTypes.Select(_ => Activator.CreateInstance(_) as IAmAResourceType).SelectMany(_ => _.Services);
+            var resourceTypeServices = resourceTypeTypes.Select(_ => _container.Get(_) as IAmAResourceType).SelectMany(_ => _.Services);
             resourceTypeServices.ForEach(_ => builder.Bind(_).To(() => resourceConfiguration.GetImplementationFor(_)));
-        }
-        void ThrowIfNoDefaultConstructor(Type resourceTypeType)
-        {
-            if (! resourceTypeType.HasDefaultConstructor()) throw new InvalidResourceTypeFound($"The ResourceType representation {resourceTypeType.FullName} must have default constructor.");
         }
     }
 }
