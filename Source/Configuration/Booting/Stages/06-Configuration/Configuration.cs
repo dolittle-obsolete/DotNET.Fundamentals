@@ -27,7 +27,7 @@ namespace Dolittle.Configuration
             var logger = builder.GetAssociation(WellKnownAssociations.Logger) as ILogger;
             
             var configurationObjectProviders = new ConfigurationObjectProviders(typeFinder, builder.Container, logger);
-            builder.Bindings.Bind<IConfigurationObjectProviders>().To(configurationObjectProviders);
+            builder.Binding.Bind<IConfigurationObjectProviders>().To(configurationObjectProviders);
 
             var configurationObjectTypes = typeFinder.FindMultiple<IConfigurationObject>();
             configurationObjectTypes.ForEach((System.Action<System.Type>)(_ => 

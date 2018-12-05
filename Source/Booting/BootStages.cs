@@ -52,11 +52,12 @@ namespace Dolittle.Booting
             var aggregatedAssociations = new Dictionary<string, object>() {
                 { WellKnownAssociations.NewBindingsNotificationHub, newBindingsNotificationHub }
             };
-            var bindingCollection = new BindingCollection(new [] {
+            IBindingCollection bindingCollection = new BindingCollection(new [] {
                 new BindingBuilder(Binding.For(typeof(GetContainer))).To((GetContainer)(() => _container)).Build()
             });
             _logger = new NullLogger();
 
+            aggregatedAssociations[WellKnownAssociations.Bindings] = bindingCollection;
 
             while (_stages.Count > 0)
             {
@@ -88,6 +89,7 @@ namespace Dolittle.Booting
                 result.Associations.ForEach(_ => aggregatedAssociations[_.Key] = _.Value);
 
                 newBindingsNotificationHub.Notify(result.Bindings);
+                bindingCollection = aggregatedAssociations[WellKnownAssociations.Bindings] as IBindingCollection;
 
                 bindingCollection = new BindingCollection(bindingCollection, result.Bindings);
                 _container = result.Container;

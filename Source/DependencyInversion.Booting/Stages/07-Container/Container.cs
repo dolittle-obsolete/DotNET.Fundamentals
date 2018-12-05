@@ -59,6 +59,8 @@ namespace Dolittle.DependencyInversion.Booting.Stages
                 builder.UseContainer(bootResult.Container);
                 logger.Trace($"Using container of type '{builder.Container.GetType().AssemblyQualifiedName}'");
             }
+
+            builder.Associate(WellKnownAssociations.Bindings, resultingBindings);
         }
     }
 }
