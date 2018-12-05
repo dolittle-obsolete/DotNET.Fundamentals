@@ -3,7 +3,7 @@ using Machine.Specifications;
 using Moq;
 using It=Machine.Specifications.It;
 
-namespace Dolittle.Booting.Specs.for_Bootstrapper
+namespace Dolittle.Booting.Specs.for_BootProcedures
 {
     public class when_starting_with_two_procedures_where_first_is_dependent_on_second_to_have_run : given.two_procedures
     {
@@ -20,7 +20,7 @@ namespace Dolittle.Booting.Specs.for_Bootstrapper
             first_procedure_can_perform = false;
         };
 
-        Because of = () => Bootstrapper.Start(container.Object, Mock.Of<ILogger>());
+        Because of = () => boot_procedures.Perform();
 
         It should_perform_second_then_first = () => last_boot_procedure.ShouldEqual(first_procedure.Object);
     }

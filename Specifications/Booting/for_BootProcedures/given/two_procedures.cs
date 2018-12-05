@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Dolittle.Logging;
 using Dolittle.Types;
 using Machine.Specifications;
 using Moq;
 
-namespace Dolittle.Booting.Specs.for_Bootstrapper.given
+namespace Dolittle.Booting.Specs.for_BootProcedures.given
 {
     public class two_procedures : all_dependencies
     {
@@ -11,6 +12,9 @@ namespace Dolittle.Booting.Specs.for_Bootstrapper.given
         protected static bool first_procedure_can_perform = true;
         protected static Mock<ICanPerformBootProcedure> second_procedure;
         protected static bool second_procedure_can_perform = true;
+
+        protected static BootProcedures boot_procedures;
+        
 
         Establish context = () => 
         {
@@ -28,6 +32,8 @@ namespace Dolittle.Booting.Specs.for_Bootstrapper.given
             instances.Setup(_ => _.GetEnumerator()).Returns(listOfInstances.GetEnumerator());
 
             container.Setup(_ => _.Get<IInstancesOf<ICanPerformBootProcedure>>()).Returns(instances.Object);
+
+            boot_procedures = new BootProcedures(instances.Object, Mock.Of<ILogger>(), execution_context_manager.Object);
         };
     }
 }
