@@ -8,7 +8,7 @@ using System.Linq;
 namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
 {
 
-    [Subject(typeof(ISerializer))]
+    [Subject(typeof(Serializer))]
     public class when_deserializing_a_dictionary_with_concepts_key_and_immutable_as_value : given.a_serializer
     {
         static Dictionary<ConceptAsGuid,Immutable>  original;

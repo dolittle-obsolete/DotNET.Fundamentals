@@ -13,6 +13,26 @@ namespace Dolittle.IO
     public interface IFileSystem
     {
         /// <summary>
+        /// Get the current directory
+        /// </summary>
+        /// <returns>Path to the current directory</returns>
+        string GetCurrentDirectory();
+
+        /// <summary>
+        /// Checks wether or not a path exists
+        /// </summary>
+        /// <param name="path">Path to check</param>
+        /// <returns>True if exists, false if not</returns>
+        bool Exists(string path);
+
+        /// <summary>
+        /// Read all text from a file
+        /// </summary>
+        /// <param name="filename">Path and filename</param>
+        /// <returns>Content of file</returns>
+        string ReadAllText(string filename);
+
+        /// <summary>
         /// Get files for a specific path
         /// </summary>
         /// <param name="path">Path to get files from</param>

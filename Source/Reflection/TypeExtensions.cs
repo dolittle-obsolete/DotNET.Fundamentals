@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -28,14 +27,8 @@ namespace Dolittle.Reflection
             typeof(double), typeof(decimal), typeof(Single)
         };
 
-        readonly static HashSet<Type> DictionaryInterfaces = new HashSet<Type>
-        {
-            typeof(IDictionary<,>),
-            typeof(IDictionary),
-            typeof(IReadOnlyDictionary<,>)
-        };
         
-        static ITypeInfo GetTypeInfo(Type type)
+        internal static ITypeInfo GetTypeInfo(Type type)
         {
             var typeInfoType = typeof(TypeInfo<>).MakeGenericType(type);
             var instanceField = typeInfoType.GetTypeInfo().GetField("Instance", BindingFlags.Public | BindingFlags.Static);
@@ -85,16 +78,7 @@ namespace Dolittle.Reflection
         {
             return !type.IsAPrimitiveType() && !type.IsString() && typeof(System.Collections.IEnumerable).IsAssignableFrom(type);
         }
-        /// <summary>
-        /// Check if a type is a Dictionary.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static bool IsDictionary(this Type type)
-        {
-            // https://stackoverflow.com/a/29649496
-            return type.GetInterfaces().Append(type).Any(t => DictionaryInterfaces.Any(i => i == t || t.GetTypeInfo().IsGenericType && i == t.GetGenericTypeDefinition()));
-        }
+
 
         /// <summary>
         /// Check if the type is of the type specified in the generic param
@@ -157,76 +141,6 @@ namespace Dolittle.Reflection
         {
             return Is<Guid>(type);
         }        
-
-        /// <summary>
-        /// Check if a type has a default constructor that does not take any arguments
-        /// </summary>
-        /// <param name="type">Type to check</param>
-        /// <returns>true if it has a default constructor, false if not</returns>
-        public static bool HasDefaultConstructor(this Type type)
-        {
-            return GetTypeInfo(type).HasDefaultConstructor || type.GetConstructors().Any(c => c.GetParameters().Length == 0);
-        }
-
-
-        /// <summary>
-        /// Check if a type has a non default constructor
-        /// </summary>
-        /// <param name="type">Type to check</param>
-        /// <returns>true if it has a non default constructor, false if not</returns>
-        public static bool HasNonDefaultConstructor(this Type type)
-        {
-            return type.GetConstructors().Any(c => c.GetParameters().Length > 0);
-        }
-
-
-        /// <summary>
-        /// Get the default constructor from a type
-        /// </summary>
-        /// <param name="type">Type to get from</param>
-        /// <returns>The default <see cref="ConstructorInfo"/></returns>
-        public static ConstructorInfo GetDefaultConstructor(this Type type)
-        {
-            return type.GetConstructors().Where(c => c.GetParameters().Length == 0).Single();
-        }
-
-        /// <summary>
-        /// Get the non default constructor, assuming there is only one
-        /// </summary>
-        /// <remarks></remarks>
-        /// <param name="type">Type to get from</param>
-        /// <returns>The <see cref="ConstructorInfo"/> for the constructor</returns>
-        public static ConstructorInfo GetNonDefaultConstructor(this Type type)
-        {
-            return type.GetConstructors().Where(c => c.GetParameters().Length > 0).Single();
-        }
-
-        /// <summary>
-        /// Get the non default constructor matching the types
-        /// </summary>
-        /// <remarks></remarks>
-        /// <param name="type">Type to get from</param>
-        /// <param name="parameterTypes">Types for matching the parameters</param>
-        /// <returns>The <see cref="ConstructorInfo"/> for the constructor</returns>
-        public static ConstructorInfo GetNonDefaultConstructor(this Type type, Type[] parameterTypes)
-        {
-            return type.GetTypeInfo().GetConstructor(parameterTypes);
-        }
-
-        /// <summary>
-        /// Get the non default constructor with the greatest number of parameters.
-        /// Should be used with care. Constructors are not ordered, so if there are multiple constructors with the
-        /// same number of parameters, it is indeterminate which will be returned.
-        /// </summary>
-        /// <param name="type">Type to get from</param>
-        /// <returns>The <see cref="ConstructorInfo"/> for the constructor</returns>
-        public static ConstructorInfo GetNonDefaultConstructorWithGreatestNumberOfParameters(this Type type)
-        {
-            return type.GetTypeInfo()
-                            .DeclaredConstructors.Where(c => c.GetParameters().Length > 0)
-                            .OrderByDescending((t) => t.GetParameters().Length)
-                            .FirstOrDefault();
-        }
 
         /// <summary>
         /// Gets all the public properties with setters
@@ -359,21 +273,6 @@ namespace Dolittle.Reflection
                 .Where(t=>t != type && t != typeof(Object));
         }
 
-        /// <summary>
-        /// Indicates whether the Type represents an "immutable" type
-        /// </summary>
-        /// <remarks>
-        /// Immutability is a difficult concept in C#.  Things can be changed via reflection, fields rather than properties, private setters, etc.static
-        /// We are taking a deliberately limited view of immutability.  In this case it simply means an object that has no properties with setters (public or private)
-        /// This is not intended to be an indication that the object is truly immutable, instead it's to guide the instantiation strategy when we create and hydrate it
-        /// from a serialized form (e.g. PropertyBag)
-        /// </remarks>
-        /// <param name="type">The type to check</param>
-        /// <returns>true if immutable, false otherwise</returns>
-        public static bool IsImmutable(this Type type)
-        {
-            return !type.GetSettableProperties().Any();
-        }
 
         /// <summary>
         /// Indicates whether the Type has any public properties to get or set state

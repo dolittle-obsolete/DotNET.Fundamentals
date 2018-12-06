@@ -9,8 +9,13 @@
   <Import Project="../../Build/MSBuild/default.props"/>
 
   <ItemGroup>
+    <ProjectReference Include="..\Booting\Booting.csproj" />
+    <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\Concepts\Concepts.csproj" />
-    <ProjectReference Include="..\Rules\Rules.csproj" />
+    <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
+    <ProjectReference Include="..\Immutability\Immutability.csproj" />
+    <ProjectReference Include="..\Reflection\Reflection.csproj" />
+    <ProjectReference Include="..\Types\Types.csproj" />
   </ItemGroup>
 
 </Project>

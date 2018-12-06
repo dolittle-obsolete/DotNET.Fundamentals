@@ -44,7 +44,7 @@ namespace Dolittle.Assemblies.Specs.for_Assemblies.given
             };
 
             assembly_provider_mock.Setup(a => a.GetAll()).Returns(loaded_assemblies);
-            assemblies = new Assemblies(assembly_provider_mock.Object); 
+            assemblies = new Assemblies(Assembly.GetEntryAssembly(), assembly_provider_mock.Object); 
         };
     }
 }

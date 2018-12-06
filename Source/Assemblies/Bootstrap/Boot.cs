@@ -18,7 +18,7 @@ namespace Dolittle.Assemblies.Bootstrap
         /// Initialize assemblies setup
         /// </summary>
         /// <param name="logger"><see cref="ILogger"/> to use for logging</param>
-        /// <param name="entryAssembly"><see cref="Assembly"/> to use as entry assembly - null indicates it will ask for the entry assembly</param>
+        /// <param name="entryAssembly"><see cref="Assembly"/> to use as entry assembly - null indicates it will get it from the <see cref="Assembly.GetEntryAssembly()"/> method</param>
         /// <param name="defaultAssemblyProvider">The default <see cref="ICanProvideAssemblies"/> - null inidicates it will use the default implementation</param>
         /// <returns><see cref="IAssemblies"/></returns>
         public static IAssemblies Start(ILogger logger, Assembly entryAssembly = null, ICanProvideAssemblies defaultAssemblyProvider = null)
@@ -42,7 +42,7 @@ namespace Dolittle.Assemblies.Bootstrap
                 new AssemblyUtility(),
                 assemblySpecifiers);
 
-            var assemblies = new Assemblies(assemblyProvider);
+            var assemblies = new Assemblies(entryAssembly, assemblyProvider);
             return assemblies;
         }
     }

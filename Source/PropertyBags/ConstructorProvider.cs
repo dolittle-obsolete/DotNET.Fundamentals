@@ -7,6 +7,7 @@ namespace Dolittle.PropertyBags
 {
     using System;
     using System.Reflection;
+    using Dolittle.Immutability;
     using Dolittle.Lifecycle;
     using Dolittle.Reflection;
 

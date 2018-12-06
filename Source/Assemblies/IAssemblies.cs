@@ -13,6 +13,11 @@ namespace Dolittle.Assemblies
     public interface IAssemblies
     {
         /// <summary>
+        /// Gets the <see cref="Assembly">assembly</see> that represents the entry assembly
+        /// </summary>
+        Assembly EntryAssembly { get; }
+
+        /// <summary>
         /// Gets all assemblies for current application
         /// </summary>
         /// <returns>Array of assemblies</returns>

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Dolittle.Configuration.Files</RootNamespace>
+    <AssemblyName>Dolittle.Configuration.Files</AssemblyName>
+  </PropertyGroup>
+
+  <Import Project="../../Build/MSBuild/default.props"/>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Booting\Booting.csproj" />
+    <ProjectReference Include="..\Collections\Collections.csproj" />
+    <ProjectReference Include="..\Configuration\Configuration.csproj" />
+    <ProjectReference Include="..\DependencyInversion.Booting\DependencyInversion.Booting.csproj" />
+    <ProjectReference Include="..\Serialization.Json\Serialization.Json.csproj" />
+  </ItemGroup>
+
+</Project>

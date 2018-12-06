@@ -26,23 +26,25 @@ namespace Dolittle.Assemblies
         /// </summary>
         /// <param name="assembly">Assembly the context is for</param>
         public AssemblyContext(Assembly assembly)
-        {           
-            AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(Assembly);
+        {
+            Assembly = assembly;
+
+            AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
             AssemblyLoadContext.Resolving += OnResolving;
 
-            DependencyContext = DependencyContext.Load(Assembly);
+            DependencyContext = DependencyContext.Load(assembly);
 
-            var basePath = Path.GetDirectoryName(assembly.CodeBase);
+            var codeBaseUri = new Uri(assembly.CodeBase);
+            var basePath = Path.GetDirectoryName(codeBaseUri.AbsolutePath);
 
             _assemblyResolver = new CompositeCompilationAssemblyResolver(new ICompilationAssemblyResolver[]
             {
                 new AppBaseCompilationAssemblyResolver(basePath),
-                    new ReferenceAssemblyPathResolver(),
-                    new PackageCompilationAssemblyResolver(),
-                    new PackageRuntimeStoreAssemblyResolver()
+                new ReferenceAssemblyPathResolver(),
+                new PackageCompilationAssemblyResolver(),
+                new PackageRuntimeStoreAssemblyResolver()
             });
         }
-
 
         /// <summary>
         /// Create an <see cref="IAssemblyContext"/> from a given <see cref="Assembly"/>
@@ -78,21 +80,17 @@ namespace Dolittle.Assemblies
         /// <inheritdoc/>
         public IEnumerable<Assembly> GetProjectReferencedAssemblies()
         {
-            var libraries = GetLibraries().Where(_ => _.Type.ToLowerInvariant() == "project");           
-            return libraries
-                .Select(_ => Assembly.Load(_.Name))
-                .ToArray();
+            var libraries = GetLibraries().Where(_ => _.Type.ToLowerInvariant() == "project");
+            return LoadAssembliesFrom(libraries);
         }
-
 
         /// <inheritdoc/>
         public IEnumerable<Assembly> GetReferencedAssemblies()
         {
             var libraries = GetLibraries();
-            return libraries
-                .Select(_ => Assembly.Load(_.Name))
-                .ToArray();
+            return LoadAssembliesFrom(libraries);
         }
+
 
         /// <inheritdoc/>
         public void Dispose()
@@ -118,14 +116,21 @@ namespace Dolittle.Assemblies
                     library.RuntimeAssemblyGroups.SelectMany(g => g.AssetPaths),
                     library.Dependencies,
                     library.Serviceable,
-                    library.Path,
+                    library.Path ?? library.RuntimeAssemblyGroups.Select(g => g.AssetPaths.FirstOrDefault()).FirstOrDefault(),
                     library.HashPath);
 
                 var assemblies = new List<string>();
                 _assemblyResolver.TryResolveAssemblyPaths(compileLibrary, assemblies);
                 if (assemblies.Count > 0)
                 {
-                    return AssemblyLoadContext.LoadFromAssemblyPath(assemblies[0]);
+                    try
+                    {
+                        return AssemblyLoadContext.LoadFromAssemblyPath(assemblies[0]);
+                    } 
+                    catch
+                    {
+                        return null;
+                    }
                 }
             }
 
@@ -137,6 +142,22 @@ namespace Dolittle.Assemblies
             var libraries = DependencyContext.RuntimeLibraries.Cast<RuntimeLibrary>()
                 .Where(_ => _.RuntimeAssemblyGroups.Count() > 0 && !_.Name.StartsWith("runtime"));
             return libraries;
+        }
+
+        IEnumerable<Assembly> LoadAssembliesFrom(IEnumerable<RuntimeLibrary> libraries)
+        {
+            return libraries
+                .Select(_ => {
+                    try 
+                    {
+                        return Assembly.Load(_.Name);
+                    } catch 
+                    {
+                        return null;
+                    }
+                })
+                .Where(_ => _ != null)
+                .ToArray();
         }
     }
 }

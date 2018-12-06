@@ -28,7 +28,6 @@ namespace Dolittle.Serialization.Json
     [Singleton]
     public class Serializer : ISerializer
     {
-        readonly IContainer _container;
         readonly ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheAutoTypeName;
         readonly ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheAutoTypeNameReadOnly;
         readonly ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheNoneTypeName;
@@ -41,11 +40,9 @@ namespace Dolittle.Serialization.Json
         /// <summary>
         /// Initializes a new instance of <see cref="Serializer"/>
         /// </summary>
-        /// <param name="container">A <see cref="IContainer"/> used to create instances of types during serialization</param>
         /// <param name="converterProviders">Instances of <see cref="ICanProvideConverters"/></param>
-        public Serializer(IContainer container, IInstancesOf<ICanProvideConverters> converterProviders)
+        public Serializer(IInstancesOf<ICanProvideConverters> converterProviders)
         {
-            _container = container;
             _converterProviders = converterProviders;
             _cacheAutoTypeName = new ConcurrentDictionary<ISerializationOptions, JsonSerializer>();
             _cacheNoneTypeName = new ConcurrentDictionary<ISerializationOptions, JsonSerializer>();
@@ -87,7 +84,6 @@ namespace Dolittle.Serialization.Json
                                 if (converter != null) return converter.ReadJson(reader, type, null, serializer);
                             } else return value;
                         } catch {}
-
                     }
 
                     if (type.GetTypeInfo().IsValueType ||
@@ -161,9 +157,8 @@ namespace Dolittle.Serialization.Json
             {
                 if (DoesPropertiesMatchConstructor(type, json))
                     return CreateInstanceByPropertiesMatchingConstructor(type, json, out propertiesMatched);
-                else
-                    return _container.Get(type);
             }
+            throw new NotImplementedException();
         }
 
 
@@ -267,7 +262,7 @@ namespace Dolittle.Serialization.Json
 
         JsonSerializer CreateSerializer(ISerializationOptions options, TypeNameHandling typeNameHandling, bool ignoreReadOnlyProperties = false)
         {
-            var contractResolver = new SerializerContractResolver(_container, options, ignoreReadOnlyProperties);
+            var contractResolver = new SerializerContractResolver(options, ignoreReadOnlyProperties);
 
             var serializer = new JsonSerializer
             {

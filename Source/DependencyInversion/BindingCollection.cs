@@ -23,7 +23,11 @@ namespace Dolittle.DependencyInversion
         /// <param name="bindingCollections"></param>
         public BindingCollection(params IEnumerable<Binding>[] bindingCollections)
         {
-            bindingCollections.ForEach(_bindings.AddRange);
+            bindingCollections.ForEach(_ => 
+            {
+                var newBindings = _.Where(binding => !HasBindingFor(binding.Service));
+                _bindings.AddRange(newBindings);
+            });
         }
 
         /// <inheritdoc/>

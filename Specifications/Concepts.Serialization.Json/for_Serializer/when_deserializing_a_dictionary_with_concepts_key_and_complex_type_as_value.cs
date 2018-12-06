@@ -8,7 +8,7 @@ using System.Linq;
 namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
 {
 
-    [Subject(typeof(ISerializer))]
+    [Subject(typeof(Serializer))]
     public class when_deserializing_a_dictionary_with_concepts_key_and_complex_type_as_value : given.a_serializer
     {
         static Dictionary<ConceptAsGuid,ClassWithConcepts>  original;
@@ -25,10 +25,7 @@ namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
             json_representation = serializer.ToJson(original);
         };
 
-        Because of = () => 
-        {
-            result = serializer.FromJson<Dictionary<ConceptAsGuid,ClassWithConcepts>>(json_representation);
-        };
+        Because of = () => result = serializer.FromJson<Dictionary<ConceptAsGuid,ClassWithConcepts>>(json_representation);
 
         It should_have_the_same_keys_in_the_deserialized_version = () => 
         {
@@ -41,5 +38,5 @@ namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
             result.Values.First().ShouldEqual(original.Values.First());
             result.Values.Last().ShouldEqual(original.Values.Last());
         };
-    }           
+    }
 }

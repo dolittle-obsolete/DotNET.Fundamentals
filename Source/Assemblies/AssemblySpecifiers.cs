@@ -39,12 +39,12 @@ namespace Dolittle.Assemblies
                 .Where(t => t.Implements(typeof(ICanSpecifyAssemblies)))
                 .Where(t => t.GetTypeInfo().Assembly.FullName == assembly.FullName)
                 .Where(type => type.HasDefaultConstructor())
-                .ForEach(type =>
+                .ForEach((Action<Type>)(type =>
                 {
-                    _logger.Information($"Specifying from type {type.AssemblyQualifiedName}");
+                    _logger.Trace((string)$"Specifying from type {type.AssemblyQualifiedName}");
                     var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
                     specifier.Specify(_assemblyRuleBuilder);
-                });
+                }));
         }
     }
 }
