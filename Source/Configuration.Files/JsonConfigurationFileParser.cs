@@ -46,7 +46,7 @@ namespace Dolittle.Configuration.Files
         public bool CanParse(Type type, string filename, string content)
         {
             if( content.StartsWith("{") ) return true;
-            return Path.GetExtension(filename).ToLowerInvariant().Equals("json");
+            return Path.GetExtension(filename).ToLowerInvariant().Equals(".json");
         }
 
         /// <inheritdoc/>
