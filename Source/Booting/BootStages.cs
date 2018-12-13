@@ -24,7 +24,7 @@ namespace Dolittle.Booting
         readonly IEnumerable<ICanPerformPartOfBootStage> _initialFixedStages;
 
         readonly Queue<ICanPerformPartOfBootStage> _stages;
-        IContainer _container = null;
+        static IContainer _container = null;
 
         /// <summary>
         /// Initializes a new instance of <see cref="BootStages"/>
@@ -98,6 +98,17 @@ namespace Dolittle.Booting
             var bootStagesResult = new BootStagesResult(_container, aggregatedAssociations, results);
             return bootStagesResult;
         }
+
+
+        /// <summary>
+        /// Method that gets called when <see cref="IContainer"/> is ready
+        /// </summary>
+        /// <param name="container"><see cref="IContainer"/> instance</param>
+        public static void ContainerReady(IContainer container)
+        {
+            _container = container;
+        }
+
 
         void DiscoverBootStages(ITypeFinder typeFinder)
         {
