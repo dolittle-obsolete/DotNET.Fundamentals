@@ -13,11 +13,11 @@ namespace Dolittle.PropertyBags.Migrations
         /// </summary>
         /// <param name="name">Action to be performed on the PropertyBag</param>
         /// <param name="value"></param>
-        public AddNewProperty(string name, object value) : base(GetAction(name,value))
+        public AddNewProperty(string name, T value) : base(GetAction(name,value))
         {
         }
 
-        static Action<NullFreeDictionary<string,object>> GetAction(string name, object value)
+        static Action<NullFreeDictionary<string,object>> GetAction(string name, T value)
         {
             return nfd => 
             {
@@ -30,7 +30,7 @@ namespace Dolittle.PropertyBags.Migrations
                 if(nfd.ContainsKey(name))
                     throw new DuplicateProperty($"Property {name ?? "[NULL]" } already exists on this target");
 
-                nfd.Add(name,(T)value);
+                nfd.Add(name,typeof(T).GetPropertyBagObjectValue(value));
             };
         }
     }    
