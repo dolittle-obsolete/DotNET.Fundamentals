@@ -10,21 +10,25 @@ using Machine.Specifications;
 namespace Dolittle.PropertyBags.for_PropertyBag.for_Migrations.when_adding_a_new_property
 {
 
-    [Subject(typeof(AddNewProperty<>),"Perform")]   
-    public class and_the_property_being_added_is_a_concept
+    [Subject(typeof(AddNewProperty<DateTime>),"Perform")]   
+    public class and_the_property_being_added_is_a_DateTime_of_UTC_kind
     {
-        static AddNewProperty<IntConcept> add_new_property;
+        static AddNewProperty<DateTime> add_new_property;
         static NullFreeDictionary<string,object> target;
+
+        static long date_time_utc_ticks;
 
         Establish context = () => 
         {
-            add_new_property = new AddNewProperty<IntConcept>("AddedProperty",100);
+            var now = DateTime.UtcNow;
+            date_time_utc_ticks = now.ToUnixTimeMilliseconds();
+            add_new_property = new AddNewProperty<DateTime>("AddedProperty",now);
             target = new NullFreeDictionary<string, object>();
         };
 
         Because of = () => add_new_property.Perform(target);
 
         It should_add_the_property = () => target.ContainsKey("AddedProperty").ShouldBeTrue();
-        It should_add_the_correct_value = () => target["AddedProperty"].ShouldEqual(100);
+        It should_add_the_date_time_as_unix_time_milliseconds = () => target["AddedProperty"].ShouldEqual(date_time_utc_ticks);
     }   
 }
