@@ -14,8 +14,8 @@ namespace Dolittle.Booting.Stages
     public class DiscoverySettings : IRepresentSettingsForBootStage
     {
         /// <summary>
-        /// Gets the <see cref="AssemblyName">assemblies</see> to use
+        /// Gets the <see cref="ICanProvideAssemblies">assembly provider</see> to use
         /// </summary>
-        public WellKnownAssembliesAssemblyProvider AssemblyProvider { get; internal set; }
+        public ICanProvideAssemblies AssemblyProvider { get; internal set; }
     }
 }
