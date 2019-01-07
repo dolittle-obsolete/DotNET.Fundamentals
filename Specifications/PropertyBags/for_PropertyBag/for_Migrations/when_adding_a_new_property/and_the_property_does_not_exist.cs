@@ -14,8 +14,6 @@ namespace Dolittle.PropertyBags.Migrations.for_PropertyBag.for_Migrations.when_a
         static AddNewProperty<int> add_new_int_property;
         static NullFreeDictionary<string,object> target;
 
-        static Exception exception;
-
         Establish context = () => 
         {
             add_new_int_property = new AddNewProperty<int>("AddedProperty",100);

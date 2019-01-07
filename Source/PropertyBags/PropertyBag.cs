@@ -114,12 +114,21 @@ namespace Dolittle.PropertyBags
         }
 
         /// <summary>
-        /// 
+        /// Implicitly converts a NullFreeDictionary to a PropertyBag
         /// </summary>
-        /// <param name="dictionary"></param>
+        /// <param name="dictionary">NullFreeDictionary to convert</param>
         public static implicit operator PropertyBag(NullFreeDictionary<string,object> dictionary)
         {
             return new PropertyBag(dictionary);
+        }
+
+        /// <summary>
+        /// Implicitly converts a PropertyBag to a NullFreeDictionary
+        /// </summary>
+        /// <param name="propertyBag">PropertyBag to convert</param>
+        public static implicit operator NullFreeDictionary<string,object>(PropertyBag propertyBag)
+        {
+            return propertyBag?.ToNullFreeDictionary() ?? new NullFreeDictionary<string, object>();
         }
     }
 }
