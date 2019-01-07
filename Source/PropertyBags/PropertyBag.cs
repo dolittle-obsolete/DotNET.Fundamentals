@@ -98,6 +98,22 @@ namespace Dolittle.PropertyBags
         }
 
         /// <summary>
+        /// Converts the PropertyBag to a <see cref="NullFreeDictionary{Tstring,Tobject}" />
+        /// </summary>
+        /// <returns>Instance of <see cref="NullFreeDictionary{Tstring,Tobject}" /></returns>
+        public NullFreeDictionary<string,object> ToNullFreeDictionary()
+        {
+            var dictionary = new NullFreeDictionary<string,object>();
+            this.AsDictionary().ForEach(kvp => 
+                {
+                    object val = kvp.Value.GetType() == typeof(PropertyBag) ? ((PropertyBag)kvp.Value).ToNullFreeDictionary() : kvp.Value;
+                    dictionary.Add(kvp.Key,val);
+                }
+            );
+            return dictionary;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="dictionary"></param>
