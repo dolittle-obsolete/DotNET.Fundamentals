@@ -31,5 +31,5 @@ namespace Dolittle.PropertyBags.Migrations
                 nfd.Remove(name);
             };
         }
-    }         
+    }  
 }
