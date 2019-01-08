@@ -27,6 +27,12 @@ namespace Dolittle.PropertyBags.Migrations
                 if(value == null)
                     return;
 
+                if(name == null)
+                    throw new NullPropertyName("Cannot add a property with the name NULL");
+
+                if(!PropertyNameValidator.IsValid(name))
+                    throw new InvalidPropertyName($"Property {name ?? "[NULL]" } is not a valid identifier");
+
                 if(nfd.ContainsKey(name))
                     throw new DuplicateProperty($"Property {name ?? "[NULL]" } already exists on this target");
 
