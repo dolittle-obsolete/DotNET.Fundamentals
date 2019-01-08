@@ -33,5 +33,5 @@ namespace Dolittle.PropertyBags.Migrations
                 nfd.Add(name,typeof(T).GetPropertyBagObjectValue(value));
             };
         }
-    }    
+    }   
 }
