@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dolittle.Collections;
 using Dolittle.Concepts;
 using Dolittle.PropertyBags;
@@ -26,5 +27,5 @@ namespace Dolittle.PropertyBags.for_PropertyBag.for_Migrations.when_adding_a_new
 
         It should_add_the_property = () => target.ContainsKey("AddedProperty").ShouldBeTrue();
         It should_add_the_correct_value = () => target["AddedProperty"].ShouldEqual(100);
-    }   
+    }  
 }
