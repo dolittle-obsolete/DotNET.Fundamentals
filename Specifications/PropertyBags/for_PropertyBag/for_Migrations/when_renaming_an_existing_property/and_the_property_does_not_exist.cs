@@ -5,9 +5,12 @@ using Dolittle.Concepts;
 using Dolittle.PropertyBags;
 using Machine.Specifications;
 
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ * --------------------------------------------------------------------------------------------*/
 namespace Dolittle.PropertyBags.Migrations.for_PropertyBag.for_Migrations.when_renaming_an_existing_property
 {
-
     [Subject(typeof(RenameProperty),"Perform")]   
     public class and_the_property_does_not_exist
     {

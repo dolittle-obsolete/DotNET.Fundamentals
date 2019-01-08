@@ -1,10 +1,15 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ * --------------------------------------------------------------------------------------------*/
+
 namespace Dolittle.PropertyBags.Migrations
 {
     using System;
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 
+    ///  Indicates that the Migration Source is not valid
     /// </summary>
     [Serializable]
     public class InvalidMigrationSource : ArgumentNullException

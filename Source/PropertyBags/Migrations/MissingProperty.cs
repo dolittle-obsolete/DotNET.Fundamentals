@@ -1,10 +1,15 @@
-﻿using System;
+﻿/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ * --------------------------------------------------------------------------------------------*/
+
+using System;
 using System.Runtime.Serialization;
 
 namespace Dolittle.PropertyBags.Migrations
 {
     /// <summary>
-    /// 
+    /// Indicates that the Property is missing from the Migration Source
     /// </summary>
     [Serializable]
     public class MissingProperty : Exception

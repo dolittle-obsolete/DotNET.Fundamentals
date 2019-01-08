@@ -1,10 +1,15 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ * --------------------------------------------------------------------------------------------*/
+
 using System;
 using System.Runtime.Serialization;
 
 namespace Dolittle.PropertyBags.Migrations
 {
     /// <summary>
-    /// 
+    /// Indicates that a Property in a Migration is a duplicate
     /// </summary>
     [Serializable]
     public class DuplicateProperty : Exception

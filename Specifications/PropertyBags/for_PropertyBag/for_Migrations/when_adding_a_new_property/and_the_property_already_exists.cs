@@ -4,6 +4,10 @@ using Dolittle.Collections;
 using Dolittle.Concepts;
 using Dolittle.PropertyBags;
 using Machine.Specifications;
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ * --------------------------------------------------------------------------------------------*/
 
 namespace Dolittle.PropertyBags.Migrations.for_PropertyBag.for_Migrations.when_adding_a_new_property
 {

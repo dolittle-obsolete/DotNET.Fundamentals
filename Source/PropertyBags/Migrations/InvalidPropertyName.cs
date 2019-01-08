@@ -1,10 +1,15 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ * --------------------------------------------------------------------------------------------*/
+
 namespace Dolittle.PropertyBags.Migrations
 {
     using System;
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 
+    /// Indicates that the Property Name being added is not a valid Property Name
     /// </summary>
     [Serializable]
     public class InvalidPropertyName : Exception

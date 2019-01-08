@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using Dolittle.Collections;
 using Dolittle.Concepts;
 using Dolittle.PropertyBags;
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ * --------------------------------------------------------------------------------------------*/
+
 using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Migrations.for_PropertyBag.for_Migrations.when_adding_a_new_property
