@@ -29,13 +29,10 @@ namespace Dolittle.Assemblies
         {
             Assembly = assembly;
 
-            AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
-            AssemblyLoadContext.Resolving += OnResolving;
-
             DependencyContext = DependencyContext.Load(assembly);
 
             var codeBaseUri = new Uri(assembly.CodeBase);
-            var basePath = Path.GetDirectoryName(codeBaseUri.AbsolutePath);
+            var basePath = Path.GetDirectoryName(codeBaseUri.LocalPath);
 
             _assemblyResolver = new CompositeCompilationAssemblyResolver(new ICompilationAssemblyResolver[]
             {
@@ -44,6 +41,8 @@ namespace Dolittle.Assemblies
                 new PackageCompilationAssemblyResolver(),
                 new PackageRuntimeStoreAssemblyResolver()
             });
+            AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
+            AssemblyLoadContext.Resolving += OnResolving;
         }
 
         /// <summary>
