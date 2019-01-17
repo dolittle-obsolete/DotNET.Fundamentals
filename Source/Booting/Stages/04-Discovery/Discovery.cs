@@ -26,8 +26,11 @@ namespace Dolittle.Booting.Stages
             var logger = builder.GetAssociation(WellKnownAssociations.Logger) as ILogger;
             var scheduler = builder.GetAssociation(WellKnownAssociations.Scheduler) as IScheduler;
 
+            logger.Information("  Discover all assemblies");
             var assemblies = Dolittle.Assemblies.Bootstrap.Boot.Start(logger, entryAssembly, settings.AssemblyProvider);
+            logger.Information("  Set up type system for discovery");
             var typeFinder = Dolittle.Types.Bootstrap.Boot.Start(assemblies, scheduler, logger, entryAssembly);
+            logger.Information("  Type system ready");
 
             builder.Bindings.Bind<IAssemblies>().To(assemblies);
             builder.Bindings.Bind<ITypeFinder>().To(typeFinder);
