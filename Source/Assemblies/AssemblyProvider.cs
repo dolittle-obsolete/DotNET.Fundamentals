@@ -23,8 +23,6 @@ namespace Dolittle.Assemblies
         readonly IEnumerable<ICanProvideAssemblies> _assemblyProviders;
         readonly IAssemblyFilters _assemblyFilters;
         readonly IAssemblyUtility _assemblyUtility;
-        readonly IAssemblySpecifiers _assemblySpecifiers;
-
         readonly Dictionary<string,Library> _libraries = new Dictionary<string,Library>();
         readonly List<Assembly> _assemblies = new List<Assembly>();
 
@@ -34,17 +32,14 @@ namespace Dolittle.Assemblies
         /// <param name="assemblyProviders"><see cref="IEnumerable{ICanProvideAssemblies}">Providers</see> to provide assemblies</param>
         /// <param name="assemblyFilters"><see cref="IAssemblyFilters"/> to use for filtering assemblies through</param>
         /// <param name="assemblyUtility">An <see cref="IAssemblyUtility"/></param>
-        /// <param name="assemblySpecifiers"><see cref="IAssemblySpecifiers"/> used for specifying what assemblies to include or not</param>
         public AssemblyProvider(
             IEnumerable<ICanProvideAssemblies> assemblyProviders,
             IAssemblyFilters assemblyFilters, 
-            IAssemblyUtility assemblyUtility,
-            IAssemblySpecifiers assemblySpecifiers)
+            IAssemblyUtility assemblyUtility)
         {
             _assemblyProviders = assemblyProviders;
             _assemblyFilters = assemblyFilters;
             _assemblyUtility = assemblyUtility;
-            _assemblySpecifiers = assemblySpecifiers;
 
             Populate();
         }
@@ -73,10 +68,6 @@ namespace Dolittle.Assemblies
             }
         }
 
-        void SpecifyRules(Assembly assembly)
-        {
-            _assemblySpecifiers.SpecifyUsingSpecifiersFrom(assembly);
-        }
 
         void ReapplyFilter()
         {
@@ -96,7 +87,6 @@ namespace Dolittle.Assemblies
                     !_assemblyUtility.IsDynamic(assembly))
                 {
                     _assemblies.Add(assembly);
-                    SpecifyRules(assembly);
                     ReapplyFilter();
                 }
             }

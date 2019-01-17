@@ -29,9 +29,7 @@ namespace Dolittle.Assemblies.Bootstrap
                 .ExceptProjectLibraries()
                 .ExceptDolittleLibraries();
 
-            var assemblySpecifiers = new AssemblySpecifiers(assembliesConfigurationBuilder.RuleBuilder, logger);
             if( entryAssembly == null ) entryAssembly = Assembly.GetEntryAssembly();
-            assemblySpecifiers.SpecifyUsingSpecifiersFrom(entryAssembly);
 
             var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
             var assemblyFilters = new AssemblyFilters(assembliesConfiguration);
@@ -39,8 +37,7 @@ namespace Dolittle.Assemblies.Bootstrap
             var assemblyProvider = new AssemblyProvider(
                 new ICanProvideAssemblies[] { defaultAssemblyProvider ?? new DefaultAssemblyProvider(logger, entryAssembly) },
                 assemblyFilters,
-                new AssemblyUtility(),
-                assemblySpecifiers);
+                new AssemblyUtility());
 
             var assemblies = new Assemblies(entryAssembly, assemblyProvider);
             return assemblies;
