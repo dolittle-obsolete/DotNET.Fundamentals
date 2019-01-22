@@ -28,6 +28,8 @@ namespace Dolittle.Assemblies
                             "/usr/local/share/dotnet/store";
 
             var cpuBasePath = Path.Combine(basePath,RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant());
+            if (!Directory.Exists(cpuBasePath)) return false;
+            
             var found = false;
 
             foreach( var targetFrameworkBasePath in Directory.GetDirectories(cpuBasePath))
