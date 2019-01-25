@@ -94,7 +94,7 @@ namespace Dolittle.Types
                 try
                 {
                     var types = assembly.GetTypes();
-                    _contractToImplementorsMap.Feed(assembly.GetTypes());
+                    _contractToImplementorsMap.Feed(types);
                 }
                 catch (ReflectionTypeLoadException ex)
                 {

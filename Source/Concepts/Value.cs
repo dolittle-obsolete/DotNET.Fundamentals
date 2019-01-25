@@ -34,6 +34,8 @@ namespace Dolittle.Concepts
                 return false;
 
             var other = obj as T;
+            if (other == null)
+                return false;
 
             return Equals(other);
         }
@@ -116,7 +118,7 @@ namespace Dolittle.Concepts
             sb.AppendLine("{[Type: " + GetType() + "]");
             foreach (var field in GetFields())
             {
-                sb.AppendFormat(@"{{ {0} : {1} }}", RemoveBackingAutoBackingFieldPropertyName(field.Name), field.GetValue(this) ?? "[NULL]" );
+                sb.AppendFormat(@"{{ {0} : {1} }}", RemoveBackingAutoBackingFieldPropertyName(field.Name), field.GetValue(this) ?? "[NULL]");
             }
             sb.AppendLine("}");
             return sb.ToString();
@@ -125,7 +127,7 @@ namespace Dolittle.Concepts
         IEnumerable<FieldInfo> GetFields()
         {
             if (!_fields.Any())
-                 _fields = new List<FieldInfo>(BuildFieldCollection());
+                _fields = new List<FieldInfo>(BuildFieldCollection());
             return _fields;
         }
 
@@ -137,8 +139,8 @@ namespace Dolittle.Concepts
             while (t != typeof(object))
             {
                 var typeInfo = t.GetTypeInfo();
-                
-                fields.AddRange(typeInfo.GetFields(BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance));
+
+                fields.AddRange(typeInfo.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
                 var fieldInfoCache = typeInfo.GetField("_fields");
                 fields.Remove(fieldInfoCache);
                 t = typeInfo.BaseType;
