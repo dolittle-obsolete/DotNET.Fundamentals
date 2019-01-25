@@ -30,12 +30,14 @@ namespace Dolittle.Concepts
         /// <returns>True if equal, false otherwise</returns>
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            if (obj is T typed)
+            {
+                return Equals(typed);
+            }
+            else
+            {
                 return false;
-
-            var other = obj as T;
-
-            return Equals(other);
+            }
         }
 
         /// <summary>
