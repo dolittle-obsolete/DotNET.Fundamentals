@@ -36,7 +36,14 @@ namespace Dolittle.Concepts
 
         public override bool Equals(object obj)
         {
-            return obj != null && Equals(obj as ConceptAs<T>);
+            if (obj is ConceptAs<T> typed)
+            {
+                return Equals(typed);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public virtual bool Equals(ConceptAs<T> other)
