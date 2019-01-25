@@ -37,7 +37,9 @@ namespace Dolittle.Assemblies.Bootstrap
             var assemblyProvider = new AssemblyProvider(
                 new ICanProvideAssemblies[] { defaultAssemblyProvider ?? new DefaultAssemblyProvider(logger, entryAssembly) },
                 assemblyFilters,
-                new AssemblyUtility());
+                new AssemblyUtility(),
+                logger
+            );
 
             var assemblies = new Assemblies(entryAssembly, assemblyProvider);
             return assemblies;

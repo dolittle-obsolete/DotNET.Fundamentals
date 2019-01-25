@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Collections;
 using Dolittle.Lifecycle;
+using Dolittle.Logging;
 using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies
@@ -25,6 +26,7 @@ namespace Dolittle.Assemblies
         readonly IAssemblyUtility _assemblyUtility;
         readonly Dictionary<string,Library> _libraries = new Dictionary<string,Library>();
         readonly List<Assembly> _assemblies = new List<Assembly>();
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyProvider"/>
@@ -32,14 +34,17 @@ namespace Dolittle.Assemblies
         /// <param name="assemblyProviders"><see cref="IEnumerable{ICanProvideAssemblies}">Providers</see> to provide assemblies</param>
         /// <param name="assemblyFilters"><see cref="IAssemblyFilters"/> to use for filtering assemblies through</param>
         /// <param name="assemblyUtility">An <see cref="IAssemblyUtility"/></param>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
         public AssemblyProvider(
             IEnumerable<ICanProvideAssemblies> assemblyProviders,
             IAssemblyFilters assemblyFilters, 
-            IAssemblyUtility assemblyUtility)
+            IAssemblyUtility assemblyUtility, 
+            ILogger logger)
         {
             _assemblyProviders = assemblyProviders;
             _assemblyFilters = assemblyFilters;
             _assemblyUtility = assemblyUtility;
+            _logger = logger;
 
             Populate();
         }
@@ -54,7 +59,9 @@ namespace Dolittle.Assemblies
         {
             foreach (var provider in _assemblyProviders)
             {
-                provider.Libraries.ForEach(library => _libraries.Add(library.Name, library));
+                provider.Libraries.ForEach(library => {
+                    if( !_libraries.ContainsKey(library.Name)) _libraries.Add(library.Name, library);
+                });
 
                 var assembliesToInclude = provider.Libraries.Where(
                     library => 
