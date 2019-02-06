@@ -44,8 +44,9 @@ namespace Dolittle.Booting.Stages
                 (ILogAppender)new DefaultLogAppender(GetCurrentLoggingContext, loggerFactory);
 
             var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(loggerFactory, logAppender, entryAssembly);
-            Dolittle.Logging.ILogger logger = new Logger(logAppenders);
+            Dolittle.Logging.ILogger logger = settings.Logger ?? new Logger(logAppenders);
             logger.Information($"<********* BOOTSTAGE : Logging *********>");
+
             builder.Associate(WellKnownAssociations.Logger, logger);
 
             _executionContextManager = new ExecutionContextManager(logger);
