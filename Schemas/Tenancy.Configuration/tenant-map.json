@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "dolittle.io/schemas/DotNET.Fundamentals/Tenancy.Configuration/tenant-map.json",
+    "title": "Resource Configuration",
+    "description": "The resource configurations mapped to tenant id",
+    "type": "object",
+    "properties": {
+        "strategy": {
+            "description": "The type of strategy used to map the tenant to tenant id",
+            "type": "string"
+        },
+        "fallbackToDeveloperTenant": {
+            "description": "A well known property used to denote that you wish to fallback to the Development id when tenant could not be resolved. Good when doing local development",
+            "type": "boolean"
+        }
+    },
+    "required": ["strategy"],
+    "additionalProperties": true
+}
