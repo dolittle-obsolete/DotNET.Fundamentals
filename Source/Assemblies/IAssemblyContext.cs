@@ -31,6 +31,25 @@ namespace Dolittle.Assemblies
         AssemblyLoadContext AssemblyLoadContext {  get; }
 
         /// <summary>
+        /// Get all the assembly paths as absolute path of a <see cref="Library"/>
+        /// </summary>
+        /// <param name="library"><see cref="Library"/> to resolve</param>
+        /// <returns>Absolute path to the </returns>
+        IEnumerable<string> GetAssemblyPathsFor(Library library);
+
+        /// <summary>
+        /// Get all libraries that are referenced in the context
+        /// </summary>
+        /// <returns>All referenced <see cref="IEnumerable{Library}">libraries</see></returns>
+        IEnumerable<Library> GetReferencedLibraries();
+
+        /// <summary>
+        /// Get all libraries that are referenced as project in the context
+        /// </summary>
+        /// <returns>All project referenced <see cref="IEnumerable{Library}">libraries</see></returns>
+        IEnumerable<Library> GetProjectReferencedLibraries();
+
+        /// <summary>
         /// Get all assemblies that are referenced by the assembly
         /// </summary>
         /// <returns>All references <see cref="IEnumerable{Assembly}">assemblies</see></returns>

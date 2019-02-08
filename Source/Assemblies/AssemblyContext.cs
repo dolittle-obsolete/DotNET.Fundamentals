@@ -36,10 +36,11 @@ namespace Dolittle.Assemblies
 
             _assemblyResolver = new CompositeCompilationAssemblyResolver(new ICompilationAssemblyResolver[]
             {
-                new AppBaseCompilationAssemblyResolver(basePath),
-                new ReferenceAssemblyPathResolver(),
-                new PackageCompilationAssemblyResolver(),
-                new PackageRuntimeStoreAssemblyResolver()
+                    new AppBaseCompilationAssemblyResolver(basePath),
+                    new ReferenceAssemblyPathResolver(),
+                    new PackageCompilationAssemblyResolver(),
+                    new NuGetFallbackFolderAssemblyResolver(),
+                    new PackageRuntimeStoreAssemblyResolver()
             });
             AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
             AssemblyLoadContext.Resolving += OnResolving;
@@ -77,19 +78,46 @@ namespace Dolittle.Assemblies
         public AssemblyLoadContext AssemblyLoadContext {  get; }
 
         /// <inheritdoc/>
+        public IEnumerable<Library> GetProjectReferencedLibraries()
+        {
+            var libraries = GetReferencedLibraries().Where(_ => _.Type.ToLowerInvariant() == "project");
+            return libraries;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Library> GetReferencedLibraries()
+        {
+            var libraries = DependencyContext.RuntimeLibraries.Cast<RuntimeLibrary>()
+                .Where(_ => _.RuntimeAssemblyGroups.Count() > 0 && !_.Name.StartsWith("runtime"));
+            return libraries;
+        }
+
+        /// <inheritdoc/>
         public IEnumerable<Assembly> GetProjectReferencedAssemblies()
         {
-            var libraries = GetLibraries().Where(_ => _.Type.ToLowerInvariant() == "project");
+            var libraries = GetReferencedLibraries().Where(_ => _.Type.ToLowerInvariant() == "project");
             return LoadAssembliesFrom(libraries);
         }
 
         /// <inheritdoc/>
         public IEnumerable<Assembly> GetReferencedAssemblies()
         {
-            var libraries = GetLibraries();
+            var libraries = GetReferencedLibraries();
             return LoadAssembliesFrom(libraries);
         }
 
+        /// <inheritdoc/>
+        public IEnumerable<string> GetAssemblyPathsFor(Library library)
+        {
+            var compilationLibrary = library as CompilationLibrary;
+            var libraryPaths = new List<string>();
+            if (compilationLibrary == null && library is RuntimeLibrary)
+            {
+                compilationLibrary = GetCompilationLibraryFrom(library as RuntimeLibrary);
+                _assemblyResolver.TryResolveAssemblyPaths(compilationLibrary, libraryPaths);
+            }
+            return libraryPaths;
+        }
 
         /// <inheritdoc/>
         public void Dispose()
@@ -104,22 +132,13 @@ namespace Dolittle.Assemblies
                 return string.Equals(runtime.Name, name.Name, StringComparison.OrdinalIgnoreCase);
             }
 
-            var library = DependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);
-            if (library != null)
+            var runtimeLibrary = DependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);
+            if (runtimeLibrary != null)
             {
-                var compileLibrary = new CompilationLibrary(
-                    library.Type,
-                    library.Name,
-                    library.Version,
-                    library.Hash,
-                    library.RuntimeAssemblyGroups.SelectMany(g => g.AssetPaths),
-                    library.Dependencies,
-                    library.Serviceable,
-                    library.Path ?? library.RuntimeAssemblyGroups.Select(g => g.AssetPaths.FirstOrDefault()).FirstOrDefault(),
-                    library.HashPath);
+                var compilationLibrary = GetCompilationLibraryFrom(runtimeLibrary);
 
                 var assemblies = new List<string>();
-                _assemblyResolver.TryResolveAssemblyPaths(compileLibrary, assemblies);
+                _assemblyResolver.TryResolveAssemblyPaths(compilationLibrary, assemblies);
                 if (assemblies.Count > 0)
                 {
                     try
@@ -136,27 +155,37 @@ namespace Dolittle.Assemblies
             return null;
         }
 
-        IEnumerable<RuntimeLibrary> GetLibraries()
-        {
-            var libraries = DependencyContext.RuntimeLibraries.Cast<RuntimeLibrary>()
-                .Where(_ => _.RuntimeAssemblyGroups.Count() > 0 && !_.Name.StartsWith("runtime"));
-            return libraries;
-        }
-
-        IEnumerable<Assembly> LoadAssembliesFrom(IEnumerable<RuntimeLibrary> libraries)
+        IEnumerable<Assembly> LoadAssembliesFrom(IEnumerable<Library> libraries)
         {
             return libraries
-                .Select(_ => {
-                    try 
+                .Select(_ =>
+                {
+                    try
                     {
                         return Assembly.Load(_.Name);
-                    } catch 
+                    }
+                    catch
                     {
                         return null;
                     }
                 })
                 .Where(_ => _ != null)
                 .ToArray();
+        }
+
+        CompilationLibrary GetCompilationLibraryFrom(RuntimeLibrary library)
+        {
+            var compilationLibrary = new CompilationLibrary(
+                library.Type,
+                library.Name,
+                library.Version,
+                library.Hash,
+                library.RuntimeAssemblyGroups.SelectMany(g => g.AssetPaths),
+                library.Dependencies,
+                library.Serviceable,
+                library.Path ?? library.RuntimeAssemblyGroups.Select(g => g.AssetPaths.FirstOrDefault()).FirstOrDefault(),
+                library.HashPath);
+            return compilationLibrary;
         }
     }
 }
