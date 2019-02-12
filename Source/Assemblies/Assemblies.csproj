@@ -10,7 +10,6 @@
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IO\IO.csproj" />
     <ProjectReference Include="..\Lifecycle\Lifecycle.csproj" />
     <ProjectReference Include="..\Logging\Logging.csproj" />
     <ProjectReference Include="..\Reflection\Reflection.csproj" />
