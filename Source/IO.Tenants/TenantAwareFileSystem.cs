@@ -12,6 +12,9 @@ namespace Dolittle.IO.Tenants
     /// <summary>
     /// Represents an implementation of <see cref="ITenantAwareFileSystem"/>
     /// </summary>
+    /// <remarks>
+    /// https://en.wikipedia.org/wiki/Directory_traversal_attack
+    /// </remarks>
     public class TenantAwareFileSystem : ITenantAwareFileSystem
     {
         static Regex _windowsPathRooted = new Regex("^[a-z]*:");
