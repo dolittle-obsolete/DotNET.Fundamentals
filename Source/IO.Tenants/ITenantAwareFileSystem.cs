@@ -19,6 +19,13 @@ namespace Dolittle.IO.Tenants
         /// <returns><see cref="IEnumerable{T}"/> of paths</returns>
         IEnumerable<string> GetDirectoriesIn(string relativePath);
 
+       /// <summary>
+        /// Check if a directory exists based on the relative path within the tenants sandbox
+        /// </summary>
+        /// <param name="relativePath">Relative path to check</param>
+        /// <returns>True if exists, false if not</returns>
+        bool DirectoryExists(string relativePath);
+
         /// <summary>
         /// Check if a file exists based on the relative path within the tenants sandbox
         /// </summary>
@@ -32,5 +39,12 @@ namespace Dolittle.IO.Tenants
         /// <param name="relativePath">Relative path to the file to read from</param>
         /// <returns>Content of the file</returns>
         string ReadAllText(string relativePath);
+
+        /// <summary>
+        /// Write all text from a relative path within the tenant
+        /// </summary>
+        /// <param name="relativePath">Relative path to the file to read from</param>
+        /// <param name="content">Content of the file</param>
+        void WriteAllText(string relativePath, string content);
     }
 }

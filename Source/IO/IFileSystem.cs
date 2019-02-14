@@ -19,6 +19,13 @@ namespace Dolittle.IO
         string GetCurrentDirectory();
 
         /// <summary>
+        /// Checks wether or not a directory exists
+        /// </summary>
+        /// <param name="path">Path to check</param>
+        /// <returns>True if exists, false if not</returns>
+        bool DirectoryExists(string path);
+
+        /// <summary>
         /// Checks wether or not a path exists
         /// </summary>
         /// <param name="path">Path to check</param>
@@ -31,6 +38,13 @@ namespace Dolittle.IO
         /// <param name="filename">Path and filename</param>
         /// <returns>Content of file</returns>
         string ReadAllText(string filename);
+
+        /// <summary>
+        /// Read all text from a file
+        /// </summary>
+        /// <param name="filename">Path and filename</param>
+        /// <param name="content">Content of file</param>
+        void WriteAllText(string filename, string content);
 
         /// <summary>
         /// Get files for a specific path

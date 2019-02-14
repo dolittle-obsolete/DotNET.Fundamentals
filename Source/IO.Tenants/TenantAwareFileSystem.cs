@@ -59,6 +59,14 @@ namespace Dolittle.IO.Tenants
         }
 
         /// <inheritdoc/>
+        public bool DirectoryExists(string relativePath)
+        {
+            var absolutePath = MapPath(relativePath);
+            ThrowIfAccessingOutsideTenantSandbox(relativePath, absolutePath);
+            return _fileSystem.DirectoryExists(absolutePath);
+        }
+
+        /// <inheritdoc/>
         public bool Exists(string relativePath)
         {
             var absolutePath = MapPath(relativePath);
@@ -72,6 +80,15 @@ namespace Dolittle.IO.Tenants
             var absolutePath = MapPath(relativePath);
             ThrowIfAccessingOutsideTenantSandbox(relativePath, absolutePath);           
             return _fileSystem.ReadAllText(absolutePath);
+        }
+
+
+        /// <inheritdoc/>
+        public void WriteAllText(string relativePath, string content)
+        {
+            var absolutePath = MapPath(relativePath);
+            ThrowIfAccessingOutsideTenantSandbox(relativePath, absolutePath);
+            _fileSystem.WriteAllText(absolutePath, content);
         }
 
         string GetTenantBasePath()

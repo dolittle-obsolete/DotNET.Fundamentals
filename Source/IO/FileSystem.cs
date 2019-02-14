@@ -13,6 +13,12 @@ namespace Dolittle.IO
     public class FileSystem : IFileSystem
     {
         /// <inheritdoc/>
+        public bool DirectoryExists(string path)
+        {
+            return Directory.Exists(path);
+        }
+
+        /// <inheritdoc/>
         public bool Exists(string path)
         {
             return File.Exists(path);
@@ -34,6 +40,12 @@ namespace Dolittle.IO
         public string ReadAllText(string filename)
         {
             return File.ReadAllText(filename);
+        }
+
+        /// <inheritdoc/>
+        public void WriteAllText(string filename, string content)
+        {
+            File.WriteAllText(filename, content);
         }
 
         /// <inheritdoc/>
