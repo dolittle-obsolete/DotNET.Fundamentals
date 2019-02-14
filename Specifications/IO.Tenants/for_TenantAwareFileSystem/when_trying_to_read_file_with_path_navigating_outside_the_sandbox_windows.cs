@@ -10,10 +10,7 @@ namespace Dolittle.IO.Tenants.for_TenantAwareFileSystem
     {
         static Exception result;
 
-        Because of = () => 
-        {
-            result = Catch.Exception(() => tenant_aware_file_system.ReadAllText("someplace\\..\\..\\somefile.txt"));
-        };
+        Because of = () => result = Catch.Exception(() => tenant_aware_file_system.ReadAllText("someplace\\..\\..\\somefile.txt"));
 
         It should_throw_access_outside_sandbox_denied = () => result.ShouldBeOfExactType<AccessOutsideSandboxDenied>();
     }
