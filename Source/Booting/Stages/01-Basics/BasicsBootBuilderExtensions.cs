@@ -5,7 +5,6 @@
 using System.Reflection;
 using Dolittle.Booting.Stages;
 using Dolittle.Execution;
-using Dolittle.IO;
 using Dolittle.Scheduling;
 using Dolittle.Time;
 
