@@ -37,5 +37,16 @@ namespace Dolittle.Booting
             bootBuilder.Set<LoggingSettings>(_ => _.LoggerFactory, loggerFactory);
             return bootBuilder;
         }
+
+        /// <summary>
+        /// Disables logging
+        /// </summary>
+        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
+        /// <returns>Chained <see cref="BootBuilder"/></returns>
+        public static IBootBuilder NoLogging(this IBootBuilder bootBuilder)
+        {
+            bootBuilder.Set<LoggingSettings>(_ => _.Logger, new NullLogger());
+            return bootBuilder;
+        }
     }
 }

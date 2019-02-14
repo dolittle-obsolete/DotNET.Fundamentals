@@ -23,6 +23,9 @@ namespace Dolittle.Booting.Stages
         /// </summary>
         public ILoggerFactory LoggerFactory { get; internal set; }
 
-
+        /// <summary>
+        /// Gets the <see cref="Dolittle.Logging.ILogger"/> to use - if this is null - it has not been set, use the default one
+        /// </summary>
+        public Dolittle.Logging.ILogger Logger { get; internal set; }
     }
 }
