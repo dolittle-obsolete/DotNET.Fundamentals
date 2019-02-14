@@ -6,11 +6,11 @@ using It=Machine.Specifications.It;
 
 namespace Dolittle.IO.Tenants.for_TenantAwareFileSystem
 {
-    public class when_trying_to_read_file_with_rooted_path_unc : given.a_tenant_aware_file_system
+    public class when_getting_directory_entries_rooted_path_unix : given.a_tenant_aware_file_system
     {
         static Exception result;
 
-        Because of = () => result = Catch.Exception(() => tenant_aware_file_system.ReadAllText("\\\\someplace\\somefile.txt"));
+        Because of = () => result = Catch.Exception(() => tenant_aware_file_system.GetDirectoriesIn("/someplace/somefile.txt"));
 
         It should_throw_access_outside_sandbox_denied = () => result.ShouldBeOfExactType<AccessOutsideSandboxDenied>();
     }

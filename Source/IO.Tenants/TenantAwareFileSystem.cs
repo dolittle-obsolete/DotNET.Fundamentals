@@ -3,7 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Dolittle.Execution;
 
@@ -37,6 +39,23 @@ namespace Dolittle.IO.Tenants
             _executionContextManager = executionContextManager;
             _fileSystem = fileSystem;
             _configuration = configuration;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<string> GetDirectoriesIn(string relativePath)
+        {
+            var absolutePath = MapPath(relativePath);
+            ThrowIfAccessingOutsideTenantSandbox(relativePath, absolutePath);
+            var directories = _fileSystem.GetDirectoriesIn(absolutePath);
+            var tenantBasePath = GetTenantBasePath();
+            var relativeDirectories = directories.Select(_ => {
+                var relativeDir = _.Substring(tenantBasePath.Length);
+                if( relativeDir.StartsWith("/") || relativeDir.StartsWith("\\"))
+                    relativeDir = relativeDir.Substring(1);
+
+                return relativeDir;
+            }).ToArray();
+            return relativeDirectories;
         }
 
         /// <inheritdoc/>

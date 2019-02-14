@@ -35,5 +35,11 @@ namespace Dolittle.IO
         {
             return File.ReadAllText(filename);
         }
+
+        /// <inheritdoc/>
+        public IEnumerable<string> GetDirectoriesIn(string path)
+        {
+            return Directory.GetDirectories(path);
+        }
     }
 }

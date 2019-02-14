@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
 using Dolittle.Execution;
 
 namespace Dolittle.IO.Tenants
@@ -11,6 +12,13 @@ namespace Dolittle.IO.Tenants
     /// </summary>
     public interface ITenantAwareFileSystem
     {
+        /// <summary>
+        /// Get directories at a specific path
+        /// </summary>
+        /// <param name="relativePath">Relative path to get from</param>
+        /// <returns><see cref="IEnumerable{T}"/> of paths</returns>
+        IEnumerable<string> GetDirectoriesIn(string relativePath);
+
         /// <summary>
         /// Check if a file exists based on the relative path within the tenants sandbox
         /// </summary>

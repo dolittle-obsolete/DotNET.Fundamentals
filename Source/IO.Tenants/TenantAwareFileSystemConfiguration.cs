@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Configuration;
+using Dolittle.Lifecycle;
 
 namespace Dolittle.IO.Tenants
 {
@@ -10,6 +11,7 @@ namespace Dolittle.IO.Tenants
     /// Represents the <see cref="IConfigurationObject"/> for <see cref="TenantAwareFileSystem"/>
     /// </summary>
     [Name("tenant-files")]
+    [Singleton]
     public class TenantAwareFileSystemConfiguration : IConfigurationObject
     {
         /// <summary>

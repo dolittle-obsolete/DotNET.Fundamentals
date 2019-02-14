@@ -39,5 +39,12 @@ namespace Dolittle.IO
         /// <param name="searchPattern">Search pattern to use for filtering</param>
         /// <returns><see cref="IEnumerable{FileInfo}">Enumerable of <see cref="FileInfo"/></see></returns>
         IEnumerable<FileInfo> GetFilesFrom(string path, string searchPattern);
+
+        /// <summary>
+        /// Get directories at a specific path
+        /// </summary>
+        /// <param name="path">Path to get from</param>
+        /// <returns><see cref="IEnumerable{T}"/> of paths</returns>
+        IEnumerable<string> GetDirectoriesIn(string path);
     }
 }
