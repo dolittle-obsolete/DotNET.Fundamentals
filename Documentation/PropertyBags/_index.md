@@ -4,13 +4,6 @@ description: Overview of Property Bag
 keywords: Overview, Property Bag
 author: smithmx
 ---
-
-# Property Bag
-
-The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
-“RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in
-[RFC 2119](https://tools.ietf.org/html/rfc2119).
-
 ## Definition
 
 A *Property Bag* is a read-only, dynamic, dictionary-like structure intended for serializing DTO type entities in a type-independent way.
