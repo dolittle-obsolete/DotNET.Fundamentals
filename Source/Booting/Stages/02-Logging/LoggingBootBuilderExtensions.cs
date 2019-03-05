@@ -27,6 +27,17 @@ namespace Dolittle.Booting
         }
 
         /// <summary>
+        /// Sets the 
+        /// </summary>
+        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
+        /// <returns>Chained <see cref="BootBuilder"/></returns>
+        public static IBootBuilder UseDefaultLoggerInAllEnvironments(this IBootBuilder bootBuilder)
+        {
+            bootBuilder.Set<LoggingSettings>(_ => _.UseDefaultInAllEnvironments, true);
+            return bootBuilder;
+        }
+
+        /// <summary>
         /// Set <see cref="ILoggerFactory"/> to use
         /// </summary>
         /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>

@@ -11,7 +11,8 @@ namespace Dolittle.Logging
 {
 
     /// <summary>
-    /// Represents a default implementation of <see cref="ILogAppender"/> for using ILogger
+    /// Represents a default implementation of <see cref="ILogAppender"/> for using ILogger.!--
+    /// The default logger is derived from Microsoft.Extensions.Logging and can be filtered / configured as with the standard aspnetcore logger 
     /// </summary>
     public class DefaultLogAppender : ILogAppender
     {
