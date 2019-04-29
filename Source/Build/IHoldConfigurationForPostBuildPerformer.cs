@@ -2,17 +2,13 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Defines the system that deals with the post build task <see cref="ICanPerformPostBuildTasks{T}">performers</see>
+    /// Defines a marker interface for configuration for <see cref="ICanPerformPostBuildTasks{T}"/>
     /// </summary>
-    public interface IPostBuildTaskPerformers
+    public interface IHoldConfigurationForPostBuildPerformer
     {
-        /// <summary>
-        /// Perform all tasks
-        /// </summary>
-        void Perform();        
+
     }
 }

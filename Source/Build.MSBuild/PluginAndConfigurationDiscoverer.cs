@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
@@ -56,8 +57,6 @@ namespace Dolittle.Build.MSBuild
                 var customMetadata = item.CloneCustomMetadata();
                 builder.Append($"\"{plugin}\":{{");
 
-                Log.LogMessage(MessageImportance.High, $"Handling plugin {plugin}");
-
                 var pluginAssembly = GatherAllConfigKeys(builder, customMetadata);
                 if (string.IsNullOrEmpty(pluginAssembly))
                 {
@@ -71,23 +70,21 @@ namespace Dolittle.Build.MSBuild
 
             File.WriteAllText(ConfigurationFile, builder.ToString());
 
-            foreach( var asm in pluginAssemblies ) Log.LogMessage(MessageImportance.High, $"Assembly : {asm}");
-
-            PluginAssemblies = pluginAssemblies.ToArray();
+            PluginAssemblies = pluginAssemblies.Distinct().ToArray();
             return true;
         }
 
         string GatherAllConfigKeys(StringBuilder builder, IDictionary customMetadata)
         {
             var firstPair = true;
+            var pluginAssembly = string.Empty;
             foreach (var key in customMetadata.Keys)
             {
-                Log.LogMessage(MessageImportance.High, $"Key/Value : {key} - {customMetadata[key]}");
                 if (!firstPair) builder.Append(",");
 
                 if (key.ToString() == "Assembly")
                 {
-                    return customMetadata[key].ToString();
+                    pluginAssembly = customMetadata[key].ToString();
                 }
                 else
                 {
@@ -96,7 +93,7 @@ namespace Dolittle.Build.MSBuild
                 }
             }
 
-            return string.Empty;
+            return pluginAssembly;
         }
     }
 }

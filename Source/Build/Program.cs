@@ -21,6 +21,7 @@ namespace Dolittle.Build
 
             var assembly = args[0];
             var pluginAssemblies = args[1].Split(";");
+            var configurationFile = args[2];
 
             Console.WriteLine($"  Performing for: {assembly}");
             Console.WriteLine("  Using plugins from: ");
@@ -33,8 +34,9 @@ namespace Dolittle.Build
                 .NoLogging()
                 .SkipBootprocedures()
             ).Start();
-            var buildMessages = bootLoaderResult.Container.Get<IBuildMessages>();
 
+            var configuration = bootLoaderResult.Container.Get<IPerformerConfigurationLoader>();
+            configuration.Initialize(configurationFile);
             var performers = bootLoaderResult.Container.Get<IPostBuildTaskPerformers>();
             performers.Perform();
 

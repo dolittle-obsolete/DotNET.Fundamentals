@@ -14,18 +14,11 @@
     </Target>
 
     <Target Name="DolittleBuildAfterBuildCleanup" DependsOnTargets="DolittleBuildHandlePlugins">
-        <Message Text="FilesToDelete : '$(DolittleConfigurationFile)'" Importance="high"/>
-
         <Delete Files="$(DolittleConfigurationFile)"/>
     </Target>
 
     <Target Name="DolittleBuildAfterBuild" AfterTargets="AfterBuild" DependsOnTargets="DolittleBuildHandlePlugins">
-
-        <Exec Command="dotnet &quot;$(MSBuildThisFileDirectory)../tasks/netcoreapp2.1/publish/Dolittle.Build.dll&quot; &quot;$(ProjectDir)$(OutputPath)$(AssemblyName).dll&quot; &quot;$(DolittlePluginAssemblies)&quot; " />
-
-        <Message Text="DolittlePluginAssemblies : '$(DolittlePluginAssemblies)'" Importance="high"/>
-        <Message Text="DolittleConfigurationFile : '$(DolittleConfigurationFile)'" Importance="high"/>
-        
+        <Exec Command="dotnet &quot;$(MSBuildThisFileDirectory)../tasks/netcoreapp2.1/publish/Dolittle.Build.dll&quot; &quot;$(ProjectDir)$(OutputPath)$(AssemblyName).dll&quot; &quot;$(DolittlePluginAssemblies)&quot; &quot;$(DolittleConfigurationFile)&quot;" />
         <CallTarget Targets="DolittleBuildAfterBuildCleanup"/>
         <OnError ExecuteTargets="DolittleBuildAfterBuildCleanup"/>
     </Target>   
