@@ -4,9 +4,15 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
+using Dolittle.Assemblies;
+using Dolittle.Booting;
+using Dolittle.Collections;
+using Dolittle.Types;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Dolittle.Build
 {
+
     class Program
     {
         static int Main(string[] args)
@@ -17,12 +23,20 @@ namespace Dolittle.Build
             var pluginAssemblies = args[1].Split(";");
 
             Console.WriteLine($"  Performing for: {assembly}");
-            Console.WriteLine( "  Using plugins from: ");
+            Console.WriteLine("  Using plugins from: ");
 
-            foreach( var pluginAssembly in pluginAssemblies )
+            foreach (var pluginAssembly in pluginAssemblies)
                 Console.WriteLine($"    {pluginAssembly}");
 
-            //
+            var bootLoaderResult = Bootloader.Configure(_ => _
+                .WithAssemblyProvider(new AssemblyProvider(new Dolittle.Logging.NullLogger(),pluginAssemblies))
+                .NoLogging()
+                .SkipBootprocedures()
+            ).Start();
+            var buildMessages = bootLoaderResult.Container.Get<IBuildMessages>();
+
+            var performers = bootLoaderResult.Container.Get<IPostBuildTaskPerformers>();
+            performers.Perform();
 
             return 0;
         }
