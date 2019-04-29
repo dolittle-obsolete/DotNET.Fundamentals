@@ -1,0 +1,32 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="Dolittle.Build.MSBuild.PluginAndConfigurationDiscoverer" AssemblyFile="$(MSBuildThisFileDirectory)../tasks/netcoreapp2.1/Dolittle.Build.MSBuild.dll"/>
+
+    <Target Name="DolittleBuildHandlePlugins">
+        <PropertyGroup>
+            <DolittleConfigurationFile>NotSet</DolittleConfigurationFile>
+            <DolittlePluginAssemblies>NotSet</DolittlePluginAssemblies>
+        </PropertyGroup>
+
+        <PluginAndConfigurationDiscoverer Plugins="@(DolittleBuildPlugin)">
+            <Output TaskParameter="ConfigurationFile" PropertyName="DolittleConfigurationFile"/>
+            <Output TaskParameter="PluginAssemblies" PropertyName="DolittlePluginAssemblies"/>
+        </PluginAndConfigurationDiscoverer>
+    </Target>
+
+    <Target Name="DolittleBuildAfterBuildCleanup" DependsOnTargets="DolittleBuildHandlePlugins">
+        <Message Text="FilesToDelete : '$(DolittleConfigurationFile)'" Importance="high"/>
+
+        <Delete Files="$(DolittleConfigurationFile)"/>
+    </Target>
+
+    <Target Name="DolittleBuildAfterBuild" AfterTargets="AfterBuild" DependsOnTargets="DolittleBuildHandlePlugins">
+
+        <Exec Command="dotnet &quot;$(MSBuildThisFileDirectory)../tasks/netcoreapp2.1/publish/Dolittle.Build.dll&quot; &quot;$(ProjectDir)$(OutputPath)$(AssemblyName).dll&quot; &quot;$(DolittlePluginAssemblies)&quot; " />
+
+        <Message Text="DolittlePluginAssemblies : '$(DolittlePluginAssemblies)'" Importance="high"/>
+        <Message Text="DolittleConfigurationFile : '$(DolittleConfigurationFile)'" Importance="high"/>
+        
+        <CallTarget Targets="DolittleBuildAfterBuildCleanup"/>
+        <OnError ExecuteTargets="DolittleBuildAfterBuildCleanup"/>
+    </Target>   
+</Project>  
