@@ -21,6 +21,7 @@
         <ProjectReference Include="..\Concepts.Serialization.Json\Concepts.Serialization.Json.csproj"/>
         <ProjectReference Include="..\Reflection\Reflection.csproj"/>
         <ProjectReference Include="..\Serialization.Json\Serialization.Json.csproj"/>
+        <ProjectReference Include="..\Strings\Strings.csproj"/>
     </ItemGroup>
 
 
