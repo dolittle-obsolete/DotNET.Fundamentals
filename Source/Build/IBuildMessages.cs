@@ -10,6 +10,12 @@ namespace Dolittle.Build
     public interface IBuildMessages
     {
         /// <summary>
+        /// Output trace message
+        /// </summary>
+        /// <param name="message">Message to output</param>
+        void Trace(string message);
+
+        /// <summary>
         /// Output informational message
         /// </summary>
         /// <param name="message">Message to output</param>

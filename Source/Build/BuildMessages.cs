@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Dolittle.Lifecycle;
+using Dolittle.Strings;
 
 namespace Dolittle.Build
 {
@@ -14,21 +15,27 @@ namespace Dolittle.Build
     public class BuildMessages : IBuildMessages
     {
         /// <inheritdoc/>
+        public void Trace(string message)
+        {
+            Console.WriteLine(message.White());
+        }
+
+        /// <inheritdoc/>
         public void Error(string message)
         {
-            Console.Error.WriteLine(message);
+            Console.Error.WriteLine(message.Red());
         }
 
         /// <inheritdoc/>
         public void Information(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine(message.White());
         }
 
         /// <inheritdoc/>
         public void Warning(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine(message.Yellow());
         }
     }
 }
