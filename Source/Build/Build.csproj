@@ -19,6 +19,7 @@
         <ProjectReference Include="..\DependencyInversion.Booting\DependencyInversion.Booting.csproj"/>
         <ProjectReference Include="..\Logging\Logging.csproj"/>
         <ProjectReference Include="..\Concepts.Serialization.Json\Concepts.Serialization.Json.csproj"/>
+        <ProjectReference Include="..\Reflection\Reflection.csproj"/>
         <ProjectReference Include="..\Serialization.Json\Serialization.Json.csproj"/>
     </ItemGroup>
 

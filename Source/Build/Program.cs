@@ -35,7 +35,7 @@ namespace Dolittle.Build
                 .SkipBootprocedures()
             ).Start();
 
-            var configuration = bootLoaderResult.Container.Get<IPerformerConfigurationLoader>();
+            var configuration = bootLoaderResult.Container.Get<IPerformerConfigurationManager>();
             configuration.Initialize(configurationFile);
             var performers = bootLoaderResult.Container.Get<IPostBuildTaskPerformers>();
             performers.Perform();

@@ -6,7 +6,7 @@
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Defines the system that deals with the post build task <see cref="ICanPerformPostBuildTasks{T}">performers</see>
+    /// Defines the system that deals with the post build task <see cref="ICanPerformPostBuildTasks">performers</see>
     /// </summary>
     public interface IPostBuildTaskPerformers
     {

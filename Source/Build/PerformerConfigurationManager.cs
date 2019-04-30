@@ -11,10 +11,10 @@ using Dolittle.Serialization.Json;
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IPerformerConfigurationLoader"/>
+    /// Represents an implementation of <see cref="IPerformerConfigurationManager"/>
     /// </summary>
     [Singleton]
-    public class PerformerConfigurationLoader : IPerformerConfigurationLoader
+    public class PerformerConfigurationManager : IPerformerConfigurationManager
     {
         private readonly IFileSystem _fileSystem;
         private readonly ISerializer _serializer;
@@ -26,7 +26,7 @@ namespace Dolittle.Build
         /// </summary>
         /// <param name="fileSystem"></param>
         /// <param name="serializer"></param>
-        public PerformerConfigurationLoader(IFileSystem fileSystem, ISerializer serializer)
+        public PerformerConfigurationManager(IFileSystem fileSystem, ISerializer serializer)
         {
             _fileSystem = fileSystem;
             _serializer = serializer;

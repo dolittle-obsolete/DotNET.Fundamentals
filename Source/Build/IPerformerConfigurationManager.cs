@@ -10,7 +10,7 @@ namespace Dolittle.Build
     /// <summary>
     /// Defines a system for dealing with configuration for <see cref="IPostBuildTaskPerformers"/>
     /// </summary>
-    public interface IPerformerConfigurationLoader
+    public interface IPerformerConfigurationManager
     {
         /// <summary>
         /// Initializes the system
