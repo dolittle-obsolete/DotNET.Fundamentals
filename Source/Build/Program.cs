@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
+using System.Runtime.Loader;
 using Dolittle.Assemblies;
 using Dolittle.Booting;
 using Dolittle.Collections;
@@ -16,7 +17,7 @@ namespace Dolittle.Build
 
     class Program
     {
-        internal static BuildConfiguration BuildConfiguration;
+        internal static BuildTarget BuildTarget;
 
         static int Main(string[] args)
         {
@@ -24,7 +25,7 @@ namespace Dolittle.Build
             {
                 var startTime = DateTime.UtcNow;
 
-                var assembly = args[0];
+                var assemblyFile = args[0];
                 var pluginAssemblies = args[1].Split(";");
                 var configurationFile = args[2];
 
@@ -32,11 +33,13 @@ namespace Dolittle.Build
                     pluginAssemblies.Length == 0 ||
                     string.IsNullOrEmpty(configurationFile)) return 0;
 
-                BuildConfiguration = new BuildConfiguration(assembly);
+                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyFile);
+                var assemblyContext = AssemblyContext.From(assemblyFile);
+                BuildTarget = new BuildTarget(assemblyFile, assembly, assemblyContext);
 
                 Console.WriteLine("Performing Dolittle post-build steps");
 
-                Console.WriteLine($"  Performing for: {assembly}");
+                Console.WriteLine($"  Performing for: {assemblyFile}");
                 Console.WriteLine("  Using plugins from: ");
 
                 foreach (var pluginAssembly in pluginAssemblies)
@@ -54,6 +57,9 @@ namespace Dolittle.Build
                 configuration.Initialize(configurationFile);
                 var performers = bootLoaderResult.Container.Get<IPostBuildTaskPerformers>();
                 performers.Perform();
+
+                var assemblyModifiers = bootLoaderResult.Container.Get<ITargetAssemblyModifiers>();
+                assemblyModifiers.ModifyAndSave();
 
                 var endTime = DateTime.UtcNow;
                 var deltaTime = endTime.Subtract(startTime);
