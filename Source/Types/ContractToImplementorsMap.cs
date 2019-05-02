@@ -21,12 +21,11 @@ namespace Dolittle.Types
         readonly IScheduler _scheduler;
         readonly ConcurrentDictionary<Type, ConcurrentBag<Type>> _contractsAndImplementors = new ConcurrentDictionary<Type, ConcurrentBag<Type>>();
         readonly ConcurrentDictionary<Type, Type> _allTypes = new ConcurrentDictionary<Type, Type>();
-        
 
         /// <summary>
         /// Initializes a new instance of <see cref="ContractToImplementorsMap"/>
         /// </summary>
-        /// <param name="scheduler"></param>
+        /// <param name="scheduler"><see cref="IScheduler"/> used for scheduling work</param>
         public ContractToImplementorsMap(IScheduler scheduler)
         {
             _scheduler = scheduler;
@@ -87,11 +86,6 @@ namespace Dolittle.Types
         {
             var implementingTypes = _contractsAndImplementors.GetOrAdd(contract, (key) => new ConcurrentBag<Type>());
             return implementingTypes;
-        }
-
-        string GetKeyFor(Type type)
-        {
-            return type.AssemblyQualifiedName;
         }
     }
 }
