@@ -20,9 +20,9 @@ namespace Dolittle.Build
     /// </summary>
     public class ConfigurationObjectProvider : ICanProvideConfigurationObjects
     {
-        IDictionary<Type, string> _configurationObjectTypes;
-        private readonly ITypeFinder _typeFinder;
-        private readonly GetContainer _getContainer;
+        readonly IDictionary<Type, string> _configurationObjectTypes = new Dictionary<Type, string>();
+        readonly ITypeFinder _typeFinder;
+        readonly GetContainer _getContainer;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ConfigurationObjectProvider"/>
@@ -65,11 +65,13 @@ namespace Dolittle.Build
 
                 if (constructors.Length == 1)
                 {
-                    _configurationObjectTypes = constructors[0]
+                    var configurationObjectTypes = constructors[0]
                         .GetParameters()
                         .Where(parameter => parameter.ParameterType.HasInterface<IConfigurationObject>())
                         .Select(parameter => parameter.ParameterType)
                         .ToDictionary(type => type, type => pluginTypeName);
+
+                    configurationObjectTypes.ForEach(_configurationObjectTypes.Add);
                 }
             });
         }
