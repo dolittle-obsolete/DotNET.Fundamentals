@@ -21,9 +21,14 @@ namespace Dolittle.Types
 
 
         /// <summary>
-        /// The name of the embedded resource that holds the cache
+        /// The name of the embedded resource that holds the cache for the type map
         /// </summary>
-        public const string ResourceName = "ContractToImplementorsMap";
+        public const string MapResourceName = "ContractToImplementorsMap.Map";
+
+        /// <summary>
+        /// The name of the embedded resource that holds the cache for the types
+        /// </summary>
+        public const string TypesResourceName = "ContractToImplementorsMap.Types";
 
         /// <summary>
         /// 
@@ -32,7 +37,10 @@ namespace Dolittle.Types
         /// <returns></returns>
         public static bool HasCachedMap(Assembly assembly)
         {
-            return assembly.GetManifestResourceNames().Contains(ResourceName);
+            var resourceNames = assembly.GetManifestResourceNames();
+            return
+                resourceNames.Contains(MapResourceName) &&
+                resourceNames.Contains(TypesResourceName);
         }
 
         /// <summary>
@@ -42,13 +50,21 @@ namespace Dolittle.Types
         /// <param name="assembly"></param>
         public CachedContractToImplementorsMap(IContractToImplementorsSerializer serializer, Assembly assembly)
         {
-            using( var resourceStream = assembly.GetManifestResourceStream(ResourceName) ) 
+            using( var resourceStream = assembly.GetManifestResourceStream(MapResourceName) ) 
             {
                 using( var reader = new StreamReader(resourceStream))
                 {
                     var serialized = reader.ReadToEnd();
-                    _map = serializer.Deserialize(serialized);
-                    _all = _map.SelectMany(_ => _.Value);
+                    _map = serializer.DeserializeMap(serialized);
+                }
+            }
+
+            using( var resourceStream = assembly.GetManifestResourceStream(TypesResourceName) ) 
+            {
+                using( var reader = new StreamReader(resourceStream))
+                {
+                    var serialized = reader.ReadToEnd();
+                    _all = serializer.DeserializeTypes(serialized);
                 }
             }
         }

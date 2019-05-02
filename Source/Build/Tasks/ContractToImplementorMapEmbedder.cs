@@ -87,9 +87,12 @@ namespace Dolittle.Build.Tasks
 
             var contractsToImplementors = contractToImplementorsMap.ContractsAndImplementors;
 
-            var serialized = _serializer.Serialize(contractsToImplementors);
+            var serializedMap = _serializer.SerializeMap(contractsToImplementors);
+            _modifiers.AddModifier(new EmbedResource(CachedContractToImplementorsMap.MapResourceName, Encoding.UTF8.GetBytes(serializedMap)));
+            var serializedTypes = _serializer.SerializeTypes(contractToImplementorsMap.All);
+            _modifiers.AddModifier(new EmbedResource(CachedContractToImplementorsMap.TypesResourceName, Encoding.UTF8.GetBytes(serializedTypes)));
+
             var implementors = contractsToImplementors.Values.Sum(_ => _.Count());
-            _modifiers.AddModifier(new EmbedResource(CachedContractToImplementorsMap.ResourceName, Encoding.UTF8.GetBytes(serialized)));
             _buildMessages.Information($"Embedded a map with {contractsToImplementors.Keys.Count} contracts to {implementors} implementors");
         }
     }
