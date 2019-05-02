@@ -19,13 +19,27 @@ namespace Dolittle.Types
         /// </summary>
         /// <param name="map">Map to serialize</param>
         /// <returns>Serialized string</returns>
-        string Serialize(IDictionary<Type, IEnumerable<Type>> map);
+        string SerializeMap(IDictionary<Type, IEnumerable<Type>> map);
+
+        /// <summary>
+        /// Serializes a collection of types represented used in the mapping contractors
+        /// </summary>
+        /// <param name="types">Types to serialize</param>
+        /// <returns>Serialized string</returns>
+        string SerializeTypes(IEnumerable<Type> types);
 
         /// <summary>
         /// Deserializes a map from a string into a dictionary of enumerables
         /// </summary>
         /// <param name="serializedMap">Serialized string to deserialize</param>
         /// <returns>Map</returns>
-        IDictionary<Type, IEnumerable<Type>> Deserialize(string serializedMap);
+        IDictionary<Type, IEnumerable<Type>> DeserializeMap(string serializedMap);
+
+        /// <summary>
+        /// Deserializes a map from a string into a dictionary of enumerables
+        /// </summary>
+        /// <param name="serializedTypes">Serialized string to deserialize</param>
+        /// <returns>Types</returns>
+        IEnumerable<Type> DeserializeTypes(string serializedTypes);
     }
 }

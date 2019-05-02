@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Dolittle.Collections;
 using Dolittle.Logging;
@@ -29,26 +28,19 @@ namespace Dolittle.Types
         }
 
         /// <inheritdoc/>
-        public string Serialize(IDictionary<Type, IEnumerable<Type>> map)
+        public string SerializeMap(IDictionary<Type, IEnumerable<Type>> map)
         {
             var builder = new StringBuilder();
             map.ForEach(keyValue =>
             {
-                var contract = keyValue.Key.AssemblyQualifiedName;
-                if (string.IsNullOrEmpty(contract))
-                {
-                    if( keyValue.Key.IsGenericType )
-                        contract = $"{keyValue.Key.Namespace}.{keyValue.Key.Name}, {keyValue.Key.Assembly.GetName().FullName}";
-                    else
-                        contract = $"{keyValue.Key}, {keyValue.Key.Assembly.GetName().FullName}";
-                }
+                var contract = GetAssemblyQualifiedNameFor(keyValue.Key);
                 builder.Append($"{contract}:");
                 var first = true;
                 keyValue.Value.ForEach(implementor =>
                 {
                     if (!first) builder.Append(";");
                     first = false;
-                    builder.Append(implementor.AssemblyQualifiedName);
+                    builder.Append(GetAssemblyQualifiedNameFor(implementor));
                 });
                 builder.Append("\n");
             });
@@ -57,7 +49,19 @@ namespace Dolittle.Types
         }
 
         /// <inheritdoc/>
-        public IDictionary<Type, IEnumerable<Type>> Deserialize(string serializedMap)
+        public string SerializeTypes(IEnumerable<Type> types)
+        {
+            var builder = new StringBuilder();
+            types.ForEach(_ => 
+            {
+                builder.Append(GetAssemblyQualifiedNameFor(_));
+                builder.Append("\n");
+            });
+            return builder.ToString();
+        }
+
+        /// <inheritdoc/>
+        public IDictionary<Type, IEnumerable<Type>> DeserializeMap(string serializedMap)
         {
             var map = new Dictionary<Type, IEnumerable<Type>>();
 
@@ -96,6 +100,31 @@ namespace Dolittle.Types
             _logger.Information($"Using {contractsCount} contracts mapped to {implementorsCount} implementors in total");
 
             return map;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Type> DeserializeTypes(string serializedTypes)
+        {
+            var lines = serializedTypes.Split('\n');
+            var types = lines
+                            .Select(_ => Type.GetType(_))
+                            .Where(_ => _ != null)
+                            .ToArray();
+            return types;
+        }
+
+
+        string GetAssemblyQualifiedNameFor(Type type)
+        {
+            var name = type.AssemblyQualifiedName;
+            if (string.IsNullOrEmpty(name))
+            {
+                if( type.IsGenericType )
+                    name = $"{type.Namespace}.{type.Name}, {type.Assembly.GetName().FullName}";
+                else
+                    name = $"{type}, {type.Assembly.GetName().FullName}";
+            }
+            return name;
         }
     }
 }
