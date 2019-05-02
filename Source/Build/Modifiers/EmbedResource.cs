@@ -12,8 +12,8 @@ namespace Dolittle.Build
     /// </summary>
     public class EmbedResource : ICanModifyTargetAssembly
     {
-        private readonly string _name;
-        private readonly byte[] _bytes;
+        readonly string _name;
+        readonly byte[] _bytes;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EmbedResource"/>
