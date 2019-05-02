@@ -17,7 +17,7 @@ namespace Dolittle.Build
     {
         readonly List<ICanModifyTargetAssembly> _modifiers = new List<ICanModifyTargetAssembly>();
         readonly BuildTarget _configuration;
-        private readonly IBuildMessages _buildMessages;
+        readonly IBuildMessages _buildMessages;
 
         /// <summary>
         /// Initializes a new instance of <see cref="TargetAssemblyModifiers"/>
