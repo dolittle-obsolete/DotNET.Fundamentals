@@ -17,7 +17,7 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
     {
         readonly Dictionary<string, object> _instancesPerKey = new Dictionary<string, object>();       
         readonly ITypeActivator _activator;
-         readonly ITenantKeyCreator _tenantKeyCreator;
+        readonly ITenantKeyCreator _tenantKeyCreator;
 
         /// <summary>
         /// Initializes a new instance of <see cref="InstancesPerTenant"/>
