@@ -23,13 +23,16 @@ namespace Dolittle.Types.Bootstrap
         /// <param name="entryAssembly"><see cref="Assembly"/> to use as entry assembly - null indicates it will ask for the entry assembly</param>
         /// <returns><see cref="ITypeFinder"/> that can be used</returns>
         public static ITypeFinder Start(IAssemblies assemblies, IScheduler scheduler, ILogger logger, Assembly entryAssembly = null)
-        {
-            var contractToImplementorsMap = new ContractToImplementorsMap(scheduler);
-
+        {            
             if( entryAssembly == null ) entryAssembly = Assembly.GetEntryAssembly();
+
+            var contractToImplementorsMap = new ContractToImplementorsMap(scheduler);
             contractToImplementorsMap.Feed(entryAssembly.GetTypes());
+
+            var typeFeeder = new TypeFeeder(scheduler, logger);
+            typeFeeder.Feed(assemblies, contractToImplementorsMap);
             
-            var typeFinder = new TypeFinder(assemblies, contractToImplementorsMap, scheduler, logger);
+            var typeFinder = new TypeFinder(contractToImplementorsMap);
             return typeFinder;
         }
     }
