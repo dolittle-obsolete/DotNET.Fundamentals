@@ -15,7 +15,9 @@ namespace Dolittle.Build
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
-            builder.Bind<BuildTarget>().To(Program.BuildTarget);
+            var buildTarget = Program.BuildTarget;
+            if (buildTarget == null) buildTarget = new BuildTarget(null,null,null);
+            builder.Bind<BuildTarget>().To(buildTarget);
         }
     }
 }
