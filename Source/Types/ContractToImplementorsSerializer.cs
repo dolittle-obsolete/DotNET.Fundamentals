@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Dolittle.Collections;
 using Dolittle.Logging;
@@ -36,8 +37,10 @@ namespace Dolittle.Types
                 var contract = keyValue.Key.AssemblyQualifiedName;
                 if (string.IsNullOrEmpty(contract))
                 {
-                    contract = $"{keyValue.Key}, {keyValue.Key.Assembly.GetName().FullName}";
-                    Console.WriteLine($"Contract : {contract}");
+                    if( keyValue.Key.IsGenericType )
+                        contract = $"{keyValue.Key.Namespace}.{keyValue.Key.Name}, {keyValue.Key.Assembly.GetName().FullName}";
+                    else
+                        contract = $"{keyValue.Key}, {keyValue.Key.Assembly.GetName().FullName}";
                 }
                 builder.Append($"{contract}:");
                 var first = true;
@@ -59,23 +62,26 @@ namespace Dolittle.Types
             var map = new Dictionary<Type, IEnumerable<Type>>();
 
             var lines = serializedMap.Split('\n');
+            var contractsCount = 0;
+            var implementorsCount = 0;
             lines.ForEach(line =>
             {
                 var keyValue = line.Split(':');
                 var contract = Type.GetType(keyValue[0]);
+
                 if (contract != null)
                 {
                     var implementors = keyValue[1]
                         .Split(';')
-                        .Select(_ =>
-                        {
-                            var type = Type.GetType(_);
-                            if (type == null) _logger.Information($"Can't find implementor type '{_}' for '{keyValue[0]}'");
-                            return type;
-                        })
+                        .Select(_ => Type.GetType(_))
                         .Where(_ => _ != null)
                         .ToArray();
-                    if (implementors.Length > 0) map[contract] = implementors;
+                    if (implementors.Length > 0)
+                    {
+                        map[contract] = implementors;
+                        contractsCount++;
+                        implementorsCount += implementors.Length;
+                    }
                     else
                     {
                         _logger.Information($"No implementations of '{keyValue[0]}'");
@@ -86,6 +92,8 @@ namespace Dolittle.Types
                     _logger.Information($"Can't find contract type '{keyValue[0]}' - {line}");
                 }
             });
+
+            _logger.Information($"Using {contractsCount} contracts mapped to {implementorsCount} implementors in total");
 
             return map;
         }
