@@ -61,7 +61,7 @@ namespace Dolittle.Build.CLI
                 var assemblyModifiers = bootLoaderResult.Container.Get<ITargetAssemblyModifiers>();
                 assemblyModifiers.ModifyAndSave();
 
-                var postTasksPerformers = bootLoaderResult.Container.Get<IPostBuildTasksPerformers>();
+                var postTasksPerformers = bootLoaderResult.Container.Get<IPostBuildTaskPerformers>();
                 postTasksPerformers.Perform();
 
                 var endTime = DateTime.UtcNow;
