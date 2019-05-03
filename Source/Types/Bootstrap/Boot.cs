@@ -27,7 +27,6 @@ namespace Dolittle.Types.Bootstrap
             if (entryAssembly == null) entryAssembly = Assembly.GetEntryAssembly();
 
             IContractToImplementorsMap contractToImplementorsMap;
-
             if (CachedContractToImplementorsMap.HasCachedMap(entryAssembly))
             {
                 logger.Information("Contract to implementors map cache found - using it instead of dynamically discovery");
@@ -35,6 +34,7 @@ namespace Dolittle.Types.Bootstrap
             }
             else
             {
+                logger.Information("Using runtime discovery for contract to implementors map");
                 contractToImplementorsMap = new ContractToImplementorsMap(scheduler);
                 contractToImplementorsMap.Feed(entryAssembly.GetTypes());
 
