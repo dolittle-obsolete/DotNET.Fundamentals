@@ -22,6 +22,11 @@ namespace Dolittle.Types
         void Feed(IEnumerable<Type> types);
 
         /// <summary>
+        /// Gets the dictionary holding the mapping between contracts and all their implementors.
+        /// </summary>
+        IDictionary<Type, IEnumerable<Type>>    ContractsAndImplementors { get; }
+
+        /// <summary>
         /// Gets all the types in the map
         /// </summary>
         IEnumerable<Type> All { get; }
