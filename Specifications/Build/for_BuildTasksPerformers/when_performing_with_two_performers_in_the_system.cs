@@ -8,27 +8,27 @@ using Moq;
 using It = Machine.Specifications.It;
 using Dolittle.Types;
 
-namespace Dolittle.Build.for_PostBuildTaskPerformers
+namespace Dolittle.Build.for_BuildTaskPerformers
 {
     public class when_performing_with_two_performers_in_the_system
     {
-        static PostBuildTaskPerformers  performers;
+        static BuildTaskPerformers  performers;
 
-        static Mock<ICanPerformPostBuildTask>  first_performer;
-        static Mock<ICanPerformPostBuildTask>  second_performer;
+        static Mock<ICanPerformBuildTask>  first_performer;
+        static Mock<ICanPerformBuildTask>  second_performer;
 
         Establish context = () => 
         {
 
-            first_performer = new Mock<ICanPerformPostBuildTask>();
-            second_performer = new Mock<ICanPerformPostBuildTask>();
-            var actualInstances = new List<ICanPerformPostBuildTask> {
+            first_performer = new Mock<ICanPerformBuildTask>();
+            second_performer = new Mock<ICanPerformBuildTask>();
+            var actualInstances = new List<ICanPerformBuildTask> {
                 first_performer.Object,
                 second_performer.Object
             };
-            var instances = new Mock<IInstancesOf<ICanPerformPostBuildTask>>();
+            var instances = new Mock<IInstancesOf<ICanPerformBuildTask>>();
             instances.Setup(_ => _.GetEnumerator()).Returns(actualInstances.GetEnumerator());
-            performers = new PostBuildTaskPerformers(instances.Object, Mock.Of<IBuildMessages>());
+            performers = new BuildTaskPerformers(instances.Object, Mock.Of<IBuildMessages>());
         };
 
         Because of = () => performers.Perform();

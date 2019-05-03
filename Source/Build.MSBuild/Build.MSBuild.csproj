@@ -3,7 +3,7 @@
     <Import Project="../../Build/MSBuild/default.props" />
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>Dolittle.Build.MSBuild</AssemblyName>
 
         <NoPackageAnalysis>true</NoPackageAnalysis>
@@ -32,13 +32,13 @@
         -->
 
     <Target Name="PublishBuildCLI" BeforeTargets="GenerateNuspec">
-        <Exec Command="dotnet publish -c $(Configuration)" WorkingDirectory="..\Build"/>
+        <Exec Command="dotnet publish -c $(Configuration)" WorkingDirectory="..\Build.CLI"/>
     </Target>
 
     <Target Name="PackTaskDependencies" AfterTargets="PublishBuildCLI">
         
         <ItemGroup>
-            <_PackageFiles Include="..\Build\bin\$(Configuration)\*\publish\**\*">
+            <_PackageFiles Include="..\Build.CLI\bin\$(Configuration)\*\publish\**\*">
                 <PackagePath>tasks\%(RecursiveDir)</PackagePath>
                 <Visible>false</Visible>
                 <BuildAction>Content</BuildAction>

@@ -7,7 +7,7 @@ using System;
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Exception that gets thrown when a <see cref="ICanPerformPostBuildTasks"/> has more than one constructors
+    /// Exception that gets thrown when a <see cref="ICanPerformBuildTask"/> has more than one constructors
     /// </summary>
     public class AmbiguousConstructor : Exception 
     {

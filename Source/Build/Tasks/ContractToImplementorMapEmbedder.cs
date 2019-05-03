@@ -18,9 +18,9 @@ using Dolittle.Types;
 namespace Dolittle.Build.Tasks
 {
     /// <summary>
-    /// Represents a <see cref="ICanPerformPostBuildTasks"/> that can create a <see cref="IContractToImplementorsMap"/>
+    /// Represents a <see cref="ICanPerformBuildTask"/> that can create a <see cref="IContractToImplementorsMap"/>
     /// </summary>
-    public class ContractToImplementorMapEmbedder : ICanPerformPostBuildTasks
+    public class ContractToImplementorMapEmbedder : ICanPerformBuildTask
     {
         readonly BuildTarget _buildTarget;
         readonly ITargetAssemblyModifiers _modifiers;
@@ -50,6 +50,9 @@ namespace Dolittle.Build.Tasks
             _logger = logger;
             _serializer = serializer;
         }
+
+        /// <inheritdoc/>
+        public string Message => "Creating and embedding contract to implementor map";
 
         /// <inheritdoc/>
         public void Perform()

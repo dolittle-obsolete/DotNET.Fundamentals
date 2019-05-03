@@ -5,7 +5,7 @@
 
 using Dolittle.DependencyInversion;
 
-namespace Dolittle.Build
+namespace Dolittle.Build.CLI
 {
     /// <summary>
     /// Represents bindings for the build system

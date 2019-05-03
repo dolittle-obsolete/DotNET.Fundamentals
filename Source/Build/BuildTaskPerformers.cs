@@ -3,43 +3,47 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Collections;
+using Dolittle.Lifecycle;
 using Dolittle.Types;
 
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IPostBuildTaskPerformers"/>
+    /// Represents an implementation of <see cref="IBuildTaskPerformers"/>
     /// </summary>
-    public class PostBuildTaskPerformers : IPostBuildTaskPerformers
+    [Singleton]
+    public class BuildTaskPerformers : IBuildTaskPerformers
     {
-        readonly IInstancesOf<ICanPerformPostBuildTask> _runners;
+        readonly IInstancesOf<ICanPerformBuildTask> _performers;
         readonly IBuildMessages _buildMessages;
+        
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PostBuildTaskPerformers"/>
+        /// Initializes a new instance of <see cref="BuildTaskPerformers"/>
         /// </summary>
-        /// <param name="runners">Runners to run</param>
-        /// <param name="buildMessages"><see cref="IBuildMessages"/> for build messages</param>
-        public PostBuildTaskPerformers(
-            IInstancesOf<ICanPerformPostBuildTask> runners,
+        /// <param name="performers"><see cref="IInstancesOf{ICanPerformPostBuildTasks}">Performers</see></param>
+        /// <param name="buildMessages"><see cref="IBuildMessages"/> for outputting build messages</param>
+        public BuildTaskPerformers(
+            IInstancesOf<ICanPerformBuildTask> performers,
             IBuildMessages buildMessages)
         {
-            _runners = runners;
             _buildMessages = buildMessages;
+            _performers = performers;
         }
 
         /// <inheritdoc/>
         public void Perform()
         {
-            _buildMessages.Information("Perform post build tasks");
+            _buildMessages.Information("Perform build tasks");
             _buildMessages.Indent();
-            _runners.ForEach(_ => 
+            _performers.ForEach(_ =>
             {
-                _buildMessages.Information($"{_.Message} (Post Task: '{_.GetType().AssemblyQualifiedName}')");
+                _buildMessages.Information($"{_.Message} (Task: '{_.GetType().AssemblyQualifiedName}')");
                 _buildMessages.Indent();
                 _.Perform();
                 _buildMessages.Unindent();
             });
+
             _buildMessages.Unindent();
         }
     }

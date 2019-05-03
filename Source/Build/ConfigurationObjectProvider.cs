@@ -16,7 +16,7 @@ namespace Dolittle.Build
 {
     /// <summary>
     /// Represents an implementation of <see cref="ICanProvideConfigurationObjects"/> that is capable
-    /// of providing configuration objects for <see cref="ICanPerformPostBuildTasks"/>
+    /// of providing configuration objects for <see cref="ICanPerformBuildTask"/>
     /// </summary>
     public class ConfigurationObjectProvider : ICanProvideConfigurationObjects
     {
@@ -55,7 +55,7 @@ namespace Dolittle.Build
 
         void PopulateConfigurationObjectTypes()
         {
-            var performerTypes = _typeFinder.FindMultiple<ICanPerformPostBuildTasks>();
+            var performerTypes = _typeFinder.FindMultiple<ICanPerformBuildTask>();
             performerTypes.ForEach(_ =>
             {
                 var constructors = _.GetConstructors();

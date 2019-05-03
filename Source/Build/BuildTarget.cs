@@ -26,21 +26,27 @@ namespace Dolittle.Build
             TargetAssemblyPath = targetAssemblyPath;
             Assembly = assembly;
             AssemblyContext = assemblyContext;
+            AssemblyName = assembly.GetName();
         }
 
         /// <summary>
         /// Gets the path of the target assembly being build
         /// </summary>
-        public string TargetAssemblyPath { get; }
+        public string TargetAssemblyPath {  get; }
 
         /// <summary>
         /// Gets the <see cref="Assembly"/> being built
         /// </summary>
-        public Assembly Assembly { get; }
+        public Assembly Assembly {  get; }
 
         /// <summary>
         /// Gets the <see cref="AssemblyContext"/> for the <see cref="Assembly"/> being built
         /// </summary>
-        public IAssemblyContext AssemblyContext { get; }
+        public IAssemblyContext AssemblyContext {  get; }
+
+        /// <summary>
+        /// Gets the <see cref="AssemblyName"/> for the <see cref="Assembly"/>
+        /// </summary>
+        public AssemblyName AssemblyName { get; }
     }
 }
