@@ -91,7 +91,7 @@ namespace Dolittle.Build
 
         private static string GetPathForAssembly(string basePath, AssemblyName assemblyName)
         {
-            var path = Path.Join(basePath, assemblyName.Name);
+            var path = Path.Combine(basePath, assemblyName.Name);
             var dllPath = $"{path}.dll";
             var exePath = $"{path}.exe";
             var actualPath = string.Empty;
