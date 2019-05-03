@@ -10,6 +10,16 @@ namespace Dolittle.Build
     public interface IBuildMessages
     {
         /// <summary>
+        /// Push an indentation
+        /// </summary>
+        void Indent();
+
+        /// <summary>
+        /// Pop back and indentation
+        /// </summary>
+        void Unindent();
+
+        /// <summary>
         /// Output trace message
         /// </summary>
         /// <param name="message">Message to output</param>
