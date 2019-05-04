@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Reflection;
 using Dolittle.Assemblies;
 using Dolittle.Logging;
@@ -27,12 +28,19 @@ namespace Dolittle.Types.Bootstrap
             if (entryAssembly == null) entryAssembly = Assembly.GetEntryAssembly();
 
             IContractToImplementorsMap contractToImplementorsMap;
+            // Re-enable when https://github.com/dolittle-fundamentals/DotNET.Fundamentals/issues/219 is fixed
+#if(false)
             if (CachedContractToImplementorsMap.HasCachedMap(entryAssembly))
             {
+                var before = DateTime.UtcNow;
                 logger.Information("Contract to implementors map cache found - using it instead of dynamically discovery");
-                contractToImplementorsMap = new CachedContractToImplementorsMap(new ContractToImplementorsSerializer(logger), entryAssembly);
+                contractToImplementorsMap = new CachedContractToImplementorsMap(
+                    new ContractToImplementorsSerializer(logger), 
+                    entryAssembly);
+                Console.WriteLine($"CachedMap : {DateTime.UtcNow.Subtract(before).ToString("G")}");
             }
             else
+#endif            
             {
                 logger.Information("Using runtime discovery for contract to implementors map");
                 contractToImplementorsMap = new ContractToImplementorsMap(scheduler);

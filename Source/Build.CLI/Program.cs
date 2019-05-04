@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Dolittle.Build.CLI
 {
-
     class Program
     {
         internal static BuildTarget BuildTarget;

@@ -12,7 +12,7 @@ using System.Reflection;
 namespace Dolittle.Types
 {
     /// <summary>
-    /// 
+    /// Represents an implementation of <see cref="IContractToImplementorsMap"/>
     /// </summary>
     public class CachedContractToImplementorsMap : IContractToImplementorsMap
     {
@@ -31,10 +31,10 @@ namespace Dolittle.Types
         public const string TypesResourceName = "ContractToImplementorsMap.Types";
 
         /// <summary>
-        /// 
+        /// Check if an assembly has the cached map or not
         /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
+        /// <param name="assembly"><see cref="Assembly"/> to check</param>
+        /// <returns>True if it has a cached map, false if not</returns>
         public static bool HasCachedMap(Assembly assembly)
         {
             var resourceNames = assembly.GetManifestResourceNames();
@@ -44,29 +44,39 @@ namespace Dolittle.Types
         }
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="CachedContractToImplementorsMap"/>
         /// </summary>
-        /// <param name="serializer"></param>
-        /// <param name="assembly"></param>
+        /// <param name="serializer"><see cref="IContractToImplementorsSerializer"/> for serialization</param>
+        /// <param name="assembly"><see cref="Assembly"/> that holds the cache</param>
         public CachedContractToImplementorsMap(IContractToImplementorsSerializer serializer, Assembly assembly)
         {
+            var before = DateTime.UtcNow;
+            
             using( var resourceStream = assembly.GetManifestResourceStream(MapResourceName) ) 
             {
-                using( var reader = new StreamReader(resourceStream))
-                {
-                    var serialized = reader.ReadToEnd();
-                    _map = serializer.DeserializeMap(serialized);
-                }
+                var bytes = new byte[resourceStream.Length];
+                resourceStream.Read(bytes,0,bytes.Length);
+                /*var chars = new char[bytes.Length];
+                System.Buffer.BlockCopy(bytes,0,chars,0,bytes.Length);
+                var serialized = new string(chars);*/
+
+                //Console.WriteLine(serialized);
+                var serialized = System.Text.Encoding.UTF8.GetString(bytes,0, bytes.Length);
+                _map = serializer.DeserializeMap(serialized);
             }
+            
 
             using( var resourceStream = assembly.GetManifestResourceStream(TypesResourceName) ) 
             {
-                using( var reader = new StreamReader(resourceStream))
-                {
-                    var serialized = reader.ReadToEnd();
-                    _all = serializer.DeserializeTypes(serialized);
-                }
+                var bytes = new byte[resourceStream.Length];
+                resourceStream.Read(bytes,0,bytes.Length);
+                /*var chars = new char[bytes.Length];
+                System.Buffer.BlockCopy(bytes,0,chars,0,bytes.Length);
+                var serialized = new string(chars);*/
+                var serialized = System.Text.Encoding.UTF8.GetString(bytes,0, bytes.Length);
+                _all = serializer.DeserializeTypes(serialized);
             }
+            Console.WriteLine($"Deserialization : {DateTime.UtcNow.Subtract(before).ToString("G")}");            
         }
 
 
