@@ -13,9 +13,11 @@ namespace Dolittle.Build.for_ConfigurationObjectProvider
     {
         class config_object : IConfigurationObject {}
 
-        class performer : ICanPerformPostBuildTasks
+        class performer : ICanPerformBuildTask
         {
             public performer(config_object configObject) {}
+
+            public string Message => string.Empty;
 
             public void Perform() {}
         }
@@ -29,7 +31,7 @@ namespace Dolittle.Build.for_ConfigurationObjectProvider
 
         Establish context = () =>
         {
-            type_finder.Setup(_ => _.FindMultiple<ICanPerformPostBuildTasks>()).Returns(new[] {
+            type_finder.Setup(_ => _.FindMultiple<ICanPerformBuildTask>()).Returns(new[] {
                 typeof(performer)
             });
             var type = typeof(performer);

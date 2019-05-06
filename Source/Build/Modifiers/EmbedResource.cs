@@ -27,6 +27,9 @@ namespace Dolittle.Build
         }
 
         /// <inheritdoc/>
+        public string Message => $"Embedding resource {_name}";
+
+        /// <inheritdoc/>
         public void Modify(AssemblyDefinition assemblyDefinition)
         {
             var embeddedResource = new EmbeddedResource(_name, ManifestResourceAttributes.Public, _bytes);

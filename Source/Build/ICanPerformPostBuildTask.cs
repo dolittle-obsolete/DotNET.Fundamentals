@@ -2,17 +2,21 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Dolittle.Configuration;
 
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Defines an interface for systems that will perform post build tasks 
+    /// Defines tasks that can gets called after all other tasks are done
     /// </summary>
-    public interface ICanPerformPostBuildTasks
+    public interface ICanPerformPostBuildTask
     {
         /// <summary>
-        /// Method that gets called for performing the necessary build tasks
+        /// Get the message string to show in output
+        /// </summary>
+        string Message { get; }
+
+        /// <summary>
+        /// Perform method
         /// </summary>
         void Perform();
     }

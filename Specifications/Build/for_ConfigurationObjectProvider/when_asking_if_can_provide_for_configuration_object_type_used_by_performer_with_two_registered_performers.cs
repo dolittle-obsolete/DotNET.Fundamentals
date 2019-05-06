@@ -11,18 +11,22 @@ namespace Dolittle.Build.for_ConfigurationObjectProvider
     {
         class first_config_object : IConfigurationObject {}
 
-        class first_performer : ICanPerformPostBuildTasks
+        class first_performer : ICanPerformBuildTask
         {
             public first_performer(first_config_object configObject) {}
+
+            public string Message => string.Empty;
 
             public void Perform() {}
         }
 
         class second_config_object : IConfigurationObject {}
 
-        class second_performer : ICanPerformPostBuildTasks
+        class second_performer : ICanPerformBuildTask
         {
             public second_performer(second_config_object configObject) {}
+
+            public string Message => string.Empty;
 
             public void Perform() {}
         }
@@ -32,7 +36,7 @@ namespace Dolittle.Build.for_ConfigurationObjectProvider
 
         Establish context = () =>
         {
-            type_finder.Setup(_ => _.FindMultiple<ICanPerformPostBuildTasks>()).Returns(new[] {
+            type_finder.Setup(_ => _.FindMultiple<ICanPerformBuildTask>()).Returns(new[] {
                 typeof(first_performer),
                 typeof(second_performer)
             });

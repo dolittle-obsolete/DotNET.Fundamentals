@@ -3,19 +3,16 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-using Dolittle.DependencyInversion;
-
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Represents bindings for the build system
+    /// Defines the system that deals with the post build task <see cref="ICanPerformBuildTask">performers</see>
     /// </summary>
-    public class Bindings : ICanProvideBindings
+    public interface IBuildTaskPerformers
     {
-        /// <inheritdoc/>
-        public void Provide(IBindingProviderBuilder builder)
-        {
-            builder.Bind<BuildTarget>().To(Program.BuildTarget);
-        }
+        /// <summary>
+        /// Perform all tasks
+        /// </summary>
+        void Perform();        
     }
 }

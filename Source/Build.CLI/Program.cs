@@ -12,9 +12,8 @@ using Dolittle.Strings;
 using Dolittle.Types;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Dolittle.Build
+namespace Dolittle.Build.CLI
 {
-
     class Program
     {
         internal static BuildTarget BuildTarget;
@@ -55,11 +54,14 @@ namespace Dolittle.Build
 
                 var configuration = bootLoaderResult.Container.Get<IPerformerConfigurationManager>();
                 configuration.Initialize(configurationFile);
-                var performers = bootLoaderResult.Container.Get<IPostBuildTaskPerformers>();
-                performers.Perform();
+                var buildTaskPerformers = bootLoaderResult.Container.Get<IBuildTaskPerformers>();
+                buildTaskPerformers.Perform();
 
                 var assemblyModifiers = bootLoaderResult.Container.Get<ITargetAssemblyModifiers>();
                 assemblyModifiers.ModifyAndSave();
+
+                var postTasksPerformers = bootLoaderResult.Container.Get<IPostBuildTaskPerformers>();
+                postTasksPerformers.Perform();
 
                 var endTime = DateTime.UtcNow;
                 var deltaTime = endTime.Subtract(startTime);

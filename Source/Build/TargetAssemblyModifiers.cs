@@ -47,18 +47,24 @@ namespace Dolittle.Build
 
             var tempFile = Path.GetTempFileName();
 
+            _buildMessages.Indent();
+
             using(var stream = File.OpenRead(_configuration.TargetAssemblyPath))
             {
                 using(var assemblyDefinition = AssemblyDefinition.ReadAssembly(stream))
                 {
                     _modifiers.ForEach(_ =>
                     {
-                        _buildMessages.Information($"  Performing '{_.GetType().AssemblyQualifiedName}'");
+                        _buildMessages.Information($"{_.Message} (Modifier: '{_.GetType().AssemblyQualifiedName}')");
+                        _buildMessages.Indent();
                         _.Modify(assemblyDefinition);
+                        _buildMessages.Unindent();
                     });
                     assemblyDefinition.Write(tempFile);
                 }
             }
+
+            _buildMessages.Unindent();
 
             File.Delete(_configuration.TargetAssemblyPath);
             File.Move(tempFile, _configuration.TargetAssemblyPath);

@@ -9,11 +9,12 @@ namespace Dolittle.Build.for_ConfigurationObjectProvider
 {
     public class when_performer_has_more_than_one_constructor : given.all_dependencies
     {
-        class performer_with_two_constructors : ICanPerformPostBuildTasks
+        class performer_with_two_constructors : ICanPerformBuildTask
         {
             public performer_with_two_constructors(string something) {}
             public performer_with_two_constructors(string something, string somethingElse) {}
 
+            public string Message => string.Empty;
 
             public void Perform()
             {
@@ -25,7 +26,7 @@ namespace Dolittle.Build.for_ConfigurationObjectProvider
 
         Establish context = () =>
         {
-            type_finder.Setup(_ => _.FindMultiple<ICanPerformPostBuildTasks>()).Returns(new[] {
+            type_finder.Setup(_ => _.FindMultiple<ICanPerformBuildTask>()).Returns(new[] {
                 typeof(performer_with_two_constructors)
             });
         };

@@ -108,8 +108,7 @@ namespace Dolittle.DependencyInversion
         /// </summary>
         /// <param name="binding"></param>
         /// <returns></returns>
-        public BindingBuilder(Binding binding) : base(binding)
-        { }
+        public BindingBuilder(Binding binding) : base(binding) { }
 
         /// <inheritdoc/>
         IBindingScopeBuilder IBindingBuilder<T>.To<TTarget>()

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Assemblies\Assemblies.csproj" />
+    <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\Reflection\Reflection.csproj" />
     <ProjectReference Include="..\Scheduling\Scheduling.csproj" />

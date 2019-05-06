@@ -8,7 +8,7 @@ using System;
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Defines a system for dealing with configuration for <see cref="IPostBuildTaskPerformers"/>
+    /// Defines a system for dealing with configuration for <see cref="IBuildTaskPerformers"/>
     /// </summary>
     public interface IPerformerConfigurationManager
     {

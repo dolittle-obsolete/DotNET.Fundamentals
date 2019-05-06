@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Reflection;
 using Dolittle.Assemblies;
 using Dolittle.Logging;
@@ -24,12 +25,32 @@ namespace Dolittle.Types.Bootstrap
         /// <returns><see cref="ITypeFinder"/> that can be used</returns>
         public static ITypeFinder Start(IAssemblies assemblies, IScheduler scheduler, ILogger logger, Assembly entryAssembly = null)
         {
-            var contractToImplementorsMap = new ContractToImplementorsMap(scheduler);
+            if (entryAssembly == null) entryAssembly = Assembly.GetEntryAssembly();
 
-            if( entryAssembly == null ) entryAssembly = Assembly.GetEntryAssembly();
-            contractToImplementorsMap.Feed(entryAssembly.GetTypes());
-            
-            var typeFinder = new TypeFinder(assemblies, contractToImplementorsMap, scheduler, logger);
+            IContractToImplementorsMap contractToImplementorsMap;
+            // Re-enable when https://github.com/dolittle-fundamentals/DotNET.Fundamentals/issues/219 is fixed
+#if(false)
+            if (CachedContractToImplementorsMap.HasCachedMap(entryAssembly))
+            {
+                var before = DateTime.UtcNow;
+                logger.Information("Contract to implementors map cache found - using it instead of dynamically discovery");
+                contractToImplementorsMap = new CachedContractToImplementorsMap(
+                    new ContractToImplementorsSerializer(logger), 
+                    entryAssembly);
+                Console.WriteLine($"CachedMap : {DateTime.UtcNow.Subtract(before).ToString("G")}");
+            }
+            else
+#endif            
+            {
+                logger.Information("Using runtime discovery for contract to implementors map");
+                contractToImplementorsMap = new ContractToImplementorsMap(scheduler);
+                contractToImplementorsMap.Feed(entryAssembly.GetTypes());
+
+                var typeFeeder = new TypeFeeder(scheduler, logger);
+                typeFeeder.Feed(assemblies, contractToImplementorsMap);
+            }
+
+            var typeFinder = new TypeFinder(contractToImplementorsMap);
             return typeFinder;
         }
     }
