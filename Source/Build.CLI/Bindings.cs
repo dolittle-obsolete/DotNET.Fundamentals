@@ -16,7 +16,7 @@ namespace Dolittle.Build.CLI
         public void Provide(IBindingProviderBuilder builder)
         {
             var buildTarget = Program.BuildTarget;
-            if (buildTarget == null) buildTarget = new BuildTarget(null,null,null);
+            if (buildTarget == null) buildTarget = new BuildTarget(null,null,null,null);
             builder.Bind<BuildTarget>().To(buildTarget);
         }
     }

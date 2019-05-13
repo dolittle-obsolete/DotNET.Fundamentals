@@ -45,8 +45,6 @@ namespace Dolittle.Build
 
             _buildMessages.Information("Performing assembly modifications");
 
-            var tempFile = Path.GetTempFileName();
-
             _buildMessages.Indent();
 
             using(var stream = File.OpenRead(_configuration.TargetAssemblyPath))
@@ -60,14 +58,11 @@ namespace Dolittle.Build
                         _.Modify(assemblyDefinition);
                         _buildMessages.Unindent();
                     });
-                    assemblyDefinition.Write(tempFile);
+                    assemblyDefinition.Write(_configuration.OutputAssemblyPath);
                 }
             }
 
             _buildMessages.Unindent();
-
-            File.Delete(_configuration.TargetAssemblyPath);
-            File.Move(tempFile, _configuration.TargetAssemblyPath);
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Dolittle.Build.CLI
                 var assemblyFile = args[0];
                 var pluginAssemblies = args[1].Split(";");
                 var configurationFile = args[2];
+                var outputAssemblyFile = args[3];
 
                 if (string.IsNullOrEmpty(args[1]) ||
                     pluginAssemblies.Length == 0 ||
@@ -34,11 +35,12 @@ namespace Dolittle.Build.CLI
 
                 var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyFile);
                 var assemblyContext = AssemblyContext.From(assemblyFile);
-                BuildTarget = new BuildTarget(assemblyFile, assembly, assemblyContext);
+                BuildTarget = new BuildTarget(assemblyFile, outputAssemblyFile, assembly, assemblyContext);
 
                 Console.WriteLine("Performing Dolittle post-build steps");
 
                 Console.WriteLine($"  Performing for: {assemblyFile}");
+                Console.WriteLine($"  Will output to: {outputAssemblyFile}");
                 Console.WriteLine("  Using plugins from: ");
 
                 foreach (var pluginAssembly in pluginAssemblies)
