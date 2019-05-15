@@ -33,10 +33,10 @@ steps:
   inputs:
     command: build
     projects: '**/*.csproj'
-    arguments: '--no-restore --configuration $(buildConfiguration)' # Update this to match your need
+    arguments: '--configuration $(buildConfiguration)' # Update this to match your need
     
 - task: DotNetCoreCLI@2
   inputs:
     command: test
     projects: 'Specifications/**/*.csproj'
-    arguments: '--no-restore --configuration $(buildConfiguration) --collect "Code coverage"'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
