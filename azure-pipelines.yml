@@ -15,14 +15,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: DotNetCoreInstaller@0
+  inputs:
+    version: '2.2.203'
+
 - task: DotNetCoreCLI@2
   inputs:
     command: restore
     projects: '**/*.csproj'
-
-- task: DotNetCoreInstaller@0
-  inputs:
-    version: '2.1.300'
 
 - task: DotNetCoreCLI@2
   displayName: Build
