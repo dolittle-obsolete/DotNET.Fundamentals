@@ -15,6 +15,9 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- checkout: self
+  submodules: recursive
+
 - task: DotNetCoreInstaller@0
   inputs:
     version: '2.2.203'
