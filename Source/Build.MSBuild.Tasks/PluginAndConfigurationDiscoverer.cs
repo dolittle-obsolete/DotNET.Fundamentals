@@ -10,7 +10,7 @@ using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
-namespace Dolittle.Build.MSBuild
+namespace Dolittle.Build.MSBuild.Tasks
 {
     /// <summary>
     /// Represents a task that is capable of discovering plugins to the Dolittle build pipeline

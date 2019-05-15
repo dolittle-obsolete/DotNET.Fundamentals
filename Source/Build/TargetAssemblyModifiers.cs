@@ -58,6 +58,7 @@ namespace Dolittle.Build
                         _.Modify(assemblyDefinition);
                         _buildMessages.Unindent();
                     });
+                    _buildMessages.Information($"Write modified assembly to '{_configuration.OutputAssemblyPath}'");
                     assemblyDefinition.Write(_configuration.OutputAssemblyPath);
                 }
             }

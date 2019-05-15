@@ -6,7 +6,7 @@ using System.IO;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
-namespace Dolittle.Build.MSBuild
+namespace Dolittle.Build.MSBuild.Tasks
 {
     /// <summary>
     /// Represents a task that generates a temporary file in the %tmp% folder

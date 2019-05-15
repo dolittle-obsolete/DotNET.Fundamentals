@@ -5,10 +5,8 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>Dolittle.Build.MSBuild</AssemblyName>
-
         <NoPackageAnalysis>true</NoPackageAnalysis>
-        <BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
-        <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
+       
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,6 +22,7 @@
     <ItemGroup>
         <Content Include="Dolittle.Build.MSBuild.props" PackagePath="build\" />
         <Content Include="Dolittle.Build.MSBuild.targets" PackagePath="build\" />
+        <Content Remove="bin\**" CopyToPublishDirectory="Never" />
     </ItemGroup>
 
     <!--
@@ -33,13 +32,19 @@
 
     <Target Name="PublishBuildCLI" BeforeTargets="GenerateNuspec">
         <Exec Command="dotnet publish -c $(Configuration)" WorkingDirectory="..\Build.CLI"/>
+        <Exec Command="dotnet publish -c $(Configuration)" WorkingDirectory="..\Build.MSBuild.Tasks"/>
     </Target>
 
     <Target Name="PackTaskDependencies" AfterTargets="PublishBuildCLI">
         
         <ItemGroup>
             <_PackageFiles Include="..\Build.CLI\bin\$(Configuration)\*\publish\**\*">
-                <PackagePath>tasks\%(RecursiveDir)</PackagePath>
+                <PackagePath>tools\</PackagePath>
+                <Visible>false</Visible>
+                <BuildAction>Content</BuildAction>
+            </_PackageFiles>
+            <_PackageFiles Include="..\Build.MSBuild.Tasks\bin\$(Configuration)\*\publish\**\*">
+                <PackagePath>tasks\</PackagePath>
                 <Visible>false</Visible>
                 <BuildAction>Content</BuildAction>
             </_PackageFiles>
