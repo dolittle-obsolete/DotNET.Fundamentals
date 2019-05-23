@@ -19,21 +19,23 @@ namespace Dolittle.Types
     public class ContractToImplementorsMap : IContractToImplementorsMap
     {
         readonly IScheduler _scheduler;
-        ConcurrentDictionary<Type, ConcurrentDictionary<string, Type>> _contractsAndImplementors = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Type>>();
-        ConcurrentDictionary<Type, Type> _allTypes = new ConcurrentDictionary<Type, Type>();
-        
+        readonly ConcurrentDictionary<Type, ConcurrentBag<Type>> _contractsAndImplementors = new ConcurrentDictionary<Type, ConcurrentBag<Type>>();
+        readonly ConcurrentDictionary<Type, Type> _allTypes = new ConcurrentDictionary<Type, Type>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="ContractToImplementorsMap"/>
         /// </summary>
-        /// <param name="scheduler"></param>
+        /// <param name="scheduler"><see cref="IScheduler"/> used for scheduling work</param>
         public ContractToImplementorsMap(IScheduler scheduler)
         {
             _scheduler = scheduler;
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Type> All { get { return _allTypes.Keys; } }
+        public IDictionary<Type, IEnumerable<Type>>    ContractsAndImplementors => _contractsAndImplementors.ToDictionary(_ => _.Key, _ => _.Value.AsEnumerable());
+
+        /// <inheritdoc/>
+        public IEnumerable<Type> All => _allTypes.Keys;
 
         /// <inheritdoc/>
         public void Feed(IEnumerable<Type> types)
@@ -52,7 +54,7 @@ namespace Dolittle.Types
         public IEnumerable<Type> GetImplementorsFor(Type contract)
         {
             var implementingTypes = GetImplementingTypesFor(contract);
-            return implementingTypes.Values;
+            return implementingTypes;
         }
 
         void AddTypesToAllTypes(IEnumerable<Type> types)
@@ -66,7 +68,11 @@ namespace Dolittle.Types
             _scheduler.PerformForEach(implementors, implementor => 
             {
                 var baseAndImplementingTypes = implementor.AllBaseAndImplementingTypes();
-                foreach( var contract in baseAndImplementingTypes ) GetImplementingTypesFor(contract)[GetKeyFor(implementor)] = implementor;
+                foreach( var contract in baseAndImplementingTypes ) 
+                {
+                    var implementingTypes = GetImplementingTypesFor(contract);
+                    if( !implementingTypes.Contains(implementor)) implementingTypes.Add(implementor);
+                }
             });
         }
 
@@ -76,15 +82,10 @@ namespace Dolittle.Types
             return !typeInfo.IsInterface && !typeInfo.IsAbstract;
         }
 
-        ConcurrentDictionary<string, Type> GetImplementingTypesFor(Type contract)
+        ConcurrentBag<Type> GetImplementingTypesFor(Type contract)
         {
-            var implementingTypes = _contractsAndImplementors.GetOrAdd(contract, (key) => new ConcurrentDictionary<string, Type>());
+            var implementingTypes = _contractsAndImplementors.GetOrAdd(contract, (key) => new ConcurrentBag<Type>());
             return implementingTypes;
-        }
-
-        string GetKeyFor(Type type)
-        {
-            return type.AssemblyQualifiedName;
         }
     }
 }

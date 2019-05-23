@@ -46,4 +46,5 @@ namespace Dolittle.Logging
         {
         }
     }
+
 }

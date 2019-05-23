@@ -15,7 +15,7 @@ namespace Dolittle.Assemblies
     [Singleton]
     public class Assemblies : IAssemblies
     {
-        IEnumerable<Assembly> _assemblies;
+        readonly IEnumerable<Assembly> _assemblies;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Assemblies"/>

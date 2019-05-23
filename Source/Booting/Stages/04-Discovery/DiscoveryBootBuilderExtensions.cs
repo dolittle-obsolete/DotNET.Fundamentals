@@ -25,5 +25,17 @@ namespace Dolittle.Booting
             bootBuilder.Set<DiscoverySettings>(_ => _.AssemblyProvider, new WellKnownAssembliesAssemblyProvider(assemblies));
             return bootBuilder;
         }
+
+        /// <summary>
+        /// With a custom <see cref="ICanProvideAssemblies"/>
+        /// </summary>
+        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
+        /// <param name="assemblyProvider">An <see cref="ICanProvideAssemblies">assembly provider</see> instance</param>
+        /// <returns>Chained <see cref="BootBuilder"/></returns>
+        public static IBootBuilder WithAssemblyProvider(this IBootBuilder bootBuilder, ICanProvideAssemblies assemblyProvider)
+        {
+            bootBuilder.Set<DiscoverySettings>(_ => _.AssemblyProvider, assemblyProvider);
+            return bootBuilder;
+        }
     }
 }

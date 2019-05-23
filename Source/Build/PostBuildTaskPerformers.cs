@@ -1,0 +1,46 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+using Dolittle.Collections;
+using Dolittle.Types;
+
+namespace Dolittle.Build
+{
+    /// <summary>
+    /// Represents an implementation of <see cref="IPostBuildTaskPerformers"/>
+    /// </summary>
+    public class PostBuildTaskPerformers : IPostBuildTaskPerformers
+    {
+        readonly IInstancesOf<ICanPerformPostBuildTask> _runners;
+        readonly IBuildMessages _buildMessages;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="PostBuildTaskPerformers"/>
+        /// </summary>
+        /// <param name="runners">Runners to run</param>
+        /// <param name="buildMessages"><see cref="IBuildMessages"/> for build messages</param>
+        public PostBuildTaskPerformers(
+            IInstancesOf<ICanPerformPostBuildTask> runners,
+            IBuildMessages buildMessages)
+        {
+            _runners = runners;
+            _buildMessages = buildMessages;
+        }
+
+        /// <inheritdoc/>
+        public void Perform()
+        {
+            _buildMessages.Information("Perform post build tasks");
+            _buildMessages.Indent();
+            _runners.ForEach(_ => 
+            {
+                _buildMessages.Information($"{_.Message} (Post Task: '{_.GetType().AssemblyQualifiedName}')");
+                _buildMessages.Indent();
+                _.Perform();
+                _buildMessages.Unindent();
+            });
+            _buildMessages.Unindent();
+        }
+    }
+}
