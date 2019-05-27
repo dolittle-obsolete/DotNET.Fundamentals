@@ -7,7 +7,7 @@ weight: 6
 ---
 One of the traits of an IoC container is to govern the lifecycle outside of
 the types needing the dependencies. This can typically be done at the
-time of [providing bindings]({{< relref providing_bindings >}). But at times
+time of [providing bindings]({{< relref providing_bindings >}}). But at times
 the implementor knows what the lifecycle should be and it might be the right
 responsibility for it to be decided at implementation. Thats where we have
 a couple of attributes to govern this.
