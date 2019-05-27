@@ -20,9 +20,10 @@ that's fine as well. As long as it is compatible with `netstandard2`.
 
 Then add a reference to the following packages:
 
-[Dolittle.Booting](https://www.nuget.org/packages/Dolittle.Booting/)
-[Dolittle.DependencyInversion.Autofac](https://www.nuget.org/packages/Dolittle.DependencyInversion.Autofac/)
-[Dolittle.DependencyInversion.Booting](https://www.nuget.org/packages/Dolittle.DependencyInversion.Booting/)
+* [Dolittle.Booting](https://www.nuget.org/packages/Dolittle.Booting/)
+* [Dolittle.DependencyInversion.Autofac](https://www.nuget.org/packages/Dolittle.DependencyInversion.Autofac/)
+* [Dolittle.DependencyInversion.Booting](https://www.nuget.org/packages/Dolittle.DependencyInversion.Booting/)
+* [Dolittle.DependencyInversion.Conventions](https://www.nuget.org/packages/Dolittle.DependencyInversion.Conventions/)
 
 In your `.csproj` this would be then:
 
@@ -102,13 +103,15 @@ If you're looking to just start using Dolittle and its dependency inversion, wit
 anything else, meaning that you're not booting it from our [SDK](/runtime/dotnet-sdk) or AspNet support.
 First you'll need to add a package reference to the following:
 
-[Dolittle.DependencyInversion.Booting](https://www.nuget.org/packages/Dolittle.DependencyInversion.Booting/)
+* [Dolittle.DependencyInversion.Booting](https://www.nuget.org/packages/Dolittle.DependencyInversion.Booting/)
+* [Dolittle.DependencyInversion.Conventions](https://www.nuget.org/packages/Dolittle.DependencyInversion.Conventions/)
 
 In your `.csproj` file:
 
 ```xml
 <ItemGroup>
     <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="3.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="3.*" />
 </ItemGroup>
 ```
 
