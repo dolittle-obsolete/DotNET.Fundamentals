@@ -1,5 +1,5 @@
 ---
-title: Lifecyckle
+title: Lifecycle
 description: Overview of how to work with lifecycle
 keywords: Lifecycle, Dependency Inversion
 author: einari
