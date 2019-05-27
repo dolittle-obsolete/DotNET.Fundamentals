@@ -98,7 +98,7 @@ prefixed with `I` to an implementation with same name without the prefix, this w
 
 For more complex binding scenarios, you want to [provide bindings]({{< relref provide_bindings >}}) yourself.
 
-## Using from scratch
+## Using from "bare metal"
 
 If you're looking to just start using Dolittle and its dependency inversion, without
 anything else, meaning that you're not booting it from our [SDK](/runtime/dotnet-sdk) or AspNet support.
