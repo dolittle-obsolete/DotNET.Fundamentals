@@ -158,7 +158,7 @@ namespace Dolittle.Serialization.Json
                 if (DoesPropertiesMatchConstructor(type, json))
                     return CreateInstanceByPropertiesMatchingConstructor(type, json, out propertiesMatched);
             }
-            throw new NotImplementedException();
+            throw new UnableToInstantiateInstanceOfType(type);
         }
 
 
