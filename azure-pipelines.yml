@@ -16,8 +16,12 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- bash: export VERSION=$(git tag --sort=-version:refname | head -1)
-- bash: echo $(Build.Reason) $(Build.SourceVersion) $VERSION
+- bash: |
+    export VERSION=$(git tag --sort=-version:refname | head -1)
+    echo $BUILD_REASON $BUILD_SOURCEVERSION $VERSION
+    echo "##vso[task.setvariable variable=version;isOutput=true]$VERSION"
+    echo $(version)
+  displayName: Set Version
 
 - checkout: self
   submodules: recursive
