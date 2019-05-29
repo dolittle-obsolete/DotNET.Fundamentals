@@ -16,7 +16,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- bash: echo '##vso[task.setvariable variable=version]$(git tag --sort=-version:refname | head -1)'
+- bash: export version=$(git tag --sort=-version:refname | head -1)
 - bash: echo $(Build.Reason) $(Build.SourceVersion) $(version)
 
 - checkout: self
