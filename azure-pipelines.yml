@@ -19,9 +19,11 @@ steps:
 - bash: |
     export VERSION=$(git tag --sort=-version:refname | head -1)
     echo $BUILD_REASON $BUILD_SOURCEVERSION $VERSION
-    echo "##vso[task.setvariable variable=version;isOutput=true]$VERSION"
-    echo "Version is " $(version)
   displayName: Set Version
+
+- script: |
+    echo The version is $(VERSION)
+  displayName: Show version
 
 - checkout: self
   submodules: recursive
