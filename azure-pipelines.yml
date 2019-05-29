@@ -16,10 +16,8 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- bash: echo $(version)
-- bash: echo '##vso[task.setvariable variable=version]2.0.0'
+- bash: echo '##vso[task.setvariable variable=version]git tag --sort=-version:refname | head -1'
 - bash: echo $(Build.Reason) $(Build.SourceVersion) $(version)
-- bash: echo '##vso[task.setvariable variable=Build.BuildNumber]2.0.0'
 
 - checkout: self
   submodules: recursive
@@ -46,3 +44,6 @@ steps:
     command: test
     projects: 'Specifications/**/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
+# echo PullRequest  49e27cc18f57870206171925a8c540abdac7bbfb 2.0.0
+# echo IndividualCI 036100265b6d83d536827451131bf8c306ce9d43 2.0.0
