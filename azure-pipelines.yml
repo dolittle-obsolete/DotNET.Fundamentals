@@ -3,9 +3,6 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-variables:
-  version: 1.0.0
-
 trigger:
 - master
 
@@ -13,6 +10,7 @@ pool:
   vmImage: 'ubuntu-16.04'
 
 variables:
+  version: 1.0.0
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
