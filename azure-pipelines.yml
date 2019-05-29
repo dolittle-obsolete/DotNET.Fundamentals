@@ -14,7 +14,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  CASCADE: (Hello World)
+  CASCADE: 6a011156-dec2-44a1-b4f6-718ddc28c413 a5f5239e-c774-4933-ae09-6573de30e5ef
 
 steps:
 - bash: |
