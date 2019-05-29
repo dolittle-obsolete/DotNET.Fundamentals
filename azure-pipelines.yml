@@ -3,6 +3,9 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
+variables:
+  version: 1.0.0
+
 trigger:
 - master
 
@@ -15,6 +18,9 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- script: |
+    echo '##vso[task.setvariable variable=version]2.0.0'
+
 - checkout: self
   submodules: recursive
 
