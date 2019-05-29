@@ -6,7 +6,6 @@
 trigger:
 - master
 
-
 pool: Default
 #  vmImage: 'ubuntu-16.04'
 
@@ -41,28 +40,26 @@ steps:
     version: '2.2.203'
 
 - task: DotNetCoreCLI@2
+  displayName: Restore packages
   inputs:
     command: 'restore'
     feedsToUse: 'select'
     versioningScheme: 'off'
 
 - task: DotNetCoreCLI@2
-  displayName: Build
+  displayName: Build release
   inputs:
     command: build
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)' # Update this to match your need
     
 - task: DotNetCoreCLI@2
+  displayName: Test
   inputs:
     command: test
     projects: 'Specifications/**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/*.trx'
     
+  
 # echo PullRequest  49e27cc18f57870206171925a8c540abdac7bbfb 2.0.0
 # echo IndividualCI 036100265b6d83d536827451131bf8c306ce9d43 2.0.0
