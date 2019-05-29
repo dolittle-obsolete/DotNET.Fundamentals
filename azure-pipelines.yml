@@ -6,8 +6,8 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-16.04'
+pool: Default
+#  vmImage: 'ubuntu-16.04'
 
 variables:
   version: 1.0.0
