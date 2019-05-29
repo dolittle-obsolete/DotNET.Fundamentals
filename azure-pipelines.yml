@@ -16,8 +16,9 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: |
-    echo '##vso[task.setvariable variable=version]2.0.0'
+- bash: echo '##vso[task.setvariable variable=version]2.0.0'
+- bash: echo $(version)
+- bash: echo $(Build.Reason)
 
 - checkout: self
   submodules: recursive
