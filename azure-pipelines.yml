@@ -16,8 +16,8 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- bash: export version=$(git tag --sort=-version:refname | head -1)
-- bash: echo $(Build.Reason) $(Build.SourceVersion) $(version)
+- bash: export VERSION=$(git tag --sort=-version:refname | head -1)
+- bash: echo $(Build.Reason) $(Build.SourceVersion) $VERSION
 
 - checkout: self
   submodules: recursive
