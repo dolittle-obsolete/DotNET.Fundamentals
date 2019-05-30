@@ -1,6 +1,6 @@
 # DotNET.Fundamentals
 
-[![Build Status](https://dev.azure.com/dolittle/DotNET.Fundamentals/_apis/build/status/dolittle-fundamentals.DotNET.Fundamentals?branchName=master)](https://dev.azure.com/dolittle/DotNET.Fundamentals/_build/latest?definitionId=4&branchName=master)
+[![Build Status](https://dolittle.visualstudio.com/Dolittle%20open-source%20repositories/_apis/build/status/dolittle-fundamentals.DotNET.Fundamentals?branchName=master)](https://dolittle.visualstudio.com/Dolittle%20open-source%20repositories/_build/latest?definitionId=8&branchName=master)
 
 ## Cloning
 
