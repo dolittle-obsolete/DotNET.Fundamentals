@@ -3,6 +3,7 @@ resources:
     - repository: templates
       type: github
       name: dolittle-tools/Build
+      endpoint: dolittle-tools
 
 #steps:
 #- template: dotnet.yml@templates
