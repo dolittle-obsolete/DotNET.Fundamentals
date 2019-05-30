@@ -1,9 +1,6 @@
 trigger:
 - master
 
-#pool: Default
-#  vmImage: 'ubuntu-16.04'
-
 resources:
   repositories:
     - repository: templates
