@@ -1,3 +1,9 @@
+trigger:
+- master
+
+#pool: Default
+#  vmImage: 'ubuntu-16.04'
+
 resources:
   repositories:
     - repository: templates
@@ -5,11 +11,7 @@ resources:
       name: dolittle-tools/Build
       endpoint: dolittle-tools
 
-steps:
+jobs:
 - template: dotnet.yml@templates
   parameters:
     CASCADES: 6a011156-dec2-44a1-b4f6-718ddc28c413 a5f5239e-c774-4933-ae09-6573de30e5ef
-
-  
-# echo PullRequest  49e27cc18f57870206171925a8c540abdac7bbfb 2.0.0
-# echo IndividualCI 036100265b6d83d536827451131bf8c306ce9d43 2.0.0
