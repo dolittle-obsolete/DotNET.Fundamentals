@@ -14,4 +14,4 @@ resources:
 jobs:
 - template: dotnet.yml@templates
   parameters:
-    CASCADES: 6a011156-dec2-44a1-b4f6-718ddc28c413 a5f5239e-c774-4933-ae09-6573de30e5ef
+    CASCADES: dolittle-runtime/Runtime
