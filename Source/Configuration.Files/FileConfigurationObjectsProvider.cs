@@ -32,6 +32,7 @@ namespace Dolittle.Configuration.Files
 
         readonly string[] SearchPaths = new[] {
             BaseFolder,
+            "data",
             "..",
             "."
         };
