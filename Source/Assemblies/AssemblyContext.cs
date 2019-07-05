@@ -154,23 +154,11 @@ namespace Dolittle.Assemblies
                 return string.Equals(runtime.Name, name.Name, StringComparison.OrdinalIgnoreCase);
             }
 
+            var compilationLibrary = DependencyContext.CompileLibraries.FirstOrDefault(NamesMatch);
+            if( compilationLibrary != null ) return compilationLibrary;
+
             var runtimeLibrary = DependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);
-            if (runtimeLibrary != null)
-                return GetCompilationLibraryFrom(runtimeLibrary);
-
-            var version = name.Version??new Version(1,0,0,0);
-
-            return new CompilationLibrary(
-                "package",
-                name.Name,
-                $"{version.Major}.{version.Minor}.{version.Revision}",
-                string.Empty,
-                new string[0],
-                new Dependency[0],
-                false,
-                string.Empty,
-                string.Empty
-            );
+            return GetCompilationLibraryFrom(runtimeLibrary);
         }
 
 
