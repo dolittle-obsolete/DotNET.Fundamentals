@@ -27,7 +27,7 @@ namespace Dolittle.Assemblies
         public AssemblyContext(Assembly assembly)
         {
             Assembly = assembly;
-
+            
             AssemblyLoadContext.Default.Resolving += OnResolving;
 
             DependencyContext = DependencyContext.Load(assembly);
@@ -136,7 +136,12 @@ namespace Dolittle.Assemblies
             {
                 try
                 {
-                    return AssemblyLoadContext.LoadFromAssemblyPath(assemblies[0]);
+                    var assembly = assemblies[0];
+                    var segments = assembly.Split(Path.DirectorySeparatorChar);
+                    var hasRef = segments.Any(_ => _.ToLowerInvariant() == "ref");
+                    if( hasRef ) assembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}",$"lib{Path.DirectorySeparatorChar}");
+
+                    return AssemblyLoadContext.LoadFromAssemblyPath(assembly);
                 } 
                 catch
                 {
@@ -154,11 +159,11 @@ namespace Dolittle.Assemblies
                 return string.Equals(runtime.Name, name.Name, StringComparison.OrdinalIgnoreCase);
             }
 
-            var compilationLibrary = DependencyContext.CompileLibraries.FirstOrDefault(NamesMatch);
-            if( compilationLibrary != null ) return compilationLibrary;
-
             var runtimeLibrary = DependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);
-            return GetCompilationLibraryFrom(runtimeLibrary);
+            if( runtimeLibrary != null ) return GetCompilationLibraryFrom(runtimeLibrary);
+
+            var compilationLibrary = DependencyContext.CompileLibraries.FirstOrDefault(NamesMatch);
+            return compilationLibrary;
         }
 
 
