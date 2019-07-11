@@ -10,6 +10,7 @@
             <DolittleConfigurationFile>NotSet</DolittleConfigurationFile>
             <DolittlePluginAssemblies>NotSet</DolittlePluginAssemblies>
             <DolittleTemporaryAssembly>NotSet</DolittleTemporaryAssembly>
+            <DolittleTemporaryAssemblyDebugInfo>NotSet</DolittleTemporaryAssemblyDebugInfo>
         </PropertyGroup>
 
         <PluginAndConfigurationDiscoverer Plugins="@(DolittleBuildPlugin)">
@@ -19,6 +20,7 @@
 
         <TempFileGenerator>
             <Output TaskParameter="FileName" PropertyName="DolittleTemporaryAssembly"/>
+            <Output TaskParameter="DebugInfoFileName" PropertyName="DolittleTemporaryAssemblyDebugInfo"/>
         </TempFileGenerator>
     </Target>
 
@@ -30,6 +32,7 @@
     <Target Name="DolittleBuildAfterBuild" AfterTargets="AfterBuild" DependsOnTargets="DolittleBuildHandlePlugins">
         <Exec Command="dotnet &quot;$(MSBuildThisFileDirectory)../tools/netcoreapp2.1/publish/Dolittle.Build.CLI.dll&quot; &quot;$(ProjectDir)$(OutputPath)$(AssemblyName).dll&quot; &quot;$(DolittlePluginAssemblies)&quot; &quot;$(DolittleConfigurationFile)&quot; &quot;$(DolittleTemporaryAssembly)&quot;" />
         <Copy SourceFiles="$(DolittleTemporaryAssembly)" DestinationFiles="$(ProjectDir)$(OutputPath)$(AssemblyName).dll"/>
+        <Copy SourceFiles="$(DolittleTemporaryAssemblyDebugInfo)" DestinationFiles="$(ProjectDir)$(OutputPath)$(AssemblyName).pdb" Condition="Exists($(DolittleTemporaryAssemblyDebugInfo))" OverwriteReadOnlyFiles="True"/>
         <CallTarget Targets="DolittleBuildAfterBuildCleanup"/>
         <OnError ExecuteTargets="DolittleBuildAfterBuildCleanup"/>
     </Target>   
