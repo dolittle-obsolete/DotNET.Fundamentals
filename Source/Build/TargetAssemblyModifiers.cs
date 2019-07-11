@@ -41,10 +41,13 @@ namespace Dolittle.Build
         /// <inheritdoc/>
         public void ModifyAndSave()
         {
-            if (_modifiers.Count == 0) return;
+            if (_modifiers.Count == 0) 
+            {
+                File.Copy(_configuration.TargetAssemblyPath, _configuration.OutputAssemblyPath);
+                return;
+            }
 
             _buildMessages.Information("Performing assembly modifications");
-
             _buildMessages.Indent();
 
             var debugInfoPath = Path.Combine(
