@@ -19,10 +19,20 @@ namespace Dolittle.Build.MSBuild.Tasks
         [Output]
         public string FileName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the filename for the portable debug info (PDB) file
+        /// </summary>
+        /// <value></value>
+        [Output]
+        public string DebugInfoFileName { get; set; }
+
         /// <inheritdoc/>
         public override bool Execute()
         {
-            FileName = Path.GetTempFileName();
+            var tempFileName = Path.Combine(Path.GetTempPath(), $"tmp_{Path.GetFileNameWithoutExtension(Path.GetRandomFileName())}");
+            FileName = $"{tempFileName}.dll";
+            DebugInfoFileName = $"{tempFileName}.pdb";
+
             return true;
         }
     }
