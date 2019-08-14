@@ -1,12 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Build/MSBuild/specs.props"/>
+  <Import Project="../../Build/MSBuild/specs.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Versioning\Versioning.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <_UnmanagedRegistrationCache Remove="obj\Versioning.csproj.UnmanagedRegistration.cache" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp2.0\Versioning.csproj.ResolveComReference.cache" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <IntermediateAssembly Remove="obj\Debug\netcoreapp2.0\Versioning.dll" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp2.0\Versioning.pdb" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp2.0\Versioning.dll" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ApplicationManifest Remove="obj\Debug\netcoreapp2.0\Native.Versioning.manifest" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <DeployManifest Remove="obj\Debug\netcoreapp2.0\Versioning.application" />
   </ItemGroup>
 
 </Project>

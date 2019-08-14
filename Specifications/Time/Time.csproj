@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+<PropertyGroup>
+  <TargetFramework>netcoreapp2.0</TargetFramework>
+  <AssemblyName>Dolittle.Time.Specs</AssemblyName>
+</PropertyGroup>
+
+<Import Project="../../Build/MSBuild/specs.props" />
+
+<ItemGroup>
+  <ProjectReference Include="..\..\Source\Time\Time.csproj" />
+</ItemGroup>
+
+
+</Project>
