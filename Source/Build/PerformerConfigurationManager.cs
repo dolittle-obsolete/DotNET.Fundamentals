@@ -20,24 +20,37 @@ namespace Dolittle.Build
         private readonly ISerializer _serializer;
 
         private IDictionary<string, object> _configObjects;
+        private readonly IBuildMessages _buildMessages;
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="buildMessages"></param>
         /// <param name="fileSystem"></param>
         /// <param name="serializer"></param>
-        public PerformerConfigurationManager(IFileSystem fileSystem, ISerializer serializer)
+        public PerformerConfigurationManager(IBuildMessages buildMessages, IFileSystem fileSystem, ISerializer serializer)
         {
             _fileSystem = fileSystem;
             _serializer = serializer;
+            _buildMessages = buildMessages;
         }
-        
 
         /// <inheritdoc/>
         public void Initialize(string jsonFile)
         {
-            var json = _fileSystem.ReadAllText(jsonFile);
-            _configObjects = _serializer.GetKeyValuesFromJson(json);
+            var json = string.Empty;
+
+            try
+            {
+                _buildMessages.Information($"Initializing from file '${jsonFile}'");
+                json = _fileSystem.ReadAllText(jsonFile);
+                _configObjects = _serializer.GetKeyValuesFromJson(json);
+            }
+            catch (Exception ex)
+            {
+                _buildMessages.Error($"Error when initializing '{jsonFile}', content: '{json}'");
+                throw ex;
+            }
         }
 
         /// <inheritdoc/>
