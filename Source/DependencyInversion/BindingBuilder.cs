@@ -90,6 +90,20 @@ namespace Dolittle.DependencyInversion
             return _scopeBuilder;
         }
 
+
+        /// <inheritdoc/>
+        public IBindingScopeBuilder To(Func<BindingContext, object> callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public IBindingScopeBuilder To(Func<BindingContext, Type> callback)
+        {
+            throw new NotImplementedException();
+        }
+
+
         /// <inheritdoc/>
         public Binding Build()
         {
@@ -144,6 +158,12 @@ namespace Dolittle.DependencyInversion
 
             _scopeBuilder = new BindingScopeBuilder(_binding);
             return _scopeBuilder;
+        }
+
+        /// <inheritdoc/>
+        public IBindingScopeBuilder To(Func<BindingContext, T> callback)
+        {
+            throw new NotImplementedException();
         }
     }
 }

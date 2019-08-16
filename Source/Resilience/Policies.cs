@@ -2,20 +2,16 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
-using Dolittle.Concepts;
-using Polly;
+using Dolittle.Lifecycle;
 
-namespace Dolittle.Resilience
+namespace Resilience
 {
     /// <summary>
-    /// Represents a system that is capable of defining resilience 
+    /// Represents an implementation of <see cref="IPolicies"/>
     /// </summary>
-    public interface ICanDefinePoliciesFor<T>
+    [Singleton]
+    public class Policies : IPolicies
     {
-        /// <summary>
-        /// Define the policy for the given type
-        /// </summary>
-        Policy Define();
+
     }
 }

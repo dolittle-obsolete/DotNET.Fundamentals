@@ -3,19 +3,18 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using Dolittle.Concepts;
-using Polly;
 
-namespace Dolittle.Resilience
+namespace Resilience
 {
     /// <summary>
-    /// Represents a system that is capable of defining resilience 
+    /// Defines a 
     /// </summary>
-    public interface ICanDefinePoliciesFor<T>
+    public interface IPolicyFor<T>
     {
         /// <summary>
-        /// Define the policy for the given type
+        /// Execute an action within the policy
         /// </summary>
-        Policy Define();
+        /// <param name="action"><see cref="Action"/> to execute</param>
+        void Execute(Action action);
     }
 }

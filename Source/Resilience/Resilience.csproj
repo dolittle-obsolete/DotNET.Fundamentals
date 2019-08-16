@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Concepts/Concepts.csproj" />
-
+    <ProjectReference Include="../DependencyInversion/DependencyInversion.csproj" />
   </ItemGroup>
 
   <Import Project="../../Build/MSBuild/default.props"/>
