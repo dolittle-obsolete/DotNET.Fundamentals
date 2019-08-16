@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.DependencyModel.Resolution;
@@ -28,19 +27,22 @@ namespace Dolittle.Assemblies
         public AssemblyContext(Assembly assembly)
         {
             Assembly = assembly;
+            
+            AssemblyLoadContext.Default.Resolving += OnResolving;
 
             DependencyContext = DependencyContext.Load(assembly);
 
             var codeBaseUri = new Uri(assembly.CodeBase);
             var basePath = Path.GetDirectoryName(codeBaseUri.LocalPath);
 
-            _assemblyResolver = new CompositeCompilationAssemblyResolver(new ICompilationAssemblyResolver[]
+            _assemblyResolver = new CompositeAssemblyResolver(new ICompilationAssemblyResolver[]
             {
-                    new AppBaseCompilationAssemblyResolver(basePath),
+                new AppBaseCompilationAssemblyResolver(basePath),
                     new ReferenceAssemblyPathResolver(),
                     new PackageCompilationAssemblyResolver(),
                     new NuGetFallbackFolderAssemblyResolver(),
-                    new PackageRuntimeStoreAssemblyResolver()
+                    new PackageRuntimeStoreAssemblyResolver(),
+                    new PackageRuntimeShareAssemblyResolver()
             });
             AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
             AssemblyLoadContext.Resolving += OnResolving;
@@ -127,33 +129,43 @@ namespace Dolittle.Assemblies
 
         Assembly OnResolving(AssemblyLoadContext context, AssemblyName name)
         {
+            var compilationLibrary = GetCompilationLibraryFrom(name);
+            var assemblies = new List<string>();
+            _assemblyResolver.TryResolveAssemblyPaths(compilationLibrary, assemblies);
+            if (assemblies.Count > 0)
+            {
+                try
+                {
+                    var assembly = assemblies[0];
+                    var segments = assembly.Split(Path.DirectorySeparatorChar);
+                    var hasRef = segments.Any(_ => _.ToLowerInvariant() == "ref");
+                    if( hasRef ) assembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}",$"lib{Path.DirectorySeparatorChar}");
+
+                    return AssemblyLoadContext.LoadFromAssemblyPath(assembly);
+                } 
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        CompilationLibrary GetCompilationLibraryFrom(AssemblyName name)
+        {
             bool NamesMatch(Library runtime)
             {
                 return string.Equals(runtime.Name, name.Name, StringComparison.OrdinalIgnoreCase);
             }
 
             var runtimeLibrary = DependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);
-            if (runtimeLibrary != null)
-            {
-                var compilationLibrary = GetCompilationLibraryFrom(runtimeLibrary);
+            if( runtimeLibrary != null ) return GetCompilationLibraryFrom(runtimeLibrary);
 
-                var assemblies = new List<string>();
-                _assemblyResolver.TryResolveAssemblyPaths(compilationLibrary, assemblies);
-                if (assemblies.Count > 0)
-                {
-                    try
-                    {
-                        return AssemblyLoadContext.LoadFromAssemblyPath(assemblies[0]);
-                    } 
-                    catch
-                    {
-                        return null;
-                    }
-                }
-            }
-
-            return null;
+            var compilationLibrary = DependencyContext.CompileLibraries.FirstOrDefault(NamesMatch);
+            return compilationLibrary;
         }
+
 
         IEnumerable<Assembly> LoadAssembliesFrom(IEnumerable<Library> libraries)
         {

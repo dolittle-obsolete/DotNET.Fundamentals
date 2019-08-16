@@ -17,6 +17,7 @@ using Dolittle.Types;
 
 namespace Dolittle.Build.Tasks
 {
+#if(false)    
     /// <summary>
     /// Represents a <see cref="ICanPerformBuildTask"/> that can create a <see cref="IContractToImplementorsMap"/>
     /// </summary>
@@ -99,4 +100,5 @@ namespace Dolittle.Build.Tasks
             _buildMessages.Information($"Embedded a map with {contractsToImplementors.Keys.Count} contracts to {implementors} implementors");
         }
     }
+#endif    
 }

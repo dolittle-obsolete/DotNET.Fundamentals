@@ -41,28 +41,45 @@ namespace Dolittle.Build
         /// <inheritdoc/>
         public void ModifyAndSave()
         {
-            if (_modifiers.Count == 0) return;
-
-            _buildMessages.Information("Performing assembly modifications");
-
-            _buildMessages.Indent();
-
-            using(var stream = File.OpenRead(_configuration.TargetAssemblyPath))
+            if (_modifiers.Count == 0) 
             {
-                using(var assemblyDefinition = AssemblyDefinition.ReadAssembly(stream))
-                {
-                    _modifiers.ForEach(_ =>
-                    {
-                        _buildMessages.Information($"{_.Message} (Modifier: '{_.GetType().AssemblyQualifiedName}')");
-                        _buildMessages.Indent();
-                        _.Modify(assemblyDefinition);
-                        _buildMessages.Unindent();
-                    });
-                    _buildMessages.Information($"Write modified assembly to '{_configuration.OutputAssemblyPath}'");
-                    assemblyDefinition.Write(_configuration.OutputAssemblyPath);
-                }
+                File.Copy(_configuration.TargetAssemblyPath, _configuration.OutputAssemblyPath);
+                return;
             }
 
+            _buildMessages.Information("Performing assembly modifications");
+            _buildMessages.Indent();
+
+            var debugInfoPath = Path.Combine(
+                                    Path.GetDirectoryName(_configuration.TargetAssemblyPath),
+                                    $"{Path.GetFileNameWithoutExtension(_configuration.TargetAssemblyPath)}.pdb");
+
+            var readerParameters = new ReaderParameters(ReadingMode.Immediate);
+            if( File.Exists(debugInfoPath)) 
+            {
+                _buildMessages.Information($"Including debug information for the target assembly from '{debugInfoPath}'");
+                readerParameters.ReadSymbols = true;
+            }
+            
+            using(var assemblyDefinition = AssemblyDefinition.ReadAssembly(_configuration.TargetAssemblyPath, readerParameters))
+            {
+                _modifiers.ForEach(_ =>
+                {
+                    _buildMessages.Information($"{_.Message} (Modifier: '{_.GetType().AssemblyQualifiedName}')");
+                    _buildMessages.Indent();
+                    _.Modify(assemblyDefinition);
+                    _buildMessages.Unindent();
+                });
+                _buildMessages.Information($"Write modified assembly to '{_configuration.OutputAssemblyPath}'");
+                
+                
+                assemblyDefinition.Write(
+                    _configuration.OutputAssemblyPath, 
+                    new WriterParameters {
+                        WriteSymbols = true 
+                    }
+                );                   
+            }
             _buildMessages.Unindent();
         }
     }
