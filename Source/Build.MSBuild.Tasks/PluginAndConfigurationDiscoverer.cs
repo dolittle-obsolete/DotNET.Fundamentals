@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using Newtonsoft.Json;
 
 namespace Dolittle.Build.MSBuild.Tasks
 {
@@ -89,7 +90,10 @@ namespace Dolittle.Build.MSBuild.Tasks
                 else
                 {
                     firstPair = false;
-                    builder.Append($"\"{key}\":\"{customMetadata[key]}\"");
+                    var value = customMetadata[key].ToString();
+                    
+                    var escapedValue = JsonConvert.ToString(value);
+                    builder.Append($"\"{key}\":\"{escapedValue}\"");
                 }
             }
 
