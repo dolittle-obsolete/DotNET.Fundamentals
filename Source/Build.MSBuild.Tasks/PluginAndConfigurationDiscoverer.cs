@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
-using Newtonsoft.Json;
+
 
 namespace Dolittle.Build.MSBuild.Tasks
 {

@@ -35,25 +35,33 @@ namespace Dolittle.Build
         /// <inheritdoc/>
         public void Trace(string message)
         {
-            Console.WriteLine(HandleIndentationFor(message).White());
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(HandleIndentationFor(message));
+            Console.ResetColor();
         }
 
         /// <inheritdoc/>
         public void Error(string message)
         {
-            Console.Error.WriteLine(HandleIndentationFor(message).Red());
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Error.WriteLine(HandleIndentationFor(message));
+            Console.ResetColor();
         }
 
         /// <inheritdoc/>
         public void Information(string message)
         {
-            Console.WriteLine(HandleIndentationFor(message).White());
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(HandleIndentationFor(message));
+            Console.ResetColor();
         }
 
         /// <inheritdoc/>
         public void Warning(string message)
         {
-            Console.WriteLine(HandleIndentationFor(message).Yellow());
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(HandleIndentationFor(message));
+            Console.ResetColor();
         }
 
 
