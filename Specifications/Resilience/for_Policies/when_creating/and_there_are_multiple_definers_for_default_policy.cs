@@ -25,7 +25,7 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_creating
             );
         };
 
-        Because of = () => result = Catch.Exception(() => new Policies(default_policy_definers));
+        Because of = () => result = Catch.Exception(() => new Policies(default_policy_definers, new StaticInstancesOf<ICanDefineNamedPolicy>(), new StaticInstancesOf<ICanDefinePolicyForType>()));
 
         It should_throw_multiple_default_policy_definers_found = () => result.ShouldBeOfExactType<MultipleDefaultPolicyDefinersFound>();
     }

@@ -10,7 +10,7 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_getting_default
     {
         static IPolicy policy;
 
-        Because of = () => policy = policies.GetDefault();
+        Because of = () => policy = policies.Default;
 
         It should_return_a_null_policy = () => policy.ShouldBeOfExactType<NullPolicy>();
     }

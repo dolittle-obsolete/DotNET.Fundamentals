@@ -11,6 +11,15 @@ namespace Dolittle.Resilience
     public interface IPolicies
     {
         /// <summary>
+        /// Gets the default <see cref="IPolicy"/>
+        /// </summary>
+        /// <remarks>
+        /// If nothing is <see cref="ICanDefineDefaultPolicy">defining</see>
+        /// a default policy, a <see cref="NullPolicy"/> will be returned.
+        /// </remarks>
+        IPolicy Default { get; }
+
+        /// <summary>
         /// Gets a named policy
         /// </summary>
         /// <param name="name"></param>
@@ -21,16 +30,7 @@ namespace Dolittle.Resilience
         /// a default policy, a <see cref="NullPolicy"/> will be returned.
         /// </remarks>
         INamedPolicy GetNamed(string name);
-        
-        /// <summary>
-        /// Get the default policy
-        /// </summary>
-        /// <returns><see cref="IPolicy"/> to use</returns>
-        /// <remarks>
-        /// If nothing is <see cref="ICanDefineDefaultPolicy">defining</see>
-        /// a default policy, a <see cref="NullPolicy"/> will be returned.
-        /// </remarks>
-        IPolicy GetDefault();
+       
 
         /// <summary>
         /// Get policy for a specific type

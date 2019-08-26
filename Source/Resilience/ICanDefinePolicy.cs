@@ -14,6 +14,6 @@ namespace Dolittle.Resilience
         /// <summary>
         /// Define the policy
         /// </summary>
-        Policy Define();
+        Polly.Policy Define();
     }
 }

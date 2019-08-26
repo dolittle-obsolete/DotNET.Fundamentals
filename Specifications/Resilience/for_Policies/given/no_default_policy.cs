@@ -14,7 +14,11 @@ namespace Dolittle.Resilience.Specs.for_Policies.given
 
         Establish context = () =>
         {
-            policies = new Policies(new StaticInstancesOf<ICanDefineDefaultPolicy>());
+            policies = new Policies(
+                new StaticInstancesOf<ICanDefineDefaultPolicy>(),
+                new StaticInstancesOf<ICanDefineNamedPolicy>(),
+                new StaticInstancesOf<ICanDefinePolicyForType>()
+            );
         };        
     }
 }

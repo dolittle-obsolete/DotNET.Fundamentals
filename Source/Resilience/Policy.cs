@@ -14,6 +14,15 @@ namespace Dolittle.Resilience
         /// <summary>
         /// Initializes a new instance of <see cref="Policy"/>
         /// </summary>
+        /// <param name="delegatedPolicy"><see cref="IPolicy"/> to delegate to</param>
+        public Policy(IPolicy delegatedPolicy)
+        {
+            DelegatedPolicy = delegatedPolicy;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Policy"/>
+        /// </summary>
         /// <param name="underlyingPolicy">The underlying <see cref="Polly.Policy"/></param>
         public Policy(Polly.Policy underlyingPolicy)
         {
@@ -25,15 +34,22 @@ namespace Dolittle.Resilience
         /// </summary>
         public Polly.Policy UnderlyingPolicy { get; }
 
+        /// <summary>
+        /// Gets the delegated <see cref="IPolicy"/>
+        /// </summary>
+        public IPolicy DelegatedPolicy { get; }
+    
         /// <inheritdoc/>
         public void Execute(Action action)
         {
-            UnderlyingPolicy.Execute(action);
+            if( DelegatedPolicy != null ) DelegatedPolicy.Execute(action);
+            else UnderlyingPolicy.Execute(action);
         }
 
         /// <inheritdoc/>
         public TResult Execute<TResult>(Func<TResult> action)
         {
+            if( DelegatedPolicy != null ) return DelegatedPolicy.Execute(action);
             return UnderlyingPolicy.Execute(action);
         }
     }
