@@ -17,12 +17,12 @@ namespace Dolittle.DependencyInversion.Autofac
     /// <summary>
     /// Represents a <see cref="IRegistrationSource"/> that deals with resolving open generic type callbacks
     /// </summary>
-    public class OpenGenericTypeCallbackRegistrationSource : IRegistrationSource
+    public class OpenGenericCallbackRegistrationSource : IRegistrationSource
     {
-        static IDictionary<Type, Func<IServiceWithType, Type>> _typeCallbackByService = new Dictionary<Type, Func<IServiceWithType, Type>>();
-        internal static void AddService(KeyValuePair<Type, Func<IServiceWithType, Type>> typeCallbackAndServicePair)
+        static readonly IDictionary<Type, Func<IServiceWithType, object>> _callbackByService = new Dictionary<Type, Func<IServiceWithType, object>>();
+        internal static void AddService(KeyValuePair<Type, Func<IServiceWithType, object>> typeCallbackAndServicePair)
         {
-             _typeCallbackByService.Add(typeCallbackAndServicePair);
+             _callbackByService.Add(typeCallbackAndServicePair);
         }
 
         /// <inheritdoc/>
@@ -35,17 +35,17 @@ namespace Dolittle.DependencyInversion.Autofac
             
             if (serviceWithType == null ||
                 !serviceWithType.ServiceType.IsGenericType ||
-                !_typeCallbackByService.ContainsKey(serviceWithType.ServiceType.GetGenericTypeDefinition()))
+                !_callbackByService.ContainsKey(serviceWithType.ServiceType.GetGenericTypeDefinition()))
             {
                 return Enumerable.Empty<IComponentRegistration>();
             }
 
             var serviceOpenGenericType = serviceWithType.ServiceType.GetGenericTypeDefinition();
-            var callback = _typeCallbackByService[serviceOpenGenericType];
+            var callback = _callbackByService[serviceOpenGenericType];
             
             var registration = new ComponentRegistration(
                 Guid.NewGuid(),
-                new DelegateActivator(serviceWithType.ServiceType, (c, p) => c.ResolveUnregistered(callback(serviceWithType).MakeGenericType(serviceWithType.ServiceType.GetGenericArguments()))),
+                new DelegateActivator(serviceWithType.ServiceType, (c, p) => callback(serviceWithType)),
                 new CurrentScopeLifetime(),
                 InstanceSharing.None,
                 InstanceOwnership.OwnedByLifetimeScope,
