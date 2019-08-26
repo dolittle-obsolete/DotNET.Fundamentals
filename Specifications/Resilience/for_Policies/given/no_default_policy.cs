@@ -3,8 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Machine.Specifications;
-using Moq;
-using Dolittle.Types;
+using Dolittle.Types.Testing;
 
 namespace Dolittle.Resilience.Specs.for_Policies.given
 {

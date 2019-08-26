@@ -9,5 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Resilience\Resilience.csproj" />
+    <ProjectReference Include="..\..\Source\Types.Testing\Types.Testing.csproj" />
   </ItemGroup>
 </Project>
