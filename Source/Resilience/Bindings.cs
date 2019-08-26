@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 using Dolittle.DependencyInversion;
 using Dolittle.Reflection;
 
@@ -30,11 +31,12 @@ namespace Dolittle.Resilience
         {
             builder.Bind(typeof(IPolicyFor<>)).To((BindingContext context) => {
                 var policies = _getContainer().Get<IPolicies>();
-                
+
                 Expression<Func<IPolicyFor<object>>> getForExpression = () => policies.GetFor<object>();                
-                var methodInfo = getForExpression.GetMethodInfo();
-                var genericMethodInfo = methodInfo.MakeGenericMethod(context.Service.GenericTypeArguments[0]);
-                var result = genericMethodInfo.Invoke(policies, new object[0]);
+                var methodInfo = getForExpression.GetMethodInfo().GetGenericMethodDefinition();                
+                var target = context.Service.GenericTypeArguments[0];
+                var genericMethodInfo = methodInfo.MakeGenericMethod(target);
+                var result = genericMethodInfo.Invoke(policies, null);
                 return result;
             });
         }
