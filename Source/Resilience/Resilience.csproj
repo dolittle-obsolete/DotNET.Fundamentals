@@ -12,6 +12,8 @@
   <ItemGroup>
     <ProjectReference Include="../Concepts/Concepts.csproj" />
     <ProjectReference Include="../Lifecycle/Lifecycle.csproj" />
+    <ProjectReference Include="../Reflection/Reflection.csproj" />
+    <ProjectReference Include="../Types/Types.csproj" />
     <ProjectReference Include="../DependencyInversion/DependencyInversion.csproj" />
   </ItemGroup>
 

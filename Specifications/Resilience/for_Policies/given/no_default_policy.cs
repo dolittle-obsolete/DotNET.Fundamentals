@@ -2,16 +2,19 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-namespace Dolittle.Resilience
+using Machine.Specifications;
+using Moq;
+using Dolittle.Types;
+
+namespace Dolittle.Resilience.Specs.for_Policies.given
 {
-    /// <summary>
-    /// Defines a system that is capable of defining the default policy for resilience
-    /// </summary>
-    public interface ICanDefineDefaultPolicy
+    public class no_default_policy
     {
-        /// <summary>
-        /// Define the default policy
-        /// </summary>
-        Polly.Policy Define();
+        protected static Policies policies;
+
+        Establish context = () =>
+        {
+            policies = new Policies(new StaticInstancesOf<ICanDefineDefaultPolicy>());
+        };        
     }
 }

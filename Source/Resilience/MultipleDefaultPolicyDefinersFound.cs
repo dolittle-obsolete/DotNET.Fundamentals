@@ -2,16 +2,18 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
+
 namespace Dolittle.Resilience
 {
     /// <summary>
-    /// Defines a system that is capable of defining the default policy for resilience
+    /// Exception that gets thrown if there are multiple implementations of <see cref="ICanDefineDefaultPolicy"/> in the system
     /// </summary>
-    public interface ICanDefineDefaultPolicy
+    public class MultipleDefaultPolicyDefinersFound : Exception
     {
         /// <summary>
-        /// Define the default policy
+        /// Initializes a new instance of <see cref="MultipleDefaultPolicyDefinersFound"/>
         /// </summary>
-        Polly.Policy Define();
+        public MultipleDefaultPolicyDefinersFound() : base("Multiple implementations of ICanDefineDefaultPolicy found - there can be only one") {}
     }
 }

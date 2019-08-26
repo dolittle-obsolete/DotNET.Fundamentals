@@ -20,7 +20,7 @@ namespace Dolittle.Resilience
         /// the default policy. If nothing is <see cref="ICanDefineDefaultPolicy">defining</see>
         /// a default policy, a <see cref="NullPolicy"/> will be returned.
         /// </remarks>
-        IPolicy GetNamed(string name);
+        INamedPolicy GetNamed(string name);
         
         /// <summary>
         /// Get the default policy
@@ -42,6 +42,6 @@ namespace Dolittle.Resilience
         /// the default policy. If nothing is <see cref="ICanDefineDefaultPolicy">defining</see>
         /// a default policy, a <see cref="NullPolicy"/> will be returned.
         /// </remarks>
-        IPolicy GetFor<T>();
+        IPolicyFor<T> GetFor<T>();
     }
 }
