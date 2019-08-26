@@ -32,6 +32,18 @@ public class BindingProvider : ICanProvideBindings
 
         // Callback binding
         builder.Bind<IBar>().To(() => new Bar());
+
+        // Type callback binding
+        builder.Bind<IBar>().To(() => typeof(Bar));
+
+        // Open generic callback binding with binding context
+        builder.Bind<IBarOf<>>().To((bindingContext) => new BarOf(bindingContext.Service));
+
+        // Type callback binding
+        builder.Bind<IBar>().To(() => typeof(Bar));
+
+        // Open generic callback binding with binding context
+        builder.Bind<IBarOf<>>().To((bindingContext) => typeof(BarOf<>).MakeGenericType(bindingContext.Service));
     }
 }
 ```
