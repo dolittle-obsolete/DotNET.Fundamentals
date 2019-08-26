@@ -85,7 +85,7 @@ namespace Dolittle.Resilience
         {
             ThrowIfMultipleDefaultPoilicyDefinersAreFound();
             var underlyingPolicy = _defaultPolicyDefiners.FirstOrDefault()?.Define();
-            var policy = underlyingPolicy != null ? (IPolicy) new Policy(underlyingPolicy) : new NullPolicy();
+            var policy = underlyingPolicy != null ? (IPolicy) new Policy(underlyingPolicy) : new PassThroughPolicy();
 
             return policy;
         }

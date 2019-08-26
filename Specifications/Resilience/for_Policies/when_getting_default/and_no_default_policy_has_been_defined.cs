@@ -12,6 +12,6 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_getting_default
 
         Because of = () => policy = policies.Default;
 
-        It should_return_a_null_policy = () => policy.ShouldBeOfExactType<NullPolicy>();
+        It should_return_a_null_policy = () => policy.ShouldBeOfExactType<PassThroughPolicy>();
     }
 }

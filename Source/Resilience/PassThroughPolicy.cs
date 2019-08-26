@@ -9,7 +9,12 @@ namespace Dolittle.Resilience
     /// <summary>
     /// Represents a null implementation of <see cref="IPolicy"/>
     /// </summary>
-    public class NullPolicy : IPolicy
+    /// <remarks>
+    /// This policy does nothing, just passes through the calls.
+    /// If no default policy is defined, this is the policy that typically will be used as the
+    /// default policy.
+    /// </remarks>
+    public class PassThroughPolicy : IPolicy
     {
         /// <inheritdoc/>
         public void Execute(Action action)
