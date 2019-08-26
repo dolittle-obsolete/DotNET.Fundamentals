@@ -1,4 +1,8 @@
+using System;
+using System.Linq;
+using Dolittle.Time;
 using Machine.Specifications;
+
 namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_with_an_enumerable.for_enumerable_with_complex_elements
 {
     public class when_building_immutable_with_enumerable : given.an_object_factory
@@ -10,9 +14,9 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
         Establish context = () => 
         {
             factory = instance;
-            enumerable_type = new ImmutableWithEnumerableWithComplexType(new MutableTypeWithDefaultConstructor[]
+            enumerable_type = new ImmutableWithEnumerableWithComplexType(new ComplexImmutableWithMultipleParameterConstructor[]
             {
-                new MutableTypeWithDefaultConstructor(){IntProperty = 2}
+                new ComplexImmutableWithMultipleParameterConstructor(2,"Two", DateTime.Now, new ImmutableWithMultipleParameterConstructor(3,"three", DateTime.Now, null))
             });
             source = enumerable_type.ToPropertyBag();
         };
@@ -23,6 +27,17 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
 
         It enumerable_should_not_be_null = () => result.Enumerable.ShouldNotBeNull();
 
-        //TODO: CHeck the actual content of the Enumerable
+        It should_have_the_correct_values_in_the_enumerable = () =>
+        {
+            var complex = result.Enumerable.First();
+            var orig = enumerable_type.Enumerable.First();
+
+            complex.DateTimeProperty.LossyEquals(orig.DateTimeProperty).ShouldBeTrue();
+            complex.Nested.DateTimeProperty.LossyEquals(orig.Nested.DateTimeProperty).ShouldBeTrue();
+            complex.Nested.NullableDateTime.ShouldBeNull();
+            orig.Nested.NullableDateTime.ShouldBeNull();
+            complex.Nested.IntProperty.ShouldEqual(orig.Nested.IntProperty);
+            complex.Nested.StringProperty.ShouldEqual(orig.Nested.StringProperty);
+        };
     }
 }

@@ -34,14 +34,23 @@ namespace Dolittle.Build
             _serializer = serializer;
             _buildMessages = buildMessages;
         }
-        
 
         /// <inheritdoc/>
         public void Initialize(string jsonFile)
         {
-            _buildMessages.Information($"Initializing from file '${jsonFile}'");
-            var json = _fileSystem.ReadAllText(jsonFile);
-            _configObjects = _serializer.GetKeyValuesFromJson(json);
+            var json = string.Empty;
+
+            try
+            {
+                _buildMessages.Information($"Initializing from file '${jsonFile}'");
+                json = _fileSystem.ReadAllText(jsonFile);
+                _configObjects = _serializer.GetKeyValuesFromJson(json);
+            }
+            catch (Exception ex)
+            {
+                _buildMessages.Error($"Error when initializing '{jsonFile}', content: '{json}'");
+                throw ex;
+            }
         }
 
         /// <inheritdoc/>

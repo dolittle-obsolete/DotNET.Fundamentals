@@ -4,10 +4,10 @@ namespace Dolittle.PropertyBags.Specs
 {
     public class ImmutableWithEnumerableWithComplexType
     {
-        public ImmutableWithEnumerableWithComplexType(IEnumerable<MutableTypeWithDefaultConstructor> enumerable)
+        public ImmutableWithEnumerableWithComplexType(IEnumerable<ComplexImmutableWithMultipleParameterConstructor> enumerable)
         {
             Enumerable = enumerable;
         }
-        public IEnumerable<MutableTypeWithDefaultConstructor> Enumerable{get; }
+        public IEnumerable<ComplexImmutableWithMultipleParameterConstructor> Enumerable{get; }
     }
 }
