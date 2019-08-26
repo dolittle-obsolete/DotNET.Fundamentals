@@ -5,7 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Dolittle.Types
+namespace Dolittle.Types.Testing
 {
     /// <summary>
     /// Represents an implementation of <see cref="IInstancesOf{T}"/> for static purposes
