@@ -12,9 +12,9 @@ namespace Dolittle.DependencyInversion
     public class BindingContext
     {
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="BindingContext"/>
         /// </summary>
-        /// <param name="service"></param>
+        /// <param name="service"><see cref="Type">Service type</see> the context is for</param>
         public BindingContext(Type service)
         {
             Service = service;
