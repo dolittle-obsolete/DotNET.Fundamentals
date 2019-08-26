@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Build/MSBuild/specs.props"/>
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Dolittle.Versioning.Specs</AssemblyName>
   </PropertyGroup>
+
+  <Import Project="../../Build/MSBuild/specs.props"/>
   
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Versioning\Versioning.csproj" />
