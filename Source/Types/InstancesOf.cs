@@ -9,6 +9,7 @@ using Dolittle.DependencyInversion;
 
 namespace Dolittle.Types
 {
+
     /// <summary>
     /// Represents an implementation of <see cref="IInstancesOf{T}"/>
     /// </summary>
