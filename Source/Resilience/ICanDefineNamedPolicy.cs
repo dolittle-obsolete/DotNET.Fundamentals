@@ -2,18 +2,17 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Polly;
 
 namespace Dolittle.Resilience
 {
     /// <summary>
-    /// Defines a system that is capable of defining the default policy for resilience
+    /// Defines a system that is capable of defining a named resilience policy  
     /// </summary>
-    public interface ICanDefineDefaultPolicy
+    public interface ICanDefineNamedPolicy
     {
         /// <summary>
-        /// Define the default policy
+        /// Gets the name of the policy
         /// </summary>
-        Policy Define();
+        string Name { get; }
     }
 }

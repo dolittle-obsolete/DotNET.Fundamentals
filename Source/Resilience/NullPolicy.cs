@@ -2,32 +2,25 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Dolittle.Lifecycle;
+using System;
 
 namespace Dolittle.Resilience
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IPolicies"/>
+    /// Represents a null implementation of <see cref="IPolicy"/>
     /// </summary>
-    [Singleton]
-    public class Policies : IPolicies
+    public class NullPolicy : IPolicy
     {
         /// <inheritdoc/>
-        public IPolicy GetDefault()
+        public void Execute(Action action)
         {
-            throw new System.NotImplementedException();
+            action();
         }
 
         /// <inheritdoc/>
-        public IPolicy GetFor<T>()
+        public TResult Execute<TResult>(Func<TResult> action)
         {
-            throw new System.NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IPolicy GetNamed(string name)
-        {
-            throw new System.NotImplementedException();
+            return action();
         }
     }
 }

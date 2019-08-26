@@ -7,12 +7,12 @@ using Polly;
 namespace Dolittle.Resilience
 {
     /// <summary>
-    /// Defines a system that is capable of defining the default policy for resilience
+    /// Defines a system that is capable of defining a policy
     /// </summary>
-    public interface ICanDefineDefaultPolicy
+    public interface ICanDefinePolicy
     {
         /// <summary>
-        /// Define the default policy
+        /// Define the policy
         /// </summary>
         Policy Define();
     }
