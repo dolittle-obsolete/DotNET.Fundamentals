@@ -10,10 +10,13 @@ using It=Machine.Specifications.It;
 
 namespace Dolittle.Resilience.Specs.for_Policies.when_getting_typed
 {
-    public class and_policy_for_type_is_defined : given.defined_default_policy
+    public class and_policy_for_type_is_defined
     {
         static Type type = typeof(string);
         static PolicyFor<string> typed_policy;
+        static Polly.Policy underlying_policy;
+
+        static Policies policies;
 
         static Mock<IDefinePolicyForType> typed_policy_definer;
 
@@ -23,10 +26,9 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_getting_typed
             typed_policy_definer = new Mock<IDefinePolicyForType>();
             typed_policy_definer.SetupGet(_ => _.Type).Returns(type);
             typed_policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
-            policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
             
             policies = new Policies(
-                new StaticInstancesOf<IDefineDefaultPolicy>(policy_definer.Object),
+                new StaticInstancesOf<IDefineDefaultPolicy>(),
                 new StaticInstancesOf<IDefineNamedPolicy>(),
                 new StaticInstancesOf<IDefinePolicyForType>(typed_policy_definer.Object)
             );

@@ -9,10 +9,14 @@ using It=Machine.Specifications.It;
 
 namespace Dolittle.Resilience.Specs.for_Policies.when_getting_named
 {
-    public class and_policy_for_name_is_defined : given.defined_default_policy
+    public class and_policy_for_name_is_defined
     {
         const string name = "Fourty Two";
         static NamedPolicy named_policy;
+
+        static Polly.Policy underlying_policy;
+
+        static Policies policies;
 
         static Mock<IDefineNamedPolicy> named_policy_definer;
 
@@ -22,10 +26,9 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_getting_named
             named_policy_definer = new Mock<IDefineNamedPolicy>();
             named_policy_definer.SetupGet(_ => _.Name).Returns(name);
             named_policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
-            policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
             
             policies = new Policies(
-                new StaticInstancesOf<IDefineDefaultPolicy>(policy_definer.Object),
+                new StaticInstancesOf<IDefineDefaultPolicy>(),
                 new StaticInstancesOf<IDefineNamedPolicy>(named_policy_definer.Object),
                 new StaticInstancesOf<IDefinePolicyForType>()
             );
