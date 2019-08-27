@@ -5,13 +5,7 @@
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Defines the basics mechanism of a trigger
+    /// The callback for a trigger when it gets triggered
     /// </summary>
-    public interface ITrigger
-    {
-        /// <summary>
-        /// The event that gets called when the trigger triggers
-        /// </summary>
-        event Triggered Triggered;
-    }
+    public delegate void Triggered(TriggerContext context);
 }

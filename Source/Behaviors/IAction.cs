@@ -5,13 +5,15 @@
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Defines the basics mechanism of a trigger
+    /// Defines the basics of an action that gets performed as the consequence of a <see cref="ITrigger"/> or
+    /// part of a <see cref="IBehavior"/>
     /// </summary>
-    public interface ITrigger
+    public interface IAction
     {
         /// <summary>
-        /// The event that gets called when the trigger triggers
+        /// Performs the action
         /// </summary>
-        event Triggered Triggered;
+        void Perform();
+
     }
 }

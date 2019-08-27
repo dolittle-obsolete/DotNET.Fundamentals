@@ -5,13 +5,10 @@
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Defines the basics mechanism of a trigger
+    /// Represents the context for a <see cref="ITrigger"/>
     /// </summary>
-    public interface ITrigger
+    public class TriggerContext
     {
-        /// <summary>
-        /// The event that gets called when the trigger triggers
-        /// </summary>
-        event Triggered Triggered;
+
     }
 }

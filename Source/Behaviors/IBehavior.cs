@@ -5,13 +5,14 @@
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Defines the basics mechanism of a trigger
+    /// Defines a behavior of a system
     /// </summary>
-    public interface ITrigger
+    /// <remarks>
+    /// Typically a behavior is a set of triggers with actions associated with it. More complex
+    /// scenarios one wants to capture that triggers one or more <see cref="IAction">actions</see>
+    /// </remarks>
+    public interface IBehavior
     {
-        /// <summary>
-        /// The event that gets called when the trigger triggers
-        /// </summary>
-        event Triggered Triggered;
+
     }
 }
