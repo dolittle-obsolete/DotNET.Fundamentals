@@ -14,7 +14,7 @@ namespace Dolittle.Resilience
         /// Gets the default <see cref="IPolicy"/>
         /// </summary>
         /// <remarks>
-        /// If nothing is <see cref="ICanDefineDefaultPolicy">defining</see>
+        /// If nothing is <see cref="IDefineDefaultPolicy">defining</see>
         /// a default policy, a <see cref="PassThroughPolicy"/> will be returned.
         /// </remarks>
         IPolicy Default { get; }
@@ -26,7 +26,7 @@ namespace Dolittle.Resilience
         /// <returns><see cref="IPolicy"/> to use</returns>
         /// <remarks>
         /// If there is no policy with the given name, the system will return whatever is 
-        /// the default policy. If nothing is <see cref="ICanDefineDefaultPolicy">defining</see>
+        /// the default policy. If nothing is <see cref="IDefineDefaultPolicy">defining</see>
         /// a default policy, a <see cref="PassThroughPolicy"/> will be returned.
         /// </remarks>
         INamedPolicy GetNamed(string name);
@@ -39,7 +39,7 @@ namespace Dolittle.Resilience
         /// <returns><see cref="IPolicy"/> to use</returns>
         /// <remarks>
         /// If there is no policy with the given name, the system will return whatever is 
-        /// the default policy. If nothing is <see cref="ICanDefineDefaultPolicy">defining</see>
+        /// the default policy. If nothing is <see cref="IDefineDefaultPolicy">defining</see>
         /// a default policy, a <see cref="PassThroughPolicy"/> will be returned.
         /// </remarks>
         IPolicyFor<T> GetFor<T>();

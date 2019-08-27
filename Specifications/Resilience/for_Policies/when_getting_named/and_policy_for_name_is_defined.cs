@@ -14,20 +14,20 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_getting_named
         const string name = "Fourty Two";
         static NamedPolicy named_policy;
 
-        static Mock<ICanDefineNamedPolicy> named_policy_definer;
+        static Mock<IDefineNamedPolicy> named_policy_definer;
 
         Establish context = () => 
         {
             underlying_policy = Polly.Policy.NoOp();
-            named_policy_definer = new Mock<ICanDefineNamedPolicy>();
+            named_policy_definer = new Mock<IDefineNamedPolicy>();
             named_policy_definer.SetupGet(_ => _.Name).Returns(name);
             named_policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
             policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
             
             policies = new Policies(
-                new StaticInstancesOf<ICanDefineDefaultPolicy>(policy_definer.Object),
-                new StaticInstancesOf<ICanDefineNamedPolicy>(named_policy_definer.Object),
-                new StaticInstancesOf<ICanDefinePolicyForType>()
+                new StaticInstancesOf<IDefineDefaultPolicy>(policy_definer.Object),
+                new StaticInstancesOf<IDefineNamedPolicy>(named_policy_definer.Object),
+                new StaticInstancesOf<IDefinePolicyForType>()
             );
         };
 

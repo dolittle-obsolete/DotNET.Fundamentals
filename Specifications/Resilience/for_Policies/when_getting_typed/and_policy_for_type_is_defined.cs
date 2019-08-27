@@ -15,20 +15,20 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_getting_typed
         static Type type = typeof(string);
         static PolicyFor<string> typed_policy;
 
-        static Mock<ICanDefinePolicyForType> typed_policy_definer;
+        static Mock<IDefinePolicyForType> typed_policy_definer;
 
         Establish context = () => 
         {
             underlying_policy = Polly.Policy.NoOp();
-            typed_policy_definer = new Mock<ICanDefinePolicyForType>();
+            typed_policy_definer = new Mock<IDefinePolicyForType>();
             typed_policy_definer.SetupGet(_ => _.Type).Returns(type);
             typed_policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
             policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
             
             policies = new Policies(
-                new StaticInstancesOf<ICanDefineDefaultPolicy>(policy_definer.Object),
-                new StaticInstancesOf<ICanDefineNamedPolicy>(),
-                new StaticInstancesOf<ICanDefinePolicyForType>(typed_policy_definer.Object)
+                new StaticInstancesOf<IDefineDefaultPolicy>(policy_definer.Object),
+                new StaticInstancesOf<IDefineNamedPolicy>(),
+                new StaticInstancesOf<IDefinePolicyForType>(typed_policy_definer.Object)
             );
         };
 

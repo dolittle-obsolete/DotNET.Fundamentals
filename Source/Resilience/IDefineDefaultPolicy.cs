@@ -7,7 +7,7 @@ namespace Dolittle.Resilience
     /// <summary>
     /// Defines a system that is capable of defining the default policy for resilience
     /// </summary>
-    public interface ICanDefineDefaultPolicy
+    public interface IDefineDefaultPolicy
     {
         /// <summary>
         /// Define the default policy

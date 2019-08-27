@@ -17,7 +17,7 @@ defined, a pass-through policy will be used.
 ## Defining the default policy
 
 To define the default policy, all you need to do is add a C# class to your
-project that implements the `ICanDefineDefaultPolicy` interface.
+project that implements the `IDefineDefaultPolicy` interface.
 From this, you leverage the API of [The Polly Project](https://github.com/App-vNext/Polly/wiki)
 and return the actual policy or sets of policies that will be used.
 
@@ -26,7 +26,7 @@ Below is an example of something that will add a default policy:
 ```csharp
 using Dolittle.Resilience;
 
-public class DefaultPolicyDefiner : ICanDefineDefaultPolicy
+public class DefaultPolicyDefiner : IDefineDefaultPolicy
 {
     public Polly.Policy Define()
     {

@@ -11,18 +11,18 @@ namespace Dolittle.Resilience.Specs.for_Policies.given
     public class defined_default_policy
     {
         protected static Policies policies;
-        protected static Mock<ICanDefineDefaultPolicy> policy_definer;
+        protected static Mock<IDefineDefaultPolicy> policy_definer;
         protected static Polly.Policy underlying_policy;
 
         Establish context = () =>
         {
-            policy_definer = new Mock<ICanDefineDefaultPolicy>();
+            policy_definer = new Mock<IDefineDefaultPolicy>();
             underlying_policy = Polly.Policy.NoOp();
             policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
             policies = new Policies(
-                new StaticInstancesOf<ICanDefineDefaultPolicy>(policy_definer.Object),
-                new StaticInstancesOf<ICanDefineNamedPolicy>(),
-                new StaticInstancesOf<ICanDefinePolicyForType>()
+                new StaticInstancesOf<IDefineDefaultPolicy>(policy_definer.Object),
+                new StaticInstancesOf<IDefineNamedPolicy>(),
+                new StaticInstancesOf<IDefinePolicyForType>()
             );
         };        
     }

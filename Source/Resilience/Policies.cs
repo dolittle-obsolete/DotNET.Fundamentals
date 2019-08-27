@@ -22,22 +22,22 @@ namespace Dolittle.Resilience
     [Singleton]
     public class Policies : IPolicies
     {
-        readonly IInstancesOf<ICanDefineDefaultPolicy> _defaultPolicyDefiners;
-        readonly IInstancesOf<ICanDefineNamedPolicy> _namedPolicyDefiners;
-        readonly IInstancesOf<ICanDefinePolicyForType> _typedPolicyDefiners;
+        readonly IInstancesOf<IDefineDefaultPolicy> _defaultPolicyDefiners;
+        readonly IInstancesOf<IDefineNamedPolicy> _namedPolicyDefiners;
+        readonly IInstancesOf<IDefinePolicyForType> _typedPolicyDefiners;
         readonly IDictionary<string, INamedPolicy> _namedPolicies = new Dictionary<string, INamedPolicy>();
         readonly IDictionary<Type, IPolicy> _typedPolicies = new Dictionary<Type, IPolicy>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="Policies"/>
         /// </summary>
-        /// <param name="defaultPolicyDefiners">Instances of <see cref="ICanDefineDefaultPolicy">default policy definers</see></param>
-        /// <param name="namedPolicyDefiners">Instances of <see cref="ICanDefineNamedPolicy">named policy definers</see></param>
-        /// <param name="typedPolicyDefiners">Instances of <see cref="ICanDefinePolicyForType">typed policy definers</see></param>
+        /// <param name="defaultPolicyDefiners">Instances of <see cref="IDefineDefaultPolicy">default policy definers</see></param>
+        /// <param name="namedPolicyDefiners">Instances of <see cref="IDefineNamedPolicy">named policy definers</see></param>
+        /// <param name="typedPolicyDefiners">Instances of <see cref="IDefinePolicyForType">typed policy definers</see></param>
         public Policies(
-            IInstancesOf<ICanDefineDefaultPolicy> defaultPolicyDefiners,
-            IInstancesOf<ICanDefineNamedPolicy> namedPolicyDefiners,
-            IInstancesOf<ICanDefinePolicyForType> typedPolicyDefiners)
+            IInstancesOf<IDefineDefaultPolicy> defaultPolicyDefiners,
+            IInstancesOf<IDefineNamedPolicy> namedPolicyDefiners,
+            IInstancesOf<IDefinePolicyForType> typedPolicyDefiners)
         {
             _defaultPolicyDefiners = defaultPolicyDefiners;
             _namedPolicyDefiners = namedPolicyDefiners;

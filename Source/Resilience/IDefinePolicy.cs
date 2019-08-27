@@ -9,7 +9,7 @@ namespace Dolittle.Resilience
     /// <summary>
     /// Defines a system that is capable of defining a policy
     /// </summary>
-    public interface ICanDefinePolicy
+    public interface IDefinePolicy
     {
         /// <summary>
         /// Define the policy
