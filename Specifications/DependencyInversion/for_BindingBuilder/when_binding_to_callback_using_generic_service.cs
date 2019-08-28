@@ -7,7 +7,7 @@ namespace Dolittle.DependencyInversion.for_BindingBuilder
     {
         const string return_value = "Fourty Two";
         static Binding result;
-        static Func<object> callback = () => return_value;
+        static Func<string> callback = () => return_value;
 
         Because of = () => 
         {
@@ -15,7 +15,7 @@ namespace Dolittle.DependencyInversion.for_BindingBuilder
             result = builder.Build();
         };
 
-        It should_have_a_callback_strategy = () => result.Strategy.ShouldBeOfExactType<Strategies.Callback<object>>();
+        It should_have_a_callback_strategy = () => result.Strategy.ShouldBeOfExactType<Strategies.Callback<string>>();
         It should_forward_to_given_callback_when_called = () => ((Strategies.Callback)result.Strategy).Target().ShouldEqual(return_value);
         It should_have_transient_scope = () => result.Scope.ShouldBeAssignableTo<Scopes.Transient>();
     }
