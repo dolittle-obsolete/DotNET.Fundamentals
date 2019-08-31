@@ -6,7 +6,7 @@
 namespace Dolittle.Grpc
 {
     /// <summary>
-    /// Represents the configuration for a 
+    /// Represents the configuration typically used by a <see cref="IHost"/>
     /// </summary>
     public class HostConfiguration
     {
