@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc" Version="1.8.0" />
+    <PackageReference Include="Grpc" Version="2.23.0" />
   </ItemGroup>
 
 </Project>
