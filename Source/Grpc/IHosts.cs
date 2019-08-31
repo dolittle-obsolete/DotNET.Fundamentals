@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 
 namespace Dolittle.Grpc
 {
@@ -15,5 +16,11 @@ namespace Dolittle.Grpc
         /// Start all the hosts
         /// </summary>
         void Start();
+
+        /// <summary>
+        /// Get all the hosts set up in the process
+        /// </summary>
+        /// <returns>Collection of <see cref="HostInfo"/></returns>
+        IEnumerable<HostInfo> GetHosts();
     }
 }

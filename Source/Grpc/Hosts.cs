@@ -19,12 +19,6 @@ namespace Dolittle.Grpc
     [Singleton]
     public class Hosts : IHosts
     {
-        class HostInfo
-        {
-            public string Identifier;
-            public HostConfiguration Configuration;
-        }
-
         readonly IDictionary<Type, HostInfo> _bindersWithConfigAccessor = new Dictionary<Type, HostInfo>();
 
         readonly IList<IHost> _hosts = new List<IHost>();
@@ -45,10 +39,10 @@ namespace Dolittle.Grpc
             IContainer container,
             ILogger logger)
         {
-            hostTypes.ForEach(_ => 
-                _bindersWithConfigAccessor[_.BindingInterface] = 
-                    new HostInfo { Identifier = _.Identifier, Configuration = _.Configuration }
-                );
+            hostTypes.ForEach(_ =>
+                _bindersWithConfigAccessor[_.BindingInterface] =
+                new HostInfo(_.Identifier, _.Configuration)
+            );
 
             _typeFinder = typeFinder;
             _container = container;
@@ -78,7 +72,7 @@ namespace Dolittle.Grpc
             {
                 if (hostInfo.Configuration.Enabled)
                 {
-                    _logger.Information($"Preparing host for {hostInfo.Identifier}");
+                    _logger.Information($"Preparing host for {hostInfo.HostType}");
 
                     var binders = _typeFinder.FindMultiple(type);
                     binders.ForEach(_ =>
@@ -88,15 +82,21 @@ namespace Dolittle.Grpc
                         var services = binder.BindServices();
                         _logger.Information($"  {services.Count()} will be added");
                         var host = _container.Get<IHost>();
-                        host.Start(hostInfo.Identifier, hostInfo.Configuration, services);
+                        host.Start(hostInfo.HostType, hostInfo.Configuration, services);
                         _hosts.Add(host);
                     });
                 }
                 else
                 {
-                    _logger.Information($"{hostInfo.Identifier} host is disabled");
+                    _logger.Information($"{hostInfo.HostType} host is disabled");
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<HostInfo> GetHosts()
+        {
+            return _bindersWithConfigAccessor.Values;
         }
     }
 }
