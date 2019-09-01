@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="../Booting/Booting.csproj"/>
     <ProjectReference Include="../Concepts/Concepts.csproj"/>
+    <ProjectReference Include="../Configuration/Configuration.csproj"/>
     <ProjectReference Include="../Types/Types.csproj"/>
   </ItemGroup>
 
