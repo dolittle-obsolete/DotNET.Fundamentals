@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Booting;
 using Dolittle.Collections;
-using Dolittle.DependencyInversion;
 using Dolittle.Immutability;
 using Dolittle.Logging;
 using Dolittle.Types;
