@@ -15,16 +15,21 @@ namespace Dolittle.Grpc
     public class ManagementServicesHostType : IRepresentHostType
     {
         /// <summary>
+        /// Gets the identifying name for the <see cref="ManagementServicesHostType"/>
+        /// </summary>
+        public const string Name = "Management";
+
+        /// <summary>
         /// Initializes a new instance of <see cref="ManagementServicesHostType"/>
         /// </summary>
         /// <param name="configuration"><see cref="HostsConfiguration"/> containing the <see cref="HostConfiguration"/> for the host type</param>
         public ManagementServicesHostType(HostsConfiguration configuration)
         {
-            Configuration = configuration.ContainsKey(Identifier)?configuration[Identifier]:new HostConfiguration(50052);
+            Configuration = configuration.ContainsKey(Identifier)?configuration[Identifier]:HostsConfigurationDefaultProvider.ManagementHostTypeDefaultConfiguration;
         }
 
         /// <inheritdoc/>
-        public HostType Identifier => "Interaction";
+        public HostType Identifier => Name;
 
         /// <inheritdoc/>
         public Type BindingInterface => typeof(ICanBindManagementServices);

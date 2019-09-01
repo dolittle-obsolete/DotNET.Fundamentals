@@ -12,10 +12,16 @@ namespace Dolittle.Grpc
     /// </summary>
     public class HostsConfigurationDefaultProvider : ICanProvideDefaultConfigurationFor<HostsConfiguration>
     {
+        internal static HostConfiguration ManagementHostTypeDefaultConfiguration = new HostConfiguration(50052);
+
         /// <inheritdoc/>
         public HostsConfiguration Provide()
         {
-            return new HostsConfiguration(new Dictionary<HostType, HostConfiguration>());
+            var configurations = new Dictionary<HostType, HostConfiguration>
+            {
+                [ManagementServicesHostType.Name] = ManagementHostTypeDefaultConfiguration
+            };
+            return new HostsConfiguration(configurations);
         }
     }
 }
