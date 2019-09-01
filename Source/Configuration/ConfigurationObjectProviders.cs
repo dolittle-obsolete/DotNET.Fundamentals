@@ -69,7 +69,7 @@ namespace Dolittle.Configuration
             var providerType = typeof(ICanProvideDefaultConfigurationFor<>).MakeGenericType(type);
             var actualTypes = _typeFinder.FindMultiple(providerType);
             ThrowIfMultipleDefaultProvidersFound(type, actualTypes);
-            if (actualTypes.Count() == 1) actualTypes.First();
+            if (actualTypes.Count() == 1) return true;
             return false;
         }
 
