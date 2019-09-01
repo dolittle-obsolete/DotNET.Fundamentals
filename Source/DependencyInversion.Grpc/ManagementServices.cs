@@ -14,22 +14,22 @@ namespace Dolittle.DependencyInversion.Grpc
     /// </summary>
     public class ManagementServices : ICanBindManagementServices
     {
-        readonly BindingCollection _bindings;
+        readonly ContainerService _containerService;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ManagementServices"/>
         /// </summary>
-        /// <param name="bindings">All available <see cref="BindingCollection">bindings</see></param>
-        public ManagementServices(BindingCollection bindings)
+        /// <param name="containerService">The <see cref="ContainerService"/></param>
+        public ManagementServices(ContainerService containerService)
         {
-            _bindings = bindings;
+            _containerService = containerService;
         }
 
         /// <inheritdoc/>
         public IEnumerable<ServerServiceDefinition> BindServices()
         {
             return new ServerServiceDefinition[] {
-                Container.BindService(new ContainerService(_bindings))
+                Container.BindService(_containerService)
             };
         }       
     }
