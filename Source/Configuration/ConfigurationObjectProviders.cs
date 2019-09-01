@@ -77,7 +77,8 @@ namespace Dolittle.Configuration
         object ProvideDefaultConfigurationFor(Type type)
         {
             var providerType = typeof(ICanProvideDefaultConfigurationFor<>).MakeGenericType(type);
-            var instance = _container.Get(providerType);
+            var actualType = _typeFinder.FindSingle(providerType);
+            var instance = _container.Get(actualType);
             var method = instance.GetType().GetMethod("Provide", BindingFlags.Public|BindingFlags.Instance);
             var result = method.Invoke(instance, null);
             return result;
