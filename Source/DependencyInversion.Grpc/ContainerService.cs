@@ -14,17 +14,14 @@ namespace Dolittle.DependencyInversion.Grpc
     /// </summary>
     public class ContainerService : ContainerBase
     {
-        readonly BindingCollection _bindings;
         readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of <see cref="BindingCollection"/>
         /// </summary>
-        /// <param name="bindings">A <see cref="BindingCollection"/> with all bindings</param>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
-        public ContainerService(BindingCollection bindings, ILogger logger)
+        public ContainerService(ILogger logger)
         {
-            _bindings = bindings;
             _logger = logger;
         }
 
@@ -34,7 +31,7 @@ namespace Dolittle.DependencyInversion.Grpc
             _logger.Information("Getting all bindings");
 
             var bindings = new Bindings();
-            bindings.Bindings_.AddRange(_bindings);
+            bindings.Bindings_.AddRange(PostContainerBootStage.AllBindings);
             return Task.FromResult(bindings);
         }
     }

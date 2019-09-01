@@ -11,8 +11,10 @@ namespace Dolittle.DependencyInversion.Grpc
     /// <summary>
     /// System that gets run before the <see cref="BootStage.Container"/> boot stage
     /// </summary>
-    public class PreContainerBootStage : ICanRunBeforeBootStage<ContainerSettings>
+    public class PostContainerBootStage : ICanRunAfterBootStage<ContainerSettings>
     {
+        internal static BindingCollection AllBindings;
+
         /// <inheritdoc/>
         public BootStage BootStage => BootStage.Container;
 
@@ -20,8 +22,7 @@ namespace Dolittle.DependencyInversion.Grpc
         public void Perform(ContainerSettings settings, IBootStageBuilder builder)
         {
             var bindings = builder.GetAssociation(WellKnownAssociations.Bindings) as IBindingCollection;
-            var allBindings = new BindingCollection(bindings.ToArray());
-            builder.Bindings.Bind<BindingCollection>().To(allBindings);
+            AllBindings = new BindingCollection(bindings.ToArray());
         }
     }
 }
