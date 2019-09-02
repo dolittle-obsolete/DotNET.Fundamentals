@@ -3,8 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using Dolittle.Hosting;
 
-namespace Dolittle.Hosting
+namespace Dolittle.Management
 {
     /// <summary>
     /// Represents a <see cref="IRepresentHostType">host type</see> that is for management communication
@@ -14,6 +15,15 @@ namespace Dolittle.Hosting
     /// </remarks>
     public class ManagementServicesHostType : IRepresentHostType
     {
+        static HostConfiguration _defaultHostConfiguration;
+
+        static ManagementServicesHostType()
+        {
+            _defaultHostConfiguration = new HostConfiguration(50052);
+            HostsConfigurationDefaultProvider.Configurations[ManagementServicesHostType.Name] = _defaultHostConfiguration;
+        }
+
+
         /// <summary>
         /// Gets the identifying name for the <see cref="ManagementServicesHostType"/>
         /// </summary>
@@ -25,7 +35,7 @@ namespace Dolittle.Hosting
         /// <param name="configuration"><see cref="HostsConfiguration"/> containing the <see cref="HostConfiguration"/> for the host type</param>
         public ManagementServicesHostType(HostsConfiguration configuration)
         {
-            Configuration = configuration.ContainsKey(Identifier)?configuration[Identifier]:HostsConfigurationDefaultProvider.ManagementHostTypeDefaultConfiguration;
+            Configuration = configuration.ContainsKey(Identifier)?configuration[Identifier]:_defaultHostConfiguration;
         }
 
         /// <inheritdoc/>

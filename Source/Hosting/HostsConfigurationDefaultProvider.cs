@@ -12,16 +12,15 @@ namespace Dolittle.Hosting
     /// </summary>
     public class HostsConfigurationDefaultProvider : ICanProvideDefaultConfigurationFor<HostsConfiguration>
     {
-        internal static HostConfiguration ManagementHostTypeDefaultConfiguration = new HostConfiguration(50052);
+        /// <summary>
+        /// Accesses the static configurations for providing default <see cref="HostConfiguration"/> for different <see cref="HostType">host types</see>
+        /// </summary>
+        public readonly static Dictionary<HostType, HostConfiguration> Configurations = new Dictionary<HostType, HostConfiguration>();       
 
         /// <inheritdoc/>
         public HostsConfiguration Provide()
         {
-            var configurations = new Dictionary<HostType, HostConfiguration>
-            {
-                [ManagementServicesHostType.Name] = ManagementHostTypeDefaultConfiguration
-            };
-            return new HostsConfiguration(configurations);
+            return new HostsConfiguration(Configurations);
         }
     }
 }
