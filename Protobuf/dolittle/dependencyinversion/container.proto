@@ -6,7 +6,7 @@ syntax = "proto3";
 
 package dolittle.dependencyinversion;
 
-option csharp_namespace = "Dolittle.DependencyInversion.Grpc";
+option csharp_namespace = "Dolittle.DependencyInversion.Management.Grpc";
 
 message GetBindingsRequest {}
 
