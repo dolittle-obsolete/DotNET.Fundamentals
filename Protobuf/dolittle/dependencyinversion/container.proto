@@ -18,7 +18,7 @@ message Binding {
 }
 
 message Bindings {
-    repeated Binding bindings = 1;
+    repeated Binding Bindings = 1;
 }
 
 // Represents the IoC container
