@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Dolittle.Management;
-using Grpc.Core;
 using Dolittle.DependencyInversion.Management.Grpc;
+using Dolittle.Hosting;
 
 namespace Dolittle.DependencyInversion.Management
 {
@@ -27,10 +27,10 @@ namespace Dolittle.DependencyInversion.Management
         }
 
         /// <inheritdoc/>
-        public IEnumerable<ServerServiceDefinition> BindServices()
+        public IEnumerable<Service> BindServices()
         {
-            return new ServerServiceDefinition[] {
-                Container.BindService(_containerService)
+            return new [] {
+                new Service(Container.BindService(_containerService), Container.Descriptor)
             };
         }       
     }

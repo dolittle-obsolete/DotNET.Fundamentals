@@ -21,7 +21,7 @@ namespace Dolittle.Hosting.for_Hosts.when_starting
         Because of = () => hosts.Start();
 
         It should_not_bind_services = () => binder.Verify(_ => _.BindServices(), Moq.Times.Never);
-        It should_not_pass_services_to_bound_services = () => bound_services.Verify(_ => _.Register(Moq.It.IsAny<HostType>(), Moq.It.IsAny<IEnumerable<ServerServiceDefinition>>()), Moq.Times.Never);
-        It should_not_start_host = () => host.Verify(_ => _.Start(identifier, configuration, Moq.It.IsAny<IEnumerable<ServerServiceDefinition>>()), Moq.Times.Never);       
+        It should_not_pass_services_to_bound_services = () => bound_services.Verify(_ => _.Register(Moq.It.IsAny<HostType>(), Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Never);
+        It should_not_start_host = () => host.Verify(_ => _.Start(identifier, configuration, Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Never);       
     }
 }

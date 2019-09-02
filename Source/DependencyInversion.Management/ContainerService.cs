@@ -24,6 +24,7 @@ namespace Dolittle.DependencyInversion.Management
         public ContainerService(ILogger logger)
         {
             _logger = logger;
+            
         }
 
         /// <inheritdoc/>

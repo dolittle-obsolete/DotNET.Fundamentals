@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using Grpc.Core;
 
 namespace Dolittle.Hosting
 {
@@ -18,7 +17,7 @@ namespace Dolittle.Hosting
         /// </summary>
         /// <param name="identifier">Identifier of the type of services host is providing</param>
         /// <param name="configuration"><see cref="HostConfiguration"/> for the host</param>
-        /// <param name="services">Collection of <see cref="ServerServiceDefinition"/> to host</param>
-        void Start(string identifier, HostConfiguration configuration, IEnumerable<ServerServiceDefinition> services);
+        /// <param name="services">Collection of <see cref="Service"/> to host</param>
+        void Start(string identifier, HostConfiguration configuration, IEnumerable<Service> services);
     }
 }

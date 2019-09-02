@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using Dolittle.Collections;
 using Dolittle.Logging;
-using Grpc.Core;
 using grpc = Grpc.Core;
 
 namespace Dolittle.Hosting
@@ -43,7 +42,7 @@ namespace Dolittle.Hosting
         }
 
         /// <inheritdoc/>
-        public void Start(string identifier, HostConfiguration configuration, IEnumerable<ServerServiceDefinition> services)
+        public void Start(string identifier, HostConfiguration configuration, IEnumerable<Service> services)
         {
             try
             {
@@ -59,7 +58,7 @@ namespace Dolittle.Hosting
                     .ForEach(_ =>
                         _logger.Information($"Starting {identifier} host on {_.Host}" + (_.Port > 0 ? $" for port {_.Port}" : string.Empty)));
 
-                services.ForEach(_server.Services.Add);
+                services.ForEach(_ => _server.Services.Add(_.ServerDefinition));
 
                 _server.Start();
             }

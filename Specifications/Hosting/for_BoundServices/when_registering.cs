@@ -5,6 +5,7 @@
 using Dolittle.Logging;
 using Grpc.Core;
 using Machine.Specifications;
+using Google.Protobuf.Reflection;
 
 namespace Dolittle.Hosting.for_BoundServices
 {
@@ -13,16 +14,16 @@ namespace Dolittle.Hosting.for_BoundServices
         const string host_type = "My Host Type";
 
         static BoundServices bound_services;
-        static ServerServiceDefinition first_service;
-        static ServerServiceDefinition second_service;
+        static Service  first_service;
+        static Service second_service;
 
 
         Establish context = () => 
         {
             bound_services = new BoundServices(Moq.Mock.Of<ILogger>());
 
-            first_service = ServerServiceDefinition.CreateBuilder().Build();
-            second_service = ServerServiceDefinition.CreateBuilder().Build();
+            first_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
+            second_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
         };
 
         Because of = () => bound_services.Register(host_type, new[] { first_service, second_service });

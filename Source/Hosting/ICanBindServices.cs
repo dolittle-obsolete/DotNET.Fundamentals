@@ -13,9 +13,9 @@ namespace Dolittle.Hosting
     public interface ICanBindServices
     {
         /// <summary>
-        /// Binds the services and returns the <see cref="ServerServiceDefinition"/>
+        /// Binds the services and returns the <see cref="Service"/>
         /// </summary>
-        /// <returns><see cref="IEnumerable{ServerServiceDefinition}">Collection of </see></returns>
-        IEnumerable<ServerServiceDefinition> BindServices();
+        /// <returns><see cref="IEnumerable{Service}">Collection of </see></returns>
+        IEnumerable<Service> BindServices();
     }
 }

@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
 using Dolittle.Lifecycle;
