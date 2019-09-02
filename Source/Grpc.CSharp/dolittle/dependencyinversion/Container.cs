@@ -28,7 +28,7 @@ namespace Dolittle.DependencyInversion.Management.Grpc {
             "bxIcZG9saXR0bGUuZGVwZW5kZW5jeWludmVyc2lvbiIUChJHZXRCaW5kaW5n",
             "c1JlcXVlc3QiUQoHQmluZGluZxIPCgdTZXJ2aWNlGAEgASgJEhAKCFN0cmF0",
             "ZWd5GAIgASgJEhQKDFN0cmF0ZWd5RGF0YRgDIAEoCRINCgVTY29wZRgEIAEo",
-            "CSJDCghCaW5kaW5ncxI3CghiaW5kaW5ncxgBIAMoCzIlLmRvbGl0dGxlLmRl",
+            "CSJDCghCaW5kaW5ncxI3CghCaW5kaW5ncxgBIAMoCzIlLmRvbGl0dGxlLmRl",
             "cGVuZGVuY3lpbnZlcnNpb24uQmluZGluZzJ2CglDb250YWluZXISaQoLR2V0",
             "QmluZGluZ3MSMC5kb2xpdHRsZS5kZXBlbmRlbmN5aW52ZXJzaW9uLkdldEJp",
             "bmRpbmdzUmVxdWVzdBomLmRvbGl0dGxlLmRlcGVuZGVuY3lpbnZlcnNpb24u",
@@ -394,7 +394,7 @@ namespace Dolittle.DependencyInversion.Management.Grpc {
       return new Bindings(this);
     }
 
-    /// <summary>Field number for the "bindings" field.</summary>
+    /// <summary>Field number for the "Bindings" field.</summary>
     public const int Bindings_FieldNumber = 1;
     private static readonly pb::FieldCodec<global::Dolittle.DependencyInversion.Management.Grpc.Binding> _repeated_bindings_codec
         = pb::FieldCodec.ForMessage(10, global::Dolittle.DependencyInversion.Management.Grpc.Binding.Parser);
