@@ -18,7 +18,9 @@ namespace Dolittle.Hosting.given
 
         protected static Mock<IContainer> container;
         protected static Mock<ITypeFinder> type_finder;
+        protected static Mock<IBoundServices> bound_services;
         protected static ILogger logger;
+        
 
         protected static Mock<IRepresentHostType> host_type;
 
@@ -35,6 +37,7 @@ namespace Dolittle.Hosting.given
         {
             container = new Mock<IContainer>();
             type_finder = new Mock<ITypeFinder>();
+            bound_services = new Mock<IBoundServices>();
             logger = Mock.Of<ILogger>();
 
             host = new Mock<IHost>();

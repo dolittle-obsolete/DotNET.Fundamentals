@@ -25,6 +25,7 @@ namespace Dolittle.Hosting
         readonly ITypeFinder _typeFinder;
         readonly IContainer _container;
         readonly ILogger _logger;
+        readonly IBoundServices _boundServices;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Hosts"/>
@@ -32,11 +33,13 @@ namespace Dolittle.Hosting
         /// <param name="hostTypes">Instances of <see cref="IRepresentHostType"/></param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding services to host</param>
         /// <param name="container"><see cref="IContainer"/> for working with instances of host binders</param>
+        /// <param name="boundServices"><see cref="IBoundServices"/> for registering services that gets bound</param>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
         public Hosts(
             IInstancesOf<IRepresentHostType> hostTypes,
             ITypeFinder typeFinder,
             IContainer container,
+            IBoundServices boundServices,
             ILogger logger)
         {
             hostTypes.ForEach(_ =>
@@ -47,6 +50,7 @@ namespace Dolittle.Hosting
             _typeFinder = typeFinder;
             _container = container;
             _logger = logger;
+            _boundServices = boundServices;
         }
 
         /// <summary>
@@ -80,7 +84,8 @@ namespace Dolittle.Hosting
                         var binder = _container.Get(_) as ICanBindServices;
                         _logger.Information($"Bind services from {_.AssemblyQualifiedName}");
                         var services = binder.BindServices();
-                        _logger.Information($"  {services.Count()} will be added");
+                        _boundServices.Register(hostInfo.HostType, services);
+                        
                         var host = _container.Get<IHost>();
                         host.Start(hostInfo.HostType, hostInfo.Configuration, services);
                         _hosts.Add(host);
