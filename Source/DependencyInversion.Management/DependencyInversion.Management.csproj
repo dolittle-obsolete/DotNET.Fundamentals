@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Grpc.CSharp\Grpc.CSharp.csproj" />
-    <ProjectReference Include="..\Hosting\Hosting.csproj" />
+    <ProjectReference Include="..\Management\Management.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\DependencyInversion.Booting\DependencyInversion.Booting.csproj" />
   </ItemGroup>
