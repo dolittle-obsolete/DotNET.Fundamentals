@@ -77,18 +77,20 @@ namespace Dolittle.Hosting
                 {
                     _logger.Information($"Preparing host for {hostInfo.HostType}");
 
+                    var services = new List<Service>();
                     var binders = _typeFinder.FindMultiple(type);
+
                     binders.ForEach(_ =>
                     {
                         var binder = _container.Get(_) as ICanBindServices;
                         _logger.Information($"Bind services from {_.AssemblyQualifiedName}");
-                        var services = binder.BindServices();
-                        _boundServices.Register(hostInfo.HostType, services);
-                        
-                        var host = _container.Get<IHost>();
-                        host.Start(hostInfo.HostType, hostInfo.Configuration, services);
-                        _hosts.Add(host);
+                        services.AddRange(binder.BindServices());
                     });
+
+                    var host = _container.Get<IHost>();
+                    _boundServices.Register(hostInfo.HostType, services);
+                    host.Start(hostInfo.HostType, hostInfo.Configuration, services);
+                    _hosts.Add(host);
                 }
                 else
                 {

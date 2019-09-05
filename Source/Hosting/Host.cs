@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Dolittle.Collections;
 using Dolittle.Logging;
 using grpc = Grpc.Core;
+using Grpc.Core.Interceptors;
 
 namespace Dolittle.Hosting
 {
@@ -16,15 +17,19 @@ namespace Dolittle.Hosting
     public class Host : IHost
     {
         readonly ILogger _logger;
+        readonly CallLogger _callLogger;
         grpc::Server _server;
+        
 
         /// <summary>
         /// Initializes a new instance of <see cref="Host"/>
         /// </summary>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
-        public Host(ILogger logger)
+        /// <param name="callLogger"><see cref="CallLogger"/> for logging calls</param>
+        public Host(ILogger logger, CallLogger callLogger)
         {
             _logger = logger;
+            _callLogger = callLogger;
         }
 
         /// <summary>
@@ -46,6 +51,7 @@ namespace Dolittle.Hosting
         {
             try
             {
+
                 _server = new grpc::Server
                 {
                     Ports = {
@@ -58,7 +64,12 @@ namespace Dolittle.Hosting
                     .ForEach(_ =>
                         _logger.Information($"Starting {identifier} host on {_.Host}" + (_.Port > 0 ? $" for port {_.Port}" : string.Empty)));
 
-                services.ForEach(_ => _server.Services.Add(_.ServerDefinition));
+                
+                services.ForEach(_ => 
+                {
+                    var serverDefinition = _.ServerDefinition.Intercept(_callLogger);
+                    _server.Services.Add(serverDefinition);
+                });
 
                 _server.Start();
             }
