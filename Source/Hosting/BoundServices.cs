@@ -5,6 +5,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Dolittle.Collections;
 using Dolittle.Lifecycle;
 using Dolittle.Logging;
 using Grpc.Core;
@@ -31,7 +32,11 @@ namespace Dolittle.Hosting
         /// <inheritdoc/>
         public void Register(HostType type, IEnumerable<Service> services)
         {
-            _logger.Information($"  {services.Count()} will be added");
+            services.ForEach(service => 
+            {
+                _logger.Information($"Adding service '{service.Descriptor?.Name ?? "unknown"}'");
+            });
+
             _servicesPerHostType[type] = services;
         }
 
