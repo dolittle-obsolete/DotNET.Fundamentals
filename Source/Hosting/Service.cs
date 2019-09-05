@@ -31,7 +31,6 @@ namespace Dolittle.Hosting
         /// <summary>
         /// Get the <see cref="ServiceDescriptor"/> for the service
         /// </summary>
-        /// <value></value>
         public ServiceDescriptor Descriptor { get; } 
     }
 }
