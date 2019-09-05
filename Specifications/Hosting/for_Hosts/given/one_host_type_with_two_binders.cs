@@ -12,7 +12,7 @@ using Moq;
 
 namespace Dolittle.Hosting.given
 {
-    public class one_host_type_with_binder
+    public class one_host_type_with_two_binders
     {
         protected const string host_type_identifier = "My Host Type";
 
@@ -26,7 +26,8 @@ namespace Dolittle.Hosting.given
 
         protected static StaticInstancesOf<IRepresentHostType> host_types;
 
-        protected static Mock<ICanBindMyHostType> binder;
+        protected static Mock<ICanBindMyHostType> first_binder;
+        protected static Mock<ICanBindMyHostType> second_binder;
         protected static Mock<IHost> host;
 
         protected static HostType identifier;
@@ -47,10 +48,17 @@ namespace Dolittle.Hosting.given
             binding_interface = typeof(ICanBindMyHostType);
             configuration = new HostConfiguration();
 
-            binder = new Mock<ICanBindMyHostType>();
-            var binderType = binder.Object.GetType();
-            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindMyHostType))).Returns(new [] { binderType });
-            container.Setup(_ => _.Get(binderType)).Returns(binder.Object);
+            first_binder = new Mock<ICanBindMyHostType>();
+            second_binder = new Mock<ICanBindMyHostType>();
+            var firstBinderType = first_binder.Object.GetType();
+            var secondBinderType = second_binder.Object.GetType();
+            
+            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindMyHostType))).Returns(new [] { 
+                firstBinderType,
+                secondBinderType,
+            });
+            container.Setup(_ => _.Get(firstBinderType)).Returns(first_binder.Object);
+            container.Setup(_ => _.Get(secondBinderType)).Returns(second_binder.Object);
 
             host_type = new Mock<IRepresentHostType>();
             host_type.SetupGet(_ => _.Identifier).Returns(identifier);
