@@ -13,13 +13,13 @@ namespace Dolittle.Services
     /// </summary>
     [Name("endpoints")]
     public class EndpointsConfiguration : 
-        ReadOnlyDictionary<EndpointType, EndpointConfiguration>,
+        ReadOnlyDictionary<EndpointVisibility, EndpointConfiguration>,
         IConfigurationObject
     {
         /// <summary>
         /// Initializes a new instance of <see cref="EndpointsConfiguration"/>
         /// </summary>
         /// <param name="configuration">Dictionary for <see cref="ServiceType"/> with <see cref="EndpointConfiguration"/></param>
-        public EndpointsConfiguration(IDictionary<EndpointType, EndpointConfiguration> configuration) : base(configuration) {}
+        public EndpointsConfiguration(IDictionary<EndpointVisibility, EndpointConfiguration> configuration) : base(configuration) {}
     }
 }

@@ -22,6 +22,6 @@ namespace Dolittle.Services.for_Endpoints.when_starting
 
         It should_bind_services = () => binder.Verify(_ => _.BindServices(), Moq.Times.Once);
         It should_pass_services_to_bound_services = () => bound_services.Verify(_ => _.Register(service_type_identifier, Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Once);
-        It should_start_endpoint = () => endpoint.Verify(_ => _.Start(EndpointType.Public, configuration, Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Once);       
+        It should_start_endpoint = () => endpoint.Verify(_ => _.Start(EndpointVisibility.Public, configuration, Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Once);       
     }    
 }

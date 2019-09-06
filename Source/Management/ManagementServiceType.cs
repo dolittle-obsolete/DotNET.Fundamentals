@@ -13,10 +13,10 @@ namespace Dolittle.Management
     /// <remarks>
     /// Management is considered the channel where tooling is connecting for management
     /// </remarks>
-    public class ManagementServicesServiceType : IRepresentServiceType
+    public class ManagementServiceType : IRepresentServiceType
     {
         /// <summary>
-        /// Gets the identifying name for the <see cref="ManagementServicesServiceType"/>
+        /// Gets the identifying name for the <see cref="ManagementServiceType"/>
         /// </summary>
         public const string Name = "Management";
 
@@ -27,6 +27,6 @@ namespace Dolittle.Management
         public Type BindingInterface => typeof(ICanBindManagementServices);
 
         /// <inheritdoc/>
-        public EndpointType EndpointType => EndpointType.Public;
+        public EndpointVisibility Visibility => EndpointVisibility.Public;
     }
 }

@@ -19,6 +19,6 @@ namespace Dolittle.Services.for_Endpoints.when_starting
         };
 
         Because of = () => endpoints.Start();
-        It should_start_endpoint_once = () => endpoint.Verify(_ => _.Start(EndpointType.Public, configuration, Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Once);       
+        It should_start_endpoint_once = () => endpoint.Verify(_ => _.Start(EndpointVisibility.Public, configuration, Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Once);       
     }    
 }

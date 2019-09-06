@@ -22,8 +22,8 @@ namespace Dolittle.Services
         Type BindingInterface { get; }
 
         /// <summary>
-        /// Gets the <see cref="EndpointType">type of endpoint</see> this is
+        /// Gets the <see cref="EndpointVisibility">type of endpoint</see> this is
         /// </summary>
-        EndpointType EndpointType { get; }        
+        EndpointVisibility Visibility { get; }        
     }
 }

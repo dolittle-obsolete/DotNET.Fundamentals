@@ -47,7 +47,7 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public void Start(EndpointType type, EndpointConfiguration configuration, IEnumerable<Service> services)
+        public void Start(EndpointVisibility type, EndpointConfiguration configuration, IEnumerable<Service> services)
         {
             try
             {

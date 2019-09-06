@@ -15,13 +15,13 @@ namespace Dolittle.Services
         /// <summary>
         /// Accesses the static configurations for providing default <see cref="EndpointConfiguration"/> for different <see cref="ServiceType">service types</see>
         /// </summary>
-        public readonly static Dictionary<EndpointType, EndpointConfiguration> Configurations = new Dictionary<EndpointType, EndpointConfiguration>();       
+        public readonly static Dictionary<EndpointVisibility, EndpointConfiguration> Configurations = new Dictionary<EndpointVisibility, EndpointConfiguration>();       
 
         /// <inheritdoc/>
         public EndpointsConfiguration Provide()
         {
-            Configurations[EndpointType.Public] = new EndpointConfiguration(50052);
-            Configurations[EndpointType.Private] = new EndpointConfiguration(50053);
+            Configurations[EndpointVisibility.Public] = new EndpointConfiguration(50052);
+            Configurations[EndpointVisibility.Private] = new EndpointConfiguration(50053);
             return new EndpointsConfiguration(Configurations);
         }
     }

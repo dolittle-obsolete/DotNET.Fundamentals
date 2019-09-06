@@ -19,8 +19,8 @@ namespace Dolittle.Services
     [Singleton]
     public class Endpoints : IEndpoints
     {
-        readonly IDictionary<EndpointType, List<IRepresentServiceType>> _serviceRepresentersForEndpointType = new Dictionary<EndpointType, List<IRepresentServiceType>>();
-        readonly IDictionary<EndpointType, IEndpoint> _endpoints = new Dictionary<EndpointType, IEndpoint>();
+        readonly IDictionary<EndpointVisibility, List<IRepresentServiceType>> _serviceRepresentersForEndpointVisibility = new Dictionary<EndpointVisibility, List<IRepresentServiceType>>();
+        readonly IDictionary<EndpointVisibility, IEndpoint> _endpoints = new Dictionary<EndpointVisibility, IEndpoint>();
         readonly IList<EndpointInfo> _endpointInfos = new List<EndpointInfo>();
 
         readonly EndpointsConfiguration _configuration;
@@ -47,7 +47,7 @@ namespace Dolittle.Services
             ILogger logger)
         {
             _configuration = configuration;
-            _serviceRepresentersForEndpointType = serviceTypes  .GroupBy(_ => _.EndpointType)
+            _serviceRepresentersForEndpointVisibility = serviceTypes  .GroupBy(_ => _.Visibility)
                                                                 .ToDictionary(_ => _.Key, _ => _.ToList());
 
             _typeFinder = typeFinder;
@@ -75,9 +75,9 @@ namespace Dolittle.Services
         {
             _logger.Information("Starting all endpoints");
 
-            var servicesByEndpointType = new Dictionary<EndpointType, List<Service>>();
+            var servicesByVisibility = new Dictionary<EndpointVisibility, List<Service>>();
 
-            foreach ((var type, var serviceTypeRepresenters) in _serviceRepresentersForEndpointType)
+            foreach ((var type, var serviceTypeRepresenters) in _serviceRepresentersForEndpointVisibility)
             {
                 var configuration = _configuration[type];
                 if (configuration.Enabled)
@@ -99,8 +99,8 @@ namespace Dolittle.Services
 
                         _boundServices.Register(representer.Identifier, services);
 
-                        if( !servicesByEndpointType.ContainsKey(type)) servicesByEndpointType[type] = new List<Service>();
-                        servicesByEndpointType[type].AddRange(services);
+                        if( !servicesByVisibility.ContainsKey(type)) servicesByVisibility[type] = new List<Service>();
+                        servicesByVisibility[type].AddRange(services);
                     });
                 }
                 else
@@ -112,7 +112,7 @@ namespace Dolittle.Services
             foreach( (var type, var endpoint) in _endpoints ) 
             {
                 var configuration = _configuration[type];
-                endpoint.Start(type, configuration, servicesByEndpointType[type]);
+                endpoint.Start(type, configuration, servicesByVisibility[type]);
             }
 
         }
@@ -123,7 +123,7 @@ namespace Dolittle.Services
             return _endpointInfos;
         }
 
-        IEndpoint GetEndpointFor(EndpointType type)
+        IEndpoint GetEndpointFor(EndpointVisibility type)
         {
             if( _endpoints.ContainsKey(type)) return _endpoints[type];
             var endpoint = _container.Get<IEndpoint>();

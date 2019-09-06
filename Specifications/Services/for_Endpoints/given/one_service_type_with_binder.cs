@@ -51,9 +51,9 @@ namespace Dolittle.Services.for_Endpoints.given
             binding_interface = typeof(ICanBindMyServiceType);
             configuration = new EndpointConfiguration();
 
-            endpoints_configuration = new EndpointsConfiguration(new Dictionary<EndpointType, EndpointConfiguration>
+            endpoints_configuration = new EndpointsConfiguration(new Dictionary<EndpointVisibility, EndpointConfiguration>
                 {
-                    { EndpointType.Public, configuration }
+                    { EndpointVisibility.Public, configuration }
                 });
 
 
@@ -65,7 +65,7 @@ namespace Dolittle.Services.for_Endpoints.given
             service_type = new Mock<IRepresentServiceType>();
             service_type.SetupGet(_ => _.Identifier).Returns(identifier);
             service_type.SetupGet(_ => _.BindingInterface).Returns(binding_interface);
-            service_type.SetupGet(_ => _.EndpointType).Returns(EndpointType.Public);
+            service_type.SetupGet(_ => _.Visibility).Returns(EndpointVisibility.Public);
             service_types = new StaticInstancesOf<IRepresentServiceType>(service_type.Object);
         };
     }

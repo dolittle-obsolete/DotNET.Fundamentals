@@ -2,14 +2,12 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Dolittle.Concepts;
-
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents an identifier for a service type
+    /// Represents the visibility for an <see cref="IEndpoint"/>
     /// </summary>
-    public enum EndpointType
+    public enum EndpointVisibility
     {
         /// <summary>
         /// Represents public endpoints

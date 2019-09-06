@@ -15,9 +15,9 @@ namespace Dolittle.Services
         /// <summary>
         /// Start the host with the configuration for it
         /// </summary>
-        /// <param name="type"><see cref="EndpointType"/> for the <see cref="IEndpoint"/></param>
+        /// <param name="type"><see cref="EndpointVisibility"/> for the <see cref="IEndpoint"/></param>
         /// <param name="configuration"><see cref="EndpointConfiguration"/> for the host</param>
         /// <param name="services">Collection of <see cref="Service"/> to host</param>
-        void Start(EndpointType type, EndpointConfiguration configuration, IEnumerable<Service> services);
+        void Start(EndpointVisibility type, EndpointConfiguration configuration, IEnumerable<Service> services);
     }
 }

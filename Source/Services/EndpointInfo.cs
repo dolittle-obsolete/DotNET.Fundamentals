@@ -13,9 +13,9 @@ namespace Dolittle.Services
         /// <summary>
         /// Initializes a new instance of <see cref="EndpointInfo"/>
         /// </summary>
-        /// <param name="type"><see cref="EndpointType">Type</see> of endpoint</param>
+        /// <param name="type"><see cref="EndpointVisibility">Type</see> of endpoint</param>
         /// <param name="configuration"><see cref="EndpointConfiguration">Configuration</see> for the endoint</param>
-        public EndpointInfo(EndpointType type, EndpointConfiguration configuration)
+        public EndpointInfo(EndpointVisibility type, EndpointConfiguration configuration)
         {
             Type = type;
             Configuration = configuration;
@@ -24,7 +24,7 @@ namespace Dolittle.Services
         /// <summary>
         /// 
         /// </summary>
-        public EndpointType Type { get; }
+        public EndpointVisibility Type { get; }
 
         /// <summary>
         /// 
