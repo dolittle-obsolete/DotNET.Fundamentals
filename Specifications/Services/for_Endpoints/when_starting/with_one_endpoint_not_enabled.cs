@@ -6,22 +6,22 @@ using System.Collections.Generic;
 using Grpc.Core;
 using Machine.Specifications;
 
-namespace Dolittle.Services.for_Hosts.when_starting
+namespace Dolittle.Services.for_Endpoints.when_starting
 {
     public class with_one_host_not_enabled : given.one_service_type_with_binder
     {
-        static Hosts hosts;
+        static Endpoints endpoints;
 
         Establish context = () => 
         {
             configuration.Enabled = false;
-            hosts = new Hosts(service_types, type_finder.Object, container.Object, bound_services.Object, logger);
+            endpoints = new Endpoints(service_types, endpoints_configuration, type_finder.Object, container.Object, bound_services.Object, logger);
         };
 
-        Because of = () => hosts.Start();
+        Because of = () => endpoints.Start();
 
         It should_not_bind_services = () => binder.Verify(_ => _.BindServices(), Moq.Times.Never);
         It should_not_pass_services_to_bound_services = () => bound_services.Verify(_ => _.Register(Moq.It.IsAny<ServiceType>(), Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Never);
-        It should_not_start_host = () => host.Verify(_ => _.Start(identifier, configuration, Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Never);       
+        It should_not_start_endpoint = () => endpoint.Verify(_ => _.Start(EndpointType.Public, configuration, Moq.It.IsAny<IEnumerable<Service>>()), Moq.Times.Never);       
     }
 }

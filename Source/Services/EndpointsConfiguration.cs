@@ -11,15 +11,15 @@ namespace Dolittle.Services
     /// <summary>
     /// Represents the configuration for hosts by <see cref="ServiceType"/>
     /// </summary>
-    [Name("hosts")]
-    public class HostsConfiguration : 
-        ReadOnlyDictionary<ServiceType, HostConfiguration>,
+    [Name("endpoints")]
+    public class EndpointsConfiguration : 
+        ReadOnlyDictionary<EndpointType, EndpointConfiguration>,
         IConfigurationObject
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="HostsConfiguration"/>
+        /// Initializes a new instance of <see cref="EndpointsConfiguration"/>
         /// </summary>
-        /// <param name="configuration">Dictionary for <see cref="ServiceType"/> with <see cref="HostConfiguration"/></param>
-        public HostsConfiguration(IDictionary<ServiceType, HostConfiguration> configuration) : base(configuration) {}
+        /// <param name="configuration">Dictionary for <see cref="ServiceType"/> with <see cref="EndpointConfiguration"/></param>
+        public EndpointsConfiguration(IDictionary<EndpointType, EndpointConfiguration> configuration) : base(configuration) {}
     }
 }

@@ -12,9 +12,9 @@ using Grpc.Core.Interceptors;
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IHost"/>
+    /// Represents an implementation of <see cref="IEndpoint"/>
     /// </summary>
-    public class Host : IHost
+    public class Endpoint : IEndpoint
     {
         readonly ILogger _logger;
         readonly CallLogger _callLogger;
@@ -22,20 +22,20 @@ namespace Dolittle.Services
         
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Host"/>
+        /// Initializes a new instance of <see cref="Endpoint"/>
         /// </summary>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
         /// <param name="callLogger"><see cref="CallLogger"/> for logging calls</param>
-        public Host(ILogger logger, CallLogger callLogger)
+        public Endpoint(ILogger logger, CallLogger callLogger)
         {
             _logger = logger;
             _callLogger = callLogger;
         }
 
         /// <summary>
-        /// Destructs the <see cref="Host"/> instance
+        /// Destructs the <see cref="Endpoint"/> instance
         /// </summary>
-        ~Host()
+        ~Endpoint()
         {
             Dispose();
         }
@@ -47,7 +47,7 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public void Start(string identifier, HostConfiguration configuration, IEnumerable<Service> services)
+        public void Start(EndpointType type, EndpointConfiguration configuration, IEnumerable<Service> services)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Dolittle.Services
                 _server
                     .Ports
                     .ForEach(_ =>
-                        _logger.Information($"Starting {identifier} host on {_.Host}" + (_.Port > 0 ? $" for port {_.Port}" : string.Empty)));
+                        _logger.Information($"Starting {type} host on {_.Host}" + (_.Port > 0 ? $" for port {_.Port}" : string.Empty)));
 
                 
                 services.ForEach(_ => 
@@ -75,7 +75,7 @@ namespace Dolittle.Services
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"Couldn't start {identifier} host");
+                _logger.Error(ex, $"Couldn't start {type} host");
             }
         }
     }

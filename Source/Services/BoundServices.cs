@@ -17,7 +17,7 @@ namespace Dolittle.Services
     [Singleton]
     public class BoundServices : IBoundServices
     {
-        readonly ConcurrentDictionary<ServiceType, IEnumerable<Service>>    _servicesPerServiceType = new  ConcurrentDictionary<ServiceType, IEnumerable<Service>>();
+        readonly ConcurrentDictionary<ServiceType, List<Service>>    _servicesPerServiceType = new  ConcurrentDictionary<ServiceType, List<Service>>();
         readonly ILogger _logger;
 
         /// <summary>
@@ -36,7 +36,8 @@ namespace Dolittle.Services
                 _logger.Information($"Adding service '{service.Descriptor?.Name ?? "unknown"}'");
             });
 
-            _servicesPerServiceType[type] = services;
+            if( !_servicesPerServiceType.ContainsKey(type) ) _servicesPerServiceType[type] = new List<Service>();
+            _servicesPerServiceType[type].AddRange(services);
         }
 
         /// <inheritdoc/>

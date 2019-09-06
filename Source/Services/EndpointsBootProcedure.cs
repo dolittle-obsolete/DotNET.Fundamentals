@@ -7,17 +7,17 @@ using Dolittle.Booting;
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents the <see cref="ICanPerformBootProcedure">boot procedure</see> for <see cref="IHosts"/>
+    /// Represents the <see cref="ICanPerformBootProcedure">boot procedure</see> for <see cref="IEndpoints"/>
     /// </summary>
-    public class HostsBootProcedure : ICanPerformBootProcedure
+    public class EndpointsBootProcedure : ICanPerformBootProcedure
     {
-        readonly IHosts _hosts;
+        readonly IEndpoints _hosts;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="HostsBootProcedure"/>
+        /// Initializes a new instance of <see cref="EndpointsBootProcedure"/>
         /// </summary>
-        /// <param name="hosts">Instance of <see cref="IHosts"/> to boot</param>
-        public HostsBootProcedure(IHosts hosts)
+        /// <param name="hosts">Instance of <see cref="IEndpoints"/> to boot</param>
+        public EndpointsBootProcedure(IEndpoints hosts)
         {
             _hosts = hosts;
         }

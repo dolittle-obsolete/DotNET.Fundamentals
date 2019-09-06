@@ -10,14 +10,14 @@ namespace Dolittle.Services
     /// <summary>
     /// Defines a host for hosting services for a specific purpose
     /// </summary>
-    public interface IHost : IDisposable
+    public interface IEndpoint : IDisposable
     {
         /// <summary>
         /// Start the host with the configuration for it
         /// </summary>
-        /// <param name="identifier">Identifier of the type of services host is providing</param>
-        /// <param name="configuration"><see cref="HostConfiguration"/> for the host</param>
+        /// <param name="type"><see cref="EndpointType"/> for the <see cref="IEndpoint"/></param>
+        /// <param name="configuration"><see cref="EndpointConfiguration"/> for the host</param>
         /// <param name="services">Collection of <see cref="Service"/> to host</param>
-        void Start(string identifier, HostConfiguration configuration, IEnumerable<Service> services);
+        void Start(EndpointType type, EndpointConfiguration configuration, IEnumerable<Service> services);
     }
 }

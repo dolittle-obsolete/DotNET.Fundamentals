@@ -14,7 +14,7 @@ namespace Dolittle.Services
         /// <summary>
         /// Gets the identifier of the <see cref="ServiceType"/>
         /// </summary>
-        ServiceType    Identifier { get; }
+        ServiceType Identifier { get; }
 
         /// <summary>
         /// Gets the binding interface, must implement <see cref="ICanBindServices"/>
@@ -22,8 +22,8 @@ namespace Dolittle.Services
         Type BindingInterface { get; }
 
         /// <summary>
-        /// Gets the host configuration object
+        /// Gets the <see cref="EndpointType">type of endpoint</see> this is
         /// </summary>
-        HostConfiguration Configuration { get; }        
+        EndpointType EndpointType { get; }        
     }
 }

@@ -2,25 +2,23 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
+using Dolittle.Concepts;
 
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Defines a system that manages all the <see cref="IHost">hosts</see>
+    /// Represents an identifier for a service type
     /// </summary>
-    public interface IHosts : IDisposable
+    public enum EndpointType
     {
         /// <summary>
-        /// Start all the hosts
+        /// Represents public endpoints
         /// </summary>
-        void Start();
+        Public=1,
 
         /// <summary>
-        /// Get all the hosts set up in the process
+        /// Represents private endpoints
         /// </summary>
-        /// <returns>Collection of <see cref="HostInfo"/></returns>
-        IEnumerable<HostInfo> GetHosts();
+        Private
     }
 }

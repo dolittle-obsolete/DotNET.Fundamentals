@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using Dolittle.DependencyInversion;
 using Dolittle.Logging;
 using Dolittle.Types;
@@ -10,9 +11,9 @@ using Dolittle.Types.Testing;
 using Machine.Specifications;
 using Moq;
 
-namespace Dolittle.Services.given
+namespace Dolittle.Services.for_Endpoints.given
 {
-    public class one_service_type_with_two_binders
+    public class one_service_type_with_binder
     {
         protected const string service_type_identifier = "My Service Type";
 
@@ -20,19 +21,21 @@ namespace Dolittle.Services.given
         protected static Mock<ITypeFinder> type_finder;
         protected static Mock<IBoundServices> bound_services;
         protected static ILogger logger;
+
+        
         
 
         protected static Mock<IRepresentServiceType> service_type;
 
         protected static StaticInstancesOf<IRepresentServiceType> service_types;
 
-        protected static Mock<ICanBindMyServiceType> first_binder;
-        protected static Mock<ICanBindMyServiceType> second_binder;
-        protected static Mock<IHost> host;
+        protected static Mock<ICanBindMyServiceType> binder;
+        protected static Mock<IEndpoint> endpoint;
 
         protected static ServiceType identifier;
         protected static Type binding_interface;
-        protected static HostConfiguration configuration;
+        protected static EndpointConfiguration configuration;
+        protected static EndpointsConfiguration endpoints_configuration;
 
         Establish context = () =>
         {
@@ -41,29 +44,28 @@ namespace Dolittle.Services.given
             bound_services = new Mock<IBoundServices>();
             logger = Mock.Of<ILogger>();
 
-            host = new Mock<IHost>();
-            container.Setup(_ => _.Get<IHost>()).Returns(host.Object);
+            endpoint = new Mock<IEndpoint>();
+            container.Setup(_ => _.Get<IEndpoint>()).Returns(endpoint.Object);
 
             identifier = service_type_identifier;
             binding_interface = typeof(ICanBindMyServiceType);
-            configuration = new HostConfiguration();
+            configuration = new EndpointConfiguration();
 
-            first_binder = new Mock<ICanBindMyServiceType>();
-            second_binder = new Mock<ICanBindMyServiceType>();
-            var firstBinderType = first_binder.Object.GetType();
-            var secondBinderType = second_binder.Object.GetType();
-            
-            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindMyServiceType))).Returns(new [] { 
-                firstBinderType,
-                secondBinderType,
-            });
-            container.Setup(_ => _.Get(firstBinderType)).Returns(first_binder.Object);
-            container.Setup(_ => _.Get(secondBinderType)).Returns(second_binder.Object);
+            endpoints_configuration = new EndpointsConfiguration(new Dictionary<EndpointType, EndpointConfiguration>
+                {
+                    { EndpointType.Public, configuration }
+                });
+
+
+            binder = new Mock<ICanBindMyServiceType>();
+            var binderType = binder.Object.GetType();
+            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindMyServiceType))).Returns(new [] { binderType });
+            container.Setup(_ => _.Get(binderType)).Returns(binder.Object);
 
             service_type = new Mock<IRepresentServiceType>();
             service_type.SetupGet(_ => _.Identifier).Returns(identifier);
             service_type.SetupGet(_ => _.BindingInterface).Returns(binding_interface);
-            service_type.SetupGet(_ => _.Configuration).Returns(configuration);
+            service_type.SetupGet(_ => _.EndpointType).Returns(EndpointType.Public);
             service_types = new StaticInstancesOf<IRepresentServiceType>(service_type.Object);
         };
     }
