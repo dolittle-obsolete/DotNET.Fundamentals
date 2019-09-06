@@ -33,7 +33,7 @@ namespace Dolittle.Services
         {
             services.ForEach(service => 
             {
-                _logger.Information($"Adding service '{service.Descriptor?.Name ?? "unknown"}'");
+                _logger.Information($"Registering bound service '{service.Descriptor?.Name ?? "unknown"}'");
             });
 
             if( !_servicesPerServiceType.ContainsKey(type) ) _servicesPerServiceType[type] = new List<Service>();

@@ -47,8 +47,8 @@ namespace Dolittle.Services
             ILogger logger)
         {
             _configuration = configuration;
-            _serviceRepresentersForEndpointVisibility = serviceTypes  .GroupBy(_ => _.Visibility)
-                                                                .ToDictionary(_ => _.Key, _ => _.ToList());
+            _serviceRepresentersForEndpointVisibility = serviceTypes.GroupBy(_ => _.Visibility)
+                .ToDictionary(_ => _.Key, _ => _.ToList());
 
             _typeFinder = typeFinder;
             _container = container;
@@ -67,7 +67,7 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Dispose()
         {
-            foreach( (var type, var endpoint) in _endpoints ) endpoint.Dispose();
+            foreach ((var type, var endpoint) in _endpoints) endpoint.Dispose();
         }
 
         /// <inheritdoc/>
@@ -85,21 +85,29 @@ namespace Dolittle.Services
                     _logger.Information($"Preparing endpoint for {type} - running on port {configuration.Port}");
                     var endpoint = GetEndpointFor(type);
 
-                    var services = new List<Service>();
-
-                    serviceTypeRepresenters.ForEach(representer => 
+                    serviceTypeRepresenters.ForEach(representer =>
                     {
+                        var services = new List<Service>();
+
                         var binders = _typeFinder.FindMultiple(representer.BindingInterface);
                         binders.ForEach(_ =>
                         {
-                            var binder = _container.Get(_) as ICanBindServices;
                             _logger.Information($"Bind services from {_.AssemblyQualifiedName}");
-                            services.AddRange(binder.BindServices());
+
+                            var binder = _container.Get(_) as ICanBindServices;
+
+                            var boundServices = binder.BindServices();
+                            boundServices.ForEach(service =>
+                            {
+                                _logger.Information($"Service : {service.Descriptor.FullName}");
+                            });
+
+                            services.AddRange(boundServices);
                         });
 
                         _boundServices.Register(representer.Identifier, services);
 
-                        if( !servicesByVisibility.ContainsKey(type)) servicesByVisibility[type] = new List<Service>();
+                        if (!servicesByVisibility.ContainsKey(type)) servicesByVisibility[type] = new List<Service>();
                         servicesByVisibility[type].AddRange(services);
                     });
                 }
@@ -109,7 +117,7 @@ namespace Dolittle.Services
                 }
             }
 
-            foreach( (var type, var endpoint) in _endpoints ) 
+            foreach ((var type, var endpoint) in _endpoints)
             {
                 var configuration = _configuration[type];
                 endpoint.Start(type, configuration, servicesByVisibility[type]);
@@ -125,7 +133,7 @@ namespace Dolittle.Services
 
         IEndpoint GetEndpointFor(EndpointVisibility type)
         {
-            if( _endpoints.ContainsKey(type)) return _endpoints[type];
+            if (_endpoints.ContainsKey(type)) return _endpoints[type];
             var endpoint = _container.Get<IEndpoint>();
             _endpoints[type] = endpoint;
             return endpoint;
