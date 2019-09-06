@@ -167,9 +167,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resilience", "Specification
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time", "Specifications\Time\Time.csproj", "{A6B9836C-4C58-4EEC-9816-AD09DCF98EEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting", "Source\Hosting\Hosting.csproj", "{D254F08B-A185-4A14-ADCC-F932A7C7BC96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Source\Services\Services.csproj", "{D254F08B-A185-4A14-ADCC-F932A7C7BC96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting", "Specifications\Hosting\Hosting.csproj", "{1D5D5E41-0688-45DF-B039-30902CA71EBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Specifications\Services\Services.csproj", "{1D5D5E41-0688-45DF-B039-30902CA71EBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Types.Testing", "Source\Types.Testing\Types.Testing.csproj", "{8240278D-3B83-487D-9760-24675DC81EAA}"
 EndProject
