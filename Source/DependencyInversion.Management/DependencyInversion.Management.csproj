@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Grpc.CSharp\Grpc.CSharp.csproj" />
     <ProjectReference Include="..\Management\Management.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\DependencyInversion.Booting\DependencyInversion.Booting.csproj" />
+    <ProjectReference Include="..\DependencyInversion.Grpc.CSharp\DependencyInversion.Grpc.CSharp.csproj" />
   </ItemGroup>
 
   <Import Project="../../Build/MSBuild/default.props"/>

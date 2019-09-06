@@ -175,7 +175,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Types.Testing", "Source\Typ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversion.Management", "Source\DependencyInversion.Management\DependencyInversion.Management.csproj", "{E288C52F-A293-4ECC-B5DA-6825261F8434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grpc.CSharp", "Source\Grpc.CSharp\Grpc.CSharp.csproj", "{41A2B965-D8D9-420F-81E4-5E1C9F8D3CD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversion.Grpc.CSharp", "Source\DependencyInversion.Grpc.CSharp\DependencyInversion.Grpc.CSharp.csproj", "{41A2B965-D8D9-420F-81E4-5E1C9F8D3CD6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management", "Source\Management\Management.csproj", "{CB2DBBE0-2FEA-43EC-BF47-3F6A2EF4B993}"
 EndProject

@@ -503,7 +503,7 @@ proto.dolittle.dependencyinversion.Bindings.serializeBinaryToWriter = function(m
 
 
 /**
- * repeated Binding bindings = 1;
+ * repeated Binding Bindings = 1;
  * @return {!Array<!proto.dolittle.dependencyinversion.Binding>}
  */
 proto.dolittle.dependencyinversion.Bindings.prototype.getBindingsList = function() {

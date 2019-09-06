@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Dolittle.Grpc</AssemblyName>
+    <AssemblyName>Dolittle.DependencyInversion.Grpc</AssemblyName>
   </PropertyGroup>
 
   <Import Project="../../Build/MSBuild/default.props"/>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-      <Protobuf Include="../../Protobuf/**/*.proto" 
+      <Protobuf Include="../../Protobuf/dolittle/dependencyinversion/**/*.proto;../../Protobuf/system/**/*.proto" 
                 ProtoRoot="../../Protobuf"
                 OutputDir="%(RecursiveDir)" 
                 GrpcServices="Both" 
