@@ -7,14 +7,14 @@ using System;
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Defines a system that can provide information about a host type
+    /// Defines a system that can provide information about a service type
     /// </summary>
-    public interface IRepresentHostType
+    public interface IRepresentServiceType
     {
         /// <summary>
-        /// Gets the identifier of the <see cref="HostType"/>
+        /// Gets the identifier of the <see cref="ServiceType"/>
         /// </summary>
-        HostType    Identifier { get; }
+        ServiceType    Identifier { get; }
 
         /// <summary>
         /// Gets the binding interface, must implement <see cref="ICanBindServices"/>

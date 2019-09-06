@@ -29,19 +29,19 @@ namespace Dolittle.Services
         /// <summary>
         /// Initializes a new instance of <see cref="Hosts"/>
         /// </summary>
-        /// <param name="hostTypes">Instances of <see cref="IRepresentHostType"/></param>
+        /// <param name="serviceTypes">Instances of <see cref="IRepresentServiceType"/></param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding services to host</param>
         /// <param name="container"><see cref="IContainer"/> for working with instances of host binders</param>
         /// <param name="boundServices"><see cref="IBoundServices"/> for registering services that gets bound</param>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
         public Hosts(
-            IInstancesOf<IRepresentHostType> hostTypes,
+            IInstancesOf<IRepresentServiceType> serviceTypes,
             ITypeFinder typeFinder,
             IContainer container,
             IBoundServices boundServices,
             ILogger logger)
         {
-            hostTypes.ForEach(_ =>
+            serviceTypes.ForEach(_ =>
                 _bindersWithConfigAccessor[_.BindingInterface] =
                 new HostInfo(_.Identifier, _.Configuration)
             );
@@ -75,7 +75,7 @@ namespace Dolittle.Services
             {
                 if (hostInfo.Configuration.Enabled)
                 {
-                    _logger.Information($"Preparing host for {hostInfo.HostType}");
+                    _logger.Information($"Preparing host for {hostInfo.ServiceType}");
 
                     var services = new List<Service>();
                     var binders = _typeFinder.FindMultiple(type);
@@ -88,13 +88,13 @@ namespace Dolittle.Services
                     });
 
                     var host = _container.Get<IHost>();
-                    _boundServices.Register(hostInfo.HostType, services);
-                    host.Start(hostInfo.HostType, hostInfo.Configuration, services);
+                    _boundServices.Register(hostInfo.ServiceType, services);
+                    host.Start(hostInfo.ServiceType, hostInfo.Configuration, services);
                     _hosts.Add(host);
                 }
                 else
                 {
-                    _logger.Information($"{hostInfo.HostType} host is disabled");
+                    _logger.Information($"{hostInfo.ServiceType} host is disabled");
                 }
             }
         }

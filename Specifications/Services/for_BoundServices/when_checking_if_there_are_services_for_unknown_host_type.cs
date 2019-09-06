@@ -7,14 +7,14 @@ using Machine.Specifications;
 
 namespace Dolittle.Services.for_BoundServices
 {
-    public class when_checking_if_there_are_services_for_unknown_host_type 
+    public class when_checking_if_there_are_services_for_unknown_service_type 
     {
-        const string host_type = "My Host Type";
+        const string service_type = "My Service Type";
         static BoundServices bound_services;
         static bool result;
         Establish context = () => bound_services = new BoundServices(Moq.Mock.Of<ILogger>());
 
-        Because of = () => result = bound_services.HasFor(host_type);
+        Because of = () => result = bound_services.HasFor(service_type);
 
         It should_return_false = () => result.ShouldBeFalse();
     }    

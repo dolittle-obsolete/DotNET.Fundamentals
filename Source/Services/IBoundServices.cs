@@ -14,22 +14,22 @@ namespace Dolittle.Services
         /// <summary>
         /// Register all services for a specific type - this overwrites any that are already set
         /// </summary>
-        /// <param name="type"><see cref="HostType"/> to register for </param>
+        /// <param name="type"><see cref="ServiceType"/> to register for </param>
         /// <param name="services">Collection of <see cref="Service"/></param>
-        void Register(HostType type, IEnumerable<Service> services);
+        void Register(ServiceType type, IEnumerable<Service> services);
 
         /// <summary>
-        /// Check if there are bound services for a specific <see cref="HostType"/>
+        /// Check if there are bound services for a specific <see cref="ServiceType"/>
         /// </summary>
-        /// <param name="type"><see cref="HostType"/> to check if has services</param>
+        /// <param name="type"><see cref="ServiceType"/> to check if has services</param>
         /// <returns>True if there are services, false if not</returns>
-        bool HasFor(HostType type);
+        bool HasFor(ServiceType type);
 
         /// <summary>
-        /// Get all <see cref="Service"/> for a specific <see cref="HostType"/>
+        /// Get all <see cref="Service"/> for a specific <see cref="ServiceType"/>
         /// </summary>
-        /// <param name="type"><see cref="HostType"/> to get for</param>
+        /// <param name="type"><see cref="ServiceType"/> to get for</param>
         /// <returns>Collection of <see cref="Service"/></returns>
-        IEnumerable<Service> GetFor(HostType type);
+        IEnumerable<Service> GetFor(ServiceType type);
     }
 }

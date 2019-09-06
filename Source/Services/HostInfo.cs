@@ -6,28 +6,28 @@
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents the host information for a <see cref="HostType"/>
+    /// Represents the host information for a <see cref="ServiceType"/>
     /// </summary>
     public class HostInfo
     {
         /// <summary>
         /// Initializes a new instance of <see cref="HostInfo"/>
         /// </summary>
-        /// <param name="hostType">The <see cref="HostType"/></param>
+        /// <param name="serviceType">The <see cref="ServiceType"/></param>
         /// <param name="configuration">The <see cref="HostConfiguration">configuration</see> for the host</param>
-        public HostInfo(HostType hostType, HostConfiguration configuration)
+        public HostInfo(ServiceType serviceType, HostConfiguration configuration)
         {
-            HostType = hostType;
+            ServiceType = serviceType;
             Configuration = configuration;
         }
 
         /// <summary>
-        /// Gets the identifier for the <see cref="HostType"/>
+        /// Gets the identifier for the <see cref="ServiceType"/>
         /// </summary>
-        public HostType HostType { get; }
+        public ServiceType ServiceType { get; }
 
         /// <summary>
-        /// Gets the <see cref="HostConfiguration"/> for the <see cref="HostType"/>
+        /// Gets the <see cref="HostConfiguration"/> for the <see cref="ServiceType"/>
         /// </summary>
         public HostConfiguration Configuration { get; }
     }

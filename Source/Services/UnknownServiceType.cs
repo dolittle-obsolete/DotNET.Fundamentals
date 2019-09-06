@@ -2,22 +2,19 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Dolittle.Concepts;
+using System;
 
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents an identifier for a host type
+    /// The exception that gets thrown if a <see cref="ServiceType"/> is unknown
     /// </summary>
-    public class HostType : ConceptAs<string>
+    public class UnknownServiceType : Exception
     {
         /// <summary>
-        /// Implicitly convert from <see cref="string"/> to <see cref="HostType"/>
+        /// Initializes a new instance of <see cref="UnknownServiceType"/>
         /// </summary>
-        /// <param name="type"><see cref="HostType"/> as string</param>
-        public static implicit operator HostType(string type)
-        {
-            return new HostType { Value = type };
-        }
+        /// <param name="type">Unknown <see cref="ServiceType"/></param>
+        public UnknownServiceType(ServiceType type) : base($"Unknown service type '{type}'") {}
     }
 }

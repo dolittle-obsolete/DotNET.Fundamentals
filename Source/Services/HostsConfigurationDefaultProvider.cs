@@ -13,9 +13,9 @@ namespace Dolittle.Services
     public class HostsConfigurationDefaultProvider : ICanProvideDefaultConfigurationFor<HostsConfiguration>
     {
         /// <summary>
-        /// Accesses the static configurations for providing default <see cref="HostConfiguration"/> for different <see cref="HostType">host types</see>
+        /// Accesses the static configurations for providing default <see cref="HostConfiguration"/> for different <see cref="ServiceType">service types</see>
         /// </summary>
-        public readonly static Dictionary<HostType, HostConfiguration> Configurations = new Dictionary<HostType, HostConfiguration>();       
+        public readonly static Dictionary<ServiceType, HostConfiguration> Configurations = new Dictionary<ServiceType, HostConfiguration>();       
 
         /// <inheritdoc/>
         public HostsConfiguration Provide()

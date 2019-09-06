@@ -12,9 +12,9 @@ using Moq;
 
 namespace Dolittle.Services.given
 {
-    public class one_host_type_with_binder
+    public class one_service_type_with_binder
     {
-        protected const string host_type_identifier = "My Host Type";
+        protected const string service_type_identifier = "My Service Type";
 
         protected static Mock<IContainer> container;
         protected static Mock<ITypeFinder> type_finder;
@@ -22,14 +22,14 @@ namespace Dolittle.Services.given
         protected static ILogger logger;
         
 
-        protected static Mock<IRepresentHostType> host_type;
+        protected static Mock<IRepresentServiceType> service_type;
 
-        protected static StaticInstancesOf<IRepresentHostType> host_types;
+        protected static StaticInstancesOf<IRepresentServiceType> service_types;
 
-        protected static Mock<ICanBindMyHostType> binder;
+        protected static Mock<ICanBindMyServiceType> binder;
         protected static Mock<IHost> host;
 
-        protected static HostType identifier;
+        protected static ServiceType identifier;
         protected static Type binding_interface;
         protected static HostConfiguration configuration;
 
@@ -43,20 +43,20 @@ namespace Dolittle.Services.given
             host = new Mock<IHost>();
             container.Setup(_ => _.Get<IHost>()).Returns(host.Object);
 
-            identifier = host_type_identifier;
-            binding_interface = typeof(ICanBindMyHostType);
+            identifier = service_type_identifier;
+            binding_interface = typeof(ICanBindMyServiceType);
             configuration = new HostConfiguration();
 
-            binder = new Mock<ICanBindMyHostType>();
+            binder = new Mock<ICanBindMyServiceType>();
             var binderType = binder.Object.GetType();
-            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindMyHostType))).Returns(new [] { binderType });
+            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindMyServiceType))).Returns(new [] { binderType });
             container.Setup(_ => _.Get(binderType)).Returns(binder.Object);
 
-            host_type = new Mock<IRepresentHostType>();
-            host_type.SetupGet(_ => _.Identifier).Returns(identifier);
-            host_type.SetupGet(_ => _.BindingInterface).Returns(binding_interface);
-            host_type.SetupGet(_ => _.Configuration).Returns(configuration);
-            host_types = new StaticInstancesOf<IRepresentHostType>(host_type.Object);
+            service_type = new Mock<IRepresentServiceType>();
+            service_type.SetupGet(_ => _.Identifier).Returns(identifier);
+            service_type.SetupGet(_ => _.BindingInterface).Returns(binding_interface);
+            service_type.SetupGet(_ => _.Configuration).Returns(configuration);
+            service_types = new StaticInstancesOf<IRepresentServiceType>(service_type.Object);
         };
     }
 }

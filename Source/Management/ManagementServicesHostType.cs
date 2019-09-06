@@ -3,43 +3,43 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using Dolittle.Hosting;
+using Dolittle.Services;
 
 namespace Dolittle.Management
 {
     /// <summary>
-    /// Represents a <see cref="IRepresentHostType">host type</see> that is for management communication
+    /// Represents a <see cref="IRepresentServiceType">service type</see> that is for management communication
     /// </summary>
     /// <remarks>
     /// Management is considered the channel where tooling is connecting for management
     /// </remarks>
-    public class ManagementServicesHostType : IRepresentHostType
+    public class ManagementServicesServiceType : IRepresentServiceType
     {
         static HostConfiguration _defaultHostConfiguration;
 
-        static ManagementServicesHostType()
+        static ManagementServicesServiceType()
         {
             _defaultHostConfiguration = new HostConfiguration(50052);
-            HostsConfigurationDefaultProvider.Configurations[ManagementServicesHostType.Name] = _defaultHostConfiguration;
+            HostsConfigurationDefaultProvider.Configurations[ManagementServicesServiceType.Name] = _defaultHostConfiguration;
         }
 
 
         /// <summary>
-        /// Gets the identifying name for the <see cref="ManagementServicesHostType"/>
+        /// Gets the identifying name for the <see cref="ManagementServicesServiceType"/>
         /// </summary>
         public const string Name = "Management";
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ManagementServicesHostType"/>
+        /// Initializes a new instance of <see cref="ManagementServicesServiceType"/>
         /// </summary>
-        /// <param name="configuration"><see cref="HostsConfiguration"/> containing the <see cref="HostConfiguration"/> for the host type</param>
-        public ManagementServicesHostType(HostsConfiguration configuration)
+        /// <param name="configuration"><see cref="HostsConfiguration"/> containing the <see cref="HostConfiguration"/> for the service type</param>
+        public ManagementServicesServiceType(HostsConfiguration configuration)
         {
             Configuration = configuration.ContainsKey(Identifier)?configuration[Identifier]:_defaultHostConfiguration;
         }
 
         /// <inheritdoc/>
-        public HostType Identifier => Name;
+        public ServiceType Identifier => Name;
 
         /// <inheritdoc/>
         public Type BindingInterface => typeof(ICanBindManagementServices);

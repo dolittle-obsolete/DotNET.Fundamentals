@@ -9,17 +9,17 @@ using Dolittle.Configuration;
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents the configuration for hosts by <see cref="HostType"/>
+    /// Represents the configuration for hosts by <see cref="ServiceType"/>
     /// </summary>
     [Name("hosts")]
     public class HostsConfiguration : 
-        ReadOnlyDictionary<HostType, HostConfiguration>,
+        ReadOnlyDictionary<ServiceType, HostConfiguration>,
         IConfigurationObject
     {
         /// <summary>
         /// Initializes a new instance of <see cref="HostsConfiguration"/>
         /// </summary>
-        /// <param name="configuration">Dictionary for <see cref="HostType"/> with <see cref="HostConfiguration"/></param>
-        public HostsConfiguration(IDictionary<HostType, HostConfiguration> configuration) : base(configuration) {}
+        /// <param name="configuration">Dictionary for <see cref="ServiceType"/> with <see cref="HostConfiguration"/></param>
+        public HostsConfiguration(IDictionary<ServiceType, HostConfiguration> configuration) : base(configuration) {}
     }
 }

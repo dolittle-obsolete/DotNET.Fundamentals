@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using Dolittle.Management;
 using Dolittle.DependencyInversion.Management.Grpc;
-using Dolittle.Hosting;
+using Dolittle.Services;
 
 namespace Dolittle.DependencyInversion.Management
 {

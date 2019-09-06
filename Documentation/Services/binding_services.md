@@ -1,6 +1,6 @@
 ---
 title: Binding services
-description: How to bind your gRPC for a host type
+description: How to bind your gRPC for a service type
 keywords: Overview, gRPC
 author: einari
 weight: 1
@@ -11,13 +11,13 @@ can be provided and exposed through a service definition. This is called binding
 
 ## Binding interface
 
-In order for you to provide services for a **host type**, you'll need to have an interface
+In order for you to provide services for a **service type**, you'll need to have an interface
 that represents this binder. This type must implement the `ICanBindServices` interface.
 
 ```csharp
-using Dolittle.Grpc;
+using Dolittle.Services;
 
-public interface ICanBindMyHostTypeServices : ICanBindServices
+public interface ICanBindMyServiceTypeServices : ICanBindServices
 {
 }
 ```
@@ -63,15 +63,16 @@ to implement. This is the actual service we will be using.
 
 ## Binding services
 
-Once you have your services defined and proxy generated and also the **host type** binding interface,
-you have the type that will be used to bind the actual services specifically for your host type.
+Once you have your services defined and proxy generated and also the **service type** binding interface,
+you have the type that will be used to bind the actual services specifically for your **service type**.
 All you and anyone building on top need to do then is to implement a type that implements this interface.
 
 ```csharp
 using System.Collections.Generic;
 using Grpc.Core;
+using Dolittle.Services;
 
-public class MyHostTypeServices : ICanBindMyHostTypeServices
+public class MyServiceTypeServices : ICanBindMyServiceTypeServices
 {
     public IEnumerable<ServerServiceDefinition> BindServices()
     {
@@ -84,4 +85,4 @@ public class MyHostTypeServices : ICanBindMyHostTypeServices
 ```
 
 Your service will now be exposed and reliably hosted on the port coming from the configuration for
-the **host type**.
+the **service type**.

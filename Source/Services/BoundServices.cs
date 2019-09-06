@@ -17,7 +17,7 @@ namespace Dolittle.Services
     [Singleton]
     public class BoundServices : IBoundServices
     {
-        readonly ConcurrentDictionary<HostType, IEnumerable<Service>>    _servicesPerHostType = new  ConcurrentDictionary<HostType, IEnumerable<Service>>();
+        readonly ConcurrentDictionary<ServiceType, IEnumerable<Service>>    _servicesPerServiceType = new  ConcurrentDictionary<ServiceType, IEnumerable<Service>>();
         readonly ILogger _logger;
 
         /// <summary>
@@ -29,33 +29,33 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public void Register(HostType type, IEnumerable<Service> services)
+        public void Register(ServiceType type, IEnumerable<Service> services)
         {
             services.ForEach(service => 
             {
                 _logger.Information($"Adding service '{service.Descriptor?.Name ?? "unknown"}'");
             });
 
-            _servicesPerHostType[type] = services;
+            _servicesPerServiceType[type] = services;
         }
 
         /// <inheritdoc/>
-        public bool HasFor(HostType type)
+        public bool HasFor(ServiceType type)
         {
-            return _servicesPerHostType.ContainsKey(type);
+            return _servicesPerServiceType.ContainsKey(type);
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Service> GetFor(HostType type)
+        public IEnumerable<Service> GetFor(ServiceType type)
         {
-            ThrowIfUnknownHostType(type);
+            ThrowIfUnknownServiceType(type);
 
-            return _servicesPerHostType[type];
+            return _servicesPerServiceType[type];
         }
 
-        void ThrowIfUnknownHostType(HostType type)
+        void ThrowIfUnknownServiceType(ServiceType type)
         {
-            if (!_servicesPerHostType.ContainsKey(type)) throw new UnknownHostType(type);
+            if (!_servicesPerServiceType.ContainsKey(type)) throw new UnknownServiceType(type);
         }
     }
 }

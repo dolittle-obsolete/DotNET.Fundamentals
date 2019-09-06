@@ -8,14 +8,14 @@ using Machine.Specifications;
 
 namespace Dolittle.Services.for_Hosts.when_starting
 {
-    public class with_one_host_type_and_two_binders : given.one_host_type_with_two_binders
+    public class with_one_service_type_and_two_binders : given.one_service_type_with_two_binders
     {
         static Hosts hosts;
 
         Establish context = () => 
         {
             configuration.Enabled = true;
-            hosts = new Hosts(host_types, type_finder.Object, container.Object, bound_services.Object, logger);
+            hosts = new Hosts(service_types, type_finder.Object, container.Object, bound_services.Object, logger);
         };
 
         Because of = () => hosts.Start();

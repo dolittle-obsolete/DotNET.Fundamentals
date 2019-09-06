@@ -5,7 +5,7 @@
 
 namespace Dolittle.Services.given
 {
-    public interface ICanBindMyHostType : ICanBindServices 
+    public interface ICanBindMyServiceType : ICanBindServices 
     {
         
     }
