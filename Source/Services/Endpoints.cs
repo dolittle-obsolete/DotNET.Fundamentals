@@ -88,24 +88,7 @@ namespace Dolittle.Services
 
                     serviceTypeRepresenters.ForEach(representer =>
                     {
-                        var services = new List<Service>();
-
-                        var binders = _typeFinder.FindMultiple(representer.BindingInterface);
-                        binders.ForEach(_ =>
-                        {
-                            _logger.Information($"Bind services from {_.AssemblyQualifiedName}");
-
-                            var binder = _container.Get(_) as ICanBindServices;
-
-                            var boundServices = binder.BindServices();
-                            boundServices.ForEach(service =>
-                            {
-                                _logger.Information($"Service : {service.Descriptor?.FullName ?? "Unknown"}");
-                            });
-
-                            services.AddRange(boundServices);
-                        });
-
+                        var services = GetServicesForRepresenter(representer);
                         _boundServices.Register(representer.Identifier, services);
 
                         if (!servicesByVisibility.ContainsKey(type)) servicesByVisibility[type] = new List<Service>();
@@ -138,6 +121,29 @@ namespace Dolittle.Services
             var endpoint = _container.Get<IEndpoint>();
             _endpoints[type] = endpoint;
             return endpoint;
+        }
+
+        IEnumerable<Service> GetServicesForRepresenter(IRepresentServiceType representer)
+        {
+            var services = new List<Service>();
+
+            var binders = _typeFinder.FindMultiple(representer.BindingInterface);
+            binders.ForEach(_ =>
+            {
+                _logger.Information($"Bind services from {_.AssemblyQualifiedName}");
+
+                var binder = _container.Get(_) as ICanBindServices;
+
+                var boundServices = binder.BindServices();
+                boundServices.ForEach(service =>
+                {
+                    _logger.Information($"Service : {service.Descriptor?.FullName ?? "Unknown"}");
+                });
+
+                services.AddRange(boundServices);
+            });
+
+            return services;
         }
     }
 }
