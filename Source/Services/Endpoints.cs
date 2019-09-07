@@ -47,6 +47,7 @@ namespace Dolittle.Services
             ILogger logger)
         {
             _configuration = configuration;
+
             _serviceRepresentersForEndpointVisibility = serviceTypes.GroupBy(_ => _.Visibility)
                 .ToDictionary(_ => _.Key, _ => _.ToList());
 
@@ -99,7 +100,7 @@ namespace Dolittle.Services
                             var boundServices = binder.BindServices();
                             boundServices.ForEach(service =>
                             {
-                                _logger.Information($"Service : {service.Descriptor.FullName}");
+                                _logger.Information($"Service : {service.Descriptor?.FullName ?? "Unknown"}");
                             });
 
                             services.AddRange(boundServices);
