@@ -8,6 +8,10 @@
   <Import Project="../../Build/MSBuild/default.props"/>
 
   <ItemGroup>
+    <ProjectReference Include="../Protobuf/Protobuf.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.5.1" />
     <PackageReference Include="Google.Protobuf.Tools" Version="3.5.1" />
     <PackageReference Include="Grpc" Version="2.23.0" />
@@ -15,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-      <Protobuf Include="../../Protobuf/dolittle/dependencyinversion/**/*.proto;../../Protobuf/system/**/*.proto" 
+      <Protobuf Include="../../Protobuf/dolittle/dependencyinversion/**/*.proto" 
                 ProtoRoot="../../Protobuf"
                 OutputDir="%(RecursiveDir)" 
                 GrpcServices="Both" 
