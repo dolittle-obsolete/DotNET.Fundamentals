@@ -11,6 +11,11 @@ namespace Dolittle.Services
     /// </summary>
     public class EndpointsBootProcedure : ICanPerformBootProcedure
     {
+        /// <summary>
+        /// Gets wether or not all the hosts are ready
+        /// </summary>
+        public static bool HostsReady { get; private set; } = false;
+
         readonly IEndpoints _hosts;
 
         /// <summary>
@@ -30,6 +35,7 @@ namespace Dolittle.Services
         public void Perform()
         {
             _hosts.Start();
+            HostsReady = true;
         }
     }
 }
