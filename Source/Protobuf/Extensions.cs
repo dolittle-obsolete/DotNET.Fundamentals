@@ -18,7 +18,7 @@ namespace Dolittle.Protobuf
         /// </summary>
         /// <param name="guid"><see cref="System.Protobuf.guid"/> to convert</param>
         /// <returns>Converted <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/></returns>
-        public static System.Guid ToGuidOf<T>(this System.Protobuf.guid guid) where T:ConceptAs<Guid>, new()
+        public static System.Guid ToGuidOf<T>(this System.Protobuf.guid guid) where T:ConceptAs<System.Guid>, new()
         {
             return new T { Value = new System.Guid(guid.Value.ToByteArray()) };
         }
