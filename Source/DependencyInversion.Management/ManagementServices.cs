@@ -30,7 +30,7 @@ namespace Dolittle.DependencyInversion.Management
         public IEnumerable<Service> BindServices()
         {
             return new [] {
-                new Service(Container.BindService(_containerService), Container.Descriptor)
+                new Service(_containerService, Container.BindService(_containerService), Container.Descriptor)
             };
         }       
     }
