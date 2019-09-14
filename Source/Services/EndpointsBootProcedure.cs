@@ -12,19 +12,19 @@ namespace Dolittle.Services
     public class EndpointsBootProcedure : ICanPerformBootProcedure
     {
         /// <summary>
-        /// Gets wether or not all the hosts are ready
+        /// Gets wether or not all the <see cref="IEndpoint">endpoints</see> are ready
         /// </summary>
-        public static bool HostsReady { get; private set; } = false;
+        public static bool EndpointsReady { get; private set; } = false;
 
-        readonly IEndpoints _hosts;
+        readonly IEndpoints _endpoints;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EndpointsBootProcedure"/>
         /// </summary>
-        /// <param name="hosts">Instance of <see cref="IEndpoints"/> to boot</param>
-        public EndpointsBootProcedure(IEndpoints hosts)
+        /// <param name="endpoints">Instance of <see cref="IEndpoints"/> to boot</param>
+        public EndpointsBootProcedure(IEndpoints endpoints)
         {
-            _hosts = hosts;
+            _endpoints = endpoints;
         }
 
         /// <inheritdoc/>
@@ -34,8 +34,8 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Perform()
         {
-            _hosts.Start();
-            HostsReady = true;
+            _endpoints.Start();
+            EndpointsReady = true;
         }
     }
 }
