@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../**/*.csproj" Exclude="../AggregatedPackage/Fundamentals.csproj;../Build/Build.csproj;../Build.CLI/Build.CLI.csproj;../Build.MSBuild/Build.MSBuild.csproj;../Build.MSBuild.Tasks/Build.MSBuils.Tasks.csproj" />
+        <ProjectReference Include="../**/*.csproj" Exclude="../AggregatedPackage/Fundamentals.csproj;../Build/Build.csproj;../Build.CLI/Build.CLI.csproj;../Build.MSBuild/Build.MSBuild.csproj;../Build.MSBuild.Tasks/Build.MSBuild.Tasks.csproj" />
     </ItemGroup>
 </Project>
 
