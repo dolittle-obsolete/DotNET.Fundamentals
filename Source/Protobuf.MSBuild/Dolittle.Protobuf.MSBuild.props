@@ -1,0 +1,11 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" TreatAsLocalProperty="TaskFolder;TaskAssembly">
+    <PropertyGroup>
+        <DolittleProtoProject>NotSet</DolittleProtoProject>
+        <DolittleProtoRoot>../</DolittleProtoRoot>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Protobuf_NoWarnMissingExpected>true</Protobuf_NoWarnMissingExpected>
+    </PropertyGroup>
+
+</Project>

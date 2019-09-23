@@ -1,0 +1,23 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    </PropertyGroup>
+
+    <Import Project="$(NuGetPackageRoot)grpc.tools/2.23.0/build/Grpc.Tools.props"/>
+    <Import Project="$(NuGetPackageRoot)grpc.tools/2.23.0/build/Grpc.Tools.targets"/>
+
+    <ItemGroup>
+        <Protobuf Include="$(DolittleProtoProject)/**/*.proto"
+                    ProtoRoot="$(DolittleProtoRoot)"
+                    OutputDir="%(RecursiveDir)" 
+                    GrpcServices="Both" 
+                    CompileOutputs="False" />
+    </ItemGroup>
+
+    <Target Name="DeleteSourceFiles" BeforeTargets="BeforeBuild">
+        <ItemGroup>
+            <FilesToDelete Include="**/*.cs"/>
+        </ItemGroup>
+        <Delete Files="@(FilesToDelete)"/>
+    </Target>
+</Project>
