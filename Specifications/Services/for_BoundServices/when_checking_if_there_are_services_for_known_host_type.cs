@@ -16,7 +16,7 @@ namespace Dolittle.Services.for_BoundServices
         Establish context = () => 
         {
             bound_services = new BoundServices(Moq.Mock.Of<ILogger>());
-            var service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
+            var service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
             bound_services.Register(service_type, new[] { service });
         };
 

@@ -20,8 +20,8 @@ namespace Dolittle.Services.for_BoundServices
         {
             bound_services = new BoundServices(Moq.Mock.Of<ILogger>());
 
-            first_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            second_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
+            first_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            second_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
         };
 
         Because of = () => bound_services.Register(service_type, new [] { first_service, second_service });
