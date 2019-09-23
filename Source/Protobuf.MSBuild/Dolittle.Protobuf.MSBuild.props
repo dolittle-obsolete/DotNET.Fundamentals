@@ -3,9 +3,4 @@
         <DolittleProtoProject>NotSet</DolittleProtoProject>
         <DolittleProtoRoot>../</DolittleProtoRoot>
     </PropertyGroup>
-
-    <PropertyGroup>
-        <Protobuf_NoWarnMissingExpected>true</Protobuf_NoWarnMissingExpected>
-    </PropertyGroup>
-
 </Project>
