@@ -14,12 +14,11 @@ namespace Dolittle.Scheduling
     {
         SysTimer _timer;
 
-
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="Timer"/>
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="interval"></param>
+        /// <param name="action"><see cref="Action"/> to run on an interval</param>
+        /// <param name="interval">The interval in milliseconds</param>
         public Timer(Action action, double interval)
         {
             _timer = new SysTimer(interval)
