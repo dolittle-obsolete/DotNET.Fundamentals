@@ -146,15 +146,15 @@ namespace Dolittle.Services.for_Endpoints.given
 
             service_types = new StaticInstancesOf<IRepresentServiceType>(first_service_type.Object, second_service_type.Object);
 
-            first_service_type_first_binder_first_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            first_service_type_first_binder_second_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            first_service_type_second_binder_first_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            first_service_type_second_binder_second_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
+            first_service_type_first_binder_first_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            first_service_type_first_binder_second_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            first_service_type_second_binder_first_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            first_service_type_second_binder_second_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
 
-            second_service_type_first_binder_first_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            second_service_type_first_binder_second_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            second_service_type_second_binder_first_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            second_service_type_second_binder_second_service = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
+            second_service_type_first_binder_first_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            second_service_type_first_binder_second_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            second_service_type_second_binder_first_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            second_service_type_second_binder_second_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
 
             first_binder_first_type.ServicesToBind = new[] { 
                 first_service_type_first_binder_first_service,

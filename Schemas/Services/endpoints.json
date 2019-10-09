@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "dolittle.io/schemas/DotNET.Fundamentals/Services/endpoints.json",
+    "title": "Endpoints configuration",
+    "description": "Configuration of endpoints for Dolittle based systems",
+    "type": "object",
+    "additionalProperties": {
+        "$ref": "#/definitions/endpointConfiguration"
+    },
+    "definitions": {
+        "endpointConfiguration": {
+            "description": "The configuration of a resource type",
+            "type":"object",
+            "properties": {
+                "port": {
+                    "description": "The TCP port the endpoint is exposed on",
+                    "type":"number"
+                },
+                "enabled": {
+                    "description": "Whether or not the endpoint is enabled or not",
+                    "type":"boolean"
+                }
+            },
+            "additionalProperties": true,
+            "required": []
+        }
+    }}

@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Dolittle.Management;
-using Dolittle.DependencyInversion.Management.Grpc;
+using Dolittle.Services.Management.Grpc;
 using Dolittle.Services;
 
-namespace Dolittle.DependencyInversion.Management
+namespace Dolittle.Services.Management
 {
     /// <summary>
     /// Represents an implementation of <see cref="ICanBindManagementServices"/> for exposing
@@ -15,22 +15,22 @@ namespace Dolittle.DependencyInversion.Management
     /// </summary>
     public class ManagementServices : ICanBindManagementServices
     {
-        readonly ContainerService _containerService;
+        readonly BoundServicesService _boundServicesService;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ManagementServices"/>
         /// </summary>
-        /// <param name="containerService">The <see cref="ContainerService"/></param>
-        public ManagementServices(ContainerService containerService)
+        /// <param name="boundServicesService">The <see cref="BoundServicesService"/></param>
+        public ManagementServices(BoundServicesService boundServicesService)
         {
-            _containerService = containerService;
+            _boundServicesService = boundServicesService;
         }
 
         /// <inheritdoc/>
         public IEnumerable<Service> BindServices()
         {
             return new [] {
-                new Service(_containerService, Container.BindService(_containerService), Container.Descriptor)
+                new Service(_boundServicesService, Grpc.BoundServices.BindService(_boundServicesService), Grpc.BoundServices.Descriptor)
             };
         }       
     }

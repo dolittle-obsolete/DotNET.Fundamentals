@@ -22,11 +22,11 @@ namespace Dolittle.Services.for_BoundServices
         {
             bound_services = new BoundServices(Moq.Mock.Of<ILogger>());
 
-            first_service_first_type = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            second_service_first_type = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
+            first_service_first_type = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            second_service_first_type = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
 
-            first_service_second_type = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
-            second_service_second_type = new Service(ServerServiceDefinition.CreateBuilder().Build(), null);
+            first_service_second_type = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
+            second_service_second_type = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
         };
 
         Because of = () => 

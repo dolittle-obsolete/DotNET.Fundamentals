@@ -13,6 +13,17 @@ namespace Dolittle.Services
     public class EndpointConfigurationDefaultProvider : ICanProvideDefaultConfigurationFor<EndpointsConfiguration>
     {
         /// <summary>
+        /// Gets or sets the default public port
+        /// </summary>
+        public static int DefaultPublicPort = 50052;
+
+        /// <summary>
+        /// Gets or sets the default private port
+        /// </summary>
+        public static int DefaultPrivatePort = 50053;
+
+
+        /// <summary>
         /// Accesses the static configurations for providing default <see cref="EndpointConfiguration"/> for different <see cref="ServiceType">service types</see>
         /// </summary>
         public readonly static Dictionary<EndpointVisibility, EndpointConfiguration> Configurations = new Dictionary<EndpointVisibility, EndpointConfiguration>();       
@@ -20,8 +31,8 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public EndpointsConfiguration Provide()
         {
-            Configurations[EndpointVisibility.Public] = new EndpointConfiguration(50052);
-            Configurations[EndpointVisibility.Private] = new EndpointConfiguration(50053);
+            Configurations[EndpointVisibility.Public] = new EndpointConfiguration(DefaultPublicPort);
+            Configurations[EndpointVisibility.Private] = new EndpointConfiguration(DefaultPrivatePort);
             return new EndpointsConfiguration(Configurations);
         }
     }

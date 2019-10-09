@@ -17,18 +17,15 @@ namespace Dolittle.Services
     public class Endpoint : IEndpoint
     {
         readonly ILogger _logger;
-        readonly CallLogger _callLogger;
         grpc::Server _server;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Endpoint"/>
         /// </summary>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
-        /// <param name="callLogger"><see cref="CallLogger"/> for logging calls</param>
-        public Endpoint(ILogger logger, CallLogger callLogger)
+        public Endpoint(ILogger logger)
         {
             _logger = logger;
-            _callLogger = callLogger;
         }
 
         /// <summary>
@@ -64,18 +61,12 @@ namespace Dolittle.Services
                     }
                 };
 
-                
-
                 _server
                     .Ports
                     .ForEach(_ =>
                         _logger.Information($"Starting {type} host on {_.Host}" + (_.Port > 0 ? $" for port {_.Port}" : string.Empty)));
 
-                services.ForEach(_ =>
-                {
-                    var serverDefinition = _.ServerDefinition.Intercept(_callLogger);
-                    _server.Services.Add(serverDefinition);
-                });
+                services.ForEach(_ => _server.Services.Add(_.ServerDefinition));
 
                 _server.Start();
             }
