@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "dolittle.io/schemas/DotNET.Fundamentals/Services/endpoints-configuration.json",
+    "$id": "dolittle.io/schemas/DotNET.Fundamentals/Services/endpoints.json",
     "title": "Endpoints configuration",
     "description": "Configuration of endpoints for Dolittle based systems",
     "type": "object",
