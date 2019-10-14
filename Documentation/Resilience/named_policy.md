@@ -4,6 +4,8 @@ description: Overview of how to work with a named policy
 keywords: Overview, Resilience
 author: einari
 weight: 2
+aliases: 
+    - /fundamentals/dotnet.fundamentals/resilience/named_policy
 ---
 Named policies can be very useful is you want to have a policy that is used
 by multiple different parts of your system and accessible by a well-known

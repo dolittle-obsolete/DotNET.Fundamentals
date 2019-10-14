@@ -4,6 +4,8 @@ description: Overview of how conventions work
 keywords: Conventions, Dependency Inversion
 author: einari
 weight: 4
+aliases: 
+    - /fundamentals/dotnet.fundamentals/dependencyinversion/conventions
 ---
 Important part of how we think at Dolittle, is by enabling conventions.
 Instead of having to configure everything explicitly, often at times there

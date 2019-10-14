@@ -3,6 +3,8 @@ title: Services
 description: Overview of services
 keywords: Overview, Services
 author: einari
+aliases: 
+    - /fundamentals/dotnet.fundamentals/services
 ---
 In our fundamentals, you'll find a package called [Services](https://www.nuget.org/packages/Dolittle.Services/).
 The purpose of this package is to make it possible to provide hosted services that leverages
