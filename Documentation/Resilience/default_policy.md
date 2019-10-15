@@ -4,6 +4,8 @@ description: Overview of how to work with a default policy
 keywords: Overview, Resilience
 author: einari
 weight: 1
+aliases: 
+    - /fundamentals/dotnet.fundamentals/resilience/default_policy
 ---
 The resilience system has the concept of a default policy.
 This is the policy that gets used if there is no specific policy for a
