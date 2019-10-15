@@ -4,8 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Dolittle.Management;
-using Dolittle.Services.Management.Grpc;
-using Dolittle.Services;
 
 namespace Dolittle.Services.Management
 {
@@ -27,11 +25,11 @@ namespace Dolittle.Services.Management
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Service> BindServices()
+        public IEnumerable<Dolittle.Services.Service> BindServices()
         {
             return new [] {
-                new Service(_boundServicesService, Grpc.BoundServices.BindService(_boundServicesService), Grpc.BoundServices.Descriptor)
+                new Dolittle.Services.Service(_boundServicesService, BoundServices.BindService(_boundServicesService), BoundServices.Descriptor)
             };
-        }       
+        }
     }
 }

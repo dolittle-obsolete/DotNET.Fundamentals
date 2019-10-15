@@ -5,7 +5,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
-using static Dolittle.Services.Management.Grpc.BoundServices;
+using static Dolittle.Services.Management.BoundServices;
 
 namespace Dolittle.Services.Management
 {
@@ -27,11 +27,11 @@ namespace Dolittle.Services.Management
         }
 
         /// <inheritdoc/>
-        public override Task<Grpc.Services> GetForServiceType(Grpc.ServiceType request, ServerCallContext context)
+        public override Task<Management.Services> GetForServiceType(ServiceType request, ServerCallContext context)
         {
             var boundServices = _boundServices.GetFor(request.Name);
-            var services = new Grpc.Services();
-            services.BoundServices.Add(boundServices.Select(_ => new Grpc.Service { Name = _.Descriptor.FullName }));
+            var services = new Management.Services();
+            services.BoundServices.Add(boundServices.Select(_ => new Service { Name = _.Descriptor.FullName }));
             return Task.FromResult(services);
         }
     }

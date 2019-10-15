@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Dolittle.Management;
-using Dolittle.DependencyInversion.Management.Grpc;
 using Dolittle.Services;
 
 namespace Dolittle.DependencyInversion.Management
@@ -32,6 +31,6 @@ namespace Dolittle.DependencyInversion.Management
             return new [] {
                 new Service(_containerService, Container.BindService(_containerService), Container.Descriptor)
             };
-        }       
+        }
     }
 }

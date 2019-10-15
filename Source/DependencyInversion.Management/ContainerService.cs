@@ -5,8 +5,7 @@
 using System.Threading.Tasks;
 using Dolittle.Logging;
 using Grpc.Core;
-using Dolittle.DependencyInversion.Management.Grpc;
-using static Dolittle.DependencyInversion.Management.Grpc.Container;
+using static Dolittle.DependencyInversion.Management.Container;
 
 namespace Dolittle.DependencyInversion.Management
 {
@@ -24,7 +23,6 @@ namespace Dolittle.DependencyInversion.Management
         public ContainerService(ILogger logger)
         {
             _logger = logger;
-            
         }
 
         /// <inheritdoc/>
