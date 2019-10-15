@@ -25,6 +25,9 @@ namespace Dolittle.Services.Management
         }
 
         /// <inheritdoc/>
+        public ServiceAspect Aspect => "Services";
+
+        /// <inheritdoc/>
         public IEnumerable<Dolittle.Services.Service> BindServices()
         {
             return new [] {

@@ -26,6 +26,9 @@ namespace Dolittle.DependencyInversion.Management
         }
 
         /// <inheritdoc/>
+        public ServiceAspect Aspect => "DependencyInversion";
+
+        /// <inheritdoc/>
         public IEnumerable<Service> BindServices()
         {
             return new [] {
