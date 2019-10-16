@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.System.Grpc" Version="3.*"/>
+    <ProjectReference Include="../Concepts/Concepts.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Concepts/Concepts.csproj"/>
+    <PackageReference Include="Google.Protobuf" Version="3.5.1" />
   </ItemGroup>
 </Project>
