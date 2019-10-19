@@ -1,5 +1,3 @@
-{
-  [
-    "dolittle-runtime/Runtime"
-  ]
-}
+[
+  "dolittle-runtime/Runtime"
+]
