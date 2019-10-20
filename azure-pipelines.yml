@@ -11,4 +11,5 @@ resources:
 jobs:
 - template: Source/DotNet/framework.yml@templates
   parameters:
-    CASCADES: dolittle-runtime/Runtime
+    CASCADES:
+      - 'dolittle-runtime/Runtime'
