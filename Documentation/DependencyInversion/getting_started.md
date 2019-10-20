@@ -29,10 +29,10 @@ In your `.csproj` this would be then:
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dolittle.Booting" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="3.*" />
+    <PackageReference Include="Dolittle.Booting" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="4.*" />
 </ItemGroup>
 ```
 
@@ -111,8 +111,8 @@ In your `.csproj` file:
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="3.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="4.*" />
 </ItemGroup>
 ```
 
@@ -125,7 +125,7 @@ In your `.csproj` file:
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="3.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="4.*" />
 </ItemGroup>
 ```
 
