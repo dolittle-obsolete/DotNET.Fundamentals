@@ -13,3 +13,4 @@ jobs:
   parameters:
     CASCADES:
       - 'dolittle-runtime/Runtime'
+      - 'test'
