@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Dolittle.Management;
 using Dolittle.Services;
+using Dolittle.Management.DependencyInversion;
 
 namespace Dolittle.DependencyInversion.Management
 {

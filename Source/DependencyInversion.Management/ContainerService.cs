@@ -5,7 +5,9 @@
 using System.Threading.Tasks;
 using Dolittle.Logging;
 using Grpc.Core;
-using static Dolittle.DependencyInversion.Management.Container;
+using Dolittle.Management.DependencyInversion;
+using grpc = Dolittle.Management.DependencyInversion;
+using static Dolittle.Management.DependencyInversion.Container;
 
 namespace Dolittle.DependencyInversion.Management
 {
@@ -30,7 +32,7 @@ namespace Dolittle.DependencyInversion.Management
         {
             _logger.Information("Getting all bindings");
 
-            var bindings = new Bindings();
+            var bindings = new grpc.Bindings();
             bindings.Bindings_.AddRange(PostContainerBootStage.AllBindings);
             return Task.FromResult(bindings);
         }
