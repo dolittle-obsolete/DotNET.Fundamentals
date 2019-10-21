@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../Build/MSBuild/default.props" />
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyName>Dolittle.Fundamentals</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../**/*.csproj" Exclude="../AggregatedPackage/Fundamentals.csproj;../Build/Build.csproj;../Build.CLI/Build.CLI.csproj;../Build.MSBuild/Build.MSBuild.csproj;../Build.MSBuild.Tasks/Build.MSBuild.Tasks.csproj" />
+    </ItemGroup>
+</Project>
+

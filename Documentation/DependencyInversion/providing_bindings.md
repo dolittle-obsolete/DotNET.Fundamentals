@@ -4,6 +4,8 @@ description: Overview of how you can provide bindings
 keywords: Overview, Dependency Inversion
 author: einari
 weight: 3
+aliases: 
+    - /fundamentals/dotnet.fundamentals/dependencyinversion/providing_bindings/
 ---
 When a [convention]({{< relref conventions >}}) does not cover your
 scenario, or you need to bind something based on configuration or similar.
@@ -32,6 +34,18 @@ public class BindingProvider : ICanProvideBindings
 
         // Callback binding
         builder.Bind<IBar>().To(() => new Bar());
+
+        // Type callback binding
+        builder.Bind<IBar>().To(() => typeof(Bar));
+
+        // Open generic callback binding with binding context
+        builder.Bind<IBarOf<>>().To((bindingContext) => new BarOf(bindingContext.Service));
+
+        // Type callback binding
+        builder.Bind<IBar>().To(() => typeof(Bar));
+
+        // Open generic callback binding with binding context
+        builder.Bind<IBarOf<>>().To((bindingContext) => typeof(BarOf<>).MakeGenericType(bindingContext.Service));
     }
 }
 ```

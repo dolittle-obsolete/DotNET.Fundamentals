@@ -3,6 +3,8 @@ title: DependencyInversion
 description: Overview of Dependency Inversion
 keywords: Overview, Dependency Inversion
 author: einari
+aliases: 
+    - /fundamentals/dotnet.fundamentals/dependencyinversion
 ---
 In our fundamentals, you'll find a package called [DependencyInversion](https://www.nuget.org/packages/Dolittle.DependencyInversion/).
 [Dependency inversion](https://en.wikipedia.org/wiki/Dependency_inversion_principle) is the last principle

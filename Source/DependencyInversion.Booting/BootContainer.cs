@@ -79,8 +79,10 @@ namespace Dolittle.DependencyInversion.Booting
                     {
                         case Strategies.Constant constant: return constant.Target;
                         case Strategies.Callback callback: return callback.Target;
+                        case Strategies.CallbackWithBindingContext callback: return callback.Target;
                         case Strategies.Type type: return type.Target;
                         case Strategies.TypeCallback typeCallback: return typeCallback.Target;
+                        case Strategies.TypeCallbackWithBindingContext typeCallback: return typeCallback.Target;
                     }
 
                     return null;

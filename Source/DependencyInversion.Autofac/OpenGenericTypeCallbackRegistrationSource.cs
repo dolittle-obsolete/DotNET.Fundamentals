@@ -14,15 +14,13 @@ using Autofac.Core.Registration;
 
 namespace Dolittle.DependencyInversion.Autofac
 {
-
-
     /// <summary>
     /// Represents a <see cref="IRegistrationSource"/> that deals with resolving open generic type callbacks
     /// </summary>
     public class OpenGenericTypeCallbackRegistrationSource : IRegistrationSource
     {
-        static IDictionary<Type, Func<Type>> _typeCallbackByService = new Dictionary<Type, Func<Type>>();
-        internal static void AddService(KeyValuePair<Type, Func<Type>> typeCallbackAndServicePair)
+        static IDictionary<Type, Func<IServiceWithType, Type>> _typeCallbackByService = new Dictionary<Type, Func<IServiceWithType, Type>>();
+        internal static void AddService(KeyValuePair<Type, Func<IServiceWithType, Type>> typeCallbackAndServicePair)
         {
              _typeCallbackByService.Add(typeCallbackAndServicePair);
         }
@@ -41,12 +39,13 @@ namespace Dolittle.DependencyInversion.Autofac
             {
                 return Enumerable.Empty<IComponentRegistration>();
             }
+
             var serviceOpenGenericType = serviceWithType.ServiceType.GetGenericTypeDefinition();
             var callback = _typeCallbackByService[serviceOpenGenericType];
             
             var registration = new ComponentRegistration(
                 Guid.NewGuid(),
-                new DelegateActivator(serviceWithType.ServiceType, (c, p) => c.ResolveUnregistered(callback().MakeGenericType(serviceWithType.ServiceType.GetGenericArguments()))),
+                new DelegateActivator(serviceWithType.ServiceType, (c, p) => c.ResolveUnregistered(callback(serviceWithType).MakeGenericType(serviceWithType.ServiceType.GetGenericArguments()))),
                 new CurrentScopeLifetime(),
                 InstanceSharing.None,
                 InstanceOwnership.OwnedByLifetimeScope,

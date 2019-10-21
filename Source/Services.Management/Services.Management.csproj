@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Dolittle.Services.Management</AssemblyName>
+    <IncludeSource>False</IncludeSource>
+  </PropertyGroup>
+
+  <Import Project="../../Build/MSBuild/default.props"/>
+
+  <ItemGroup>
+    <ProjectReference Include="../Management/Management.csproj"/>
+    <ProjectReference Include="../Services/Services.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Services.Grpc" Version="3.*"/>
+  </ItemGroup>
+</Project>
