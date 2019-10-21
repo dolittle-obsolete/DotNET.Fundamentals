@@ -2,12 +2,13 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+extern alias management;
 using System.Threading.Tasks;
 using Dolittle.Logging;
 using Grpc.Core;
-using Dolittle.Management.DependencyInversion;
-using grpc = Dolittle.Management.DependencyInversion;
-using static Dolittle.Management.DependencyInversion.Container;
+using management::Dolittle.DependencyInversion.Management;
+using grpc = management::Dolittle.DependencyInversion.Management;
+using static management::Dolittle.DependencyInversion.Management.Container;
 
 namespace Dolittle.DependencyInversion.Management
 {

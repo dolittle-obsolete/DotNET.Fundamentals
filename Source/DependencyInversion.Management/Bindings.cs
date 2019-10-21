@@ -2,10 +2,11 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+extern alias management;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using grpc = Dolittle.Management.DependencyInversion;
+using grpc = management::Dolittle.DependencyInversion.Management;
 
 namespace Dolittle.DependencyInversion.Management
 {

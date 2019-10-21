@@ -2,11 +2,12 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+extern alias management;
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
-using grpc = Dolittle.Management.Services;
-using static Dolittle.Management.Services.BoundServices;
+using grpc = management::Dolittle.Services.Management;
+using static management::Dolittle.Services.Management.BoundServices;
 
 namespace Dolittle.Services.Management
 {
