@@ -71,9 +71,11 @@ namespace Dolittle.Build.CLI
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine("Error executing Dolittle post build tool".Red());
-                Console.Error.WriteLine($"Exception: {ex.Message}".Red());
-                Console.Error.WriteLine($"StackTrace: {ex.StackTrace}".Red());
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Error.WriteLine("Error executing Dolittle post build tool");
+                Console.Error.WriteLine($"Exception: {ex.Message}");
+                Console.Error.WriteLine($"StackTrace: {ex.StackTrace}");
+                Console.ResetColor();
                 return 1;
             }
 

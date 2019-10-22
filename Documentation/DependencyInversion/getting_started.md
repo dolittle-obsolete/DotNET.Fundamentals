@@ -4,6 +4,8 @@ description: Overview of how you can started
 keywords: Getting started, Dependency Inversion
 author: einari
 weight: 1
+aliases: 
+    - /fundamentals/dotnet.fundamentals/dependencyinversion/getting_started
 ---
 The simplest thing for getting started is to use the built-in booting system
 which will take care of setting everything up in order.

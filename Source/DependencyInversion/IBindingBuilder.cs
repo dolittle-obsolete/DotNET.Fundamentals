@@ -6,6 +6,7 @@ using System;
 
 namespace Dolittle.DependencyInversion
 {
+
     /// <summary>
     /// Defines a builder of <see cref="Binding"/>
     /// </summary>
@@ -36,11 +37,23 @@ namespace Dolittle.DependencyInversion
         IBindingScopeBuilder To(Func<object> callback);
 
         /// <summary>
-        /// Bind to a callback
+        /// Bind to a callback with <see cref="BindingContext"/> passed in
+        /// </summary>
+        /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
+        IBindingScopeBuilder To(Func<BindingContext, object> callback);
+
+        /// <summary>
+        /// Bind to a callback for defining the type to bind to
         /// </summary>
         /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
         IBindingScopeBuilder To(Func<Type> callback);
-        
+
+        /// <summary>
+        /// Bind to a callback for defining the type to bind to with <see cref="BindingContext"/> passed in
+        /// </summary>
+        /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
+        IBindingScopeBuilder To(Func<BindingContext, Type> callback);
+
         /// <summary>
         /// Builds the Binding
         /// </summary>
@@ -71,5 +84,11 @@ namespace Dolittle.DependencyInversion
         /// </summary>
         /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
         IBindingScopeBuilder To(Func<T> callback);
+
+        /// <summary>
+        /// Bind to a type with <see cref="BindingContext"/> passed in
+        /// </summary>
+        /// <returns><see cref="IBindingScopeBuilder"/> for building scope</returns>
+        IBindingScopeBuilder To(Func<BindingContext, T> callback);
    }
 }

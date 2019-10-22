@@ -28,7 +28,7 @@ namespace Dolittle.Time
         /// <returns></returns>
         public static long ToUnixTimeMilliseconds(this DateTime dateTime)
         {
-            return new DateTimeOffset(dateTime).ToUniversalTime().ToUnixTimeMilliseconds();
+            return new DateTimeOffset(dateTime.ToUniversalTime(),TimeSpan.Zero).ToUniversalTime().ToUnixTimeMilliseconds();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Dolittle.Time
         /// <returns></returns>
         public static DateTime ToDateTime(this long milliseconds)
         {
-            return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).ToUniversalTime().DateTime;
+            return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).ToUniversalTime().UtcDateTime;
         }  
 
         /// <summary>

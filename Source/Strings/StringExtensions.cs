@@ -11,12 +11,7 @@ namespace Dolittle.Strings
     /// </summary>
     public static class StringExtensions
     {
-        const string _colorPrepend = "\x1b[";
-        const string _redCode = "31m";
-        const string _yellowCode = "33m";
-        const string _whiteCode = "37m";
-        const string _resetCode = "0m";
-        
+        const string _colorPrepend = "\x1b[";        
 
         /// <summary>
         /// Convert a string into a camel cased string
@@ -53,36 +48,5 @@ namespace Dolittle.Strings
             }
             return @string;
         }
-
-        /// <summary>
-        /// Prepend color coding for Red - typically used in CLI and such
-        /// </summary>
-        /// <param name="string">string to prepend to</param>
-        /// <returns>String with prepended color coding</returns>
-        public static string Red(this string @string)
-        {
-            return _colorPrepend + _redCode + @string + _colorPrepend + _resetCode;
-        }
-
-        /// <summary>
-        /// Prepend color coding for Yellow - typically used in CLI and such
-        /// </summary>
-        /// <param name="string">string to prepend to</param>
-        /// <returns>String with prepended color coding</returns>
-        public static string Yellow(this string @string)
-        {
-            return _colorPrepend + _yellowCode + @string + _colorPrepend + _resetCode;
-        }
-
-
-        /// <summary>
-        /// Prepend color coding for White - typically used in CLI and such
-        /// </summary>
-        /// <param name="string">string to prepend to</param>
-        /// <returns>String with prepended color coding</returns>
-        public static string White(this string @string)
-        {
-            return _colorPrepend + _whiteCode + @string + _colorPrepend + _resetCode;
-        }        
     }
 }

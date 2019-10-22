@@ -26,7 +26,7 @@ namespace Dolittle.DependencyInversion.Autofac
     /// </summary>
     public static class ContainerBuilderExtensions
     {
-        
+
         /// <summary>
         /// Add Dolittle specifics to the <see cref="ContainerBuilder"/>
         /// </summary>
@@ -38,7 +38,7 @@ namespace Dolittle.DependencyInversion.Autofac
             var allAssemblies = assemblies.GetAll().ToArray();
             containerBuilder.RegisterAssemblyModules(allAssemblies);
 
-            var selfBindingRegistrationSource = new SelfBindingRegistrationSource(type => 
+            var selfBindingRegistrationSource = new SelfBindingRegistrationSource(type =>
                 !type.Namespace.StartsWith("Microsoft") &&
                 !type.Namespace.StartsWith("System"));
 
@@ -48,6 +48,7 @@ namespace Dolittle.DependencyInversion.Autofac
 
             containerBuilder.RegisterSource(selfBindingRegistrationSource);
             containerBuilder.RegisterSource(new FactoryForRegistrationSource());
+            containerBuilder.RegisterSource(new OpenGenericCallbackRegistrationSource());
             containerBuilder.RegisterSource(new OpenGenericTypeCallbackRegistrationSource());
             DiscoverAndRegisterRegistrationSources(containerBuilder, allAssemblies);
 
@@ -60,7 +61,7 @@ namespace Dolittle.DependencyInversion.Autofac
             if (service is TypedService)
             {
                 var typedService = service as TypedService;
-                if (typedService.ServiceType.HasAttribute<SingletonAttribute>())builder.SingleInstance();
+                if (typedService.ServiceType.HasAttribute<SingletonAttribute>()) builder.SingleInstance();
             }
         }
 
@@ -68,45 +69,95 @@ namespace Dolittle.DependencyInversion.Autofac
         {
             bindings.ForEach(binding =>
             {
-                if (binding.Scope is Scopes.SingletonPerTenant) 
+                if (binding.Service.Name.Contains("IPolicyFor"))
+                {
+                    var i = 0;
+                    i++;
+                }
+
+                if (binding.Scope is Scopes.SingletonPerTenant)
                 {
                     BindingsPerTenantsRegistrationSource.AddBinding(binding);
                     return;
                 }
                 if (binding.Service.ContainsGenericParameters)
                 {
-                    if (binding.Strategy is Strategies.Type)
+                    switch (binding.Strategy)
                     {
-                        var registrationBuilder = containerBuilder.RegisterGeneric(((Strategies.Type)binding.Strategy).Target).As(binding.Service);
-                        if (binding.Scope is Scopes.Singleton)registrationBuilder = registrationBuilder.SingleInstance();
-                    }
-                    else if (binding.Strategy is Strategies.TypeCallback)
-                    {
-                        OpenGenericTypeCallbackRegistrationSource.AddService(new KeyValuePair<Type, Func<Type>>(binding.Service, ((Strategies.TypeCallback)binding.Strategy).Target));
+                        case Strategies.Type type:
+                            {
+                                var registrationBuilder = containerBuilder.RegisterGeneric(type.Target).As(binding.Service);
+                                if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
+                            }
+                            break;
+
+                        case Strategies.Callback callback:
+                            {
+                                OpenGenericCallbackRegistrationSource.AddService(new KeyValuePair<Type, Func<IServiceWithType,object>>(binding.Service, (serviceWithType) => callback.Target()));
+                            }
+                            break;
+
+                        case Strategies.CallbackWithBindingContext callback:
+                            {
+                                OpenGenericCallbackRegistrationSource.AddService(new KeyValuePair<Type, Func<IServiceWithType, object>>(binding.Service, (serviceWithType) => callback.Target(new BindingContext(serviceWithType.ServiceType))));
+                            }
+                            break;
+
+                        case Strategies.TypeCallback callback:
+                            {
+                                OpenGenericTypeCallbackRegistrationSource.AddService(new KeyValuePair<Type, Func<IServiceWithType,Type>>(binding.Service, (serviceWithType) => callback.Target()));
+                            }
+                            break;
+
+                        case Strategies.TypeCallbackWithBindingContext callback:
+                            {
+                                OpenGenericTypeCallbackRegistrationSource.AddService(new KeyValuePair<Type, Func<IServiceWithType, Type>>(binding.Service, (serviceWithType) => callback.Target(new BindingContext(serviceWithType.ServiceType))));
+                            }
+                            break;
                     }
                 }
                 else
                 {
-                    switch(binding.Strategy)
+                    switch (binding.Strategy)
                     {
-                        case Strategies.Type type: {
-                            var registrationBuilder = containerBuilder.RegisterType(type.Target).As(binding.Service);
-                            if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
-                        } break;
+                        case Strategies.Type type:
+                            {
+                                var registrationBuilder = containerBuilder.RegisterType(type.Target).As(binding.Service);
+                                if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
+                            }
+                            break;
 
                         case Strategies.Constant constant:
                             containerBuilder.RegisterInstance(constant.Target).As(binding.Service);
                             break;
 
-                        case Strategies.Callback callback: {
-                            var registrationBuilder = containerBuilder.Register((context)=>callback.Target()).As(binding.Service);
-                            if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
-                        } break;
+                        case Strategies.Callback callback:
+                            {
+                                var registrationBuilder = containerBuilder.Register((context) => callback.Target()).As(binding.Service);
+                                if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
+                            }
+                            break;
 
-                        case Strategies.TypeCallback typeCallback: {
-                            var registrationBuilder = containerBuilder.Register((context) => context.Resolve(typeCallback.Target())).As(binding.Service);
-                            if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
-                        } break;
+                        case Strategies.CallbackWithBindingContext callback:
+                            {
+                                var registrationBuilder = containerBuilder.Register((context) => callback.Target(new BindingContext(binding.Service))).As(binding.Service);
+                                if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
+                            }
+                            break;
+
+                        case Strategies.TypeCallback typeCallback:
+                            {
+                                var registrationBuilder = containerBuilder.Register((context) => context.Resolve(typeCallback.Target())).As(binding.Service);
+                                if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
+                            }
+                            break;
+
+                        case Strategies.TypeCallbackWithBindingContext typeCallback:
+                            {
+                                var registrationBuilder = containerBuilder.Register((context) => context.Resolve(typeCallback.Target(new BindingContext(binding.Service)))).As(binding.Service);
+                                if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
+                            }
+                            break;
                     }
                 }
             });
@@ -120,7 +171,7 @@ namespace Dolittle.DependencyInversion.Autofac
                 registrationSourceProviderTypes.ForEach(registrationSourceProviderType =>
                 {
                     ThrowIfRegistrationSourceProviderTypeIsMissingDefaultConstructor(registrationSourceProviderType);
-                    var registrationSourceProvider = Activator.CreateInstance(registrationSourceProviderType)as ICanProvideRegistrationSources;
+                    var registrationSourceProvider = Activator.CreateInstance(registrationSourceProviderType) as ICanProvideRegistrationSources;
                     var registrationSources = registrationSourceProvider.Provide();
                     registrationSources.ForEach(containerBuilder.RegisterSource);
                 });
@@ -129,7 +180,7 @@ namespace Dolittle.DependencyInversion.Autofac
 
         static void ThrowIfRegistrationSourceProviderTypeIsMissingDefaultConstructor(Type type)
         {
-            if (!type.HasDefaultConstructor())throw new RegistrationSourceProviderMustHaveADefaultConstructor(type);
+            if (!type.HasDefaultConstructor()) throw new RegistrationSourceProviderMustHaveADefaultConstructor(type);
         }
     }
 }

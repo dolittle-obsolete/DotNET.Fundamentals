@@ -62,9 +62,18 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
                         instance = callback.Target();
                         break;
 
+                    case Strategies.CallbackWithBindingContext callback:
+                        instance = callback.Target(new BindingContext(service));
+                        break;
+
                     case Strategies.TypeCallback typeCallback:
                         var typeFromCallback = typeCallback.Target();
                         instance = _activator.CreateInstanceFor(context, binding.Service, typeFromCallback);
+                        break;
+
+                    case Strategies.TypeCallbackWithBindingContext typeCallback:
+                        var typeFromCallbackWithBindingContext = typeCallback.Target(new BindingContext(service));
+                        instance = _activator.CreateInstanceFor(context, binding.Service, typeFromCallbackWithBindingContext);
                         break;
                 }
 
