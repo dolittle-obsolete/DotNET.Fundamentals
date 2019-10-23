@@ -22,9 +22,21 @@ namespace Dolittle.Assemblies
         /// <inheritdoc/>
         public bool TryResolveAssemblyPaths(CompilationLibrary library, List<string> assemblies)
         {
-            var basePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)?
-                            @"c:\Program Files\dotnet\sdk\NuGetFallbackFolder":
-                            "/usr/local/share/dotnet/sdk/NuGetFallbackFolder";
+            string basePath;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                basePath = @"c:\Program Files\dotnet\sdk\NuGetFallbackFolder";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // default location on Ubuntu 19.04
+                basePath = "/usr/share/dotnet/sdk/NuGetFallbackFolder";
+            }
+            else 
+            {
+                // keep the OSX location as the default
+                basePath = "/usr/local/share/dotnet/sdk/NuGetFallbackFolder";
+            }
 
             if (!Directory.Exists(basePath)) return false;
             

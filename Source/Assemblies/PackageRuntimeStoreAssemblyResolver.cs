@@ -23,9 +23,21 @@ namespace Dolittle.Assemblies
         /// <inheritdoc/>
         public bool TryResolveAssemblyPaths(CompilationLibrary library, List<string> assemblies)
         {
-            var basePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)?
-                            @"c:\Program Files\dotnet\store":
-                            "/usr/local/share/dotnet/store";
+            string basePath;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                basePath = @"c:\Program Files\dotnet\store";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // couldn't find this on Ubuntu 19.04, fresh dotnet sdk2.2 install
+                basePath = "/usr/share/dotnet/store";
+            }
+            else 
+            {
+                // keep the OSX location as the default
+                basePath = "/usr/local/share/dotnet/store";
+            }
 
             var cpuBasePath = Path.Combine(basePath,RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant());
             if (!Directory.Exists(cpuBasePath)) return false;
