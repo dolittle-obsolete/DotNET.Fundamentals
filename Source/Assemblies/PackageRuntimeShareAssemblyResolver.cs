@@ -22,9 +22,21 @@ namespace Dolittle.Assemblies
         /// <inheritdoc/>
         public bool TryResolveAssemblyPaths(CompilationLibrary library, List<string> assemblies)
         {
-            var basePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
-                @"c:\Program Files\dotnet\shared" :
-                "/usr/local/share/dotnet/shared";
+            string basePath;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                basePath = @"c:\Program Files\dotnet\shared";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // default location on Ubuntu 19.04
+                basePath = "/usr/share/dotnet/shared";
+            }
+            else 
+            {
+                // keep the OSX location as the default
+                basePath = "/usr/local/share/dotnet/shared";
+            }
 
             var found = false;
 
