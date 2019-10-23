@@ -14,8 +14,9 @@ namespace Dolittle.Assemblies
     /// 
     /// </summary>
     /// <remarks>
-    /// Linux / macOS : /usr/local/share/dotnet/sdk/NuGetFallbackFolder/{package path}
-    /// Windows       : C:/Program Files/dotnet/sdk/NuGetFallbackFolder/{package path} 
+    /// macOS : /usr/local/share/dotnet/sdk/NuGetFallbackFolder/{package path}
+    /// Linux : /usr/share/dotnet/sdk/NuGetFallbackFolder/{package path}
+    /// Windows : C:/Program Files/dotnet/sdk/NuGetFallbackFolder/{package path} 
     /// </remarks>
     public class NuGetFallbackFolderAssemblyResolver : ICompilationAssemblyResolver
     {

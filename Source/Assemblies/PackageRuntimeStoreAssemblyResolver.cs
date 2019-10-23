@@ -15,8 +15,9 @@ namespace Dolittle.Assemblies
     /// </summary>
     /// <remarks>
     /// Read more here : https://docs.microsoft.com/en-us/dotnet/core/deploying/runtime-store
-    /// Linux / macOS : /usr/local/share/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}
-    /// Windows       : C:/Program Files/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path} 
+    /// macOS : /usr/local/share/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}
+    /// Linux : /usr/share/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}
+    /// Windows : C:/Program Files/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path} 
     /// </remarks>
     public class PackageRuntimeStoreAssemblyResolver : ICompilationAssemblyResolver
     {
@@ -30,7 +31,7 @@ namespace Dolittle.Assemblies
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                // couldn't find this on Ubuntu 19.04, fresh dotnet sdk2.2 install
+                // couldn't find this on Ubuntu 19.04 on a fresh dotnet sdk2.2 install
                 basePath = "/usr/share/dotnet/store";
             }
             else 
