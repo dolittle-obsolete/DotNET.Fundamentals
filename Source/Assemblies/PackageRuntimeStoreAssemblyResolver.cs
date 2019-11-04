@@ -15,17 +15,30 @@ namespace Dolittle.Assemblies
     /// </summary>
     /// <remarks>
     /// Read more here : https://docs.microsoft.com/en-us/dotnet/core/deploying/runtime-store
-    /// Linux / macOS : /usr/local/share/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}
-    /// Windows       : C:/Program Files/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path} 
+    /// macOS : /usr/local/share/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}
+    /// Linux : /usr/share/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}
+    /// Windows : C:/Program Files/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path} 
     /// </remarks>
     public class PackageRuntimeStoreAssemblyResolver : ICompilationAssemblyResolver
     {
         /// <inheritdoc/>
         public bool TryResolveAssemblyPaths(CompilationLibrary library, List<string> assemblies)
         {
-            var basePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)?
-                            @"c:\Program Files\dotnet\store":
-                            "/usr/local/share/dotnet/store";
+            string basePath;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                basePath = @"c:\Program Files\dotnet\store";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // couldn't find this on Ubuntu 19.04 on a fresh dotnet sdk2.2 install
+                basePath = "/usr/share/dotnet/store";
+            }
+            else 
+            {
+                // keep the OSX location as the default
+                basePath = "/usr/local/share/dotnet/store";
+            }
 
             var cpuBasePath = Path.Combine(basePath,RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant());
             if (!Directory.Exists(cpuBasePath)) return false;
