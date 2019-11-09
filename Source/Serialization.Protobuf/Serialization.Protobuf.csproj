@@ -5,9 +5,8 @@
     <AssemblyName>Dolittle.Serialization.Protobuf</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="../../Build/MSBuild/default.props" />
-
   <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*"/>
     <PackageReference Include="google.protobuf" Version="3.5.1" />
   </ItemGroup>
 

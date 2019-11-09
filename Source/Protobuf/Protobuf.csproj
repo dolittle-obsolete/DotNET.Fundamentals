@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Build/MSBuild/default.props"/>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.Protobuf</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*"/>
     <PackageReference Include="Dolittle.System.Grpc" Version="3.*"/>
   </ItemGroup>
 

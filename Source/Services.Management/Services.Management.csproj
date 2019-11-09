@@ -6,14 +6,13 @@
     <IncludeSource>False</IncludeSource>
   </PropertyGroup>
 
-  <Import Project="../../Build/MSBuild/default.props"/>
-
   <ItemGroup>
     <ProjectReference Include="../Management/Management.csproj"/>
     <ProjectReference Include="../Services/Services.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*"/>
     <PackageReference Include="Dolittle.Services.Grpc" Version="3.*"/>
   </ItemGroup>
 </Project>
