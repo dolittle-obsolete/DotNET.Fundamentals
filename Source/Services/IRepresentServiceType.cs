@@ -24,6 +24,6 @@ namespace Dolittle.Services
         /// <summary>
         /// Gets the <see cref="EndpointVisibility">type of endpoint</see> this is
         /// </summary>
-        EndpointVisibility Visibility { get; }        
+        EndpointVisibility Visibility { get; }
     }
 }

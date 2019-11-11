@@ -2,10 +2,11 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+extern alias management;
 using System.Collections.Generic;
 using Dolittle.Management;
-using Dolittle.DependencyInversion.Management.Grpc;
 using Dolittle.Services;
+using management::Dolittle.DependencyInversion.Management;
 
 namespace Dolittle.DependencyInversion.Management
 {
@@ -27,11 +28,14 @@ namespace Dolittle.DependencyInversion.Management
         }
 
         /// <inheritdoc/>
+        public ServiceAspect Aspect => "DependencyInversion";
+
+        /// <inheritdoc/>
         public IEnumerable<Service> BindServices()
         {
             return new [] {
                 new Service(_containerService, Container.BindService(_containerService), Container.Descriptor)
             };
-        }       
+        }
     }
 }

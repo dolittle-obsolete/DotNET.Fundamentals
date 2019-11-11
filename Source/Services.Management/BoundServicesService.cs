@@ -2,10 +2,12 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+extern alias management;
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
-using static Dolittle.Services.Management.Grpc.BoundServices;
+using grpc = management::Dolittle.Services.Management;
+using static management::Dolittle.Services.Management.BoundServices;
 
 namespace Dolittle.Services.Management
 {
@@ -27,11 +29,11 @@ namespace Dolittle.Services.Management
         }
 
         /// <inheritdoc/>
-        public override Task<Grpc.Services> GetForServiceType(Grpc.ServiceType request, ServerCallContext context)
+        public override Task<grpc.Services> GetForServiceType(grpc.ServiceType request, ServerCallContext context)
         {
             var boundServices = _boundServices.GetFor(request.Name);
-            var services = new Grpc.Services();
-            services.BoundServices.Add(boundServices.Select(_ => new Grpc.Service { Name = _.Descriptor.FullName }));
+            var services = new grpc.Services();
+            services.BoundServices.Add(boundServices.Select(_ => new grpc.Service { Name = _.Descriptor.FullName }));
             return Task.FromResult(services);
         }
     }

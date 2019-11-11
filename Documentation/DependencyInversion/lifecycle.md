@@ -30,7 +30,7 @@ In your `.csproj` this would be then:
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dolittle.Lifecycle" Version="3.*" />
+    <PackageReference Include="Dolittle.Lifecycle" Version="4.*" />
 </ItemGroup>
 ```
 

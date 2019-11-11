@@ -11,10 +11,11 @@ namespace Dolittle.Scheduling
     /// Defines an abstraction for scheduling work
     /// </summary>
     /// <remarks>
-    /// This abstraction is to ensure compatibility with systems that aren't capable of running
-    /// async/threaded operations. So even though C# has its TPL and async/await - these are
-    /// working under the assumption that there is this capability. With this abstraction we
-    /// can chose what implementation to use that is compatible with the underlying system
+    /// One of the things this abstraction helps with is to ensure compatibility with systems that
+    /// aren't capable of running async/threaded operations. So even though C# has its TPL and
+    /// async/await - these are working under the assumption that there is this capability. With
+    /// this abstraction we can chose what implementation to use that is compatible with the
+    /// underlying system
     /// </remarks>
     public interface IScheduler
     {
