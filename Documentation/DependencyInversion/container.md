@@ -4,6 +4,8 @@ description: Overview of how you can work with the container
 keywords: Overview, Dependency Inversion
 author: einari
 weight: 2
+aliases: 
+    - /fundamentals/dotnet.fundamentals/dependencyinversion/container
 ---
 At the core of the `DependencyInversion` system sits `IContainer`.
 This is something we build at startup and is considered immutable.

@@ -3,6 +3,8 @@ title: Property Bags and Object Factory
 description: Overview of Property Bag
 keywords: Overview, Property Bag
 author: smithmx
+aliases: 
+    - /fundamentals/dotnet.fundamentals/propertybags
 ---
 ## Definition
 
