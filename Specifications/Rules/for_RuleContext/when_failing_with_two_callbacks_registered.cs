@@ -19,8 +19,8 @@ namespace Dolittle.Rules.for_RuleContext
         {
             rule_mock = new Mock<IRule>();
             instance = new object();
-            broken_rule_reason = BrokenRuleReason.Create(Guid.NewGuid().ToString());
-            rule_context = new RuleContext();
+            broken_rule_reason = BrokenRuleReason.Create(Guid.NewGuid().ToString(),"Some reason");
+            rule_context = new RuleContext(instance);
 
             first_failed_callback = new Mock<RuleFailed>();
             rule_context.OnFailed(first_failed_callback.Object);
