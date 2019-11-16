@@ -10,6 +10,11 @@ namespace Dolittle.Rules
     public interface IRuleContext
     {
         /// <summary>
+        /// Gets the target for the <see cref="RuleContext"/>
+        /// </summary>
+        object Target { get; }
+
+        /// <summary>
         /// Register callback that gets called if there is a <see cref="IRule">rule</see> that fails
         /// </summary>
         /// <param name="callback"><see cref="RuleFailed"/> callback</param>
