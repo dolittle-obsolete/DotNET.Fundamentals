@@ -32,7 +32,7 @@ namespace Dolittle.Rules
         }
 
         /// <inheritdoc/>
-        public void Fail(IRule rule, object instance, BrokenRuleReason reason)
+        public void Fail(IRule rule, object instance, BrokenRuleReasonInstance reason)
         {
             _callbacks.ForEach(c => c(rule, instance, reason));
         }

@@ -9,6 +9,6 @@ namespace Dolittle.Rules
     /// </summary>
     /// <param name="rule"><see cref="IRule"/> that is failing</param>
     /// <param name="instance">Instance it was evaluating</param>
-    /// <param name="reason"><see cref="BrokenRuleReason">Reason</see> for failing</param>
-    public delegate void RuleFailed(IRule rule, object instance, BrokenRuleReason reason);
+    /// <param name="reason"><see cref="BrokenRuleReasonInstance">Reason</see> for failing</param>
+    public delegate void RuleFailed(IRule rule, object instance, BrokenRuleReasonInstance reason);
 }

@@ -1,0 +1,67 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Dolittle.Collections;
+
+namespace Dolittle.Rules
+{
+    /// <summary>
+    /// Represents an instance of <see cref="BrokenRuleReason"/>
+    /// </summary>
+    public class BrokenRuleReasonInstance
+    {
+        readonly Dictionary<string,string> _arguments = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="BrokenRuleReasonInstance"/>
+        /// </summary>
+        /// <param name="reason">The <see cref="BrokenRuleReason"/></param>
+        /// <param name="args">Any arguments for the <see cref="BrokenRuleReason"/></param>
+        public BrokenRuleReasonInstance(BrokenRuleReason reason, object args)
+        {
+            ExtractArguments(args);
+
+            Title = InterpolateString(reason.Title);
+            Description = InterpolateString(reason.Description);
+        }
+
+        /// <summary>
+        /// Gets the rendered title string
+        /// </summary>
+        public string Title { get; }
+
+        /// <summary>
+        /// Gets the rendered description string
+        /// </summary>
+        public string Description { get; }
+
+        /// <summary>
+        /// Gets any arguments passed to the <see cref="BrokenRuleReasonInstance"/>
+        /// </summary>
+        public IDictionary<string, string> Arguments => _arguments;
+
+        string InterpolateString(string input)
+        {
+            var result = input;
+
+            var regex = new Regex("{(.*?)}");
+            foreach (Match match in regex.Matches(input))
+            {
+                var propertyName = match.Groups[1].Value;
+                if( _arguments.ContainsKey(propertyName)) result = result.Replace(match.Groups[0].Value, _arguments[propertyName]);
+            }
+
+            return result;
+        }
+
+        void ExtractArguments(object args)
+        {
+            var type = args.GetType();
+            type.GetProperties().ForEach(_ => _arguments[_.Name] = _.GetValue(args).ToString());
+            type.GetFields().ForEach(_ => _arguments[_.Name] = _.GetValue(args).ToString());
+        }
+    }
+}

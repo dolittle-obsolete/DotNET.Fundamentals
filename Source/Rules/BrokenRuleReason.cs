@@ -23,7 +23,6 @@ namespace Dolittle.Rules
         /// <summary>
         /// Gets the Description of the <see cref="BrokenRule"/>
         /// </summary>
-        /// <value></value>
         public string Description { get; private set; }
 
         /// <summary>
@@ -50,6 +49,28 @@ namespace Dolittle.Rules
                 Title = title,
                 Description = description
             };
+        }
+
+        /// <summary>
+        /// Create a <see cref="BrokenRuleReasonInstance"/> without any arguments
+        /// </summary>
+        /// <returns>A new <see cref="BrokenRuleReasonInstance"/></returns>
+        public BrokenRuleReasonInstance NoArgs()
+        {
+            return WithArgs(new{});
+        }
+
+        /// <summary>
+        /// Create a <see cref="BrokenRuleReasonInstance"/> with given arguments
+        /// </summary>
+        /// <param name="args">Arguments to give</param>
+        /// <returns><see cref="BrokenRuleReasonInstance"/></returns>
+        /// <remarks>
+        /// The arguments will be used in rendering of <see cref="Title"/> and <see cref="Description"/> strings
+        /// </remarks>
+        public BrokenRuleReasonInstance WithArgs(object args)
+        {
+            return new BrokenRuleReasonInstance(this, args);
         }
     }
 }
