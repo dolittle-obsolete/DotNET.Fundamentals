@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Linq;
 using Dolittle.Collections;
 
 namespace Dolittle.Rules
@@ -33,7 +34,7 @@ namespace Dolittle.Rules
         /// <summary>
         /// Gets whether or not the <see cref="RuleSetEvaluation"/> was successful or not
         /// </summary>
-        public bool IsSuccess => _brokenRules.Count == 0;
+        public bool IsSuccess => !_brokenRules.Any();
 
         /// <summary>
         /// Gets the <see cref="BrokenRule">broken rules</see>
