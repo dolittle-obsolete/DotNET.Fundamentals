@@ -30,6 +30,6 @@ namespace Dolittle.Rules.for_MethodRule
 
         Because of = () => rule.Evaluate(rule_context.Object, instance);
 
-        It should_not_any_failures = () => rule_context.Verify(_ => _.Fail(Moq.It.IsAny<IRule>(), Moq.It.IsAny<object>(), Moq.It.IsAny<BrokenRuleReasonInstance>()), Moq.Times.Never);
+        It should_not_any_failures = () => rule_context.Verify(_ => _.Fail(Moq.It.IsAny<IRule>(), Moq.It.IsAny<object>(), Moq.It.IsAny<Cause>()), Moq.Times.Never);
     }
 }

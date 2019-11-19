@@ -70,7 +70,7 @@ namespace Dolittle.Rules
                     brokenRule = new BrokenRule(rule, instance, ruleContext);
                     brokenRules[rule] = brokenRule;
                 }
-                brokenRule.AddReason(reason);
+                brokenRule.AddCause(reason);
             };
         }
     }

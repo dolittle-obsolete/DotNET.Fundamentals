@@ -25,7 +25,7 @@ namespace Dolittle.Rules
         /// </summary>
         /// <param name="rule"><see cref="IRule"/> to report</param>
         /// <param name="instance">The instance that was part of causing the problem</param>
-        /// <param name="reason"><see cref="BrokenRuleReasonInstance">Reason</see> for it failing</param>
-        void Fail(IRule rule, object instance, BrokenRuleReasonInstance reason);
+        /// <param name="reason"><see cref="Cause">Reason</see> for it failing</param>
+        void Fail(IRule rule, object instance, Cause reason);
     }
 }

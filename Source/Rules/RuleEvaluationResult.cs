@@ -18,14 +18,14 @@ namespace Dolittle.Rules
         public static readonly RuleEvaluationResult Success = new RuleEvaluationResult(string.Empty);
 
         /// <summary>
-        /// Create a failed <see cref="RuleEvaluationResult"/> with any <see cref="BrokenRuleReason">reasons</see>
+        /// Create a failed <see cref="RuleEvaluationResult"/> with any <see cref="Cause">causes</see>
         /// </summary>
         /// <param name="instance">Instance to fail</param>
-        /// <param name="reasons">Params of <see cref="BrokenRuleReason">reasons</see> to fail</param>
+        /// <param name="causes">Params of <see cref="Cause">causes</see> to fail</param>
         /// <returns></returns>
-        public static RuleEvaluationResult Fail(object instance, params BrokenRuleReasonInstance[] reasons)
+        public static RuleEvaluationResult Fail(object instance, params Cause[] causes)
         {
-            return new RuleEvaluationResult(instance, reasons);
+            return new RuleEvaluationResult(instance, causes);
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace Dolittle.Rules
         /// Initializes a new instance of <see cref="RuleEvaluationResult"/>
         /// </summary>
         /// <param name="instance">Instance that was evaluated</param>
-        /// <param name="reasons">Params of <see cref="BrokenRuleReason">reasons</see></param>
-        public RuleEvaluationResult(object instance, params BrokenRuleReasonInstance[] reasons)
+        /// <param name="causes">Params of <see cref="Cause">causes</see></param>
+        public RuleEvaluationResult(object instance, params Cause[] causes)
         {
             Instance = instance;
-            Reasons = reasons;
+            Causes = causes;
         }
 
         /// <summary>
@@ -52,13 +52,13 @@ namespace Dolittle.Rules
         public object Instance { get; }
 
         /// <summary>
-        /// Get the <see cref="BrokenRuleReason">reasons</see> - if there were anything broken
+        /// Get the <see cref="Cause">causes</see> - if there were anything broken
         /// </summary>
-        public IEnumerable<BrokenRuleReasonInstance> Reasons { get; }
+        public IEnumerable<Cause> Causes { get; }
 
         /// <summary>
-        /// Gets whether or not the result is success or not - based on any reasons
+        /// Gets whether or not the result is success or not - based on any causes
         /// </summary>
-        public bool IsSuccess => !Reasons.Any();
+        public bool IsSuccess => !Causes.Any();
     }
 }

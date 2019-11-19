@@ -11,7 +11,7 @@ namespace Dolittle.Rules
     /// </summary>
     public class BrokenRule
     {
-        List<BrokenRuleReasonInstance> _reasons = new List<BrokenRuleReasonInstance>();
+        List<Cause> _causes = new List<Cause>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="BrokenRule"/>
@@ -42,17 +42,17 @@ namespace Dolittle.Rules
         public IRuleContext Context { get; }
 
         /// <summary>
-        /// Gets the <see cref="BrokenRuleReason">reasons</see> why the rule is broken
+        /// Gets the <see cref="Cause">causes</see> why the rule is broken
         /// </summary>
-        public IEnumerable<BrokenRuleReasonInstance> Reasons => _reasons;
+        public IEnumerable<Cause> Causes => _causes.ToArray();
 
         /// <summary>
         /// Add a reason for the <see cref="IRule"/> being broken
         /// </summary>
-        /// <param name="reason"><see cref="BrokenRuleReason">Reason</see></param>
-        public void AddReason(BrokenRuleReasonInstance reason)
+        /// <param name="cause"><see cref="Cause"/></param>
+        public void AddCause(Cause cause)
         {
-            _reasons.Add(reason);
+            _causes.Add(cause);
         }
     }
 }

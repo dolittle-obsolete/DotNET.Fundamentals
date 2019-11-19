@@ -6,7 +6,7 @@ using Machine.Specifications;
 
 namespace Dolittle.Rules.for_RuleEvaluationResult
 {
-    public class when_creating_without_broken_rule_reasons
+    public class when_creating_without_causes
     {
         static RuleEvaluationResult result;
         static object instance;

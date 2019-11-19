@@ -34,7 +34,7 @@ namespace Dolittle.Rules
             var result = _method();
             if (!result.IsSuccess)
             {
-                result.Reasons.ForEach(_ => context.Fail(this, instance, _));
+                result.Causes.ForEach(_ => context.Fail(this, instance, _));
             }
         }
     }

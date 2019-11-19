@@ -10,8 +10,8 @@ namespace Dolittle.Rules.for_MethodRule
 {
     public class when_evaluating_failed_method
     {
-        static BrokenRuleReason reason = BrokenRuleReason.Create("f2049be1-c421-45d1-bdd5-a9eb4530c3dc", "Title", "Description");
-        static BrokenRuleReasonInstance reason_instance;
+        static Reason reason = Reason.Create("f2049be1-c421-45d1-bdd5-a9eb4530c3dc", "Title", "Description");
+        static Cause cause;
 
 
         const string rule_name = "This is the rule";
@@ -22,7 +22,7 @@ namespace Dolittle.Rules.for_MethodRule
 
         static RuleEvaluationResult RuleMethod()
         {
-            return RuleEvaluationResult.Fail(instance, reason_instance);
+            return RuleEvaluationResult.Fail(instance, cause);
         }
 
         Establish context = () => 
@@ -30,11 +30,11 @@ namespace Dolittle.Rules.for_MethodRule
             rule_context = new Mock<IRuleContext>();
             instance = new object();
             rule = new MethodRule(rule_name, RuleMethod);
-            reason_instance = reason.NoArgs();
+            cause = reason.NoArgs();
         };
 
         Because of = () => rule.Evaluate(rule_context.Object, instance);
 
-        It should_notify_about_failure = () => rule_context.Verify(_ => _.Fail(rule, instance, reason_instance), Moq.Times.Once);
+        It should_notify_about_failure = () => rule_context.Verify(_ => _.Fail(rule, instance, cause), Moq.Times.Once);
     }
 }

@@ -10,8 +10,8 @@ namespace Dolittle.Rules.for_RuleContext
         static RuleContext rule_context;
         static Mock<IRule> rule_mock;
         static object instance;
-        static BrokenRuleReason broken_rule_reason;
-        static BrokenRuleReasonInstance broken_rule_reason_instance;
+        static Reason reason;
+        static Cause cause;
 
         static Mock<RuleFailed> first_failed_callback;
         static Mock<RuleFailed> second_failed_callback;
@@ -20,8 +20,8 @@ namespace Dolittle.Rules.for_RuleContext
         {
             rule_mock = new Mock<IRule>();
             instance = new object();
-            broken_rule_reason = BrokenRuleReason.Create(Guid.NewGuid().ToString(),"Some reason");
-            broken_rule_reason_instance = broken_rule_reason.NoArgs();
+            reason = Reason.Create(Guid.NewGuid().ToString(),"Some reason");
+            cause = reason.NoArgs();
             rule_context = new RuleContext(instance);
 
             first_failed_callback = new Mock<RuleFailed>();
@@ -31,9 +31,9 @@ namespace Dolittle.Rules.for_RuleContext
             rule_context.OnFailed(second_failed_callback.Object);
         };
 
-        Because of = () => rule_context.Fail(rule_mock.Object, instance, broken_rule_reason_instance);
+        Because of = () => rule_context.Fail(rule_mock.Object, instance, cause);
 
-        It should_call_first_callback = () => first_failed_callback.Verify(c => c(rule_mock.Object, instance, broken_rule_reason_instance), Moq.Times.Once());
-        It should_call_second_callback = () => second_failed_callback.Verify(c => c(rule_mock.Object, instance, broken_rule_reason_instance), Moq.Times.Once());
+        It should_call_first_callback = () => first_failed_callback.Verify(c => c(rule_mock.Object, instance, cause), Moq.Times.Once());
+        It should_call_second_callback = () => second_failed_callback.Verify(c => c(rule_mock.Object, instance, cause), Moq.Times.Once());
     }
 }

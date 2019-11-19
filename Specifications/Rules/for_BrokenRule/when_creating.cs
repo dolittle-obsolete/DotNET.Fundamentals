@@ -27,6 +27,6 @@ namespace Dolittle.Rules.for_BrokenRule
         It should_hold_the_rule = () => broken_rule.Rule.ShouldEqual(rule.Object);
         It should_hold_the_instance = () => broken_rule.Instance.ShouldEqual(instance);
         It should_hold_the_context = () => broken_rule.Context.ShouldEqual(rule_context.Object);
-        It should_have_no_broken_rule_reason_instances = () => broken_rule.Reasons.ShouldBeEmpty();
+        It should_have_no_causes = () => broken_rule.Causes.ShouldBeEmpty();
     }
 }

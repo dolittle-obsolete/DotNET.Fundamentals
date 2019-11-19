@@ -9,18 +9,18 @@ using Dolittle.Collections;
 namespace Dolittle.Rules
 {
     /// <summary>
-    /// Represents an instance of <see cref="BrokenRuleReason"/>
+    /// Represents an instance of <see cref="Reason"/>
     /// </summary>
-    public class BrokenRuleReasonInstance
+    public class Cause
     {
         readonly Dictionary<string,string> _arguments = new Dictionary<string, string>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BrokenRuleReasonInstance"/>
+        /// Initializes a new instance of <see cref="Cause"/>
         /// </summary>
-        /// <param name="reason">The <see cref="BrokenRuleReason"/></param>
-        /// <param name="args">Any arguments for the <see cref="BrokenRuleReason"/></param>
-        public BrokenRuleReasonInstance(BrokenRuleReason reason, object args)
+        /// <param name="reason">The <see cref="Reason"/></param>
+        /// <param name="args">Any arguments for the <see cref="Reason"/></param>
+        public Cause(Reason reason, object args)
         {
             ExtractArguments(args);
 
@@ -39,7 +39,7 @@ namespace Dolittle.Rules
         public string Description { get; }
 
         /// <summary>
-        /// Gets any arguments passed to the <see cref="BrokenRuleReasonInstance"/>
+        /// Gets any arguments passed to the <see cref="Cause"/>
         /// </summary>
         public IDictionary<string, string> Arguments => _arguments;
 
