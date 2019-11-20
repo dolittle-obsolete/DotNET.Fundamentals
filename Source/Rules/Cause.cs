@@ -22,11 +22,17 @@ namespace Dolittle.Rules
         /// <param name="args">Any arguments for the <see cref="Reason"/></param>
         public Cause(Reason reason, object args)
         {
+            Reason = reason;
             ExtractArguments(args);
 
             Title = InterpolateString(reason.Title);
             Description = InterpolateString(reason.Description);
         }
+
+        /// <summary>
+        /// Gets the <see cref="Reason"/> the cause if for
+        /// </summary>
+        public Reason Reason { get; }
 
         /// <summary>
         /// Gets the rendered title string
