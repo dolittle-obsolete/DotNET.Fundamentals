@@ -9,12 +9,11 @@ namespace Dolittle.Rules
     /// </summary>
     public class RuleContexts : IRuleContexts
     {
-#pragma warning disable 1591 // Xml Comments
+        /// <inheritdoc/>
         public IRuleContext GetFor(object instance)
         {
-            var ruleContext = new RuleContext();
+            var ruleContext = new RuleContext(instance);
             return ruleContext;
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }
