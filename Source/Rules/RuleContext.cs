@@ -13,16 +13,28 @@ namespace Dolittle.Rules
     {
         List<RuleFailed> _callbacks = new List<RuleFailed>();
 
-#pragma warning disable 1591 // Xml Comments
+        /// <summary>
+        /// Initializes a new instance of <see cref="RuleContext"/>
+        /// </summary>
+        /// <param name="target">Target to </param>
+        public RuleContext(object target)
+        {
+            Target = target;
+        }
+
+        /// <inheritdoc/>
+        public object Target { get; }
+
+        /// <inheritdoc/>
         public void OnFailed(RuleFailed callback)
         {
             _callbacks.Add(callback);
         }
 
-        public void Fail(IRule rule, object instance, BrokenRuleReason reason)
+        /// <inheritdoc/>
+        public void Fail(IRule rule, object instance, Cause cause)
         {
-            _callbacks.ForEach(c => c(rule, instance, reason));
+            _callbacks.ForEach(c => c(rule, instance, cause));
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }

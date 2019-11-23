@@ -13,48 +13,46 @@ namespace Dolittle.Protobuf
     public static class Extensions
     {
         /// <summary>
-        /// Convert a <see cref="System.Protobuf.guid"/> to a <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/>
+        /// Convert a <see cref="ByteString"/> to a <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/>
         /// </summary>
-        /// <param name="guid"><see cref="System.Protobuf.guid"/> to convert</param>
+        /// <param name="guid"><see cref="ByteString"/> to convert</param>
         /// <returns>Converted <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/></returns>
-        public static T To<T>(this System.Protobuf.guid guid) where T:ConceptAs<System.Guid>, new()
+        public static T To<T>(this ByteString guid) where T:ConceptAs<System.Guid>, new()
         {
-            return new T { Value = new System.Guid(guid.Value.ToByteArray()) };
+            return new T { Value = new System.Guid(guid.ToByteArray()) };
         }
 
 
         /// <summary>
-        /// Convert a <see cref="System.Protobuf.guid"/> to <see cref="System.Guid"/>
+        /// Convert a <see cref="ByteString"/> to <see cref="System.Guid"/>
         /// </summary>
-        /// <param name="guid"><see cref="System.Protobuf.guid"/> to convert</param>
+        /// <param name="guid"><see cref="ByteString"/> to convert</param>
         /// <returns>Converted <see cref="System.Guid"/></returns>
-        public static System.Guid ToGuid(this System.Protobuf.guid guid)
+        public static System.Guid ToGuid(this ByteString guid)
         {
-            return new System.Guid(guid.Value.ToByteArray());
+            return new System.Guid(guid.ToByteArray());
         }
 
         /// <summary>
-        /// Convert a <see cref="System.Guid"/> to <see cref="System.Protobuf.guid"/>
+        /// Convert a <see cref="System.Guid"/> to <see cref="ByteString"/>
         /// </summary>
         /// <param name="guid"><see cref="System.Guid"/> to convert</param>
-        /// <returns>Converted <see cref="System.Protobuf.guid"/></returns>
-        public static System.Protobuf.guid ToProtobuf(this System.Guid guid)
+        /// <returns>Converted <see cref="ByteString"/></returns>
+        public static ByteString ToProtobuf(this System.Guid guid)
         {
-            var converted = new System.Protobuf.guid();
-            converted.Value = ByteString.CopyFrom(guid.ToByteArray());
+            var converted = ByteString.CopyFrom(guid.ToByteArray());
             return converted;
         }
 
         /// <summary>
-        /// Convert a <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/> to <see cref="System.Protobuf.guid"/>
+        /// Convert a <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/> to <see cref="ByteString"/>
         /// </summary>
         /// <param name="guid"><see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/> to convert</param>
-        /// <returns>Converted <see cref="System.Protobuf.guid"/></returns>
-        public static System.Protobuf.guid ToProtobuf(this ConceptAs<System.Guid> guid)
+        /// <returns>Converted <see cref="ByteString"/></returns>
+        public static ByteString ToProtobuf(this ConceptAs<System.Guid> guid)
         {
-            var converted = new System.Protobuf.guid();
-            converted.Value = ByteString.CopyFrom(guid.Value.ToByteArray());
+            var converted = ByteString.CopyFrom(guid.Value.ToByteArray());
             return converted;
-        }        
+        }
     }
 }

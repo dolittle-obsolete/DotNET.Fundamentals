@@ -2,7 +2,8 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using GrpcBinding = Dolittle.DependencyInversion.Management.Grpc.Binding;
+extern alias management;
+using grpc = management::Dolittle.DependencyInversion.Management;
 
 namespace Dolittle.DependencyInversion.Management
 {
@@ -12,13 +13,13 @@ namespace Dolittle.DependencyInversion.Management
     public static class BindingExtensions
     {
         /// <summary>
-        /// Convert a native <see cref="DependencyInversion.Binding"/> to Grpc representation
+        /// Convert a native <see cref="Binding"/> to Grpc representation
         /// </summary>
-        /// <param name="binding"><see cref="DependencyInversion.Binding"/> to convert</param>
-        /// <returns>Converted <see cref="Binding"/></returns>
-        public static GrpcBinding Convert(this Binding binding)
+        /// <param name="binding"><see cref="Binding"/> to convert</param>
+        /// <returns>Converted <see cref="grpc.Binding"/></returns>
+        public static grpc.Binding ToProtobuf(this Binding binding)
         {
-            return new GrpcBinding {
+            return new grpc.Binding {
                 Service = binding.Service.AssemblyQualifiedName,
                 Strategy = binding.Strategy.GetType().Name,
                 StrategyData = binding.Strategy.GetTargetType()?.AssemblyQualifiedName ?? "N/A",

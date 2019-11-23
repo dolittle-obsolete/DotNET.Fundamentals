@@ -17,12 +17,11 @@ namespace Dolittle.PropertyBags
     public class PropertyBag : WriteOnceExpandoObject, IEquatable<PropertyBag>
     {
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="PropertyBag"/>
         /// </summary>
-        /// <param name="values"></param>
+        /// <param name="values"><see cref="NullFreeDictionary{TKey,TValue}"/> of values</param>
         public PropertyBag(NullFreeDictionary<string,object> values) : base(values)
         {
-            
         }
 
         /// <summary>
@@ -36,7 +35,7 @@ namespace Dolittle.PropertyBags
         {
             if(other == null)
                 return false;
-            
+
             var thisDictionary = this.AsDictionary();
             var otherAsDictionary = other.AsDictionary();
 
@@ -104,7 +103,7 @@ namespace Dolittle.PropertyBags
         public NullFreeDictionary<string,object> ToNullFreeDictionary()
         {
             var dictionary = new NullFreeDictionary<string,object>();
-            this.AsDictionary().ForEach(kvp => 
+            this.AsDictionary().ForEach(kvp =>
                 {
                     object val = kvp.Value.GetType() == typeof(PropertyBag) ? ((PropertyBag)kvp.Value).ToNullFreeDictionary() : kvp.Value;
                     dictionary.Add(kvp.Key,val);

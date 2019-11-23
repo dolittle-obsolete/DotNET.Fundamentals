@@ -2,10 +2,10 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+extern alias management;
 using System.Collections.Generic;
 using Dolittle.Management;
-using Dolittle.Services.Management.Grpc;
-using Dolittle.Services;
+using grpc = management::Dolittle.Services.Management;
 
 namespace Dolittle.Services.Management
 {
@@ -27,11 +27,14 @@ namespace Dolittle.Services.Management
         }
 
         /// <inheritdoc/>
+        public ServiceAspect Aspect => "Services";
+
+        /// <inheritdoc/>
         public IEnumerable<Service> BindServices()
         {
             return new [] {
-                new Service(_boundServicesService, Grpc.BoundServices.BindService(_boundServicesService), Grpc.BoundServices.Descriptor)
+                new Service(_boundServicesService, grpc.BoundServices.BindService(_boundServicesService), grpc.BoundServices.Descriptor)
             };
-        }       
+        }
     }
 }

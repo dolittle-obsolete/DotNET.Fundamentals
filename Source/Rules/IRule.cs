@@ -10,6 +10,11 @@ namespace Dolittle.Rules
     public interface IRule
     {
         /// <summary>
+        /// Gets the name of the rule
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Evaluates the given <see cref="IRuleContext"/> to see if the rule is satisfied
         /// </summary>
         /// <param name="context">The <see cref="IRuleContext"/> to evaluate for</param>

@@ -11,7 +11,7 @@ namespace Dolittle.Rules
     /// </summary>
     public class BrokenRule
     {
-        List<BrokenRuleReason> _reasons = new List<BrokenRuleReason>();
+        List<Cause> _causes = new List<Cause>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="BrokenRule"/>
@@ -29,30 +29,30 @@ namespace Dolittle.Rules
         /// <summary>
         /// Gets the type of rule that is broken
         /// </summary>
-        public IRule Rule { get; private set; }
+        public IRule Rule { get; }
 
         /// <summary>
         /// Gets the instance used for evaluating the <see cref="IRule"/>
         /// </summary>
-        public object Instance { get; private set; }
+        public object Instance { get; }
 
         /// <summary>
         /// Gets the context in which the rule was broken
         /// </summary>
-        public IRuleContext Context { get; private set; }
+        public IRuleContext Context { get; }
 
         /// <summary>
-        /// Gets the <see cref="BrokenRuleReason">reasons</see> why the rule is broken
+        /// Gets the <see cref="Cause">causes</see> why the rule is broken
         /// </summary>
-        public IEnumerable<BrokenRuleReason> Reasons { get { return _reasons; } }
+        public IEnumerable<Cause> Causes => _causes.ToArray();
 
         /// <summary>
         /// Add a reason for the <see cref="IRule"/> being broken
         /// </summary>
-        /// <param name="reason"><see cref="BrokenRuleReason">Reason</see></param>
-        public void AddReason(BrokenRuleReason reason)
+        /// <param name="cause"><see cref="Cause"/></param>
+        public void AddCause(Cause cause)
         {
-            _reasons.Add(reason);
+            _causes.Add(cause);
         }
     }
 }
