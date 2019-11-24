@@ -42,7 +42,7 @@ namespace Dolittle.Types
                 catch (ReflectionTypeLoadException ex)
                 {
                     foreach (var loaderException in ex.LoaderExceptions)
-                        _logger.Error($"Failed to load: {loaderException.Source} {loaderException.Message}");
+                        _logger.Error($"TypeFeed failure for assembly {assembly.FullName} : {loaderException.Source} {loaderException.Message}");
                 }
             });
         }

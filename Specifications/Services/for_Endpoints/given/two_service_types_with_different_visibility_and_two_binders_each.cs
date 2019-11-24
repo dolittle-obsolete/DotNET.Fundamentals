@@ -22,29 +22,32 @@ namespace Dolittle.Services.for_Endpoints.given
         public class FirstServiceTypeFirstBinder : ICanBindFirstServiceType
         {
             public IEnumerable<Service> ServicesToBind;
+
+            public ServiceAspect Aspect => "Specs";
+
             public IEnumerable<Service> BindServices() => ServicesToBind;
         }
 
         public class FirstServiceTypeSecondBinder : ICanBindFirstServiceType
         {
             public IEnumerable<Service> ServicesToBind;
+            public ServiceAspect Aspect => "Specs";
             public IEnumerable<Service> BindServices() => ServicesToBind;
         }
 
         public class SecondServiceTypeFirstBinder : ICanBindSecondServiceType
         {
             public IEnumerable<Service> ServicesToBind;
+            public ServiceAspect Aspect => "Specs";
             public IEnumerable<Service> BindServices() => ServicesToBind;
         }
 
         public class SecondServiceTypeSecondBinder : ICanBindSecondServiceType
         {
             public IEnumerable<Service> ServicesToBind;
+            public ServiceAspect Aspect => "Specs";
             public IEnumerable<Service> BindServices() => ServicesToBind;
         }
-
-
-
 
         protected const string first_service_type_identifier = "My First Service Type";
         protected const string second_service_type_identifier = "My Second Service Type";

@@ -4,6 +4,8 @@ description: Overview of how to work with lifecycle
 keywords: Lifecycle, Dependency Inversion
 author: einari
 weight: 6
+aliases: 
+    - /fundamentals/dotnet.fundamentals/dependencyinversion/lifecycle
 ---
 One of the traits of an IoC container is to govern the lifecycle outside of
 the types needing the dependencies. This can typically be done at the
@@ -28,7 +30,7 @@ In your `.csproj` this would be then:
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dolittle.Lifecycle" Version="3.*" />
+    <PackageReference Include="Dolittle.Lifecycle" Version="4.*" />
 </ItemGroup>
 ```
 

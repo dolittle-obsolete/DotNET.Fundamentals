@@ -4,6 +4,8 @@ description: Overview of how you can started
 keywords: Getting started, Dependency Inversion
 author: einari
 weight: 1
+aliases: 
+    - /fundamentals/dotnet.fundamentals/dependencyinversion/getting_started
 ---
 The simplest thing for getting started is to use the built-in booting system
 which will take care of setting everything up in order.
@@ -29,10 +31,10 @@ In your `.csproj` this would be then:
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dolittle.Booting" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="3.*" />
+    <PackageReference Include="Dolittle.Booting" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="4.*" />
 </ItemGroup>
 ```
 
@@ -111,8 +113,8 @@ In your `.csproj` file:
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="3.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Conventions" Version="4.*" />
 </ItemGroup>
 ```
 
@@ -125,7 +127,7 @@ In your `.csproj` file:
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="3.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="4.*" />
 </ItemGroup>
 ```
 

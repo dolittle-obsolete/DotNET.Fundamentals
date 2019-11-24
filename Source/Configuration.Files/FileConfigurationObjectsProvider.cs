@@ -26,12 +26,14 @@ namespace Dolittle.Configuration.Files
         /// The base folder for Dolittle configuration files
         /// </summary>
         public const string BaseFolder = ".dolittle";
-        
+
         readonly IFileSystem _fileSystem;
         readonly IConfigurationFileParsers _parsers;
 
         readonly string[] SearchPaths = new[] {
             BaseFolder,
+            "config",
+            "/config",
             "data",
             "..",
             "."

@@ -4,6 +4,8 @@ description: How to expose a service type
 keywords: Overview, gRPC
 author: einari
 weight: 1
+aliases: 
+    - /fundamentals/dotnet.fundamentals/services/exposing_service_type
 ---
 A **service type** is the definition of an entrypoint that expose multiple services on it.
 You can think of it as the thing that is exposing a TCP socket on a specific port.

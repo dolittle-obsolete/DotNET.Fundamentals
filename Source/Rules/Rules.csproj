@@ -10,4 +10,8 @@
     <PackageReference Include="Dolittle.Common" Version="1.*"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Collections\Collections.csproj" />
+  </ItemGroup>
+
 </Project>
