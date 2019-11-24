@@ -5,6 +5,8 @@
     <AssemblyName>Dolittle.Immutability</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="../../Build/MSBuild/default.props"/>
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*"/>
+  </ItemGroup>
 
 </Project>

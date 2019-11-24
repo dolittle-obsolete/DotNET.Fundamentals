@@ -3,7 +3,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.IO.Tenants</AssemblyName>
   </PropertyGroup>
-  <Import Project="../../Build/MSBuild/default.props" />
+  
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*"/>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Execution\Execution.csproj" />

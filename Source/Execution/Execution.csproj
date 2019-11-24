@@ -1,13 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.Execution</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="../../Build/MSBuild/default.props"/>
-
   <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*"/>
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
   </ItemGroup>
   

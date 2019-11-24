@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../../Build/MSBuild/default.props" />
-
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>Dolittle.Build</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Dolittle.Common" Version="1.*"/>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
         <PackageReference Include="mono.cecil" Version="0.10.1" />
         <PackageReference Include="mono.options" Version="5.3.0.1" />
@@ -24,7 +23,4 @@
         <ProjectReference Include="..\Serialization.Json\Serialization.Json.csproj"/>
         <ProjectReference Include="..\Strings\Strings.csproj"/>
     </ItemGroup>
-
-
-
 </Project>
