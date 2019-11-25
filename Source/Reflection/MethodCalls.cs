@@ -1,14 +1,12 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Dolittle.Reflection
 {
-#pragma warning disable 1591 // Xml Comments
     public static class MethodCalls
     {
         public static TOut CallGenericMethod<TOut, T, T1, T2, T3>(this T target, Expression<Func<T, Func<T1, T2, T3, TOut>>> method, T1 param1, T2 param2, T3 param3, params Type[] genericArguments)
@@ -65,5 +63,4 @@ namespace Dolittle.Reflection
             return new Generify<T>();
         }
     }
-#pragma warning restore 1591 // Xml Comments
 }
