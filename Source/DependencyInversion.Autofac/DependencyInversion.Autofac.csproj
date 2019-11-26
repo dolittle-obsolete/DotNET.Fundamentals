@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Common" Version="1.*"/>
+    <PackageReference Include="Dolittle.Common" Version="2.*"/>
     <PackageReference Include="Autofac" Version="4.9.2" />
   </ItemGroup>
 

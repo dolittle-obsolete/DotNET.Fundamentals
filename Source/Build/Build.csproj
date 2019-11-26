@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dolittle.Common" Version="1.*"/>
+        <PackageReference Include="Dolittle.Common" Version="2.*"/>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
         <PackageReference Include="mono.cecil" Version="0.10.1" />
         <PackageReference Include="mono.options" Version="5.3.0.1" />
