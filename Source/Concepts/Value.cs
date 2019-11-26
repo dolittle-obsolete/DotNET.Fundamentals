@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,20 +13,33 @@ namespace Dolittle.Concepts
     /// A base class for providing value object equality semantics.  A Value Object does not have an identity and its value comes from its properties.
     /// </summary>
     /// <typeparam name="T">The specific type to provide value object equality semantics to.</typeparam>
-    public abstract class Value<T> : IEquatable<T> where T : Value<T>
+    public abstract class Value<T> : IEquatable<T>
+        where T : Value<T>
     {
-        static IList<FieldInfo> _fields { get; set; }
+        static IList<FieldInfo> _fields;
 
-        static Value()
-        {
-            _fields = new List<FieldInfo>();
-        }
+        static Value() => _fields = new List<FieldInfo>();
 
         /// <summary>
-        /// Checks for Equality between this instance and the obj
+        /// Equates two objects to check that they are equal.
         /// </summary>
-        /// <param name="obj">An istance of an object to check equality with</param>
-        /// <returns>True if equal, false otherwise</returns>
+        /// <param name="left">Left value.</param>
+        /// <param name="right">Right value.</param>
+        /// <returns>True if the objects are equal, false is they are not.</returns>
+        public static bool operator ==(Value<T> left, Value<T> right) => ReferenceEquals(left, right) || left.Equals(right);
+
+        /// <summary>
+        /// Equates two objects to check that they are not equal.
+        /// </summary>
+        /// <param name="left">Left value.</param>
+        /// <param name="right">Right value.</param>
+        /// <returns>True if the objects are not equal, false is they are.</returns>
+        public static bool operator !=(Value<T> left, Value<T> right)
+        {
+            return !(left == right);
+        }
+
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is T typed)
@@ -40,10 +52,7 @@ namespace Dolittle.Concepts
             }
         }
 
-        /// <summary>
-        /// Gets a Hash Code to identify this instance
-        /// </summary>
-        /// <returns>Hashcode value</returns>
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var fields = GetFields().Select(field => field.GetValue(this)).Where(value => value != null).ToList();
@@ -51,11 +60,7 @@ namespace Dolittle.Concepts
             return HashCodeHelper.Generate(fields.ToArray());
         }
 
-        /// <summary>
-        /// Checks for Equality between this instance and the Other
-        /// </summary>
-        /// <param name="other">Another instance of type T to check equality with</param>
-        /// <returns>True if equal, false otherwise</returns>
+        /// <inheritdoc/>
         public virtual bool Equals(T other)
         {
             if (other == null)
@@ -80,54 +85,33 @@ namespace Dolittle.Concepts
                         return false;
                 }
                 else if (!value1.Equals(value2))
+                {
                     return false;
+                }
             }
 
             return true;
         }
 
-        /// <summary>
-        /// Equates two objects to check that they are equal
-        /// </summary>
-        /// <param name="x">First Value</param>
-        /// <param name="y">Second value</param>
-        /// <returns>True if the objects are equal, false is they are not</returns>
-        public static bool operator ==(Value<T> x, Value<T> y)
-        {
-            return ReferenceEquals(x, y) || x.Equals(y);
-        }
-
-        /// <summary>
-        /// Equates two objects to check that they are not equal
-        /// </summary>
-        /// <param name="x">First Value</param>
-        /// <param name="y">Second value</param>
-        /// <returns>True if the objects are not equal, false is they are</returns>
-        public static bool operator !=(Value<T> x, Value<T> y)
-        {
-            return !(x == y);
-        }
-
-        /// <summary>
-        /// Converts this Value into a string representation.
-        /// </summary>
-        /// <returns>A string containing each property name and its corresponding value</returns>
+        /// <inheritdoc/>
         public override string ToString()
         {
             var sb = new StringBuilder();
             sb.AppendLine("{[Type: " + GetType() + "]");
             foreach (var field in GetFields())
             {
-                sb.AppendFormat(@"{{ {0} : {1} }}", RemoveBackingAutoBackingFieldPropertyName(field.Name), field.GetValue(this) ?? "[NULL]");
+                sb.Append($"{{ {RemoveBackingAutoBackingFieldPropertyName(field.Name)} : {field.GetValue(this) ?? "[NULL]"} }}");
             }
+
             sb.AppendLine("}");
             return sb.ToString();
         }
 
         IEnumerable<FieldInfo> GetFields()
         {
-            if (!_fields.Any())
+            if (_fields.Count == 0)
                 _fields = new List<FieldInfo>(BuildFieldCollection());
+
             return _fields;
         }
 
@@ -145,13 +129,14 @@ namespace Dolittle.Concepts
                 fields.Remove(fieldInfoCache);
                 t = typeInfo.BaseType;
             }
+
             return fields;
         }
 
         string RemoveBackingAutoBackingFieldPropertyName(string fieldName)
         {
             var field = fieldName.TrimStart('<');
-            return field.Replace(@">k__BackingField", String.Empty);
+            return field.Replace(">k__BackingField", string.Empty);
         }
     }
 }
