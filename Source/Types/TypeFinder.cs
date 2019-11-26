@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +8,16 @@ using System.Linq;
 namespace Dolittle.Types
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ITypeFinder"/>
+    /// Represents an implementation of <see cref="ITypeFinder"/>.
     /// </summary>
     public class TypeFinder : ITypeFinder
     {
         readonly IContractToImplementorsMap _contractToImplementorsMap;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="TypeFinder"/>
+        /// Initializes a new instance of the <see cref="TypeFinder"/> class.
         /// </summary>
-        /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
+        /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors.</param>
         public TypeFinder(IContractToImplementorsMap contractToImplementorsMap)
         {
             _contractToImplementorsMap = contractToImplementorsMap;
@@ -26,7 +25,7 @@ namespace Dolittle.Types
 
         /// <inheritdoc/>
         public IEnumerable<Type> All => _contractToImplementorsMap.All;
-        
+
         /// <inheritdoc/>
         public Type FindSingle<T>()
         {
@@ -67,7 +66,7 @@ namespace Dolittle.Types
         void ThrowIfMultipleTypesFound(Type type, IEnumerable<Type> typesFound)
         {
             if (typesFound.Count() > 1)
-                throw new MultipleTypesFoundException(string.Format("More than one type found for '{0}'", type.FullName));
+                throw new MultipleTypesFoundException(type, typesFound);
         }
 
         void ThrowIfTypeNotFound(string fullName, Type typeFound)
