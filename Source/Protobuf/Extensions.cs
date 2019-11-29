@@ -17,11 +17,10 @@ namespace Dolittle.Protobuf
         /// </summary>
         /// <param name="guid"><see cref="ByteString"/> to convert</param>
         /// <returns>Converted <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/></returns>
-        public static T To<T>(this ByteString guid) where T:ConceptAs<System.Guid>, new()
+        public static T To<T>(this ByteString guid) where T : ConceptAs<System.Guid>, new()
         {
             return new T { Value = new System.Guid(guid.ToByteArray()) };
         }
-
 
         /// <summary>
         /// Convert a <see cref="ByteString"/> to <see cref="System.Guid"/>
