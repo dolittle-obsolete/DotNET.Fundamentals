@@ -1,15 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
-using System.Linq;
 using Dolittle.Collections;
 
 namespace Dolittle.Rules
 {
     /// <summary>
-    /// Represents an evaluation of a <see cref="RuleSet"/>
+    /// Represents an evaluation of a <see cref="RuleSet"/>.
     /// </summary>
     public class RuleSetEvaluation
     {
@@ -17,33 +15,34 @@ namespace Dolittle.Rules
         readonly List<BrokenRule> _brokenRules = new List<BrokenRule>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RuleSetEvaluation"/>
+        /// Initializes a new instance of the <see cref="RuleSetEvaluation"/> class.
         /// </summary>
-        /// <param name="ruleSet"><see cref="RuleSet"/> to evaluate</param>
+        /// <param name="ruleSet"><see cref="RuleSet"/> to evaluate.</param>
         public RuleSetEvaluation(RuleSet ruleSet)
         {
             _ruleSet = ruleSet;
         }
 
         /// <summary>
-        /// Implicitly convert to <see cref="bool"/> for evaluating the success of the evaluation
+        /// Gets a value indicating whether or not the <see cref="RuleSetEvaluation"/> was successful.
         /// </summary>
-        /// <param name="input"><see cref="RuleSetEvaluation"/> to convert from</param>
-        public static implicit operator bool(RuleSetEvaluation input) => input.IsSuccess;
+        public bool IsSuccess => _brokenRules.Count == 0;
 
         /// <summary>
-        /// Gets whether or not the <see cref="RuleSetEvaluation"/> was successful or not
-        /// </summary>
-        public bool IsSuccess => !_brokenRules.Any();
-
-        /// <summary>
-        /// Gets the <see cref="BrokenRule">broken rules</see>
+        /// Gets the <see cref="BrokenRule">broken rules</see>.
         /// </summary>
         public IEnumerable<BrokenRule> BrokenRules => _brokenRules;
 
         /// <summary>
-        /// Evaluate against a target
+        /// Implicitly convert to <see cref="bool"/> for evaluating the success of the evaluation.
         /// </summary>
+        /// <param name="input"><see cref="RuleSetEvaluation"/> to convert from.</param>
+        public static implicit operator bool(RuleSetEvaluation input) => input.IsSuccess;
+
+        /// <summary>
+        /// Evaluate against a target.
+        /// </summary>
+        /// <param name="target">Target to evaluate.</param>
         public void Evaluate(object target)
         {
             var brokenRules = new Dictionary<IRule, BrokenRule>();
@@ -70,6 +69,7 @@ namespace Dolittle.Rules
                     brokenRule = new BrokenRule(rule, instance, ruleContext);
                     brokenRules[rule] = brokenRule;
                 }
+
                 brokenRule.AddCause(reason);
             };
         }
