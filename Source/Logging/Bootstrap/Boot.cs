@@ -1,9 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,19 +12,23 @@ using Microsoft.Extensions.Logging;
 namespace Dolittle.Logging.Bootstrap
 {
     /// <summary>
-    /// Represents the entrypoint for initializating Logging
+    /// Represents the entrypoint for initializating Logging.
     /// </summary>
-    public class Boot
+    public static class Boot
     {
         /// <summary>
-        /// Discover any <see cref="ICanConfigureLogAppenders"/> from the entry assembly and setup 
-        /// <see cref="ILogAppenders"/>
+        /// Discover any <see cref="ICanConfigureLogAppenders"/> from the entry assembly and setup
+        /// <see cref="ILogAppenders"/>.
         /// </summary>
-        /// <returns>An instance of <see cref="ILogAppenders"/> that can be used</returns>
-        public static ILogAppenders Start(ILoggerFactory loggerFactory, ILogAppender defaultLogAppender = null, Assembly assembly = null)
+        /// <param name="defaultLogAppender"><see cref="ILogAppender"/> to use, if any - default is null.</param>
+        /// <param name="entryAssembly">The entry <see cref="Assembly"/>.</param>
+        /// <returns>An instance of <see cref="ILogAppenders"/> that can be used.</returns>
+        public static ILogAppenders Start(
+             ILogAppender defaultLogAppender = null,
+             Assembly entryAssembly = null)
         {
-            if( assembly == null ) assembly = Assembly.GetEntryAssembly();
-            var types = assembly.GetTypes();
+            if (entryAssembly == null) entryAssembly = Assembly.GetEntryAssembly();
+            var types = entryAssembly.GetTypes();
 
             var configuratorTypes = types.Where(t => t.HasInterface<ICanConfigureLogAppenders>());
 
@@ -38,8 +40,7 @@ namespace Dolittle.Logging.Bootstrap
                 configurators.Add(configurator);
             });
 
-            var logAppenders = new LogAppenders(configurators, defaultLogAppender);
-            return logAppenders;
+            return new LogAppenders(configurators, defaultLogAppender);
         }
 
         static void ThrowIfLogAppenderConfiguratorIsMissingDefaultConstructor(Type c)
