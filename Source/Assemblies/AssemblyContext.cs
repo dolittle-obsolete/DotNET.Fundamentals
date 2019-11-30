@@ -1,9 +1,9 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,20 +14,20 @@ using Microsoft.Extensions.DependencyModel.Resolution;
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IAssemblyContext"/>
+    /// Represents an implementation of <see cref="IAssemblyContext"/>.
     /// </summary>
     public class AssemblyContext : IAssemblyContext
     {
         readonly ICompilationAssemblyResolver _assemblyResolver;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AssemblyContext"/>
+        /// Initializes a new instance of the <see cref="AssemblyContext"/> class.
         /// </summary>
-        /// <param name="assembly">Assembly the context is for</param>
+        /// <param name="assembly">Assembly the context is for.</param>
         public AssemblyContext(Assembly assembly)
         {
             Assembly = assembly;
-            
+
             AssemblyLoadContext.Default.Resolving += OnResolving;
 
             DependencyContext = DependencyContext.Load(assembly);
@@ -38,32 +38,40 @@ namespace Dolittle.Assemblies
             _assemblyResolver = new CompositeAssemblyResolver(new ICompilationAssemblyResolver[]
             {
                 new AppBaseCompilationAssemblyResolver(basePath),
-                    new ReferenceAssemblyPathResolver(),
-                    new PackageCompilationAssemblyResolver(),
-                    new NuGetFallbackFolderAssemblyResolver(),
-                    new PackageRuntimeStoreAssemblyResolver(),
-                    new PackageRuntimeShareAssemblyResolver()
+                new ReferenceAssemblyPathResolver(),
+                new PackageCompilationAssemblyResolver(),
+                new NuGetFallbackFolderAssemblyResolver(),
+                new PackageRuntimeStoreAssemblyResolver(),
+                new PackageRuntimeShareAssemblyResolver()
             });
             AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
             AssemblyLoadContext.Resolving += OnResolving;
         }
 
+        /// <inheritdoc/>
+        public Assembly Assembly { get; }
+
+        /// <inheritdoc/>
+        public DependencyContext DependencyContext { get; }
+
+        /// <inheritdoc/>
+        public AssemblyLoadContext AssemblyLoadContext { get; }
+
         /// <summary>
-        /// Create an <see cref="IAssemblyContext"/> from a given <see cref="Assembly"/>
+        /// Create an <see cref="IAssemblyContext"/> from a given <see cref="Assembly"/>.
         /// </summary>
-        /// <param name="assembly"><see cref="Assembly"/> to use</param>
-        /// <returns><see cref="IAssemblyContext"/> for the <see cref="Assembly"/></returns>
+        /// <param name="assembly"><see cref="Assembly"/> to use.</param>
+        /// <returns><see cref="IAssemblyContext"/> for the <see cref="Assembly"/>.</returns>
         public static IAssemblyContext From(Assembly assembly)
         {
-            var context = new AssemblyContext(assembly);
-            return context;
+            return new AssemblyContext(assembly);
         }
 
         /// <summary>
-        /// Create an <see cref="IAssemblyContext"/> from a given path to an <see cref="Assembly"/>
+        /// Create an <see cref="IAssemblyContext"/> from a given path to an <see cref="Assembly"/>.
         /// </summary>
-        /// <param name="path">Path to the <see cref="Assembly"/> to use</param>
-        /// <returns><see cref="IAssemblyContext"/> for the path to the <see cref="Assembly"/></returns>
+        /// <param name="path">Path to the <see cref="Assembly"/> to use.</param>
+        /// <returns><see cref="IAssemblyContext"/> for the path to the <see cref="Assembly"/>.</returns>
         public static IAssemblyContext From(string path)
         {
             var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
@@ -71,33 +79,22 @@ namespace Dolittle.Assemblies
         }
 
         /// <inheritdoc/>
-        public Assembly Assembly { get; }
-
-        /// <inheritdoc/>
-        public DependencyContext DependencyContext {  get; }
-
-        /// <inheritdoc/>
-        public AssemblyLoadContext AssemblyLoadContext {  get; }
-
-        /// <inheritdoc/>
         public IEnumerable<Library> GetProjectReferencedLibraries()
         {
-            var libraries = GetReferencedLibraries().Where(_ => _.Type.ToLowerInvariant() == "project");
-            return libraries;
+            return GetReferencedLibraries().Where(_ => _.Type.Equals("project", StringComparison.InvariantCultureIgnoreCase));
         }
 
         /// <inheritdoc/>
         public IEnumerable<Library> GetReferencedLibraries()
         {
-            var libraries = DependencyContext.RuntimeLibraries.Cast<RuntimeLibrary>()
-                .Where(_ => _.RuntimeAssemblyGroups.Count() > 0 && !_.Name.StartsWith("runtime"));
-            return libraries;
+            return DependencyContext.RuntimeLibraries.Cast<RuntimeLibrary>()
+                .Where(_ => _.RuntimeAssemblyGroups.Count > 0 && !_.Name.StartsWith("runtime", StringComparison.InvariantCultureIgnoreCase));
         }
 
         /// <inheritdoc/>
         public IEnumerable<Assembly> GetProjectReferencedAssemblies()
         {
-            var libraries = GetReferencedLibraries().Where(_ => _.Type.ToLowerInvariant() == "project");
+            var libraries = GetReferencedLibraries().Where(_ => _.Type.Equals("project", StringComparison.InvariantCultureIgnoreCase));
             return LoadAssembliesFrom(libraries);
         }
 
@@ -118,6 +115,7 @@ namespace Dolittle.Assemblies
                 compilationLibrary = GetCompilationLibraryFrom(library as RuntimeLibrary);
                 _assemblyResolver.TryResolveAssemblyPaths(compilationLibrary, libraryPaths);
             }
+
             return libraryPaths;
         }
 
@@ -138,15 +136,17 @@ namespace Dolittle.Assemblies
                 {
                     var assembly = assemblies[0];
                     var segments = assembly.Split(Path.DirectorySeparatorChar);
-                    var hasRef = segments.Any(_ => _.ToLowerInvariant() == "ref");
-                    if( hasRef ) assembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}",$"lib{Path.DirectorySeparatorChar}");
+                    var hasRef = segments.Any(_ => _.Equals("ref", StringComparison.InvariantCultureIgnoreCase));
+                    if (hasRef) assembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}", $"lib{Path.DirectorySeparatorChar}");
 
                     return AssemblyLoadContext.LoadFromAssemblyPath(assembly);
-                } 
+                }
+#pragma warning disable CA1031 // Its ok to skip failed assembly loads
                 catch
                 {
                     return null;
                 }
+#pragma warning restore CA1031
             }
 
             return null;
@@ -160,12 +160,10 @@ namespace Dolittle.Assemblies
             }
 
             var runtimeLibrary = DependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);
-            if( runtimeLibrary != null ) return GetCompilationLibraryFrom(runtimeLibrary);
+            if (runtimeLibrary != null) return GetCompilationLibraryFrom(runtimeLibrary);
 
-            var compilationLibrary = DependencyContext.CompileLibraries.FirstOrDefault(NamesMatch);
-            return compilationLibrary;
+            return DependencyContext.CompileLibraries.FirstOrDefault(NamesMatch);
         }
-
 
         IEnumerable<Assembly> LoadAssembliesFrom(IEnumerable<Library> libraries)
         {
@@ -176,10 +174,12 @@ namespace Dolittle.Assemblies
                     {
                         return Assembly.Load(_.Name);
                     }
+#pragma warning disable CA1031 // Its ok to skip failed assembly loads
                     catch
                     {
                         return null;
                     }
+#pragma warning restore CA1031
                 })
                 .Where(_ => _ != null)
                 .ToArray();
@@ -187,7 +187,7 @@ namespace Dolittle.Assemblies
 
         CompilationLibrary GetCompilationLibraryFrom(RuntimeLibrary library)
         {
-            var compilationLibrary = new CompilationLibrary(
+            return new CompilationLibrary(
                 library.Type,
                 library.Name,
                 library.Version,
@@ -195,9 +195,8 @@ namespace Dolittle.Assemblies
                 library.RuntimeAssemblyGroups.SelectMany(g => g.AssetPaths),
                 library.Dependencies,
                 library.Serviceable,
-                library.Path ?? library.RuntimeAssemblyGroups.Select(g => g.AssetPaths.FirstOrDefault()).FirstOrDefault(),
+                library.Path ?? library.RuntimeAssemblyGroups.Select(g => g.AssetPaths.Count > 0 ? g.AssetPaths[0] : null).FirstOrDefault(),
                 library.HashPath);
-            return compilationLibrary;
         }
     }
 }

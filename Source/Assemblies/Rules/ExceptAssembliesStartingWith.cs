@@ -1,7 +1,7 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Linq;
 using Dolittle.Specifications;
 using Microsoft.Extensions.DependencyModel;
@@ -9,18 +9,18 @@ using Microsoft.Extensions.DependencyModel;
 namespace Dolittle.Assemblies.Rules
 {
     /// <summary>
-    /// Rule representing an exception for <see cref="IncludeAllRule"/>, 
-    /// excluding assembies starting with
+    /// Rule representing an exception for <see cref="IncludeAllRule"/>,
+    /// excluding assembies starting with.
     /// </summary>
     public class ExceptAssembliesStartingWith : Specification<Library>
     {
         /// <summary>
-        /// Initializes an instance of <see cref="ExceptAssembliesStartingWith"/>
+        /// Initializes a new instance of the <see cref="ExceptAssembliesStartingWith"/> class.
         /// </summary>
-        /// <param name="names"></param>
+        /// <param name="names">Params of assembly names that starts with to exclude.</param>
         public ExceptAssembliesStartingWith(params string[] names)
         {
-            Predicate = a => !names.Any(n => a.Name.StartsWith(n));
+            Predicate = a => !names.Any(n => a.Name.StartsWith(n, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
