@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Globalization;
+
+#pragma warning disable CA1308
+
 namespace Dolittle.Strings
 {
     /// <summary>
@@ -8,42 +12,44 @@ namespace Dolittle.Strings
     /// </summary>
     public static class StringExtensions
     {
-        const string _colorPrepend = "\x1b[";
-
         /// <summary>
         /// Convert a string into a camel cased string.
         /// </summary>
-        /// <param name="string">string to convert.</param>
+        /// <param name="stringToConvert">string to convert.</param>
         /// <returns>Converted string.</returns>
-        public static string ToCamelCase(this string @string)
+        public static string ToCamelCase(this string stringToConvert)
         {
-            if (!string.IsNullOrEmpty(@string))
+            if (!string.IsNullOrEmpty(stringToConvert))
             {
-                if (@string.Length == 1)
-                    return @string.ToLowerInvariant();
+                if (stringToConvert.Length == 1)
+                    return stringToConvert.ToLowerInvariant();
 
-                var firstLetter = @string[0].ToString().ToLowerInvariant();
-                return firstLetter + @string.Substring(1);
+                var firstLetter = stringToConvert[0].ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+                return $"{firstLetter}{stringToConvert.Substring(1)}";
             }
-            return @string;
+
+            return stringToConvert;
         }
 
         /// <summary>
-        /// Convert a string into a pascal cased string
+        /// Convert a string into a pascal cased string.
         /// </summary>
-        /// <param name="string">string to convert</param>
-        /// <returns>Converted string</returns>
-        public static string ToPascalCase(this string @string)
+        /// <param name="stringToConvert">string to convert.</param>
+        /// <returns>Converted string.</returns>
+        public static string ToPascalCase(this string stringToConvert)
         {
-            if (!string.IsNullOrEmpty(@string))
+            if (!string.IsNullOrEmpty(stringToConvert))
             {
-                if (@string.Length == 1)
-                    return @string.ToUpperInvariant();
+                if (stringToConvert.Length == 1)
+                    return stringToConvert.ToUpperInvariant();
 
-                var firstLetter = @string[0].ToString().ToUpperInvariant();
-                return firstLetter + @string.Substring(1);
+                var firstLetter = stringToConvert[0].ToString(CultureInfo.InvariantCulture).ToUpperInvariant();
+                return $"{firstLetter}{stringToConvert.Substring(1)}";
             }
-            return @string;
+
+            return stringToConvert;
         }
     }
 }
+
+#pragma warning restore CA1308
