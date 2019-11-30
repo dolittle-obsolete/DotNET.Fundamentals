@@ -1,25 +1,24 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Dolittle.Serialization.Json;
 using Dolittle.Logging;
+using Dolittle.Serialization.Json;
+using Newtonsoft.Json;
 
 namespace Dolittle.Concepts.Serialization.Json
 {
     /// <summary>
-    /// Provides converters related to concepts for Json serialization purposes
+    /// Provides converters related to concepts for Json serialization purposes.
     /// </summary>
     public class ConverterProvider : ICanProvideConverters
     {
         private readonly ILogger _logger;
 
         /// <summary>
-        /// Instantiates an instance of <see cref="ConverterProvider" />
+        /// Initializes a new instance of the <see cref="ConverterProvider"/> class.
         /// </summary>
-        /// <param name="logger">A logger</param>
+        /// <param name="logger">A logger.</param>
         public ConverterProvider(ILogger logger)
         {
             _logger = logger;
@@ -28,7 +27,8 @@ namespace Dolittle.Concepts.Serialization.Json
         /// <inheritdoc/>
         public IEnumerable<JsonConverter> Provide()
         {
-            return new JsonConverter[] {
+            return new JsonConverter[]
+            {
                 new ConceptConverter(),
                 new ConceptDictionaryConverter(_logger)
             };
