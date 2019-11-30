@@ -7,7 +7,7 @@ using Dolittle.Concepts;
 namespace Dolittle.Artifacts
 {
     /// <summary>
-    /// Represents the concept of an artifact
+    /// Represents the concept of an artifact.
     /// </summary>
     public class Artifact : Value<Artifact>
     {
@@ -30,7 +30,7 @@ namespace Dolittle.Artifacts
         /// <summary>
         /// Gets the <see cref="ArtifactGeneration">generation</see> of the <see cref="Artifact"/>.
         /// </summary>
-        public ArtifactGeneration Generation {get; }
+        public ArtifactGeneration Generation { get; }
 
         /// <summary>
         /// Create a new <see cref="Artifact"/> as the first generation.

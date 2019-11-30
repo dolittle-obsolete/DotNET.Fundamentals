@@ -13,5 +13,6 @@
     <ProjectReference Include="..\Concepts\Concepts.csproj" />
     <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\Strings\Strings.csproj" />
+    <ProjectReference Include="..\Versioning\Versioning.csproj" />
   </ItemGroup>
 </Project>
