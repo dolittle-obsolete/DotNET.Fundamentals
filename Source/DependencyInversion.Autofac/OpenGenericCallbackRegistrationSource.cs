@@ -1,12 +1,9 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autofac;
-using Autofac.Builder;
 using Autofac.Core;
 using Autofac.Core.Activators.Delegate;
 using Autofac.Core.Lifetime;
@@ -15,15 +12,11 @@ using Autofac.Core.Registration;
 namespace Dolittle.DependencyInversion.Autofac
 {
     /// <summary>
-    /// Represents a <see cref="IRegistrationSource"/> that deals with resolving open generic type callbacks
+    /// Represents a <see cref="IRegistrationSource"/> that deals with resolving open generic type callbacks.
     /// </summary>
     public class OpenGenericCallbackRegistrationSource : IRegistrationSource
     {
         static readonly IDictionary<Type, Func<IServiceWithType, object>> _callbackByService = new Dictionary<Type, Func<IServiceWithType, object>>();
-        internal static void AddService(KeyValuePair<Type, Func<IServiceWithType, object>> typeCallbackAndServicePair)
-        {
-             _callbackByService.Add(typeCallbackAndServicePair);
-        }
 
         /// <inheritdoc/>
         public bool IsAdapterForIndividualComponents => false;
@@ -31,9 +24,7 @@ namespace Dolittle.DependencyInversion.Autofac
         /// <inheritdoc/>
         public IEnumerable<IComponentRegistration> RegistrationsFor(Service service, Func<Service, IEnumerable<IComponentRegistration>> registrationAccessor)
         {
-            var serviceWithType = service as IServiceWithType;
-            
-            if (serviceWithType == null ||
+            if (!(service is IServiceWithType serviceWithType) ||
                 !serviceWithType.ServiceType.IsGenericType ||
                 !_callbackByService.ContainsKey(serviceWithType.ServiceType.GetGenericTypeDefinition()))
             {
@@ -42,7 +33,8 @@ namespace Dolittle.DependencyInversion.Autofac
 
             var serviceOpenGenericType = serviceWithType.ServiceType.GetGenericTypeDefinition();
             var callback = _callbackByService[serviceOpenGenericType];
-            
+
+#pragma warning disable CA2000
             var registration = new ComponentRegistration(
                 Guid.NewGuid(),
                 new DelegateActivator(serviceWithType.ServiceType, (c, p) => callback(serviceWithType)),
@@ -50,10 +42,16 @@ namespace Dolittle.DependencyInversion.Autofac
                 InstanceSharing.None,
                 InstanceOwnership.OwnedByLifetimeScope,
                 new[] { service },
-                new Dictionary<string, object>()
-            );
-            
-            return new[] { registration };
+                new Dictionary<string, object>());
+#pragma warning restore CA2000
+
+            return new[] { registration };
         }
+
+        /// <summary>
+        /// Add a binding between a <see cref="Type"/> and a <see cref="Func{T, TResult}"/> for resolving from a <see cref="IServiceWithType"/>.
+        /// </summary>
+        /// <param name="typeCallbackAndServicePair"><see cref="KeyValuePair{TKey, TValue}"/> for the type and resolver.</param>
+        internal static void AddService(KeyValuePair<Type, Func<IServiceWithType, object>> typeCallbackAndServicePair) => _callbackByService.Add(typeCallbackAndServicePair);
     }
 }
