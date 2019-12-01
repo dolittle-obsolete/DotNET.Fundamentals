@@ -1,23 +1,21 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using System.Collections.Generic;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Assemblies;
 
 namespace Dolittle.DependencyInversion
 {
     /// <summary>
-    /// Defines a system that provide a <see cref="IContainer"/> implementation
+    /// Defines a system that provide a <see cref="IContainer"/> implementation.
     /// </summary>
     public interface ICanProvideContainer
     {
         /// <summary>
-        /// Provide the container prebuilt with the given bindings
+        /// Provide the container prebuilt with the given bindings.
         /// </summary>
-        /// <param name="assemblies"><see cref="IAssemblies"/> for the application</param>
-        /// <param name="bindings"><see cref="IBindingCollection">Bindings</see> provided</param>
-        /// <returns><see cref="IContainer"/></returns>
+        /// <param name="assemblies"><see cref="IAssemblies"/> for the application.</param>
+        /// <param name="bindings"><see cref="IBindingCollection">Bindings</see> provided.</param>
+        /// <returns>A <see cref="IContainer"/> instance.</returns>
         IContainer Provide(IAssemblies assemblies, IBindingCollection bindings);
     }
 }

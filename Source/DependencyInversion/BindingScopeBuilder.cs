@@ -1,30 +1,26 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using System.Linq;
-using System.Reflection;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Lifecycle;
 using Dolittle.Reflection;
 
 namespace Dolittle.DependencyInversion
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IBindingScopeBuilder"/>
+    /// Represents an implementation of <see cref="IBindingScopeBuilder"/>.
     /// </summary>
     public class BindingScopeBuilder : IBindingScopeBuilder
     {
         Binding _binding;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BindingScopeBuilder"/>
+        /// Initializes a new instance of the <see cref="BindingScopeBuilder"/> class.
         /// </summary>
-        /// <param name="binding"><see cref="Binding"/> to build for</param>
+        /// <param name="binding"><see cref="Binding"/> to build for.</param>
         public BindingScopeBuilder(Binding binding)
         {
             _binding = binding;
         }
-
 
         /// <inheritdoc/>
         public void Singleton()
@@ -47,12 +43,11 @@ namespace Dolittle.DependencyInversion
         /// <inheritdoc/>
         public Binding Build()
         {
-            if( !(_binding.Scope is Scopes.Singleton) && _binding.Strategy.GetTargetType().HasAttribute<SingletonAttribute>() )
+            if (!(_binding.Scope is Scopes.Singleton) && _binding.Strategy.GetTargetType().HasAttribute<SingletonAttribute>())
                 Singleton();
 
-            if( !(_binding.Scope is Scopes.SingletonPerTenant) && _binding.Strategy.GetTargetType().HasAttribute<SingletonPerTenantAttribute>() )
+            if (!(_binding.Scope is Scopes.SingletonPerTenant) && _binding.Strategy.GetTargetType().HasAttribute<SingletonPerTenantAttribute>())
                 SingletonPerTenant();
-
 
             return _binding;
         }
