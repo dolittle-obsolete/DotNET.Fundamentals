@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Assemblies;
 using Dolittle.Booting;
 using Dolittle.IO;
@@ -12,7 +11,7 @@ using Dolittle.Types;
 namespace Dolittle.DependencyInversion.Booting.Stages
 {
     /// <summary>
-    /// Represents the <see cref="BootStage.PrepareBoot"/> stage of booting
+    /// Represents the <see cref="BootStage.PrepareBoot"/> stage of booting.
     /// </summary>
     public class Container : ICanPerformBootStage<ContainerSettings>
     {
@@ -26,13 +25,13 @@ namespace Dolittle.DependencyInversion.Booting.Stages
             var logger = builder.GetAssociation(WellKnownAssociations.Logger) as ILogger;
             var typeFinder = builder.GetAssociation(WellKnownAssociations.TypeFinder) as ITypeFinder;
             var scheduler = builder.GetAssociation(WellKnownAssociations.Scheduler) as IScheduler;
-            
+
             var bindings = builder.GetAssociation(WellKnownAssociations.Bindings) as IBindingCollection;
             var assemblies = builder.GetAssociation(WellKnownAssociations.Assemblies) as IAssemblies;
 
             var fileSystem = new FileSystem();
 
-            if( settings.ContainerType != null ) 
+            if (settings.ContainerType != null)
             {
                 logger.Trace($"Starting DependencyInversion with predefined container type '{settings.ContainerType.AssemblyQualifiedName}'");
                 resultingBindings = Dolittle.DependencyInversion.Booting.Boot.Start(
@@ -44,8 +43,8 @@ namespace Dolittle.DependencyInversion.Booting.Stages
                     settings.ContainerType,
                     bindings,
                     builder.Container as BootContainer);
-            } 
-            else 
+            }
+            else
             {
                 var bootResult = Dolittle.DependencyInversion.Booting.Boot.Start(
                     assemblies,
