@@ -5,8 +5,8 @@ resources:
   repositories:
     - repository: templates
       type: github
-      name: dolittle-tools/AzureDevOps
-      endpoint: dolittle-tools
+      name: dolittle-build-testing/AzureDevOps
+      endpoint: dolittle-build-testing
 
 jobs:
-- template: Source/DotNet/pipeline.yml@templates
+- template: Source/Test/pipeline.yml@templates
