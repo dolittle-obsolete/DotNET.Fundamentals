@@ -1,21 +1,23 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Reflection;
 
 namespace Dolittle.Execution
 {
     /// <summary>
-    /// Exception that is thrown when a target is not alive in a weak reference
+    /// Exception that is thrown when a target is not alive in a weak reference.
     /// </summary>
     public class CannotInvokeMethodBecauseTargetIsNotAlive : ArgumentException
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="CannotInvokeMethodBecauseTargetIsNotAlive"/>
+        /// Initializes a new instance of the <see cref="CannotInvokeMethodBecauseTargetIsNotAlive"/> class.
         /// </summary>
-        /// <param name="method"></param>
-        public CannotInvokeMethodBecauseTargetIsNotAlive(MethodInfo method) : base(string.Format("Method '{0}' can't be invoked, since target has been collected by the garbage collector", method)) { }
+        /// <param name="method"><see cref="MethodInfo"/> for the method that can't be invoked.</param>
+        public CannotInvokeMethodBecauseTargetIsNotAlive(MethodInfo method)
+            : base($"Method '{method}' can't be invoked, since target has been collected by the garbage collector")
+        {
+        }
     }
 }
