@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dolittle.Concepts
@@ -25,6 +26,25 @@ namespace Dolittle.Concepts
             {
                 return parameters.Where(param => param != null)
                             .Aggregate(17, (current, param) => (current * 29) + param.GetHashCode());
+            }
+        }
+
+        /// <summary>
+        /// Encapsulates an algorithm for generating a hashcode from an enumerable.
+        /// </summary>
+        /// <param name="enumerable"><see cref="IEnumerable{T}"/> to generate for.</param>
+        /// <returns>The hash code.</returns>
+        public static int GetHashCode(IEnumerable<object> enumerable)
+        {
+            unchecked
+            {
+                int hash = 17;
+                foreach (var item in enumerable)
+                {
+                    hash = (hash * 23) + (item?.GetHashCode() ?? 0);
+                }
+
+                return hash;
             }
         }
     }

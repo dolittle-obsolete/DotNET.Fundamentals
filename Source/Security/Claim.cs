@@ -1,33 +1,21 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Dolittle.Collections;
-using Dolittle.Reflection;
-using System.Runtime.Serialization;
-using System.Security.Claims;
 using Dolittle.Concepts;
 
 namespace Dolittle.Security
 {
-    
     /// <summary>
-    /// Represents a Claim
+    /// Represents a Claim.
     /// </summary>
     public class Claim : Value<Claim>
     {
         /// <summary>
-        /// Instantiates an instance of a Claim
+        /// Initializes a new instance of the <see cref="Claim"/> class.
         /// </summary>
-        /// <param name="name">The Name of the claim</param>
-        /// <param name="value">The Value of the claim</param>
-        /// <param name="valueType">The type of the Value of the claim</param>
+        /// <param name="name">The Name of the claim.</param>
+        /// <param name="value">The Value of the claim.</param>
+        /// <param name="valueType">The type of the Value of the claim.</param>
         public Claim(string name, string value, string valueType)
         {
             Name = name;
@@ -36,40 +24,40 @@ namespace Dolittle.Security
         }
 
         /// <summary>
-        /// The Name of the claim
+        /// Gets the name of the claim.
         /// </summary>
-        /// <value></value>
         public string Name { get; }
+
         /// <summary>
-        /// The Value of the claim
+        /// Gets the value of the claim.
         /// </summary>
-        /// <value></value>
         public string Value { get; }
+
         /// <summary>
-        /// The type of the Value of the claim
+        /// Gets the type of the value of the claim.
         /// </summary>
-        /// <value></value>
         public string ValueType { get; }
 
         /// <summary>
-        /// Converts the <see cref="Claim" /> instance into the corresponding <see cref="System.Security.Claims.Claim" /> instance
+        /// Converts the <see cref="System.Security.Claims.Claim" /> instance into the corresponding <see cref="Claim" /> instance.
         /// </summary>
-        /// <returns>a <see cref="System.Security.Claims.Claim" /> instance</returns>
-        public System.Security.Claims.Claim ToDotnetClaim()
+        /// <param name="claim"><see cref="System.Security.Claims.Claim"/> to convert.</param>
+        /// <returns>a <see cref="Claim" /> instance.</returns>
+        public static Claim FromDotnetClaim(System.Security.Claims.Claim claim)
         {
-            return new System.Security.Claims.Claim(Name,Value,ValueType);
+            if (claim == null)
+                return null;
+
+            return new Claim(claim.Type, claim.Value, claim.ValueType);
         }
 
         /// <summary>
-        /// Converts the <see cref="System.Security.Claims.Claim" /> instance into the corresponding <see cref="Dolittle.Security.Claim" /> instance
+        /// Converts the <see cref="Claim" /> instance into the corresponding <see cref="System.Security.Claims.Claim" /> instance.
         /// </summary>
-        /// <returns>a <see cref="Dolittle.Security.Claim" /> instance</returns>
-        public static Dolittle.Security.Claim FromDotnetClaim(System.Security.Claims.Claim claim)
+        /// <returns>a <see cref="System.Security.Claims.Claim" /> instance.</returns>
+        public System.Security.Claims.Claim ToDotnetClaim()
         {
-            if(claim == null)
-                return null;
-
-            return new Dolittle.Security.Claim(claim.Type, claim.Value, claim.ValueType);
+            return new System.Security.Claims.Claim(Name, Value, ValueType);
         }
     }
 }

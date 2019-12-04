@@ -1,31 +1,31 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Security.Claims;
 
 namespace Dolittle.Security
 {
     /// <summary>
-    /// Represents a principal resolver that resolves from current thread;
+    /// Represents a principal resolver that resolves from current thread.
     /// </summary>
     public class DefaultPrincipalResolver : ICanResolvePrincipal
     {
         /// <summary>
-        /// The user name when there is no user logged in
+        /// The user name when there is no user logged in.
         /// </summary>
         public const string AnonymousUserName = "[Anonymous]";
 
         /// <inheritdoc/>
         public ClaimsPrincipal Resolve()
         {
-            if( ClaimsPrincipal.Current == null )
+            if (ClaimsPrincipal.Current == null)
             {
                 var identity = new ClaimsIdentity();
                 identity.AddClaim(new System.Security.Claims.Claim(identity.NameClaimType, AnonymousUserName));
                 var principal = new ClaimsPrincipal(identity);
                 return principal;
             }
+
             return ClaimsPrincipal.Current;
         }
     }

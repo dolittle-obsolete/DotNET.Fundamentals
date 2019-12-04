@@ -1,38 +1,37 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
+using System.Globalization;
 
 namespace Dolittle.Security
 {
     /// <summary>
-    /// Represents a <see cref="Securable"/> that applies to a specific <see cref="System.Type"/>
+    /// Represents a <see cref="Securable"/> that applies to a specific <see cref="System.Type"/>.
     /// </summary>
     public class TypeSecurable : Securable
     {
         const string TYPE = "OfType_{{{0}}}";
 
         /// <summary>
-        /// Initializes an instance of <see cref="TypeSecurable"/>
+        /// Initializes a new instance of the <see cref="TypeSecurable"/> class.
         /// </summary>
-        /// <param name="type"><see cref="System.Type"/> to secure</param>
-        public TypeSecurable(Type type) : base(string.Format(TYPE,type.FullName))
+        /// <param name="type"><see cref="System.Type"/> to secure.</param>
+        public TypeSecurable(Type type)
+            : base(string.Format(CultureInfo.InvariantCulture, TYPE, type.FullName))
         {
             Type = type;
         }
 
-
         /// <summary>
-        /// Gets the type that is secured
+        /// Gets the type that is secured.
         /// </summary>
-        public Type Type { get; private set; }
+        public Type Type { get; }
 
-#pragma warning disable 1591
+        /// <inheritdoc/>
         public override bool CanAuthorize(object actionToAuthorize)
         {
-            return actionToAuthorize!= null && Type == actionToAuthorize.GetType();
+            return actionToAuthorize != null && Type == actionToAuthorize.GetType();
         }
-#pragma warning restore 1591
     }
 }

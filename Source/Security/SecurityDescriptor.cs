@@ -1,52 +1,55 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using System.Linq;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dolittle.Security
 {
     /// <summary>
-    /// Represents a <see cref="ISecurityDescriptor"/>
+    /// Represents a <see cref="ISecurityDescriptor"/>.
     /// </summary>
     public class SecurityDescriptor : ISecurityDescriptor
     {
-        List<ISecurityAction> _actions = new List<ISecurityAction>();
+        readonly List<ISecurityAction> _actions = new List<ISecurityAction>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SecurityDescriptor"/>
+        /// Initializes a new instance of the <see cref="SecurityDescriptor"/> class.
         /// </summary>
         public SecurityDescriptor()
         {
             When = new SecurityDescriptorBuilder(this);
         }
 
-#pragma warning disable 1591 // Xml Comments
+        /// <inheritdoc/>
+        public ISecurityDescriptorBuilder When { get; }
 
-        public ISecurityDescriptorBuilder When { get; private set; }
+        /// <inheritdoc/>
+        public IEnumerable<ISecurityAction> Actions => _actions;
 
+        /// <inheritdoc/>
         public void AddAction(ISecurityAction securityAction)
         {
             _actions.Add(securityAction);
         }
 
-        public IEnumerable<ISecurityAction> Actions { get { return _actions; } }
-        
-        public bool CanAuthorize<T>(object instanceToAuthorize) where T : ISecurityAction
+        /// <inheritdoc/>
+        public bool CanAuthorize<T>(object instanceToAuthorize)
+            where T : ISecurityAction
         {
-            return _actions.Where(a => a.GetType() == typeof(T)).Any(a => a.CanAuthorize(instanceToAuthorize));
+            return _actions.Any(a => a.GetType() == typeof(T) && a.CanAuthorize(instanceToAuthorize));
         }
 
+        /// <inheritdoc/>
         public AuthorizeDescriptorResult Authorize(object instanceToAuthorize)
         {
             var result = new AuthorizeDescriptorResult();
             foreach (var action in Actions.Where(a => a.CanAuthorize(instanceToAuthorize)))
             {
-               result.ProcessAuthorizeActionResult(action.Authorize(instanceToAuthorize));
+                result.ProcessAuthorizeActionResult(action.Authorize(instanceToAuthorize));
             }
+
             return result;
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }
