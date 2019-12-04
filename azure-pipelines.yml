@@ -10,3 +10,7 @@ resources:
 
 jobs:
 - template: Source/Test/pipeline.yml@templates
+  parameters:
+    CASCADES:
+      - dolittle-build-testing/Runtime
+      - dolittle-build-testing/DotNET.SDK
