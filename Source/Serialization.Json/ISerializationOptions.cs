@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -9,33 +8,36 @@ using Newtonsoft.Json;
 namespace Dolittle.Serialization.Json
 {
     /// <summary>
-    /// Represents the options for serialization
+    /// Represents the options for serialization.
     /// </summary>
     public interface ISerializationOptions
     {
         /// <summary>
-        /// Gets whether a property on the given type should be serialized
-        /// </summary>
-        bool ShouldSerializeProperty(Type type, string propertyName);
-
-        /// <summary>
-        /// Gets the flag used for serialization
+        /// Gets the flag used for serialization.
         /// </summary>
         SerializationOptionsFlags Flags { get; }
 
         /// <summary>
-        /// Gets additional <see cref="JsonConverter">converters</see>
+        /// Gets additional <see cref="JsonConverter">converters</see>.
         /// </summary>
-        IEnumerable<JsonConverter> Converters { get; }
+        IEnumerable<JsonConverter> Converters { get; }
 
         /// <summary>
-        /// Gets wether or not to ignore discovered converters
+        /// Gets a value indicating whether or not to ignore discovered converters.
         /// </summary>
-        bool IgnoreDiscoveredConverters { get; }
+        bool IgnoreDiscoveredConverters { get; }
 
         /// <summary>
-        /// Gets the callback that can be used to work directly with the <see cref="JsonSerializer">Newtonsoft serializer</see>
+        /// Gets the callback that can be used to work directly with the <see cref="JsonSerializer">Newtonsoft serializer</see>.
         /// </summary>
-        Action<JsonSerializer>  Callback { get; }
+        Action<JsonSerializer> Callback { get; }
+
+        /// <summary>
+        /// Gets whether a property on the given type should be serialized.
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> of the prroperty.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>true if it should be serialized, false if not.</returns>
+        bool ShouldSerializeProperty(Type type, string propertyName);
     }
 }
