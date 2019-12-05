@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Collections;
 using Dolittle.Reflection;
-using Microsoft.Extensions.Logging;
 
 namespace Dolittle.Logging.Bootstrap
 {
