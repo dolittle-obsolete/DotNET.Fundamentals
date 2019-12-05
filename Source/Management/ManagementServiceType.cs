@@ -7,15 +7,15 @@ using Dolittle.Services;
 namespace Dolittle.Management
 {
     /// <summary>
-    /// Represents a <see cref="IRepresentServiceType">service type</see> that is for management communication
+    /// Represents a <see cref="IRepresentServiceType">service type</see> that is for management communication.
     /// </summary>
     /// <remarks>
-    /// Management is considered the channel where tooling is connecting for management
+    /// Management is considered the channel where tooling is connecting for management.
     /// </remarks>
     public class ManagementServiceType : IRepresentServiceType
     {
         /// <summary>
-        /// Gets the identifying name for the <see cref="ManagementServiceType"/>
+        /// Gets the identifying name for the <see cref="ManagementServiceType"/>.
         /// </summary>
         public const string Name = "Management";
 

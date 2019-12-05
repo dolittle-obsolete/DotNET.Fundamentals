@@ -6,7 +6,7 @@ using Dolittle.Services;
 namespace Dolittle.Management
 {
     /// <summary>
-    /// Defines a system that can bind a gRPC service for management purpose
+    /// Defines a system that can bind a gRPC service for management purpose.
     /// </summary>
     public interface ICanBindManagementServices : ICanBindServices
     {
