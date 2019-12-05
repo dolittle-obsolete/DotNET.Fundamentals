@@ -1,22 +1,23 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.Lifecycle;
 
 namespace Dolittle.Tenancy.Configuration
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Represents an implementation of <see cref="ITenantMapManager"/>.
+    /// </summary>
     [Singleton]
     public class TenantMapManager : ITenantMapManager
     {
         readonly ITenantStrategyLoader _tenantStrategyLoader;
 
         /// <summary>
-        /// Instantiates an instance of <see cref="TenantMapManager"/>
+        /// Initializes a new instance of the <see cref="TenantMapManager"/> class.
         /// </summary>
-        /// <param name="tenantStrategyLoader"></param>
+        /// <param name="tenantStrategyLoader"><see cref="ITenantStrategyLoader"/> for loading strategies.</param>
         public TenantMapManager(ITenantStrategyLoader tenantStrategyLoader)
         {
             _tenantStrategyLoader = tenantStrategyLoader;
@@ -26,8 +27,9 @@ namespace Dolittle.Tenancy.Configuration
         public TenantStrategy Strategy => _tenantStrategyLoader.Strategy;
 
         /// <inheritdoc/>
-        public T InstanceOfStrategy<T>() where T : class => (T)InstanceOfStrategy(typeof(T));
-        
+        public T InstanceOfStrategy<T>()
+            where T : class => (T)InstanceOfStrategy(typeof(T));
+
         /// <inheritdoc/>
         public object InstanceOfStrategy(Type strategyType)
         {
