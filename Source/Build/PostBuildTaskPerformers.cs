@@ -7,7 +7,7 @@ using Dolittle.Types;
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IPostBuildTaskPerformers"/>
+    /// Represents an implementation of <see cref="IPostBuildTaskPerformers"/>.
     /// </summary>
     public class PostBuildTaskPerformers : IPostBuildTaskPerformers
     {
@@ -15,10 +15,10 @@ namespace Dolittle.Build
         readonly IBuildMessages _buildMessages;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PostBuildTaskPerformers"/>
+        /// Initializes a new instance of the <see cref="PostBuildTaskPerformers"/> class.
         /// </summary>
-        /// <param name="runners">Runners to run</param>
-        /// <param name="buildMessages"><see cref="IBuildMessages"/> for build messages</param>
+        /// <param name="runners">Runners to run.</param>
+        /// <param name="buildMessages"><see cref="IBuildMessages"/> for build messages.</param>
         public PostBuildTaskPerformers(
             IInstancesOf<ICanPerformPostBuildTask> runners,
             IBuildMessages buildMessages)
@@ -32,7 +32,7 @@ namespace Dolittle.Build
         {
             _buildMessages.Information("Perform post build tasks");
             _buildMessages.Indent();
-            _runners.ForEach(_ => 
+            _runners.ForEach(_ =>
             {
                 _buildMessages.Information($"{_.Message} (Post Task: '{_.GetType().AssemblyQualifiedName}')");
                 _buildMessages.Indent();

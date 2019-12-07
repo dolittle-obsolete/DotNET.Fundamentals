@@ -8,20 +8,19 @@ using Dolittle.Types;
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IBuildTaskPerformers"/>
+    /// Represents an implementation of <see cref="IBuildTaskPerformers"/>.
     /// </summary>
     [Singleton]
     public class BuildTaskPerformers : IBuildTaskPerformers
     {
         readonly IInstancesOf<ICanPerformBuildTask> _performers;
         readonly IBuildMessages _buildMessages;
-        
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BuildTaskPerformers"/>
+        /// Initializes a new instance of the <see cref="BuildTaskPerformers"/> class.
         /// </summary>
-        /// <param name="performers"><see cref="IInstancesOf{ICanPerformPostBuildTasks}">Performers</see></param>
-        /// <param name="buildMessages"><see cref="IBuildMessages"/> for outputting build messages</param>
+        /// <param name="performers"><see cref="IInstancesOf{ICanPerformPostBuildTasks}">Performers</see>.</param>
+        /// <param name="buildMessages"><see cref="IBuildMessages"/> for outputting build messages.</param>
         public BuildTaskPerformers(
             IInstancesOf<ICanPerformBuildTask> performers,
             IBuildMessages buildMessages)

@@ -6,22 +6,22 @@ using System;
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Defines a system for dealing with configuration for <see cref="IBuildTaskPerformers"/>
+    /// Defines a system for dealing with configuration for <see cref="IBuildTaskPerformers"/>.
     /// </summary>
     public interface IPerformerConfigurationManager
     {
         /// <summary>
-        /// Initializes the system
+        /// Initializes the system.
         /// </summary>
-        /// <param name="jsonFile">JSON file that holds the configuration objects</param>
+        /// <param name="jsonFile">JSON file that holds the configuration objects.</param>
         void Initialize(string jsonFile);
 
         /// <summary>
-        /// Get a typed configuration object based on the name of plugin
+        /// Get a typed configuration object based on the name of plugin.
         /// </summary>
-        /// <param name="configurationType">Type of configuration to get</param>
-        /// <param name="name">Name of plugin</param>
-        /// <returns>A typed instance</returns>
+        /// <param name="configurationType">Type of configuration to get.</param>
+        /// <param name="name">Name of plugin.</param>
+        /// <returns>A typed instance.</returns>
         object GetFor(Type configurationType, string name);
     }
 }

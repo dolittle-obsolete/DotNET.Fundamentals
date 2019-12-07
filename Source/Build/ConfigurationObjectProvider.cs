@@ -15,7 +15,7 @@ namespace Dolittle.Build
 {
     /// <summary>
     /// Represents an implementation of <see cref="ICanProvideConfigurationObjects"/> that is capable
-    /// of providing configuration objects for <see cref="ICanPerformBuildTask"/>
+    /// of providing configuration objects for <see cref="ICanPerformBuildTask"/>.
     /// </summary>
     public class ConfigurationObjectProvider : ICanProvideConfigurationObjects
     {
@@ -24,10 +24,10 @@ namespace Dolittle.Build
         readonly GetContainer _getContainer;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ConfigurationObjectProvider"/>
+        /// Initializes a new instance of the <see cref="ConfigurationObjectProvider"/> class.
         /// </summary>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding performers</param>
-        /// <param name="getContainer"><see cref="GetContainer"/> for getting container</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding performers.</param>
+        /// <param name="getContainer"><see cref="GetContainer"/> for getting container.</param>
         public ConfigurationObjectProvider(
             ITypeFinder typeFinder,
             GetContainer getContainer)
@@ -48,8 +48,7 @@ namespace Dolittle.Build
         {
             var performerConfigurationManager = _getContainer().Get<IPerformerConfigurationManager>();
             var pluginTypeName = _configurationObjectTypes[type];
-            var configObject = performerConfigurationManager.GetFor(type, pluginTypeName);
-            return configObject;
+            return performerConfigurationManager.GetFor(type, pluginTypeName);
         }
 
         void PopulateConfigurationObjectTypes()
@@ -68,16 +67,16 @@ namespace Dolittle.Build
                         .GetParameters()
                         .Where(parameter => parameter.ParameterType.HasInterface<IConfigurationObject>())
                         .Select(parameter => parameter.ParameterType)
-                        .ToDictionary(type => type, type => pluginTypeName);
+                        .ToDictionary(type => type, __ => pluginTypeName);
 
                     configurationObjectTypes.ForEach(_configurationObjectTypes.Add);
                 }
             });
         }
 
-        void ThrowIfMoreThanOneConstructors(Type _, ConstructorInfo[] constructors)
+        void ThrowIfMoreThanOneConstructors(Type type, ConstructorInfo[] constructors)
         {
-            if (constructors.Length > 1) throw new AmbiguousConstructor(_);
+            if (constructors.Length > 1) throw new AmbiguousConstructor(type);
         }
     }
 }

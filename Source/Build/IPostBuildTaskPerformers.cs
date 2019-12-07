@@ -4,12 +4,12 @@
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Defines a system that is capable of performing all discovered <see cref="ICanPerformPostBuildTask"/>
+    /// Defines a system that is capable of performing all discovered <see cref="ICanPerformPostBuildTask"/>.
     /// </summary>
     public interface IPostBuildTaskPerformers
     {
         /// <summary>
-        /// Performs all post tasks
+        /// Performs all post tasks.
         /// </summary>
         void Perform();
     }

@@ -4,42 +4,42 @@
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Defines a system for outputting build messages
+    /// Defines a system for outputting build messages.
     /// </summary>
     public interface IBuildMessages
     {
         /// <summary>
-        /// Push an indentation
+        /// Push an indentation.
         /// </summary>
         void Indent();
 
         /// <summary>
-        /// Pop back and indentation
+        /// Pop back and indentation.
         /// </summary>
         void Unindent();
 
         /// <summary>
-        /// Output trace message
+        /// Output trace message.
         /// </summary>
-        /// <param name="message">Message to output</param>
+        /// <param name="message">Message to output.</param>
         void Trace(string message);
 
         /// <summary>
-        /// Output informational message
+        /// Output informational message.
         /// </summary>
-        /// <param name="message">Message to output</param>
+        /// <param name="message">Message to output.</param>
         void Information(string message);
 
         /// <summary>
-        /// Output an error message
+        /// Output an error message.
         /// </summary>
-        /// <param name="message">Message to output</param>
+        /// <param name="message">Message to output.</param>
         void Error(string message);
 
         /// <summary>
-        /// Output a warning message
+        /// Output a warning message.
         /// </summary>
-        /// <param name="message">Message to output</param>
+        /// <param name="message">Message to output.</param>
         void Warning(string message);
     }
 }

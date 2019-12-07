@@ -7,19 +7,19 @@ namespace Dolittle.Build
 {
     /// <summary>
     /// Defines a modifier that is capable of performing modifications to an assembly through its
-    /// <see cref="AssemblyDefinition"/>
+    /// <see cref="AssemblyDefinition"/>.
     /// </summary>
     public interface ICanModifyTargetAssembly
     {
         /// <summary>
-        /// Get the message string to show in output
+        /// Gets the message string to show in output.
         /// </summary>
         string Message { get; }
 
         /// <summary>
-        /// Modify the <see cref="AssemblyDefinition">assembly</see>
+        /// Modify the <see cref="AssemblyDefinition">assembly</see>.
         /// </summary>
-        /// <param name="assemblyDefinition"><see cref="AssemblyDefinition">Assembly</see> to modify</param>
+        /// <param name="assemblyDefinition"><see cref="AssemblyDefinition">Assembly</see> to modify.</param>
         void Modify(AssemblyDefinition assemblyDefinition);
     }
 }
