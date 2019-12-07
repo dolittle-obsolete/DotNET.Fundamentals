@@ -1,24 +1,22 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Runtime.Serialization;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when a <see cref="Type"/> is mapped up to multiple <see cref="ResourceType"/>
+    /// The exception that gets thrown when a <see cref="Type"/> is mapped up to multiple <see cref="ResourceType"/>.
     /// </summary>
     public class ConfigurationTypeMappedToMultipleResourceTypes : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="ConfigurationTypeMappedToMultipleResourceTypes"/>
+        /// Initializes a new instance of the <see cref="ConfigurationTypeMappedToMultipleResourceTypes"/> class.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type"><see cref="Type"/> that is mapped for multiple resource types.</param>
         public ConfigurationTypeMappedToMultipleResourceTypes(Type type)
             : base($"The type {type.FullName} is mapped up to multiple Resource Types")
-        {}
-
+        {
+        }
     }
 }

@@ -1,28 +1,30 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Dolittle.Execution;
 using Dolittle.Lifecycle;
-using Dolittle.Tenancy;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Represents an implementation of <see cref="IConfigurationFor{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of configuration.</typeparam>
     [SingletonPerTenant]
-    public class ConfigurationFor<T> : IConfigurationFor<T> where T : class
+    public class ConfigurationFor<T> : IConfigurationFor<T>
+        where T : class
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="ConfigurationFor{T}"/>
+        /// Initializes a new instance of the <see cref="ConfigurationFor{T}"/> class.
         /// </summary>
-        /// <param name="tenantResourceManager"></param>
-        /// <param name="executionContextManager"></param>
-        public ConfigurationFor(ITenantResourceManager tenantResourceManager, IExecutionContextManager executionContextManager) 
+        /// <param name="tenantResourceManager"><see cref="ITenantResourceManager"/> for managing configuration of resources.</param>
+        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for resolving <see cref="ExecutionContext"/>.</param>
+        public ConfigurationFor(ITenantResourceManager tenantResourceManager, IExecutionContextManager executionContextManager)
         {
             Instance = tenantResourceManager.GetConfigurationFor<T>(executionContextManager.Current.Tenant);
         }
+
         /// <inheritdoc/>
-        public T Instance {get; }
+        public T Instance { get; }
     }
 }

@@ -1,23 +1,22 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Runtime.Serialization;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when multiple implementations for the same service is discovered
+    /// The exception that gets thrown when multiple implementations for the same service is discovered.
     /// </summary>
     public class MultipleImplementationsFoundForService : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="MultipleImplementationsFoundForService"/>
+        /// Initializes a new instance of the <see cref="MultipleImplementationsFoundForService"/> class.
         /// </summary>
-        /// <param name="service"></param>
+        /// <param name="service"><see cref="Type"/> of service with multiple implementations.</param>
         public MultipleImplementationsFoundForService(Type service)
             : base($"Multiple implementations for the service {service.FullName} was found")
-        { }
+        {
+        }
     }
 }

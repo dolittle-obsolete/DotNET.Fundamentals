@@ -1,9 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Runtime.Serialization;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
@@ -13,11 +11,11 @@ namespace Dolittle.ResourceTypes.Configuration
     public class FoundDuplicateResourceDefinition : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="FoundDuplicateResourceDefinition"/>
+        /// Initializes a new instance of the <see cref="FoundDuplicateResourceDefinition"/> class.
         /// </summary>
-        /// <param name="resourceType">The <see cref="ResourceType"/> that had duplicate representations</param>
-        /// <returns></returns>
-        public FoundDuplicateResourceDefinition(ResourceType resourceType) : base($"Found one or more duplicate resource representations with {typeof(ResourceType).FullName} {resourceType.Value}.")
+        /// <param name="resourceType">The <see cref="ResourceType"/> that had duplicate representations.</param>
+        public FoundDuplicateResourceDefinition(ResourceType resourceType)
+            : base($"Found one or more duplicate resource representations with {typeof(ResourceType).FullName} {resourceType.Value}.")
         {
         }
     }

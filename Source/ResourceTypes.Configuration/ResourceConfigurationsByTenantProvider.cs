@@ -1,21 +1,16 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using Dolittle.IO;
 using Dolittle.Lifecycle;
 using Dolittle.Serialization.Json;
 using Dolittle.Tenancy;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
-
     /// <summary>
-    /// Represents an implementation of <see cref="ICanProvideResourceConfigurationsByTenant"/>
+    /// Represents an implementation of <see cref="ICanProvideResourceConfigurationsByTenant"/>.
     /// </summary>
     [Singleton]
     public class ResourceConfigurationsByTenantProvider : ICanProvideResourceConfigurationsByTenant
@@ -25,10 +20,10 @@ namespace Dolittle.ResourceTypes.Configuration
         readonly ISerializer _serializer;
 
         /// <summary>
-        /// Instantiates an instance of <see cref="ResourceConfigurationsByTenantProvider"/>
+        /// Initializes a new instance of the <see cref="ResourceConfigurationsByTenantProvider"/> class.
         /// </summary>
-        /// <param name="configuration">The <see cref="ResourceConfigurationsByTenant"/> configuration object</param>
-        /// <param name="serializer"><see cref="ISerializer"/></param>
+        /// <param name="configuration">The <see cref="ResourceConfigurationsByTenant"/> configuration object.</param>
+        /// <param name="serializer"><see cref="ISerializer"/>.</param>
         public ResourceConfigurationsByTenantProvider(
             ResourceConfigurationsByTenant configuration,
             ISerializer serializer)
@@ -41,7 +36,7 @@ namespace Dolittle.ResourceTypes.Configuration
         public object ConfigurationFor(Type configurationType, TenantId tenantId, ResourceType resourceType)
         {
             var configurationObjects = GetConfigurationObjectsFor(tenantId);
-            if( configurationObjects.ContainsKey(resourceType)) return configurationObjects[resourceType];
+            if (configurationObjects.ContainsKey(resourceType)) return configurationObjects[resourceType];
 
             var configuredObject = GetResourceConfiguration(tenantId, resourceType);
             var json = _serializer.ToJson(configuredObject);
@@ -70,7 +65,7 @@ namespace Dolittle.ResourceTypes.Configuration
         {
             IDictionary<ResourceType, object> configurationObjects = null;
 
-            if( _resourceConfigurationsByTenant.ContainsKey(tenantId))
+            if (_resourceConfigurationsByTenant.ContainsKey(tenantId))
                 configurationObjects = _resourceConfigurationsByTenant[tenantId];
 
             if (configurationObjects == null)
