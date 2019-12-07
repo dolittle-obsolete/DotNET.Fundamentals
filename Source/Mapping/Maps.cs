@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using Dolittle.Collections;
@@ -10,18 +9,17 @@ using Dolittle.Types;
 namespace Dolittle.Mapping
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IMaps"/>
+    /// Represents an implementation of <see cref="IMaps"/>.
     /// </summary>
     public class Maps : IMaps
     {
-        IInstancesOf<IMap> _maps;
-        Dictionary<string, IMap> _mapsByKey;
-
+        readonly IInstancesOf<IMap> _maps;
+        readonly Dictionary<string, IMap> _mapsByKey;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Maps"/>
+        /// Initializes a new instance of the <see cref="Maps"/> class.
         /// </summary>
-        /// <param name="maps"><see cref="IInstancesOf{IMap}">Instances of maps</see></param>
+        /// <param name="maps"><see cref="IInstancesOf{IMap}">Instances of maps</see>.</param>
         public Maps(IInstancesOf<IMap> maps)
         {
             _maps = maps;
@@ -40,14 +38,13 @@ namespace Dolittle.Mapping
         public IMap GetFor(Type source, Type target)
         {
             ThrowIfMissingMap(source, target);
-            var key = GetKeyFor(source,target);
+            var key = GetKeyFor(source, target);
             return _mapsByKey[key];
         }
 
-
         string GetKeyFor(Type source, Type target)
         {
-            return string.Format("{0}_{1}", source.FullName, target.FullName);
+            return $"{source.FullName}_{target.FullName}";
         }
 
         void PopulateMapsBasedOnKeys()
