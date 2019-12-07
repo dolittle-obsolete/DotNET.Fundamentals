@@ -1,18 +1,16 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using Dolittle.Collections;
 using Dolittle.Logging;
 using grpc = Grpc.Core;
-using Grpc.Core.Interceptors;
 
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IEndpoint"/>
+    /// Represents an implementation of <see cref="IEndpoint"/>.
     /// </summary>
     public class Endpoint : IEndpoint
     {
@@ -20,16 +18,16 @@ namespace Dolittle.Services
         grpc::Server _server;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Endpoint"/>
+        /// Initializes a new instance of the <see cref="Endpoint"/> class.
         /// </summary>
-        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public Endpoint(ILogger logger)
         {
             _logger = logger;
         }
 
         /// <summary>
-        /// Destructs the <see cref="Endpoint"/> instance
+        /// Finalizes an instance of the <see cref="Endpoint"/> class.
         /// </summary>
         ~Endpoint()
         {
@@ -50,14 +48,16 @@ namespace Dolittle.Services
                 var keepAliveTime = new grpc.ChannelOption("grpc.keepalive_time", 1000);
                 var keepAliveTimeout = new grpc.ChannelOption("grpc.keepalive_timeout_ms", 500);
                 var keepAliveWithoutCalls = new grpc.ChannelOption("grpc.keepalive_permit_without_calls", 1);
-                _server = new grpc::Server(new[] {
+                _server = new grpc::Server(new[]
+                {
                     keepAliveTime,
                     keepAliveTimeout,
                     keepAliveWithoutCalls
                 })
                 {
-                    Ports = {
-                    new grpc.ServerPort("0.0.0.0", configuration.Port, grpc::SslServerCredentials.Insecure)
+                    Ports =
+                    {
+                        new grpc.ServerPort("0.0.0.0", configuration.Port, grpc::SslServerCredentials.Insecure)
                     }
                 };
 
@@ -70,10 +70,12 @@ namespace Dolittle.Services
 
                 _server.Start();
             }
+#pragma warning disable CA1031
             catch (Exception ex)
             {
                 _logger.Error(ex, $"Couldn't start {type} host");
             }
+#pragma warning restore CA1031
         }
     }
 }
