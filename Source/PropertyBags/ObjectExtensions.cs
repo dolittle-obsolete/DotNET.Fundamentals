@@ -1,43 +1,36 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Dolittle.Collections;
-using Dolittle.Concepts;
-using Dolittle.Reflection;
 
 namespace Dolittle.PropertyBags
 {
     /// <summary>
-    /// Extensions for object
+    /// Extensions for object.
     /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>
         /// Creates a <see cref="PropertyBag"/> from an object.
-        /// Maps primitive properties and complex objects to <see cref="PropertyBag"/> recursively
+        /// Maps primitive properties and complex objects to <see cref="PropertyBag"/> recursively.
         /// </summary>
-        /// <param name="obj">Object to convert</param>
-        /// <returns></returns>
-        public static PropertyBag ToPropertyBag(this object obj)
+        /// <param name="source">Object to convert.</param>
+        /// <returns>Converted <see cref="PropertyBag"/>.</returns>
+        public static PropertyBag ToPropertyBag(this object source)
         {
-            if(obj == null)
+            if (source == null)
                 return null;
 
-            NullFreeDictionary<string,object> values = new NullFreeDictionary<string, object>();
+            NullFreeDictionary<string, object> values = new NullFreeDictionary<string, object>();
 
-            foreach (var property in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            foreach (var property in source.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
-                var value = property.PropertyType.GetPropertyBagObjectValue(property.GetValue(obj)); 
+                var value = property.PropertyType.GetPropertyBagObjectValue(property.GetValue(source));
                 values.Add(property.Name, value);
             }
-            return new PropertyBag(values);    
+
+            return new PropertyBag(values);
         }
     }
 }
