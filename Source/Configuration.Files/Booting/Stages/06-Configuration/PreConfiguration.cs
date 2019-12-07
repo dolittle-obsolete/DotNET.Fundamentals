@@ -1,17 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using System;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Booting;
-using Dolittle.DependencyInversion;
-using Dolittle.DependencyInversion.Booting;
 using Dolittle.Types;
 
 namespace Dolittle.Configuration.Files.Booting.Stages
 {
     /// <summary>
-    /// Represents bindings for booting
+    /// Represents bindings for booting.
     /// </summary>
     public class PreConfiguration : ICanRunBeforeBootStage<NoSettings>
     {
