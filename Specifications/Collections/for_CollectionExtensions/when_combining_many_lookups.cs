@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
 
@@ -16,25 +19,25 @@ namespace Dolittle.Collections.Specs.for_CollectionExtensions
             {
                 new[]
                 {
-                    new {K = "1", V = 1},
-                    new {K = "2", V = 2},
-                    new {K = "2", V = 22},
-                    new {K = "3", V = 3},
+                    new { K = "1", V = 1 },
+                    new { K = "2", V = 2 },
+                    new { K = "2", V = 22 },
+                    new { K = "3", V = 3 },
                 }.ToLookup(a => a.K, a => a.V),
                 new[]
                 {
-                    new {K = "1", V = 1},
-                    new {K = "2", V = 2},
+                    new { K = "1", V = 1 },
+                    new { K = "2", V = 2 },
                 }.ToLookup(a => a.K, a => a.V),
                 new[]
                 {
-                    new {K = "2", V = 2},
-                    new {K = "3", V = 333},
+                    new { K = "2", V = 2 },
+                    new { K = "3", V = 333 },
                 }.ToLookup(a => a.K, a => a.V),
                 new[]
                 {
-                    new {K = "", V = 88},
-                    new {K = "4", V = 444},
+                    new { K = "", V = 88 },
+                    new { K = "4", V = 444 },
                 }.ToLookup(a => a.K, a => a.V),
             };
         };

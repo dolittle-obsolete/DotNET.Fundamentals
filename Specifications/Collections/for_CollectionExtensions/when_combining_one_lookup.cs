@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
 
@@ -12,11 +15,14 @@ namespace Dolittle.Collections.Specs.for_CollectionExtensions
 
         Establish context = () =>
         {
-            lookups = new[] {new[]
+            lookups = new[]
             {
-                new {K = "1", V = 1},
-                new {K = "2", V = 2},
-            }.ToLookup(a => a.K, a => a.V)};
+                new[]
+                {
+                    new { K = "1", V = 1 },
+                    new { K = "2", V = 2 },
+                }.ToLookup(a => a.K, a => a.V)
+            };
         };
 
         Because of = () => result = lookups.Combine();
