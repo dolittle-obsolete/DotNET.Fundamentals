@@ -1,40 +1,40 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
-
 namespace Dolittle.Build.MSBuild.Tasks
 {
+#pragma warning disable CA1819 // Allow arrays for properties
     /// <summary>
-    /// Represents a task that is capable of discovering plugins to the Dolittle build pipeline
+    /// Represents a task that is capable of discovering plugins to the Dolittle build pipeline.
     /// </summary>
     public class PluginAndConfigurationDiscoverer : Task
     {
         /// <summary>
-        /// Gets or sets the aggregated plugins 
+        /// Gets or sets the aggregated plugins.
         /// </summary>
         [Required]
         public ITaskItem[] Plugins { get; set; }
 
         /// <summary>
-        /// Path to the configuration file
+        /// Gets or sets the path to the configuration file.
         /// </summary>
         [Output]
-        public string ConfigurationFile {  get; set; }
+        public string ConfigurationFile { get; set; }
 
         /// <summary>
-        /// Paths to assemblies that holds plugins
+        /// Gets or sets the paths to assemblies that holds plugins.
         /// </summary>
         [Output]
-        public string[] PluginAssemblies {  get; set; }
+        public string[] PluginAssemblies { get; set; }
 
         /// <inheritdoc/>
         public override bool Execute()
@@ -64,9 +64,11 @@ namespace Dolittle.Build.MSBuild.Tasks
                     Log.LogError($"Missing plugin assembly for plugin '{plugin}'");
                     return false;
                 }
+
                 pluginAssemblies.Add(pluginAssembly);
                 builder.Append("}");
             }
+
             builder.Append("}");
 
             File.WriteAllText(ConfigurationFile, builder.ToString());
@@ -104,17 +106,21 @@ namespace Dolittle.Build.MSBuild.Tasks
         {
             char c = src[i];
             return c < 32 || c == '"' || c == '\\'
+
                 // Broken lead surrogate
                 ||
                 (c >= '\uD800' && c <= '\uDBFF' &&
                     (i == src.Length - 1 || src[i + 1] < '\uDC00' || src[i + 1] > '\uDFFF'))
+
                 // Broken tail surrogate
                 ||
                 (c >= '\uDC00' && c <= '\uDFFF' &&
                     (i == 0 || src[i - 1] < '\uD800' || src[i - 1] > '\uDBFF'))
+
                 // To produce valid JavaScript
                 ||
                 c == '\u2028' || c == '\u2029'
+
                 // Escape "</" for <script> tags
                 ||
                 (c == '/' && i > 0 && src[i - 1] == '<');
@@ -126,6 +132,7 @@ namespace Dolittle.Build.MSBuild.Tasks
 
             int start = 0;
             for (int i = 0; i < src.Length; i++)
+            {
                 if (NeedEscape(src, i))
                 {
                     sb.Append(src, start, i - start);
@@ -157,13 +164,17 @@ namespace Dolittle.Build.MSBuild.Tasks
                             break;
                         default:
                             sb.Append("\\u");
-                            sb.Append(((int) src[i]).ToString("x04"));
+                            sb.Append(((int)src[i]).ToString("x04", CultureInfo.InvariantCulture));
                             break;
                     }
+
                     start = i + 1;
                 }
+            }
+
             sb.Append(src, start, src.Length - start);
             return sb.ToString();
         }
     }
+#pragma warning restore CA1819 // Allow arrays for properties
 }

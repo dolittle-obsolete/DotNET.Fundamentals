@@ -4,7 +4,9 @@
     <AssemblyName>Dolittle.ResourceTypes.Configuration.Specs</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="../../Build/MSBuild/specs.props"></Import>
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Common.Specs" Version="2.*"/>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\ResourceTypes.Configuration\ResourceTypes.Configuration.csproj" />

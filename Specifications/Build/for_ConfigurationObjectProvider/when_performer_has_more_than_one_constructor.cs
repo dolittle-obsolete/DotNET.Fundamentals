@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Machine.Specifications;
 
@@ -11,14 +10,14 @@ namespace Dolittle.Build.for_ConfigurationObjectProvider
     {
         class performer_with_two_constructors : ICanPerformBuildTask
         {
-            public performer_with_two_constructors(string something) {}
-            public performer_with_two_constructors(string something, string somethingElse) {}
+            public performer_with_two_constructors(string something) { }
+
+            public performer_with_two_constructors(string something, string somethingElse) { }
 
             public string Message => string.Empty;
 
             public void Perform()
             {
-
             }
         }
 
@@ -26,7 +25,8 @@ namespace Dolittle.Build.for_ConfigurationObjectProvider
 
         Establish context = () =>
         {
-            type_finder.Setup(_ => _.FindMultiple<ICanPerformBuildTask>()).Returns(new[] {
+            type_finder.Setup(_ => _.FindMultiple<ICanPerformBuildTask>()).Returns(new[]
+            {
                 typeof(performer_with_two_constructors)
             });
         };

@@ -1,7 +1,10 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Logging;
 using Machine.Specifications;
 using Moq;
-using It=Machine.Specifications.It;
+using It = Machine.Specifications.It;
 
 namespace Dolittle.Booting.Specs.for_BootProcedures
 {
@@ -9,10 +12,10 @@ namespace Dolittle.Booting.Specs.for_BootProcedures
     {
         static ICanPerformBootProcedure last_boot_procedure;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             first_procedure.Setup(_ => _.Perform()).Callback(() => last_boot_procedure = first_procedure.Object);
-            second_procedure.Setup(_ => _.Perform()).Callback(() => 
+            second_procedure.Setup(_ => _.Perform()).Callback(() =>
             {
                 last_boot_procedure = second_procedure.Object;
                 first_procedure_can_perform = true;

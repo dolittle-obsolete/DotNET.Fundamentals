@@ -17,21 +17,19 @@ namespace Dolittle.Versioning
         /// <param name="minor">Minor version of the software.</param>
         /// <param name="patch">Path level of the software.</param>
         /// <param name="build">Build number of the software.</param>
-        /// <param name="isPrerelease">Wether or not the software is pre-release - default false.</param>
         /// <param name="preReleaseString">If prerelease - the prerelease string.</param>
         public Version(
             int major,
             int minor,
             int patch,
             int build,
-            bool isPrerelease = false,
             string preReleaseString = "")
         {
             Major = major;
             Minor = minor;
             Patch = patch;
             Build = build;
-            IsPrerelease = isPrerelease;
+            IsPreRelease = !string.IsNullOrEmpty(preReleaseString);
             PreReleaseString = preReleaseString;
         }
 
@@ -63,6 +61,6 @@ namespace Dolittle.Versioning
         /// <summary>
         /// Gets a value indicating whether or not the software is a prerelease.
         /// </summary>
-        public bool IsPrerelease { get; }
+        public bool IsPreRelease { get; }
     }
 }

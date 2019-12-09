@@ -26,15 +26,15 @@ namespace Dolittle.Versioning
             var isRelease = result.Groups[4].Value?.Length == 0;
 
             if (!isRelease)
-                return new Version(major, minor, patch, build, false, result.Groups[4].Value);
+                return new Version(major, minor, patch, build, result.Groups[4].Value);
             else
-                return new Version(major, minor, patch, build, true);
+                return new Version(major, minor, patch, build);
         }
 
         /// <inheritdoc/>
         public string ToString(Version version)
         {
-            var postfix = version.IsPrerelease ? $"-{version.PreReleaseString}.{version.Build}" : string.Empty;
+            var postfix = version.IsPreRelease ? $"-{version.PreReleaseString}.{version.Build}" : string.Empty;
             return $"{version.Major}.{version.Minor}.{version.Patch}{postfix}";
         }
     }
