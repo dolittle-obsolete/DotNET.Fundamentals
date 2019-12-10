@@ -1,4 +1,7 @@
-﻿using Dolittle.Concepts;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Dolittle.Concepts;
 using Machine.Specifications;
 
 namespace Dolittle.Specs.Concepts.for_StringExtensions
@@ -9,10 +12,7 @@ namespace Dolittle.Specs.Concepts.for_StringExtensions
         static string long_as_a_string;
         static long result;
 
-        Establish context = () =>
-            {
-                long_as_a_string = "7654321";
-            };
+        Establish context = () => long_as_a_string = "7654321";
 
         Because of = () => result = (long)long_as_a_string.ParseTo(typeof(long));
 

@@ -1,5 +1,6 @@
-﻿using System;
-using Dolittle.Concepts;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.Specs.Concepts.for_Value.given
@@ -15,20 +16,20 @@ namespace Dolittle.Specs.Concepts.for_Value.given
         Establish context = () =>
             {
                 first_value = new MyValue
-                    {
-                        FirstIntValue = 1,
-                        SecondIntValue = 2,
-                        FirstStringValue = "one",
-                        SecondStringValue = "two"
-                    };
+                {
+                    FirstIntValue = 1,
+                    SecondIntValue = 2,
+                    FirstStringValue = "one",
+                    SecondStringValue = "two"
+                };
 
                 identical_values_to_first_value = new MyValue
-                    {
-                        FirstIntValue = first_value.FirstIntValue,
-                        SecondIntValue = first_value.SecondIntValue,
-                        FirstStringValue = first_value.FirstStringValue,
-                        SecondStringValue = first_value.SecondStringValue
-                    };
+                {
+                    FirstIntValue = first_value.FirstIntValue,
+                    SecondIntValue = first_value.SecondIntValue,
+                    FirstStringValue = first_value.FirstStringValue,
+                    SecondStringValue = first_value.SecondStringValue
+                };
 
                 transposed_values = new MyValue
                 {
@@ -39,12 +40,12 @@ namespace Dolittle.Specs.Concepts.for_Value.given
                 };
 
                 different_value = new MyValue
-                    {
-                        FirstIntValue = 100,
-                        SecondIntValue = 200,
-                        FirstStringValue = "First",
-                        SecondStringValue = "Second"
-                    };
+                {
+                    FirstIntValue = 100,
+                    SecondIntValue = 200,
+                    FirstStringValue = "First",
+                    SecondStringValue = "Second"
+                };
 
                 inherited_value_with_identical_values = new MyInheritedValue
                 {
@@ -54,18 +55,5 @@ namespace Dolittle.Specs.Concepts.for_Value.given
                     SecondStringValue = "two"
                 };
             };
-    }
-
-    public class MyValue : Value<MyValue>
-    {
-        public string FirstStringValue { get; set; }
-        public string SecondStringValue { get; set; }
-        public int FirstIntValue { get; set; }
-        public int SecondIntValue { get; set; }
-    }
-
-    public class MyInheritedValue : MyValue
-    {
-        
     }
 }
