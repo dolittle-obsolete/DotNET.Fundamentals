@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using Moq;
 
@@ -9,7 +12,7 @@ namespace Dolittle.DependencyInversion.for_BindingScopeBuilder.given
         protected static BindingScopeBuilder builder;
         protected static Mock<IActivationStrategy> activation_strategy;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             activation_strategy = new Mock<IActivationStrategy>();
             activation_strategy.Setup(_ => _.GetTargetType()).Returns(typeof(object));
