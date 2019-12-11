@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Collections.Generic;
 using Dolittle.DependencyInversion;
 using Dolittle.Logging;
 using Dolittle.Serialization.Json;
@@ -12,7 +15,7 @@ namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer.given
     public class a_serializer
     {
         protected static Serializer serializer;
-       protected static Mock<ILogger> mock_logger;
+        protected static Mock<ILogger> mock_logger;
         protected static Mock<IInstancesOf<ICanProvideConverters>> converter_provider_instances;
         protected static List<ICanProvideConverters> converter_providers;
 
@@ -23,7 +26,7 @@ namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer.given
                                     mock_logger = new Mock<ILogger>();
 
                                     var provider = new Mock<ICanProvideConverters>();
-                                    provider.Setup(p => p.Provide()).Returns(new JsonConverter[] { new ConceptConverter(), new ConceptDictionaryConverter(mock_logger.Object) });
+                                    provider.Setup(p => p.Provide()).Returns(new JsonConverter[] { new ConceptConverter(), new ConceptDictionaryConverter(mock_logger.Object) });
                                     converter_providers.Add(provider.Object);
                                     converter_provider_instances = new Mock<IInstancesOf<ICanProvideConverters>>();
                                     converter_provider_instances.Setup(c => c.GetEnumerator()).Returns(() => converter_providers.GetEnumerator());

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using Dolittle.Serialization.Json;
-using Dolittle.Concepts.Serialization.Json.Specs;
 using Machine.Specifications;
-using System.Linq;
 
 namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
 {
-    [Subject(typeof (Serializer))]
+    [Subject(typeof(Serializer))]
     public class when_serialzing_a_type_with_concepts : given.a_serializer
     {
         static ClassWithConcepts to_serialize;
@@ -16,11 +16,11 @@ namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
         Establish context = () =>
                                 {
                                     to_serialize = new ClassWithConcepts()
-                                                       {
-                                                           GuidConcept =  Guid.NewGuid(),
-                                                           StringConcept = "BlahBlahBlah",
-                                                           LongConcept = long.MaxValue
-                                                       };
+                                    {
+                                        GuidConcept = Guid.NewGuid(),
+                                        StringConcept = "BlahBlahBlah",
+                                        LongConcept = long.MaxValue
+                                    };
                                 };
 
         Because of = () => serialized_version = serializer.ToJson(to_serialize);
