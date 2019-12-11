@@ -1,12 +1,14 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Globalization;
 using System.IO;
 using Dolittle.Applications;
 using Dolittle.Execution;
-using Dolittle.IO;
+using Dolittle.ResourceTypes.Configuration;
 using Dolittle.Security;
 using Dolittle.Tenancy;
-using Dolittle.ResourceTypes.Configuration;
 using Machine.Specifications;
 using Moq;
 
@@ -19,7 +21,7 @@ namespace Dolittle.IO.Tenants.for_Files.given
         protected static TenantId tenant = Guid.Parse("e00adddf-2fa5-472d-8d27-1314c6dacf0d");
         protected static ExecutionContext execution_context;
         protected static Mock<IFileSystem> file_system;
-        protected static Mock<IExecutionContextManager> execution_context_manager; 
+        protected static Mock<IExecutionContextManager> execution_context_manager;
         protected static Files tenant_aware_file_system;
         protected static FilesConfiguration configuration;
 
@@ -32,9 +34,7 @@ namespace Dolittle.IO.Tenants.for_Files.given
                 Execution.Environment.Development,
                 CorrelationId.New(),
                 Claims.Empty,
-                CultureInfo.InvariantCulture
-               
-            );
+                CultureInfo.InvariantCulture);
             execution_context_manager = new Mock<IExecutionContextManager>();
             execution_context_manager.SetupGet(_ => _.Current).Returns(execution_context);
             file_system = new Mock<IFileSystem>();
@@ -46,8 +46,7 @@ namespace Dolittle.IO.Tenants.for_Files.given
 
         protected static string MapPath(string relativePath)
         {
-            var absolutePath = Path.Combine(configuration.RootPath, execution_context.Tenant.ToString(),relativePath);
-            return absolutePath;
+            return Path.Combine(configuration.RootPath, execution_context.Tenant.ToString(), relativePath);
         }
     }
 }
