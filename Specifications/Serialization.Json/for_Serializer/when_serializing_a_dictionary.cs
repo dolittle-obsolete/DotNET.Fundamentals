@@ -1,5 +1,7 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
-using Dolittle.Serialization.Json;
 using Machine.Specifications;
 
 namespace Dolittle.Serialization.Json.Specs.for_Serializer
@@ -15,8 +17,8 @@ namespace Dolittle.Serialization.Json.Specs.for_Serializer
         {
             to_serialize = new Dictionary<string, string>
             {
-                {"Key1", "Value1"},
-                {"Key2", "Value2"},
+                { "Key1", "Value1" },
+                { "Key2", "Value2" },
             };
         };
 

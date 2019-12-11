@@ -1,27 +1,11 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- * --------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using Dolittle.Serialization.Json;
 using Machine.Specifications;
 
 namespace Dolittle.Serialization.Json.Specs.for_Serializer
 {
-    public class TypeThatCannotBeCreated 
-    {
-        public TypeThatCannotBeCreated(string myProp, string other)
-        {
-            MyProperty = myProp;
-            MyOtherProperty = other;
-        }
-
-        public string MyProperty { get; }
-        public string MyOtherProperty { get; }
-    }
-
     [Subject(typeof(Serializer))]
     public class when_serializing_a_type_with_no_default_ctor_and_properties_do_not_match : given.a_serializer
     {
@@ -32,7 +16,7 @@ namespace Dolittle.Serialization.Json.Specs.for_Serializer
 
         Establish context = () =>
         {
-            to_serialize = new TypeThatCannotBeCreated("foo","bar");
+            to_serialize = new TypeThatCannotBeCreated("foo", "bar");
             serialized_version = serializer.ToJson(to_serialize);
         };
 

@@ -1,24 +1,21 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
+using Dolittle.Concepts;
+
 namespace Dolittle.Serialization.Json.Specs.for_Serializer
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Machine.Specifications; 
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using Dolittle.PropertyBags;
-    using Dolittle.Concepts;
-    using Serialization.Json;
-
     public class Immutable : Value<Immutable>
     {
-        public String Label { get; }
-        public Guid Guid { get; }
-
-        public Immutable(Guid guid, String label)
+        public Immutable(Guid guid, string label)
         {
             Label = label;
             Guid = guid;
         }
+
+        public string Label { get; }
+
+        public Guid Guid { get; }
     }
 }
