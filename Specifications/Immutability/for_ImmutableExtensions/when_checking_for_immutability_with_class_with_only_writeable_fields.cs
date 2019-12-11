@@ -1,4 +1,7 @@
-﻿using Machine.Specifications;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Machine.Specifications;
 
 namespace Dolittle.Immutability.for_ImmutableExtensions
 {
@@ -9,5 +12,5 @@ namespace Dolittle.Immutability.for_ImmutableExtensions
         Because of = () => result = typeof(class_with_only_writeable_fields).IsImmutable();
 
         It should_be_considered_mutable = () => result.ShouldBeFalse();
-    }        
+    }
 }
