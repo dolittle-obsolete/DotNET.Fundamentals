@@ -1,11 +1,9 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Machine.Specifications;
-using Dolittle.Tenancy.Configuration.Specs.given;
 using System;
+using Dolittle.Tenancy.Configuration.Specs.given;
+using Machine.Specifications;
 
 namespace Dolittle.Tenancy.Configuration.Specs.for_TenantMapManager
 {
@@ -14,10 +12,9 @@ namespace Dolittle.Tenancy.Configuration.Specs.for_TenantMapManager
         static ITenantMapManager tenant_map_manager;
         static Exception result_exception;
 
-        Establish context = () => tenant_map_manager = new TenantMapManager(tenant_strategy_loader.Object); 
+        Establish context = () => tenant_map_manager = new TenantMapManager(tenant_strategy_loader.Object);
 
-        Because of = () => result_exception = Catch.Exception( () => tenant_map_manager.InstanceOfStrategy<configuration_instance_of_first_strategy>());
-        
+        Because of = () => result_exception = Catch.Exception(() => tenant_map_manager.InstanceOfStrategy<configuration_instance_of_first_strategy>());
 
         It should_throw_an_exception = () => result_exception.ShouldNotBeNull();
         It should_throw_wrong_strategy_configuration = () => result_exception.ShouldBeOfExactType(typeof(WrongStrategyConfiguration));
