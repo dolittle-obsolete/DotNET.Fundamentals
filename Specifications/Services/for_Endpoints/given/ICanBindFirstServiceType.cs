@@ -3,7 +3,5 @@
 
 namespace Dolittle.Services.for_Endpoints.given
 {
-    public interface ICanBindMyServiceType : ICanBindServices
-    {
-    }
+    public interface ICanBindFirstServiceType : ICanBindServices { }
 }
