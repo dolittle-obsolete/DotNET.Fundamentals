@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -10,12 +9,12 @@ namespace Dolittle.Rules.for_BrokenRule
 {
     public class when_creating
     {
-        static Mock<IRule>  rule;
+        static Mock<IRule> rule;
         static Mock<IRuleContext> rule_context;
         static object instance;
         static BrokenRule broken_rule;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             rule = new Mock<IRule>();
             rule_context = new Mock<IRuleContext>();

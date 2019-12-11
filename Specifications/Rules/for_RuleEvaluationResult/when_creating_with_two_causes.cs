@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.Rules.for_RuleEvaluationResult
@@ -15,7 +14,7 @@ namespace Dolittle.Rules.for_RuleEvaluationResult
         static RuleEvaluationResult result;
         static object instance;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             instance = new object();
             first_cause = first_reason.NoArgs();
@@ -25,7 +24,7 @@ namespace Dolittle.Rules.for_RuleEvaluationResult
         Because of = () => result = new RuleEvaluationResult(instance, first_cause, second_cause);
 
         It should_be_considered_failed = () => result.IsSuccess.ShouldBeFalse();
-        It should_be_considered_failed_through_implicit_operator = () => (result == true).ShouldBeFalse();
+        It should_be_considered_failed_through_implicit_operator = () => ((bool)result).ShouldBeFalse();
         It should_hold_both_causes = () => result.Causes.ShouldContainOnly(first_cause, second_cause);
     }
 }

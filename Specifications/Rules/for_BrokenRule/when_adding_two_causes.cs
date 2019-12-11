@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -10,7 +9,7 @@ namespace Dolittle.Rules.for_BrokenRule
 {
     public class when_adding_two_causes
     {
-        static Mock<IRule>  rule;
+        static Mock<IRule> rule;
         static Mock<IRuleContext> rule_context;
         static object instance;
         static BrokenRule broken_rule;
@@ -20,7 +19,7 @@ namespace Dolittle.Rules.for_BrokenRule
         static Cause first_cause;
         static Cause second_cause;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             rule = new Mock<IRule>();
             rule_context = new Mock<IRuleContext>();
@@ -31,12 +30,12 @@ namespace Dolittle.Rules.for_BrokenRule
             second_cause = second_reason.NoArgs();
         };
 
-        Because of = () => 
+        Because of = () =>
         {
             broken_rule.AddCause(first_cause);
             broken_rule.AddCause(second_cause);
         };
 
         It should_contain_only_the_added_causes = () => broken_rule.Causes.ShouldContainOnly(first_cause, second_cause);
-    }    
+    }
 }
