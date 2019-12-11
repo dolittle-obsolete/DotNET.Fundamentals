@@ -1,8 +1,10 @@
-﻿namespace Security.for_ClaimsPrincipalExtensions.when_converting_to_claims
-{
-    using Dolittle.Security;
-    using Machine.Specifications;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Machine.Specifications;
+
+namespace Dolittle.Security.for_ClaimsPrincipalExtensions.when_converting_to_claims
+{
     [Subject(typeof(ClaimsPrincipalExtensions), nameof(ClaimsPrincipalExtensions.ToClaims))]
     public class from_a_simple_claims_principal : given.a_claims_principal
     {

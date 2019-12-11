@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -12,7 +13,7 @@ namespace Dolittle.Security.Specs.for_Securable
         static Securable security_target;
         static Mock<ISecurityActor> security_actor_mock;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             security_target = new NamespaceSecurable("Dolittle.Security");
             security_actor_mock = new Mock<ISecurityActor>();

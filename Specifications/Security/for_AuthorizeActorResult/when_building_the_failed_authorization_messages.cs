@@ -1,7 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -22,18 +24,18 @@ namespace Dolittle.Security.Specs.for_AuthorizeActorResult
         static AuthorizeActorResult result;
 
         Establish context = () =>
-            {
-                broken_rule = new Mock<ISecurityRule>();
-                broken_rule.Setup(r => r.Description).Returns(rule_1_description);
-                error_rule = new Mock<ISecurityRule>();
-                error_rule.Setup(r => r.Description).Returns(rule_2_description);
+        {
+            broken_rule = new Mock<ISecurityRule>();
+            broken_rule.Setup(r => r.Description).Returns(rule_1_description);
+            error_rule = new Mock<ISecurityRule>();
+            error_rule.Setup(r => r.Description).Returns(rule_2_description);
 
-                security_actor = new SecurityActor(actor_description);
+            security_actor = new SecurityActor(actor_description);
 
-                result = new AuthorizeActorResult(security_actor);
-                result.AddBrokenRule(broken_rule.Object);
-                result.AddErrorRule(error_rule.Object, new Exception());
-            };
+            result = new AuthorizeActorResult(security_actor);
+            result.AddBrokenRule(broken_rule.Object);
+            result.AddErrorRule(error_rule.Object, new Exception());
+        };
 
         Because of = () => failed_authorization_messages = result.BuildFailedAuthorizationMessages();
 
@@ -41,6 +43,5 @@ namespace Dolittle.Security.Specs.for_AuthorizeActorResult
         It should_having_one_messages_containing_broken_rule_description = () => failed_authorization_messages.Count(s => s.EndsWith(rule_1_description)).ShouldEqual(1);
         It should_having_one_messages_containing_error_rule_description = () => failed_authorization_messages.Count(s => s.EndsWith("Error")).ShouldEqual(1);
         It should_have_actor_in_each_messages = () => failed_authorization_messages.All(s => s.StartsWith(actor_description)).ShouldBeTrue();
-
     }
 }
