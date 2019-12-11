@@ -1,4 +1,6 @@
-using System;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_with_an_enumerable.for_enumerable_with_primitive_elements
@@ -9,7 +11,8 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
         static MutableWithEnumerableWithPrimitiveElements enumerable_type;
         static PropertyBag source;
         static MutableWithEnumerableWithPrimitiveElements result;
-        Establish context = () => 
+
+        Establish context = () =>
         {
             factory = instance;
             enumerable_type = new MutableWithEnumerableWithPrimitiveElements();

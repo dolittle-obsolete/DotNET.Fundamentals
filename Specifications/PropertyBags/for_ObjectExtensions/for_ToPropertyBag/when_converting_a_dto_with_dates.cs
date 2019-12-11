@@ -1,7 +1,9 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using Machine.Specifications;
-using Dolittle.Reflection;
 using Dolittle.Time;
+using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
 {
@@ -11,11 +13,12 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectExtensions.for_ToPropertyBag
         static DateTimeDto source;
         static dynamic result;
 
-        Establish context = () => { source = new DateTimeDto{ DateTime = DateTime.UtcNow, DateTimeOffset = DateTimeOffset.UtcNow };};
+        Establish context = () => source = new DateTimeDto { DateTime = DateTime.UtcNow, DateTimeOffset = DateTimeOffset.UtcNow };
 
         Because of = () => result = source.ToPropertyBag();
 
         It should_create_a_property_bag = () => (result as PropertyBag).ShouldNotBeNull();
+
         It should_have_the_dates_properties = () =>
         {
             source.DateTimeOffset.ToUnixTimeMilliseconds().ShouldEqual((long)result.DateTimeOffset);

@@ -1,8 +1,11 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
+using Dolittle.Concepts;
+
 namespace Dolittle.PropertyBags.Specs
 {
-    using System;
-    using Dolittle.PropertyBags;
-    using Dolittle.Concepts;
     public class ImmutableWithMultipleParameterAndPropertyBagConstructors : Value<ImmutableWithMultipleParameterAndPropertyBagConstructors>
     {
         public ImmutableWithMultipleParameterAndPropertyBagConstructors(int intProperty, string stringProperty, DateTime dateTimeProperty)
@@ -10,17 +13,20 @@ namespace Dolittle.PropertyBags.Specs
             IntProperty = intProperty;
             StringProperty = stringProperty;
             DateTimeProperty = dateTimeProperty;
-        } 
+        }
 
-        public ImmutableWithMultipleParameterAndPropertyBagConstructors(PropertyBag propertyBag) : this(
+        public ImmutableWithMultipleParameterAndPropertyBagConstructors(PropertyBag propertyBag)
+            : this(
             (int)((dynamic)propertyBag).IntProperty,
             (string)((dynamic)propertyBag).StringProperty,
-            (DateTime)((dynamic)propertyBag).DateTimeProperty
-        )
-        {}
+            (DateTime)((dynamic)propertyBag).DateTimeProperty)
+        {
+        }
 
         public int IntProperty { get; }
+
         public string StringProperty { get; }
+
         public DateTime DateTimeProperty { get; }
     }
 }
