@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Logging;
 using Machine.Specifications;
 using Moq;
@@ -9,7 +12,7 @@ namespace Dolittle.Execution.for_ExecutionContextManager.given
         protected static ExecutionContextManager execution_context_manager;
         protected static ILogger logger;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             logger = Mock.Of<ILogger>();
             execution_context_manager = new ExecutionContextManager(logger);
