@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Machine.Specifications;
 
@@ -9,7 +12,8 @@ namespace Dolittle.Serialization.Protobuf.for_MessageDescriptions
         static Exception result;
         Establish context = () => message_description = MessageDescription.DefaultFor<class_with_properties>();
 
-        Because of = () => {
+        Because of = () =>
+        {
             message_descriptions.SetFor<class_with_properties>(message_description);
             result = Catch.Exception(() => message_descriptions.SetFor<class_with_properties>(message_description));
         };
