@@ -1,4 +1,7 @@
-﻿using Machine.Specifications;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Machine.Specifications;
 
 namespace Dolittle.Strings.Specs.for_StringExtensions
 {
@@ -11,4 +14,3 @@ namespace Dolittle.Strings.Specs.for_StringExtensions
         It should_turn_it_into_pascal_case = () => result.ShouldEqual("CamelCased");
     }
 }
-
