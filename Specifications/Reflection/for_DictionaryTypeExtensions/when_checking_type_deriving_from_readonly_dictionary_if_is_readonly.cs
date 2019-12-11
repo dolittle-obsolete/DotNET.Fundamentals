@@ -6,11 +6,19 @@ using Machine.Specifications;
 
 namespace Dolittle.Reflection.for_DictionaryTypeExtensions
 {
-    public class when_checking_if_readonly_dictionary_is_readonly
+    public class when_checking_type_deriving_from_readonly_dictionary_if_is_readonly
     {
+        class derived : ReadOnlyDictionary<string, string>
+        {
+            derived()
+                : base(null)
+            {
+            }
+        }
+
         static bool result;
 
-        Because of = () => result = typeof(ReadOnlyDictionary<string, string>).IsReadOnlyDictionary();
+        Because of = () => result = typeof(derived).IsReadOnlyDictionary();
 
         It should_be_considered_a_readonly_dictionary = () => result.ShouldBeTrue();
     }
