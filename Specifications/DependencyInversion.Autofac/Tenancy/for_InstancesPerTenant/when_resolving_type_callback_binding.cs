@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Autofac;
 using Machine.Specifications;
@@ -33,6 +32,5 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy.for_InstancesPerTenant
         Because of = () => instances_per_tenant.Resolve(component_context, binding, type);
 
         It should_ask_activator_to_create_instance = () => type_activator.Verify(_ => _.CreateInstanceFor(component_context, service_type, binding_type), Moq.Times.Once());
-    }    
-    
+    }
 }

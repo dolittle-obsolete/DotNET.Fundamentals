@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Autofac;
 using Machine.Specifications;
@@ -28,11 +27,14 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy.for_InstancesPerTenant
             binding_type = typeof(int);
             type = typeof(string);
 
-            binding = new Binding(service_type, new Strategies.CallbackWithBindingContext((c) => {
-                callback_called = true;
-                binding_context = c;
-                return new object();
-            }), new Scopes.SingletonPerTenant());
+            binding = new Binding(
+                service_type,
+                new Strategies.CallbackWithBindingContext((c) =>
+                {
+                    callback_called = true;
+                    binding_context = c;
+                    return new object();
+                }), new Scopes.SingletonPerTenant());
             tenant_key_creator.Setup(_ => _.GetKeyFor(binding, type)).Returns("SomeKey");
         };
 
@@ -41,5 +43,4 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy.for_InstancesPerTenant
         It should_ask_callback_to_create_instance = () => callback_called.ShouldBeTrue();
         It should_pass_binding_context_with_service_type = () => binding_context.Service.ShouldEqual(type);
     }
-    
 }
