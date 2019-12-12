@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Linq;
 using Dolittle.DependencyInversion;
@@ -20,10 +19,11 @@ namespace Dolittle.Types.Specs.for_InstancesOf
         static OneImplementation one_implementation_instance;
         static SecondImplementation second_implemenation_instance;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             type_finder = new Mock<ITypeFinder>();
-            type_finder.Setup(t => t.FindMultiple<IAmAnInterface>()).Returns(new Type[] {
+            type_finder.Setup(t => t.FindMultiple<IAmAnInterface>()).Returns(new Type[]
+            {
                 typeof(OneImplementation),
                 typeof(SecondImplementation)
             });
@@ -37,6 +37,5 @@ namespace Dolittle.Types.Specs.for_InstancesOf
         Because of = () => instances = new InstancesOf<IAmAnInterface>(type_finder.Object, container.Object).ToArray();
 
         It should_get_the_implementations = () => instances.ShouldContainOnly(one_implementation_instance, second_implemenation_instance);
-             
     }
 }
