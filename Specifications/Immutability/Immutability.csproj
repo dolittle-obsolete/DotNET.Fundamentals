@@ -1,13 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../../specs.props"/>
+
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>Dolittle.Immutability.Specs</AssemblyName>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dolittle.Common.Specs" Version="2.*"/>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Immutability\Immutability.csproj" />

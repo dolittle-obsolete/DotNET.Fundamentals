@@ -1,13 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="../../specs.props"/>
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>Dolittle.Application.Specs</AssemblyName>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dolittle.Common.Specs" Version="2.*"/>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Applications\Applications.csproj" />
