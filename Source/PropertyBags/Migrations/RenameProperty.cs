@@ -28,11 +28,11 @@ namespace Dolittle.PropertyBags.Migrations
                 if (nfd == null)
                     throw new InvalidMigrationSource("NullFreeDictionary cannot be null");
 
-                if (!nfd.ContainsKey(originalName))
-                    throw new MissingProperty($"{originalName ?? "[NULL]"} does not exist");
-
                 if (newName == null)
                     throw new NullPropertyName("New property name cannot be null");
+
+                if (!nfd.ContainsKey(originalName))
+                    throw new MissingProperty($"{originalName ?? "[NULL]"} does not exist");
 
                 if (nfd.ContainsKey(newName))
                     throw new DuplicateProperty($"{newName ?? "[NULL]"} already exists");
