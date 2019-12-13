@@ -85,7 +85,7 @@ namespace Dolittle.PropertyBags
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return Generate(this.AsDictionary().ToArray());
+            return Generate(AsDictionary().ToArray());
         }
 
         /// <summary>
@@ -106,7 +106,12 @@ namespace Dolittle.PropertyBags
 
         static int Generate(params KeyValuePair<string, object>[] parameters)
         {
-            return HashCodeHelper.Generate(parameters);
+            // http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
+            unchecked
+            {
+                return parameters
+                            .Aggregate(17, (current, param) => (current * 29) + param.Value.GetHashCode());
+            }
         }
     }
 }
