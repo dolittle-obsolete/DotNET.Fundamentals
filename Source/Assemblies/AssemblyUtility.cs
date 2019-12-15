@@ -73,12 +73,10 @@ namespace Dolittle.Assemblies
                         return dataDictionaryRVA[14] != 0;
                     }
                 }
-#pragma warning disable CA1031
                 catch (Exception)
                 {
                     return false;
                 }
-#pragma warning restore CA1031
             }
         }
 

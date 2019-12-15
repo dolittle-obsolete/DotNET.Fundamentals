@@ -70,12 +70,10 @@ namespace Dolittle.Services
 
                 _server.Start();
             }
-#pragma warning disable CA1031
             catch (Exception ex)
             {
                 _logger.Error(ex, $"Couldn't start {type} host");
             }
-#pragma warning restore CA1031
         }
     }
 }

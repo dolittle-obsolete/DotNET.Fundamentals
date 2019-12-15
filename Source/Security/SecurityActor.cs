@@ -50,12 +50,10 @@ namespace Dolittle.Security
                     if (!rule.IsAuthorized(actionToAuthorize))
                         result.AddBrokenRule(rule);
                 }
-#pragma warning disable CA1031
                 catch (Exception ex)
                 {
                     result.AddErrorRule(rule, ex);
                 }
-#pragma warning restore CA1031
             }
 
             return result;

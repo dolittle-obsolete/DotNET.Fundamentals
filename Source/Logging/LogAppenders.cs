@@ -53,8 +53,6 @@ namespace Dolittle.Logging
             string message,
             Exception exception = null)
         {
-// We allow an empty catch for this scenario - our logging shouldn't cause an exceptional state in running application
-#pragma warning disable CA1031
             _appenders.ForEach(l =>
             {
                 try
@@ -66,7 +64,6 @@ namespace Dolittle.Logging
                     // Ignore any errors from any of the appenders - we don't care
                 }
             });
-#pragma warning restore CA1031
         }
     }
 }

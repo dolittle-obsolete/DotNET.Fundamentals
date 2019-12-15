@@ -83,9 +83,7 @@ namespace Dolittle.Serialization.Json
                             return value;
                         }
                     }
-#pragma warning disable CA1031
                     catch { }
-#pragma warning restore CA1031
                 }
 
                 if (type.GetTypeInfo().IsValueType ||

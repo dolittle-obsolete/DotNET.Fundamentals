@@ -35,9 +35,7 @@ namespace Dolittle.Assemblies
                     found |= resolver.TryResolveAssemblyPaths(library, assemblies);
                     if (assemblies.Count > 0) break;
                 }
-#pragma warning disable CA1031
                 catch { }
-#pragma warning restore CA1031
             }
 
             return found;

@@ -72,7 +72,6 @@ namespace Dolittle.Build.CLI
                 var deltaTime = endTime.Subtract(startTime);
                 buildMessages.Information($"Time Elapsed {deltaTime.ToString("G", CultureInfo.InvariantCulture)} (Dolittle)");
             }
-#pragma warning disable CA1031
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -82,7 +81,6 @@ namespace Dolittle.Build.CLI
                 Console.ResetColor();
                 return 1;
             }
-#pragma warning restore CA1031
 
             return 0;
         }

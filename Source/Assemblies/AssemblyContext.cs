@@ -140,12 +140,10 @@ namespace Dolittle.Assemblies
 
                     return AssemblyLoadContext.LoadFromAssemblyPath(assembly);
                 }
-#pragma warning disable CA1031 // Its ok to skip failed assembly loads
                 catch
                 {
                     return null;
                 }
-#pragma warning restore CA1031
             }
 
             return null;
@@ -173,12 +171,10 @@ namespace Dolittle.Assemblies
                     {
                         return Assembly.Load(_.Name);
                     }
-#pragma warning disable CA1031 // Its ok to skip failed assembly loads
                     catch
                     {
                         return null;
                     }
-#pragma warning restore CA1031
                 })
                 .Where(_ => _ != null)
                 .ToArray();
