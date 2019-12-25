@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../default.props"/>
+
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>Dolittle.Booting</AssemblyName>
     </PropertyGroup>
 
@@ -17,7 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dolittle.Common" Version="2.*"/>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     </ItemGroup>
 </Project>

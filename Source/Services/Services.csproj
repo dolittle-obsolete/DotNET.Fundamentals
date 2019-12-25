@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props"/>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.Services</AssemblyName>
   </PropertyGroup>
 
@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Common" Version="2.*"/>
     <PackageReference Include="Google.Protobuf" Version="3.5.1" />
     <PackageReference Include="Grpc" Version="2.23.0" />
   </ItemGroup>
