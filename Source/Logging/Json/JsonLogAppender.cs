@@ -1,33 +1,30 @@
-﻿/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Diagnostics;
+
 namespace Dolittle.Logging.Json
 {
-
     /// <summary>
-    /// Represents a default implementation of <see cref="ILogAppender"/> for using System.Diagnostics.Debug
+    /// Represents a <see cref="ILogAppender"/> for appending JSON formatted log strings.
     /// </summary>
     public class JsonLogAppender : ILogAppender
     {
-        GetCurrentLoggingContext _getCurrentLoggingContext;
+        readonly GetCurrentLoggingContext _getCurrentLoggingContext;
 
         /// <summary>
-        /// Instantiates an instance of <see cref="JsonLogAppender"/>
+        /// Initializes a new instance of the <see cref="JsonLogAppender"/> class.
         /// </summary>
-        /// <param name="getCurrentLoggingContext"></param>    
+        /// <param name="getCurrentLoggingContext">A <see cref="GetCurrentLoggingContext"/> for getting current logging context.</param>
         public JsonLogAppender(GetCurrentLoggingContext getCurrentLoggingContext)
         {
             _getCurrentLoggingContext = getCurrentLoggingContext;
         }
-        
+
         /// <inheritdoc/>
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
-        {   
+        {
             var writer = ChooseWriter(level);
             var logMessage = CreateLogMessage(filePath, lineNumber, member, message, LogLevelAsString(level), exception);
 
@@ -37,60 +34,48 @@ namespace Dolittle.Logging.Json
 
         static TextWriter ChooseWriter(LogLevel level)
         {
-            var writer = Console.Out;
             switch (level)
             {
                 case LogLevel.Critical:
-                    writer = Console.Error;
-                    break;
                 case LogLevel.Error:
-                    writer = Console.Error;
-                    break;
+                    return Console.Error;
             }
 
-            return writer;
+            return Console.Out;
         }
 
         static string LogLevelAsString(LogLevel level)
         {
-            var levelString = string.Empty;
             switch (level)
             {
                 case LogLevel.Critical:
-                    levelString = "fatal";
-                    break;
+                    return "fatal";
                 case LogLevel.Error:
-                    levelString = "error";
-                    break;
+                    return "error";
                 case LogLevel.Warning:
-                    levelString = "warn";
-                    break;
+                    return "warn";
                 case LogLevel.Info:
-                    levelString = "info";
-                    break;
+                    return "info";
                 case LogLevel.Debug:
-                    levelString = "debug";
-                    break;
+                    return "debug";
                 case LogLevel.Trace:
-                    levelString = "trace";
-                    break;
+                    return "trace";
             }
-            return levelString;
+
+            return string.Empty;
         }
-        
+
         JsonLogMessage CreateLogMessage(string filePath, int lineNumber, string member, string message, string logLevel, Exception exception = null)
         {
-
             return new JsonLogMessage(
                 logLevel,
                 DateTimeOffset.Now,
                 _getCurrentLoggingContext(),
-                filePath, 
-                lineNumber, 
-                member, 
+                filePath,
+                lineNumber,
+                member,
                 message,
-                exception?.StackTrace ?? string.Empty
-                );
+                exception?.StackTrace ?? string.Empty);
         }
     }
 }

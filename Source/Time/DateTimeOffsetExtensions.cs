@@ -1,35 +1,39 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 
 namespace Dolittle.Time
 {
     /// <summary>
-    /// Extensions for DateTime
+    /// Extensions for DateTime.
     /// </summary>
     public static class DateTimeOffsetExtensions
     {
         /// <summary>
-        /// Performs a lossy equals algorithm
+        /// Performs a lossy equals algorithm.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        public static bool LossyEquals(this DateTimeOffset first, DateTimeOffset second)
+        /// <param name="leftHandSide"><see cref="DateTimeOffset"/> to check equality for.</param>
+        /// <param name="rightHandSide"><see cref="DateTimeOffset"/> to check equality with.</param>
+        /// <returns>true if equal, false if not.</returns>
+        public static bool LossyEquals(this DateTimeOffset leftHandSide, DateTimeOffset rightHandSide)
         {
-            var firstUtc = first.UtcDateTime;
-            var secondUtc = second.UtcDateTime;
-            return 
-                    firstUtc.Millisecond == secondUtc.Millisecond
-                &&  firstUtc.Second == secondUtc.Second 
-                &&  firstUtc.Day == secondUtc.Day
-                &&  firstUtc.Year == secondUtc.Year
-                &&  firstUtc.Ticks >> 10 == firstUtc.Ticks >> 10;
-        } 
+            var leftHandSideUtc = leftHandSide.UtcDateTime;
+            var rightHandSideUtc = rightHandSide.UtcDateTime;
+            return
+                    leftHandSideUtc.Millisecond == rightHandSideUtc.Millisecond
+                && leftHandSideUtc.Second == rightHandSideUtc.Second
+                && leftHandSideUtc.Day == rightHandSideUtc.Day
+                && leftHandSideUtc.Year == rightHandSideUtc.Year
+                && leftHandSideUtc.Ticks >> 10 == leftHandSideUtc.Ticks >> 10;
+        }
+
         /// <summary>
-        /// Performs a lossy equals algorithm
+        /// Performs a lossy equals algorithm.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        public static bool LossyEquals(this DateTimeOffset first, DateTime second) => LossyEquals(first, new DateTimeOffset(second.ToUniversalTime()));
+        /// <param name="leftHandSide"><see cref="DateTimeOffset"/> to check equality for.</param>
+        /// <param name="rightHandSide"><see cref="DateTimeOffset"/> to check equality with.</param>
+        /// <returns>true if equal, false if not.</returns>
+        public static bool LossyEquals(this DateTimeOffset leftHandSide, DateTime rightHandSide) => LossyEquals(leftHandSide, new DateTimeOffset(rightHandSide.ToUniversalTime()));
     }
 }

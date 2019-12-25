@@ -1,7 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using Machine.Specifications;
 
 namespace Dolittle.Rules.for_RuleSetEvaluation
@@ -10,12 +10,12 @@ namespace Dolittle.Rules.for_RuleSetEvaluation
     {
         static RuleSetEvaluation evaluation;
 
-        Establish context = () => evaluation = new RuleSetEvaluation(new RuleSet(new IRule[0]));
-        
+        Establish context = () => evaluation = new RuleSetEvaluation(new RuleSet(Array.Empty<IRule>()));
+
         Because of = () => evaluation.Evaluate(new object());
 
         It should_not_have_any_broken_rules = () => evaluation.BrokenRules.ShouldBeEmpty();
         It should_be_considered_successful = () => evaluation.IsSuccess.ShouldBeTrue();
-        It should_be_considered_successful_through_implicit_operator = () => (evaluation == true).ShouldBeTrue();
+        It should_be_considered_successful_through_implicit_operator = () => ((bool)evaluation).ShouldBeTrue();
     }
 }

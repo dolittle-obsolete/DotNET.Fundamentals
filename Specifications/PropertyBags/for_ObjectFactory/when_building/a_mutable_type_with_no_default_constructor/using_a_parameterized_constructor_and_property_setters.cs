@@ -1,10 +1,11 @@
-﻿namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_mutable_type_with_no_default_constructor
-{
-    using Machine.Specifications;
-    using Dolittle.PropertyBags;
-    using Dolittle.PropertyBags.Specs;
-    using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
+using Machine.Specifications;
+
+namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_mutable_type_with_no_default_constructor
+{
     [Subject(typeof(ObjectFactory), "Build")]
     public class using_a_parameterized_constructor_and_property_setters : given.an_object_factory
     {
@@ -12,11 +13,13 @@
         static MutableTypeWithNoDefaultConstructor mutable_type;
         static PropertyBag source;
         static object result;
-        Establish context = () => 
+        Establish context = () =>
         {
             factory = instance;
-            mutable_type = new MutableTypeWithNoDefaultConstructor(42,"Forty-Two",DateTime.UtcNow);
-            mutable_type.NotSetFromAConstuctor = "Wibble";
+            mutable_type = new MutableTypeWithNoDefaultConstructor(42, "Forty-Two", DateTime.UtcNow)
+            {
+                NotSetFromAConstuctor = "Wibble"
+            };
             source = mutable_type.ToPropertyBag();
         };
 

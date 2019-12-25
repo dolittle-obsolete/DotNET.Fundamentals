@@ -1,10 +1,13 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
+using Dolittle.Concepts;
+using Machine.Specifications;
+
 namespace Dolittle.Specs.Concepts.for_ValueExtensions
 {
-    using System;
-    using Dolittle.Concepts;
-    using Machine.Specifications;
-
-    [Subject(typeof(ValueExtensions),nameof(ValueExtensions.IsValue))]
+    [Subject(typeof(ValueExtensions), nameof(ValueExtensions.IsValue))]
     public class when_getting_the_type_from_a_value
     {
         static Type test_value_type;
@@ -12,7 +15,7 @@ namespace Dolittle.Specs.Concepts.for_ValueExtensions
         static Type obj_type;
         static Type obj_type_from_instance;
 
-        Because of = () => 
+        Because of = () =>
         {
             test_value_type = typeof(TestValue).GetValueType();
             test_value_type_from_instance = new TestValue().GetValueType();

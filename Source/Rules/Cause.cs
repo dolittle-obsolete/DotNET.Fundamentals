@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Dolittle.Collections;
@@ -9,17 +8,17 @@ using Dolittle.Collections;
 namespace Dolittle.Rules
 {
     /// <summary>
-    /// Represents an instance of <see cref="Reason"/>
+    /// Represents an instance of <see cref="Reason"/>.
     /// </summary>
     public class Cause
     {
-        readonly Dictionary<string,string> _arguments = new Dictionary<string, string>();
+        readonly Dictionary<string, string> _arguments = new Dictionary<string, string>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Cause"/>
+        /// Initializes a new instance of the <see cref="Cause"/> class.
         /// </summary>
-        /// <param name="reason">The <see cref="Reason"/></param>
-        /// <param name="args">Any arguments for the <see cref="Reason"/></param>
+        /// <param name="reason">The <see cref="Reason"/>.</param>
+        /// <param name="args">Any arguments for the <see cref="Reason"/>.</param>
         public Cause(Reason reason, object args)
         {
             Reason = reason;
@@ -30,22 +29,22 @@ namespace Dolittle.Rules
         }
 
         /// <summary>
-        /// Gets the <see cref="Reason"/> the cause if for
+        /// Gets the <see cref="Reason"/> the cause if for.
         /// </summary>
-        public Reason Reason { get; }
+        public Reason Reason { get; }
 
         /// <summary>
-        /// Gets the rendered title string
+        /// Gets the rendered title string.
         /// </summary>
         public string Title { get; }
 
         /// <summary>
-        /// Gets the rendered description string
+        /// Gets the rendered description string.
         /// </summary>
         public string Description { get; }
 
         /// <summary>
-        /// Gets any arguments passed to the <see cref="Cause"/>
+        /// Gets any arguments passed to the <see cref="Cause"/>.
         /// </summary>
         public IDictionary<string, string> Arguments => _arguments;
 
@@ -57,7 +56,10 @@ namespace Dolittle.Rules
             foreach (Match match in regex.Matches(input))
             {
                 var propertyName = match.Groups[1].Value;
-                if( _arguments.ContainsKey(propertyName)) result = result.Replace(match.Groups[0].Value, _arguments[propertyName]);
+                if (_arguments.ContainsKey(propertyName))
+                {
+                    result = result.Replace(match.Groups[0].Value, _arguments[propertyName]);
+                }
             }
 
             return result;

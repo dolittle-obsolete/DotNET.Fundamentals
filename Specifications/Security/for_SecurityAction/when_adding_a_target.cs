@@ -1,4 +1,6 @@
-﻿using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -10,7 +12,7 @@ namespace Dolittle.Security.Specs.for_SecurityAction
         static SecurityAction security_action;
         static Mock<ISecurityTarget> security_target_mock;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             security_action = new SecurityAction();
             security_target_mock = new Mock<ISecurityTarget>();

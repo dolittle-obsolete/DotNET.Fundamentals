@@ -1,24 +1,23 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 namespace Dolittle.Rules
 {
     /// <summary>
-    /// Defines the basis for a rule
+    /// Defines the basis for a rule.
     /// </summary>
     public interface IRule
     {
         /// <summary>
-        /// Gets the name of the rule
+        /// Gets the name of the rule.
         /// </summary>
-        string Name { get; }
+        string Name { get; }
 
         /// <summary>
-        /// Evaluates the given <see cref="IRuleContext"/> to see if the rule is satisfied
+        /// Evaluates the given <see cref="IRuleContext"/> to see if the rule is satisfied.
         /// </summary>
-        /// <param name="context">The <see cref="IRuleContext"/> to evaluate for</param>
-        /// <param name="instance">The instance to check if satisfies the rule</param>
+        /// <param name="context">The <see cref="IRuleContext"/> to evaluate for.</param>
+        /// <param name="instance">The instance to check if satisfies the rule.</param>
         void Evaluate(IRuleContext context, object instance);
     }
 }

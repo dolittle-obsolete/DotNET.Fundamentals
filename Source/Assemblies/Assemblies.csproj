@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props"/>
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.Assemblies</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Common" Version="1.*"/>
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="2.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.4" />

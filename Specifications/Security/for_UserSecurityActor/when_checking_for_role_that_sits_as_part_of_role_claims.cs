@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Security.Claims;
 using Machine.Specifications;
 
@@ -11,9 +14,10 @@ namespace Dolittle.Security.Specs.for_UserSecurityActor
 
         static bool result;
 
-        Establish context = () => 
+        Establish context = () =>
         {
-            identity.AddClaims(new[] {
+            identity.AddClaims(new[]
+            {
                 new System.Security.Claims.Claim(ClaimTypes.Role, first_role),
                 new System.Security.Claims.Claim(ClaimTypes.Role, second_role),
                 new System.Security.Claims.Claim(ClaimTypes.Role, third_role)

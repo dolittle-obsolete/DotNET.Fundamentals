@@ -1,15 +1,12 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
+using System.Collections.Generic;
+using Machine.Specifications;
+
 namespace Dolittle.Serialization.Json.Specs.for_Serializer
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Machine.Specifications; 
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using Dolittle.PropertyBags;
-    using Dolittle.Concepts;
-    using Serialization.Json;
-
     [Subject(typeof(ISerializer))]
     public class when_deserializing_a_complex_type_with_immutables : given.a_serializer
     {
@@ -17,14 +14,14 @@ namespace Dolittle.Serialization.Json.Specs.for_Serializer
         static string json_representation;
         static Complex result;
 
-        Establish context = () => 
+        Establish context = () =>
         {
-            var content = new Dictionary<string,object> 
-            { 
+            var content = new Dictionary<string, object>
+            {
                 { "a_string", "test" },
                 { "an_int", 10 }
             };
-            original = new Complex(Guid.NewGuid(),new Immutable(Guid.NewGuid(),"Test"), 1967, content);
+            original = new Complex(Guid.NewGuid(), new Immutable(Guid.NewGuid(), "Test"), 1967, content);
             json_representation = serializer.ToJson(original);
         };
 

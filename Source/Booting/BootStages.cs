@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +14,19 @@ using Dolittle.Types;
 
 namespace Dolittle.Booting
 {
-
     /// <summary>
-    /// Represents an implementation of <see cref="IBootStages"/>
+    /// Represents an implementation of <see cref="IBootStages"/>.
     /// </summary>
     public class BootStages : IBootStages
     {
+        static IContainer _container = null;
         readonly IEnumerable<ICanPerformPartOfBootStage> _initialFixedStages;
 
         readonly Queue<ICanPerformPartOfBootStage> _stages;
-        static IContainer _container = null;
+        ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BootStages"/>
+        /// Initializes a new instance of the <see cref="BootStages"/> class.
         /// </summary>
         public BootStages()
         {
@@ -42,17 +41,26 @@ namespace Dolittle.Booting
             _stages = new Queue<ICanPerformPartOfBootStage>(_initialFixedStages);
         }
 
-        ILogger _logger;
+        /// <summary>
+        /// Method that gets called when <see cref="IContainer"/> is ready.
+        /// </summary>
+        /// <param name="container"><see cref="IContainer"/> instance.</param>
+        public static void ContainerReady(IContainer container)
+        {
+            _container = container;
+        }
 
         /// <inheritdoc/>
         public BootStagesResult Perform(Boot boot)
         {
             var newBindingsNotificationHub = new NewBindingsNotificationHub();
             var results = new List<BootStageResult>();
-            var aggregatedAssociations = new Dictionary<string, object>() {
+            var aggregatedAssociations = new Dictionary<string, object>()
+            {
                 { WellKnownAssociations.NewBindingsNotificationHub, newBindingsNotificationHub }
             };
-            IBindingCollection bindingCollection = new BindingCollection(new [] {
+            IBindingCollection bindingCollection = new BindingCollection(new[]
+            {
                 new BindingBuilder(Binding.For(typeof(GetContainer))).To((GetContainer)(() => _container)).Build()
             });
             _logger = new NullLogger();
@@ -76,7 +84,7 @@ namespace Dolittle.Booting
                 _logger.Information($"<********* BOOTSTAGE : {stage.BootStage}{suffix} *********>");
 
                 var performer = interfaces.SingleOrDefault(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanPerformPartOfBootStage<>));
-                var settingsType = performer.GetGenericArguments() [0];
+                var settingsType = performer.GetGenericArguments()[0];
                 var settings = boot.GetSettingsByType(settingsType);
                 var method = performer.GetMethod("Perform", BindingFlags.Public | BindingFlags.Instance);
 
@@ -95,20 +103,8 @@ namespace Dolittle.Booting
                 _container = result.Container;
             }
 
-            var bootStagesResult = new BootStagesResult(_container, aggregatedAssociations, results);
-            return bootStagesResult;
+            return new BootStagesResult(_container, aggregatedAssociations, results);
         }
-
-
-        /// <summary>
-        /// Method that gets called when <see cref="IContainer"/> is ready
-        /// </summary>
-        /// <param name="container"><see cref="IContainer"/> instance</param>
-        public static void ContainerReady(IContainer container)
-        {
-            _container = container;
-        }
-
 
         void DiscoverBootStages(ITypeFinder typeFinder)
         {
@@ -137,9 +133,10 @@ namespace Dolittle.Booting
 
             ThrowIfMissingBootStage(bootStagePerformers);
         }
+
         void ThrowIfMissingDefaultConstructorForBootStagePerformer(Type type)
         {
-            if (!type.HasDefaultConstructor()) new MissingDefaultConstructorForBootStagePerformer(type);
+            if (!type.HasDefaultConstructor()) throw new MissingDefaultConstructorForBootStagePerformer(type);
         }
 
         void ThrowIfMissingBootStage(IEnumerable<ICanPerformPartOfBootStage> performers)
@@ -149,7 +146,7 @@ namespace Dolittle.Booting
                 .Cast<BootStage>()
                 .Where(_ => !_initialFixedStages.Any(existing => existing.BootStage == _));
 
-            bootStageValues.ForEach(bootStage => 
+            bootStageValues.ForEach(bootStage =>
             {
                 var hasPerformer = performers.Any(performer =>
                     {
@@ -157,10 +154,10 @@ namespace Dolittle.Booting
 
                         var isBefore = interfaces.Any(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanRunBeforeBootStage<>));
                         var isAfter = interfaces.Any(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanRunAfterBootStage<>));
-                        if( !isBefore && !isAfter ) return performer.BootStage == bootStage;
+                        if (!isBefore && !isAfter) return performer.BootStage == bootStage;
                         return false;
                     });
-                if( !hasPerformer ) throw new MissingBootStage(bootStage);
+                if (!hasPerformer) throw new MissingBootStage(bootStage);
             });
         }
 

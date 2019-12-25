@@ -1,5 +1,7 @@
-﻿using System.Reflection;
-using Dolittle.Mapping;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Reflection;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -15,8 +17,7 @@ namespace Dolittle.Mapping.Specs.for_TargetPropertyMappingStrategy
         static string target;
         static PropertyInfo property;
 
-
-        Establish context = () => 
+        Establish context = () =>
         {
             property = typeof(Target).GetProperty(property_name);
             strategy = new TargetPropertyMappingStrategy(property);

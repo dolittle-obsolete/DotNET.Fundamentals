@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.Types;
 using Dolittle.Types.Testing;
@@ -25,12 +24,11 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_creating
             secondDefiner.SetupGet(_ => _.Name).Returns(policy_name);
             named_policy_definers = new StaticInstancesOf<IDefineNamedPolicy>(
                 firstDefiner.Object,
-                secondDefiner.Object
-            );
+                secondDefiner.Object);
         };
 
         Because of = () => result = Catch.Exception(() => new Policies(
-            new StaticInstancesOf<IDefineDefaultPolicy>(), 
+            new StaticInstancesOf<IDefineDefaultPolicy>(),
             named_policy_definers,
             new StaticInstancesOf<IDefinePolicyForType>()));
 

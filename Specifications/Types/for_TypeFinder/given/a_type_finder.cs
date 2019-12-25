@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Reflection;
 using Dolittle.Assemblies;
@@ -21,7 +20,8 @@ namespace Dolittle.Types.Specs.for_TypeFinder.given
 
         Establish context = () =>
         {
-            types = new[] {
+            types = new[]
+            {
                 typeof(ISingle),
                 typeof(Single),
                 typeof(IMultiple),
@@ -30,7 +30,7 @@ namespace Dolittle.Types.Specs.for_TypeFinder.given
             };
 
             contract_to_implementors_map_mock = new Mock<IContractToImplementorsMap>();
-            contract_to_implementors_map_mock.SetupGet(c => c.All).Returns(types);            
+            contract_to_implementors_map_mock.SetupGet(c => c.All).Returns(types);
             type_finder = new TypeFinder(contract_to_implementors_map_mock.Object);
         };
     }

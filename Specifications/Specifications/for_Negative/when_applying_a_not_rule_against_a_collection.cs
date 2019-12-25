@@ -1,14 +1,12 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
 
 namespace Dolittle.Specifications.Specs.for_Negative
 {
-
     [Subject(typeof(Specification<>))]
     public class when_applying_a_not_rule_against_a_collection : given.rules_and_colored_shapes
     {

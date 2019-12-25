@@ -1,21 +1,22 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Linq;
+using System.Globalization;
 using System.Runtime.Loader;
 using Dolittle.Assemblies;
 using Dolittle.Booting;
-using Dolittle.Collections;
-using Dolittle.Strings;
-using Dolittle.Types;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Dolittle.Build.CLI
 {
-    class Program
+    /// <summary>
+    /// The entrypoint of the CLI.
+    /// </summary>
+    static class Program
     {
+        /// <summary>
+        /// Holds The <see cref="BuildTarget"/>.
+        /// </summary>
         internal static BuildTarget BuildTarget;
 
         static int Main(string[] args)
@@ -31,7 +32,10 @@ namespace Dolittle.Build.CLI
 
                 if (string.IsNullOrEmpty(args[1]) ||
                     pluginAssemblies.Length == 0 ||
-                    string.IsNullOrEmpty(configurationFile)) return 0;
+                    string.IsNullOrEmpty(configurationFile))
+                {
+                    return 0;
+                }
 
                 var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyFile);
                 var assemblyContext = AssemblyContext.From(assemblyFile);
@@ -49,8 +53,7 @@ namespace Dolittle.Build.CLI
                 var bootLoaderResult = Bootloader.Configure(_ => _
                     .WithAssemblyProvider(new AssemblyProvider(new Dolittle.Logging.NullLogger(), pluginAssemblies))
                     .NoLogging()
-                    .SkipBootprocedures()
-                ).Start();
+                    .SkipBootprocedures()).Start();
 
                 var buildMessages = bootLoaderResult.Container.Get<IBuildMessages>();
 
@@ -67,7 +70,7 @@ namespace Dolittle.Build.CLI
 
                 var endTime = DateTime.UtcNow;
                 var deltaTime = endTime.Subtract(startTime);
-                buildMessages.Information($"Time Elapsed {deltaTime.ToString("G")} (Dolittle)");
+                buildMessages.Information($"Time Elapsed {deltaTime.ToString("G", CultureInfo.InvariantCulture)} (Dolittle)");
             }
             catch (Exception ex)
             {

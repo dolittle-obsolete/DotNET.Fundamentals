@@ -1,14 +1,12 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 namespace Dolittle.DependencyInversion
 {
     /// <summary>
-    /// Defines the lifecycle scope in which a <see cref="Binding"/> can live
+    /// Defines the lifecycle scope in which a <see cref="Binding"/> can live.
     /// </summary>
     public interface IScope
     {
-
     }
 }

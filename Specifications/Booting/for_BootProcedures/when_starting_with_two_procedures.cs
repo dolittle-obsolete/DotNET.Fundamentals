@@ -1,7 +1,10 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Logging;
 using Machine.Specifications;
 using Moq;
-using It=Machine.Specifications.It;
+using It = Machine.Specifications.It;
 
 namespace Dolittle.Booting.Specs.for_BootProcedures
 {

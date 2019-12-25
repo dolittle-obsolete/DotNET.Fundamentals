@@ -1,8 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using System;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Reflection;
 using Dolittle.Assemblies;
 using Dolittle.Logging;
@@ -11,7 +9,7 @@ using Dolittle.Scheduling;
 namespace Dolittle.Types
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ITypeFinder"/>
+    /// Represents an implementation of <see cref="ITypeFinder"/>.
     /// </summary>
     public class TypeFeeder : ITypeFeeder
     {
@@ -19,10 +17,10 @@ namespace Dolittle.Types
         readonly ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="TypeFeeder"/>
+        /// Initializes a new instance of the <see cref="TypeFeeder"/> class.
         /// </summary>
-        /// <param name="scheduler"><see cref="IScheduler"/> to use for scheduling work</param>
-        /// <param name="logger"><see cref="ILogger"/> used for logging</param>
+        /// <param name="scheduler"><see cref="IScheduler"/> to use for scheduling work.</param>
+        /// <param name="logger"><see cref="ILogger"/> used for logging.</param>
         public TypeFeeder(IScheduler scheduler, ILogger logger)
         {
             _scheduler = scheduler;
@@ -32,7 +30,7 @@ namespace Dolittle.Types
         /// <inheritdoc/>
         public void Feed(IAssemblies assemblies, IContractToImplementorsMap map)
         {
-            _scheduler.PerformForEach(assemblies.GetAll(), assembly => 
+            _scheduler.PerformForEach(assemblies.GetAll(), assembly =>
             {
                 try
                 {

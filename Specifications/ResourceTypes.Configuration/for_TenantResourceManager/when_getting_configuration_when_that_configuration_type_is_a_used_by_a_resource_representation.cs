@@ -1,10 +1,8 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Machine.Specifications;
 using Dolittle.ResourceTypes.Configuration.Specs.given;
+using Machine.Specifications;
 
 namespace Dolittle.ResourceTypes.Configuration.Specs.for_TenantResourceManager
 {
@@ -17,6 +15,5 @@ namespace Dolittle.ResourceTypes.Configuration.Specs.for_TenantResourceManager
         Because of_trying_to_get_the_configuration_for_the_first_resource_type = () => configuration = tenant_resource_manager.GetConfigurationFor<configuration_for_first_resource_type>(tenant_id);
 
         It should_return_the_configuration = () => configuration.ShouldNotBeNull();
-        
     }
 }

@@ -1,10 +1,11 @@
-﻿namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_simple_immutable
-{
-    using Machine.Specifications;
-    using Dolittle.PropertyBags;
-    using Dolittle.PropertyBags.Specs;
-    using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
+using Machine.Specifications;
+
+namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_simple_immutable
+{
     [Subject(typeof(ObjectFactory), "Build")]
     public class with_a_ctor_with_multiple_parameters : given.an_object_factory
     {
@@ -12,10 +13,10 @@
         static ImmutableWithMultipleParameterConstructor immutable_type;
         static PropertyBag source;
         static object result;
-        Establish context = () => 
+        Establish context = () =>
         {
             factory = instance;
-            immutable_type = new ImmutableWithMultipleParameterConstructor(42,"Forty-Two",DateTime.UtcNow, null);
+            immutable_type = new ImmutableWithMultipleParameterConstructor(42, "Forty-Two", DateTime.UtcNow, null);
             source = immutable_type.ToPropertyBag();
         };
 

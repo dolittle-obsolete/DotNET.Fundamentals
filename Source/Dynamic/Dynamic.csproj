@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props"/>
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.Dynamic</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Common" Version="1.*"/>
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
   </ItemGroup>

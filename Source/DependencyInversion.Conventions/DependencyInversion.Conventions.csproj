@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props"/>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.DependencyInversion.Conventions</AssemblyName>
   </PropertyGroup>
 
@@ -10,9 +10,5 @@
     <ProjectReference Include="..\Scheduling\Scheduling.csproj" />
     <ProjectReference Include="..\Types\Types.csproj" />
     <ProjectReference Include="..\Reflection\Reflection.csproj" />   
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dolittle.Common" Version="1.*"/>
   </ItemGroup>
 </Project>

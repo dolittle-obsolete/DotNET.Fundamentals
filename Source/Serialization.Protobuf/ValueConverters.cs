@@ -1,26 +1,23 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Dolittle.Collections;
 using Dolittle.Types;
 
 namespace Dolittle.Serialization.Protobuf
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IValueConverters"/>
+    /// Represents an implementation of <see cref="IValueConverters"/>.
     /// </summary>
     public class ValueConverters : IValueConverters
     {
         readonly IInstancesOf<IValueConverter> _converters;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ValueConverters"/>
+        /// Initializes a new instance of the <see cref="ValueConverters"/> class.
         /// </summary>
-        /// <param name="converters"></param>
+        /// <param name="converters"><see cref="IInstancesOf{T}"/> <see cref="IValueConverter"/>.</param>
         public ValueConverters(IInstancesOf<IValueConverter> converters)
         {
             _converters = converters;

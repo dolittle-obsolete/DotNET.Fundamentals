@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Machine.Specifications;
 using Moq;
@@ -16,7 +15,7 @@ namespace Dolittle.Resilience.Specs.for_Policy
         static Mock<IPolicy> delegated_policy;
         static string result;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             delegated_policy = new Mock<IPolicy>();
             policy = new Policy(delegated_policy.Object);
@@ -27,5 +26,4 @@ namespace Dolittle.Resilience.Specs.for_Policy
 
         It should_forward_call_to_delegated_policy_and_return_result = () => result.ShouldEqual(expected_result);
     }
-
 }

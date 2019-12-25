@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Threading.Tasks;
 using Dolittle.Tenancy;
@@ -11,21 +14,21 @@ namespace Dolittle.Execution.for_ExecutionContextManager
         static TenantId second_tenant;
         static TenantId first_result;
         static TenantId second_result;
-        
+
         Because of = () =>
         {
             first_tenant = Guid.NewGuid();
             second_tenant = Guid.NewGuid();
             var firstTask = Task.Run(() =>
             {
-                execution_context_manager.CurrentFor(first_tenant,"",0,"");
+                execution_context_manager.CurrentFor(first_tenant, "", 0, "");
 
                 Task.Run(() => first_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray())).Wait();
             });
 
             var secondTask = Task.Run(() =>
             {
-                execution_context_manager.CurrentFor(second_tenant,"",0,"");
+                execution_context_manager.CurrentFor(second_tenant, "", 0, "");
 
                 Task.Run(() => second_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray())).Wait();
             });

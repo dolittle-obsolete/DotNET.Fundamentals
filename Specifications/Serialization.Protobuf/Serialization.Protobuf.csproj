@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../../specs.props"/>
+
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Dolittle.Serialization.Protobuf.Specs</AssemblyName>
   </PropertyGroup>
-
-  <Import Project="../../Build/MSBuild/specs.props"></Import>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Serialization.Protobuf\Serialization.Protobuf.csproj" />

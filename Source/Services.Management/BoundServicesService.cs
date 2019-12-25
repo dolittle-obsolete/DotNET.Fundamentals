@@ -1,28 +1,28 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 extern alias management;
+
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
-using grpc = management::Dolittle.Services.Management;
 using static management::Dolittle.Services.Management.BoundServices;
+using grpc = management::Dolittle.Services.Management;
 
 namespace Dolittle.Services.Management
 {
     /// <summary>
     /// Represents an implementation of <see cref="BoundServicesBase"/> for working with <see cref="Service">services</see>
-    /// that are bound in our system
+    /// that are bound in our system.
     /// </summary>
     public class BoundServicesService : BoundServicesBase
     {
         readonly IBoundServices _boundServices;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BoundServicesService"/>
+        /// Initializes a new instance of the <see cref="BoundServicesService"/> class.
         /// </summary>
-        /// <param name="boundServices">Underlying <see cref="IBoundServices"/></param>
+        /// <param name="boundServices">Underlying <see cref="IBoundServices"/>.</param>
         public BoundServicesService(IBoundServices boundServices)
         {
             _boundServices = boundServices;

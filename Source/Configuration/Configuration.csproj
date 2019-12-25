@@ -1,14 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props"/>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Dolittle.Configuration</RootNamespace>
     <AssemblyName>Dolittle.Configuration</AssemblyName>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dolittle.Common" Version="1.*"/>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Booting\Booting.csproj" />

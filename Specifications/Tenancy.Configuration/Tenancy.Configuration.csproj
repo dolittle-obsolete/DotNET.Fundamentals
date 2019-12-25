@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../../specs.props"/>
+
   <PropertyGroup>
     <AssemblyName>Dolittle.Tenancy.Configuration.Specs</AssemblyName>
   </PropertyGroup>
-
-  <Import Project="../../Build/MSBuild/specs.props"></Import>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Tenancy.Configuration\Tenancy.Configuration.csproj" />

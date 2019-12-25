@@ -1,33 +1,36 @@
-namespace Security.for_Claims.when_equating_and_getting_hashcode
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using Dolittle.Security;
-    using Machine.Specifications;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Collections.Generic;
+using Machine.Specifications;
+
+namespace Dolittle.Security.for_Claims.when_equating_and_getting_hashcode
+{
     [Subject(typeof(Claims), nameof(Equals))]
     public class two_claims_with_identical_claims_in_the_same_order
     {
         static Claims first;
-        static Claims second; 
+        static Claims second;
 
         static bool is_equal_by_method;
         static bool is_equal_by_operator;
         static bool is_not_equal_by_operator;
         static bool hash_code_is_equal;
 
-        Establish context = () => 
+        Establish context = () =>
         {
-            var list = new List<Claim>();
-            list.Add(new Claim("4","4","4"));
-            list.Add(new Claim("1","1","1"));
-            list.Add(new Claim("2","2","2"));
-            list.Add(new Claim("3","3","3"));
+            var list = new List<Claim>
+            {
+                new Claim("4", "4", "4"),
+                new Claim("1", "1", "1"),
+                new Claim("2", "2", "2"),
+                new Claim("3", "3", "3")
+            };
             first = new Claims(list.ToArray());
             second = new Claims(list.ToArray());
         };
 
-        Because of = () => 
+        Because of = () =>
         {
             is_equal_by_method = first.Equals(second);
             is_equal_by_operator = first == second;

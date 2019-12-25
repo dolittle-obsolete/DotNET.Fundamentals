@@ -1,12 +1,10 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
+using Dolittle.Tenancy.Configuration.Specs.given;
 using Machine.Specifications;
 using Moq;
-using Dolittle.Tenancy.Configuration.Specs.given;
-using System;
 
 namespace Dolittle.Tenancy.Configuration.Specs.for_TenantMapManager.given
 {
@@ -14,7 +12,7 @@ namespace Dolittle.Tenancy.Configuration.Specs.for_TenantMapManager.given
     {
         protected static Mock<ITenantStrategyLoader> tenant_strategy_loader;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             tenant_strategy_loader = new Mock<ITenantStrategyLoader>();
 

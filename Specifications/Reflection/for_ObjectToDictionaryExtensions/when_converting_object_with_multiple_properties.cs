@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using Machine.Specifications;
 
@@ -8,7 +11,8 @@ namespace Dolittle.Reflection.for_ObjectToDictionaryExtensions
         static ObjectWithMultipleProperties the_object;
         static IDictionary<string, object> result;
 
-        Establish context = () => the_object = new ObjectWithMultipleProperties {
+        Establish context = () => the_object = new ObjectWithMultipleProperties
+        {
             TheString = "Fourty Two",
             TheInt = 42,
             TheDouble = 42.42

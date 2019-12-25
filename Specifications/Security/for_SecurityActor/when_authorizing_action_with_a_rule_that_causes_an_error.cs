@@ -1,6 +1,8 @@
-﻿using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Linq;
-using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -33,6 +35,7 @@ namespace Dolittle.Security.Specs.for_SecurityActor
 
         It should_not_be_authorized = () => result.IsAuthorized.ShouldBeFalse();
         It should_not_have_any_broken_rules = () => result.BrokenRules.Any().ShouldBeFalse();
+
         It should_have_the_rule_that_caused_the_error = () =>
             {
                 result.RulesThatEncounteredAnErrorWhenEvaluating.Count().ShouldEqual(1);
@@ -40,6 +43,7 @@ namespace Dolittle.Security.Specs.for_SecurityActor
                 error.Rule.ShouldEqual(rule_that_causes_an_error.Object);
                 error.Error.ShouldEqual(exception);
             };
+
         It should_have_a_reference_to_the_actor_authorizing = () => result.Actor.ShouldEqual(security_actor);
     }
 }

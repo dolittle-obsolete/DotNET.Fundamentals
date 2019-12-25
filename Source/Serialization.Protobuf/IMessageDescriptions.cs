@@ -1,33 +1,32 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Dolittle.Serialization.Protobuf
 {
     /// <summary>
-    /// Defines a system for keeping track of <see cref="MessageDescription"/> instances
+    /// Defines a system for keeping track of <see cref="MessageDescription"/> instances.
     /// </summary>
     public interface IMessageDescriptions
     {
         /// <summary>
-        /// Check if there is a <see cref="MessageDescription"/> for a specific type or not
+        /// Check if there is a <see cref="MessageDescription"/> for a specific type or not.
         /// </summary>
-        /// <typeparam name="T">Type to check for</typeparam>
-        /// <returns>True if there is, false if not</returns>
+        /// <typeparam name="T">Type to check for.</typeparam>
+        /// <returns>True if there is, false if not.</returns>
         bool HasFor<T>();
 
         /// <summary>
-        /// Gets a <see cref="MessageDescription"/> for a specific type - if none exist, it will return a default one
+        /// Gets a <see cref="MessageDescription"/> for a specific type - if none exist, it will return a default one.
         /// </summary>
-        /// <typeparam name="T">Type to get for</typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">Type to get for.</typeparam>
+        /// <returns>A <see cref="MessageDescription"/> instance.</returns>
         MessageDescription GetFor<T>();
 
         /// <summary>
-        /// Set a <see cref="MessageDescription"/> for a specific type
+        /// Set a <see cref="MessageDescription"/> for a specific type.
         /// </summary>
-        /// <typeparam name="T">Type to set for</typeparam>
+        /// <param name="description"><see cref="MessageDescription"/> to set.</param>
+        /// <typeparam name="T">Type to set for.</typeparam>
         void SetFor<T>(MessageDescription description);
     }
 }

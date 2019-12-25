@@ -1,17 +1,14 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Dolittle.Booting
 {
     /// <summary>
-    /// Defines the system for performing operations before a specific <see cref="BootStage"/>
+    /// Defines the system for performing operations before a specific <see cref="BootStage"/>.
     /// </summary>
-    public interface ICanRunBeforeBootStage<T> : ICanPerformPartOfBootStage<T> where T:IRepresentSettingsForBootStage
+    /// <typeparam name="T"><see cref="IRepresentSettingsForBootStage"/> type.</typeparam>
+    public interface ICanRunBeforeBootStage<T> : ICanPerformPartOfBootStage<T>
+        where T : IRepresentSettingsForBootStage
     {
-
     }
-
-
 }

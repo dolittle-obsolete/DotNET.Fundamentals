@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using Dolittle.DependencyInversion;
-using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Collections.Generic;
 using Dolittle.Types;
 using Machine.Specifications;
 using Moq;
@@ -26,7 +27,7 @@ namespace Dolittle.Security.Specs.for_SecurityManager.given
                 first_security_descriptor.Object,
                 second_security_descriptor.Object
             }).GetEnumerator());
-            
+
             security_manager = new SecurityManager(security_descriptors.Object);
         };
     }

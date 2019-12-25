@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Serialization.Json;
 using Machine.Specifications;
 
@@ -16,5 +19,5 @@ namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
         Because of = () => result = serializer.FromJson<ClassInheritingFromAReadOnlyDictionary>(json_representation);
 
         It should_hold_the_key_and_value = () => result[key].ShouldEqual(value);
-    }      
+    }
 }

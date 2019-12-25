@@ -1,10 +1,11 @@
-﻿namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_complex_mutable_type_with_default_constructor
-{
-    using Machine.Specifications;
-    using Dolittle.PropertyBags;
-    using Dolittle.PropertyBags.Specs;
-    using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
+using Machine.Specifications;
+
+namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_complex_mutable_type_with_default_constructor
+{
     [Subject(typeof(ObjectFactory), "Build")]
     public class using_default_constuctor_and_property_setters : given.an_object_factory
     {
@@ -12,18 +13,23 @@
         static ComplexMutableTypeWithDefaultConstructor mutable_type;
         static PropertyBag source;
         static object result;
-        Establish context = () => 
+
+        Establish context = () =>
         {
             factory = instance;
-            var nested = new MutableTypeWithDefaultConstructor();
-            nested.IntProperty = 42;
-            nested.StringProperty = "Forty-Two";
-            nested.DateTimeProperty = DateTime.UtcNow.AddDays(1);
-            mutable_type = new ComplexMutableTypeWithDefaultConstructor();
-            mutable_type.IntProperty = 43;
-            mutable_type.StringProperty = "Forty-Three";
-            mutable_type.DateTimeProperty = DateTime.UtcNow.AddDays(2);
-            mutable_type.Nested = nested;
+            var nested = new MutableTypeWithDefaultConstructor
+            {
+                IntProperty = 42,
+                StringProperty = "Forty-Two",
+                DateTimeProperty = DateTime.UtcNow.AddDays(1)
+            };
+            mutable_type = new ComplexMutableTypeWithDefaultConstructor
+            {
+                IntProperty = 43,
+                StringProperty = "Forty-Three",
+                DateTimeProperty = DateTime.UtcNow.AddDays(2),
+                Nested = nested
+            };
             source = mutable_type.ToPropertyBag();
         };
 

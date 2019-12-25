@@ -1,17 +1,15 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Dolittle.Concepts;
+
 namespace Dolittle.Serialization.Json.Specs.for_Serializer
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Machine.Specifications; 
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using Dolittle.PropertyBags;
-    using Dolittle.Concepts;
-    using Serialization.Json;
-
     public class Complex : Value<Complex>
-    {  
+    {
         public Complex(Guid concept, Immutable immutable, int primitive, Dictionary<string, object> content)
         {
             Concept = concept;
@@ -30,21 +28,21 @@ namespace Dolittle.Serialization.Json.Specs.for_Serializer
 
         public override bool Equals(Complex other)
         {
-            if(other == null)
+            if (other == null)
                 return false;
 
-            if (this.Concept != other.Concept || this.Immutable != other.Immutable || this.Primitive != other.Primitive)
+            if (Concept != other.Concept || Immutable != other.Immutable || Primitive != other.Primitive)
                 return false;
 
-            if ((this.Content != null && other.Content == null) || (this.Content == null && other.Content != null))
+            if ((Content != null && other.Content == null) || (Content == null && other.Content != null))
                 return false;
 
-            if(this.Content == null && other.Content == null)
+            if (Content == null && other.Content == null)
                 return true;
 
-            return this.Content.Count == other.Content.Count
-                        && this.Content.Keys.All(key => other.Content.ContainsKey(key) 
-                                                                && this.Content[key].Equals(Convert.ChangeType(other.Content[key], this.Content[key].GetType()))); //using coercion here to deal with unboxing issues
+            return Content.Count == other.Content.Count
+                        && Content.Keys.All(key => other.Content.ContainsKey(key)
+                                                                && Content[key].Equals(Convert.ChangeType(other.Content[key], Content[key].GetType())));
         }
     }
 }

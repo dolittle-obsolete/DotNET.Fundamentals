@@ -1,10 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Runtime.Serialization;
 using Dolittle.Tenancy;
 
 namespace Dolittle.ResourceTypes.Configuration
@@ -15,12 +12,13 @@ namespace Dolittle.ResourceTypes.Configuration
     public class MissingResourceConfigurationForResourceTypeForTenant : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="MissingResourceConfigurationForResourceTypeForTenant"/>
+        /// Initializes a new instance of the <see cref="MissingResourceConfigurationForResourceTypeForTenant"/> class.
         /// </summary>
-        /// <param name="tenantId">The <see cref="TenantId"/> the configuration is missing for</param>
-        /// <param name="resourceType">The <see cref="ResourceType"/> that's missing</param>
+        /// <param name="tenantId">The <see cref="TenantId"/> the configuration is missing for.</param>
+        /// <param name="resourceType">The <see cref="ResourceType"/> that's missing.</param>
         public MissingResourceConfigurationForResourceTypeForTenant(TenantId tenantId, ResourceType resourceType)
             : base($"Missing resource configuration for resource typeof {resourceType} for tenant with Id '{tenantId}'")
-        { }
+        {
+        }
     }
 }

@@ -1,26 +1,24 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Dolittle.Lifecycle;
 
 namespace Dolittle.Serialization.Protobuf
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IMessageDescriptions"/>
+    /// Represents an implementation of <see cref="IMessageDescriptions"/>.
     /// </summary>
     [Singleton]
     public class MessageDescriptions : IMessageDescriptions
     {
-        readonly Dictionary<Type, MessageDescription>   _descriptions = new Dictionary<Type, MessageDescription>();
+        readonly Dictionary<Type, MessageDescription> _descriptions = new Dictionary<Type, MessageDescription>();
 
         /// <inheritdoc/>
         public MessageDescription GetFor<T>()
         {
-            if( HasFor<T>() ) return _descriptions[typeof(T)];
+            if (HasFor<T>()) return _descriptions[typeof(T)];
             var description = MessageDescription.DefaultFor<T>();
             SetFor<T>(description);
             return description;

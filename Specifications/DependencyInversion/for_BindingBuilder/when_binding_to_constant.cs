@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.DependencyInversion.for_BindingBuilder
@@ -7,7 +10,7 @@ namespace Dolittle.DependencyInversion.for_BindingBuilder
         const string target = "Fourty Two";
         static Binding result;
 
-        Because of = () => 
+        Because of = () =>
         {
             builder.To(target);
             result = builder.Build();

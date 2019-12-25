@@ -1,28 +1,27 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
+using Dolittle.Types;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
-using Dolittle.Types;
 
 namespace Dolittle.Build.for_BuildTaskPerformers
 {
     public class when_performing_with_two_performers_in_the_system
     {
-        static BuildTaskPerformers  performers;
+        static BuildTaskPerformers performers;
 
-        static Mock<ICanPerformBuildTask>  first_performer;
-        static Mock<ICanPerformBuildTask>  second_performer;
+        static Mock<ICanPerformBuildTask> first_performer;
+        static Mock<ICanPerformBuildTask> second_performer;
 
-        Establish context = () => 
+        Establish context = () =>
         {
-
             first_performer = new Mock<ICanPerformBuildTask>();
             second_performer = new Mock<ICanPerformBuildTask>();
-            var actualInstances = new List<ICanPerformBuildTask> {
+            var actualInstances = new List<ICanPerformBuildTask>
+            {
                 first_performer.Object,
                 second_performer.Object
             };

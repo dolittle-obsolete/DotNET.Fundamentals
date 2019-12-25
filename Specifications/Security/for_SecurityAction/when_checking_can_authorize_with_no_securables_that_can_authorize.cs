@@ -1,12 +1,14 @@
-﻿using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Security.Specs.for_SecurityTarget
+namespace Dolittle.Security.Specs.for_SecurityAction
 {
     [Subject(typeof(SecurityAction))]
-    public class when_checking_can_authorize_with_a_target_that_can_authorize
+    public class when_checking_can_authorize_with_no_securables_that_can_authorize
     {
         static Mock<ISecurityTarget> target_that_cannot_authorize;
         static Mock<ISecurityTarget> another_target_that_cannot_authorize;

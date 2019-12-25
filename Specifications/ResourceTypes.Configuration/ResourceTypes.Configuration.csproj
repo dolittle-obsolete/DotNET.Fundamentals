@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../../specs.props"/>
+
   <PropertyGroup>
     <AssemblyName>Dolittle.ResourceTypes.Configuration.Specs</AssemblyName>
   </PropertyGroup>
-
-  <Import Project="../../Build/MSBuild/specs.props"></Import>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\ResourceTypes.Configuration\ResourceTypes.Configuration.csproj" />

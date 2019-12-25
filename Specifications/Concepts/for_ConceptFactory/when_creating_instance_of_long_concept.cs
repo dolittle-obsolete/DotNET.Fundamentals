@@ -1,11 +1,14 @@
-﻿using Dolittle.Concepts;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Dolittle.Concepts;
 using Machine.Specifications;
 
 namespace Dolittle.Specs.Concepts.for_ConceptFactory
 {
     public class when_creating_instance_of_long_concept
     {
-        const   long long_value = 42;
+        const long long_value = 42;
 
         static LongConcept result;
 

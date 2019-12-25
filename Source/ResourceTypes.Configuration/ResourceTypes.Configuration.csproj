@@ -1,14 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props"/>
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Dolittle.ResourceTypes.Configuration</RootNamespace>
     <AssemblyName>Dolittle.ResourceTypes.Configuration</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Dolittle.Common" Version="1.*"/>
-  </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\Concepts\Concepts.csproj" />
     <ProjectReference Include="..\Collections\Collections.csproj" />
@@ -19,7 +16,5 @@
     <ProjectReference Include="..\ResourceTypes\ResourceTypes.csproj" />
     <ProjectReference Include="..\Types\Types.csproj" />
     <ProjectReference Include="..\Serialization.Json\Serialization.Json.csproj" />
-    
   </ItemGroup>
-
 </Project>

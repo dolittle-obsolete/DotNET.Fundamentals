@@ -1,4 +1,6 @@
-using System;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -9,13 +11,12 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
     {
         class special_type
         {
-            public string the_value {  get; set; }
-
+            public string the_value { get; set; }
         }
 
         class type_for_serialization
         {
-            public special_type value {  get; set; }
+            public special_type value { get; set; }
         }
 
         static type_for_serialization original;
@@ -23,18 +24,18 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
 
         Establish context = () =>
         {
-            var original_value = "Fourty two";
+            const string original_value = "Fourty two";
             original = new type_for_serialization { value = new special_type { the_value = original_value } };
             value_converters.Setup(_ => _.CanConvert(typeof(special_type))).Returns(true);
 
             var value_converter = new Mock<IValueConverter>();
             value_converters.Setup(_ => _.GetConverterFor(typeof(special_type))).Returns(value_converter.Object);
 
-            var serialized_value = "Awesome Possum";
+            const string serialized_value = "Awesome Possum";
             value_converter.Setup(_ => _.ConvertTo(original.value)).Returns(serialized_value);
             value_converter.Setup(_ => _.SerializedAs(typeof(special_type))).Returns(typeof(string));
-            value_converter.Setup(_ => _.ConvertFrom(typeof(special_type),serialized_value)).Returns(new special_type { the_value = original_value });
-           
+            value_converter.Setup(_ => _.ConvertFrom(typeof(special_type), serialized_value)).Returns(new special_type { the_value = original_value });
+
             message_descriptions.Setup(_ => _.GetFor<type_for_serialization>()).Returns(MessageDescription.DefaultFor<type_for_serialization>());
         };
 
@@ -46,5 +47,4 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
 
         It should_hold_the_correct_value = () => deserialized.value.the_value.ShouldEqual(original.value.the_value);
     }
-
 }

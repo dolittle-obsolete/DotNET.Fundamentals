@@ -1,18 +1,17 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.DependencyInversion;
 
 namespace Dolittle.Booting
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ICanNotifyForNewBindings"/>
+    /// Represents an implementation of <see cref="ICanNotifyForNewBindings"/>.
     /// </summary>
     public class NewBindingsNotificationHub : ICanNotifyForNewBindings
     {
-        event Action<IBindingCollection>    _subscribers = (_) => {};
+        event Action<IBindingCollection> _subscribers = (_) => { };
 
         /// <inheritdoc/>
         public void Notify(IBindingCollection bindings)

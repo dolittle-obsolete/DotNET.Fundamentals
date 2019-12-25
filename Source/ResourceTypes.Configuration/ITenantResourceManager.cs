@@ -1,20 +1,22 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using System;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Tenancy;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// Defines a system for loading the resources from a configuration file containing the resources
+    /// Defines a system for loading the resources from a configuration file containing the resources.
     /// </summary>
     public interface ITenantResourceManager
     {
         /// <summary>
-        /// Gets a configuration 
+        /// Gets a specific configuration for a <see cref="TenantId"/>.
         /// </summary>
-        T GetConfigurationFor<T>(TenantId tenantId) where T : class;
+        /// <typeparam name="T">Type of configuration to get.</typeparam>
+        /// <param name="tenantId"><see cref="TenantId"/> to get configuration for.</param>
+        /// <returns>Configuration instance for the <see cref="TenantId"/>.</returns>
+        T GetConfigurationFor<T>(TenantId tenantId)
+            where T : class;
     }
 }

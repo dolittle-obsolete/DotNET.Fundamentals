@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Linq;
 using Machine.Specifications;
 
@@ -7,10 +10,7 @@ namespace Dolittle.DependencyInversion.for_BindingProviderBuilder
     {
         static Binding result;
 
-        Establish context = () => 
-        {
-            builder.Bind(typeof(object)).To(typeof(string)).Singleton();
-        };
+        Establish context = () => builder.Bind(typeof(object)).To(typeof(string)).Singleton();
 
         Because of = () => result = builder.Build().First();
 

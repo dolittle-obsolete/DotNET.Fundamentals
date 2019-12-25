@@ -1,13 +1,14 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.Time;
 using Machine.Specifications;
 
 namespace Dolittle.Serialization.Protobuf.for_Serializer
 {
-
     public class when_serializing_simple_object_with_primitives : given.a_serializer
     {
-        
         static simple_object_with_primitives original;
         static simple_object_with_primitives deserialized;
 
@@ -28,8 +29,8 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
 
             message_descriptions.Setup(_ => _.GetFor<simple_object_with_primitives>()).Returns(simple_object_with_primitives.message_description);
         };
-        
-        Because of = () => 
+
+        Because of = () =>
         {
             serialized_bytes = serializer.ToProtobuf(original);
             deserialized = serializer.FromProtobuf<simple_object_with_primitives>(serialized_bytes);
@@ -42,7 +43,5 @@ namespace Dolittle.Serialization.Protobuf.for_Serializer
         It should_hold_the_correct_string = () => deserialized.a_string.ShouldEqual(original.a_string);
         It should_hold_the_correct_date_time = () => deserialized.a_date_time.LossyEquals(original.a_date_time).ShouldBeTrue();
         It should_hold_the_correct_date_time_offset = () => deserialized.a_date_time_offset.LossyEquals(original.a_date_time_offset).ShouldBeTrue();
-
-        
     }
 }

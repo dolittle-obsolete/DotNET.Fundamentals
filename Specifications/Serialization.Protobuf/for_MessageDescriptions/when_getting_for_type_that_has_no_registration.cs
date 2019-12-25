@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.Serialization.Protobuf.for_MessageDescriptions
@@ -10,5 +13,4 @@ namespace Dolittle.Serialization.Protobuf.for_MessageDescriptions
 
         It should_return_a_default_description = () => result.ShouldNotBeNull();
     }
-    
 }

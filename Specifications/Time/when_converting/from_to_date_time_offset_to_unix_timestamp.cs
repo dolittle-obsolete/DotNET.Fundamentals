@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Machine.Specifications;
 
@@ -18,7 +21,6 @@ namespace Dolittle.Time.Specs.when_converting
             utc_now_in_milliseconds = now.ToUniversalTime().ToUnixTimeMilliseconds();
         };
 
-	    
         Because of = () => converted_unix_timestamp = now.ToUnixTimeMilliseconds();
 
         It should_convert_the_date_time_offset = () => converted_unix_timestamp.ShouldEqual(now_in_milliseconds);

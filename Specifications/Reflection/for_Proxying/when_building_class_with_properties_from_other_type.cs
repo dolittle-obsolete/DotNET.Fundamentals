@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Reflection;
 using Dolittle.Reflection;
 using Machine.Specifications;
@@ -9,7 +12,7 @@ namespace Dolittle.Specs.Reflection.for_Proxying
     public class when_building_class_with_properties_from_other_type
     {
         static Proxying proxying;
-        static Type result; 
+        static Type result;
 
         Establish context = () => proxying = new Proxying();
 

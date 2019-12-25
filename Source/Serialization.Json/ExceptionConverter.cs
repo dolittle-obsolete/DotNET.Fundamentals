@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Reflection;
 using Newtonsoft.Json;
@@ -9,7 +8,7 @@ using Newtonsoft.Json;
 namespace Dolittle.Serialization.Json
 {
     /// <summary>
-    /// Represents an implementation of <see cref="JsonConverter"/> for dealing with <see cref="Exception"/>
+    /// Represents an implementation of <see cref="JsonConverter"/> for dealing with <see cref="Exception"/>.
     /// </summary>
     public class ExceptionConverter : JsonConverter
     {

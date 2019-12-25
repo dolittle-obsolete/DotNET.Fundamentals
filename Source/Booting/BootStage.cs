@@ -1,54 +1,54 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.DependencyInversion;
 
 namespace Dolittle.Booting
 {
     /// <summary>
-    /// Defines the different stages of booting
+    /// Defines the different stages of booting.
     /// </summary>
     public enum BootStage
     {
         /// <summary>
-        /// Basics stage - fixed
+        /// Basics stage - fixed.
         /// </summary>
         /// <remarks>
         /// This stage is defined by the system and can't be swapped out. It also does not support
-        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>
+        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>.
         /// </remarks>
-        Basics=1,
+        Basics = 1,
 
         /// <summary>
-        /// Logging stage - fixed
+        /// Logging stage - fixed.
         /// </summary>
         /// <remarks>
         /// This stage is defined by the system and can't be swapped out. It also does not support
-        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>
+        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>.
         /// </remarks>
         Logging,
 
         /// <summary>
-        /// Initial system stage - fixed
+        /// Initial system stage - fixed.
         /// </summary>
         /// <remarks>
         /// This stage is defined by the system and can't be swapped out. It also does not support
-        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>
+        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>.
         /// </remarks>
         InitialSystem,
 
         /// <summary>
-        /// Discovery stage - fixed
+        /// Discovery stage - fixed.
         /// </summary>
         /// <remarks>
         /// This stage is defined by the system and can't be swapped out. It also does not support
-        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>
+        /// any <see cref="ICanRunBeforeBootStage{T}"/> or <see cref="ICanRunAfterBootStage{T}"/>.
         /// </remarks>
         Discovery,
 
         /// <summary>
-        /// Prepare boot - after this stage there should be a <see cref="IContainer"/> available - most likely a temporary container used during booting
+        /// Prepare boot - after this stage there should be a <see cref="IContainer"/> available -
+        /// most likely a temporary container used during booting.
         /// </summary>
         PrepareBoot,
 
@@ -58,13 +58,13 @@ namespace Dolittle.Booting
         Configuration,
 
         /// <summary>
-        /// Main <see cref="IContainer"/> hookup
+        /// Main <see cref="IContainer"/> hookup.
         /// </summary>
         Container,
 
         /// <summary>
-        /// Main running of <see cref="ICanPerformBootProcedure">boot procedures</see>
+        /// Main running of <see cref="ICanPerformBootProcedure">boot procedures</see>.
         /// </summary>
-        BootProcedures        
+        BootProcedures
     }
 }

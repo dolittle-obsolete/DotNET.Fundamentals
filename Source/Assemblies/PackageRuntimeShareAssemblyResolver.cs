@@ -1,7 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyModel.Resolution;
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Represents a <see cref="ICompilationAssemblyResolver"/> that tries to resolve from the package runtime shared store
+    /// Represents a <see cref="ICompilationAssemblyResolver"/> that tries to resolve from the package runtime shared store.
     /// <remarks>
     /// Read more here https://natemcmaster.com/blog/2018/08/29/netcore-primitives-2/
     /// https://github.com/dotnet/corefx/issues/11639
@@ -32,9 +32,9 @@ namespace Dolittle.Assemblies
                 // default location on Ubuntu 19.04
                 basePath = "/usr/share/dotnet/shared";
             }
-            else 
+            else
             {
-                // keep the OSX location as the default
+                // keep the macOS location as the default
                 basePath = "/usr/local/share/dotnet/shared";
             }
 
@@ -49,7 +49,7 @@ namespace Dolittle.Assemblies
                     foreach (var file in Directory.GetFiles(versionDir))
                     {
                         if (found) break;
-                        if (Path.GetFileName(file).ToLower().Equals(library.Name.ToLower() + ".dll"))
+                        if (Path.GetFileName(file).Equals($"{library.Name}.dll", StringComparison.InvariantCultureIgnoreCase))
                         {
                             assemblies.Add(file);
                             found = true;

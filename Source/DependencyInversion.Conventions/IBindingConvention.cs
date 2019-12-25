@@ -1,9 +1,7 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using Dolittle.Lifecycle;
 
 namespace Dolittle.DependencyInversion.Conventions
 {
@@ -19,17 +17,17 @@ namespace Dolittle.DependencyInversion.Conventions
     public interface IBindingConvention
     {
         /// <summary>
-        /// Checks wether or not a given <see cref="Type">Service</see> can be resolved by the convention
+        /// Checks wether or not a given <see cref="Type">Service</see> can be resolved by the convention.
         /// </summary>
-        /// <param name="service">Service that needs to be resolved</param>
-        /// <returns>True if it can resolve it, false if not</returns>
+        /// <param name="service">Service that needs to be resolved.</param>
+        /// <returns>True if it can resolve it, false if not.</returns>
         bool CanResolve(Type service);
 
         /// <summary>
-        /// Resolve a <see cref="Type">Service</see>
+        /// Resolve a <see cref="Type">Service</see>.
         /// </summary>
-        /// <param name="service">Service that needs to be resolved</param>
-        /// <param name="bindingBuilder"><see cref="IBindingBuilder"/> to build</param>
+        /// <param name="service">Service that needs to be resolved.</param>
+        /// <param name="bindingBuilder"><see cref="IBindingBuilder"/> to build.</param>
         void Resolve(Type service, IBindingBuilder bindingBuilder);
     }
 }

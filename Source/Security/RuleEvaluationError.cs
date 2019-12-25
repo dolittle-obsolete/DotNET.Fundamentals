@@ -1,21 +1,20 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 
 namespace Dolittle.Security
 {
     /// <summary>
-    /// Encapsulates a <see cref="ISecurityRule"/> that encountered an Exception when evaluating
+    /// Encapsulates a <see cref="ISecurityRule"/> that encountered an Exception when evaluating.
     /// </summary>
     public class RuleEvaluationError
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="RuleEvaluationError"/>
+        /// Initializes a new instance of the <see cref="RuleEvaluationError"/> class.
         /// </summary>
         /// <param name="rule"><see cref="ISecurityRule"/> that encounted the error when evaluating.</param>
-        /// <param name="error">The error that was encountered</param>
+        /// <param name="error">The error that was encountered.</param>
         public RuleEvaluationError(ISecurityRule rule, Exception error)
         {
             Error = error;
@@ -23,22 +22,22 @@ namespace Dolittle.Security
         }
 
         /// <summary>
-        /// Gets the Exception that was encountered when evaluation the rule
+        /// Gets the Exception that was encountered when evaluation the rule.
         /// </summary>
-        public Exception Error { get; private set; }
+        public Exception Error { get; }
 
         /// <summary>
-        /// Gets the rule instance that encountered the exception when evaluation
+        /// Gets the rule instance that encountered the exception when evaluation.
         /// </summary>
-        public ISecurityRule Rule { get; private set; }
+        public ISecurityRule Rule { get; }
 
         /// <summary>
-        /// Returns a descriptive message describing the rule
+        /// Returns a descriptive message describing the rule.
         /// </summary>
-        /// <returns>String descibing the rule</returns>
+        /// <returns>String descibing the rule.</returns>
         public string BuildErrorMessage()
         {
-            return Rule.Description + "/" + "Error";
+            return $"{Rule.Description}/Error";
         }
     }
 }

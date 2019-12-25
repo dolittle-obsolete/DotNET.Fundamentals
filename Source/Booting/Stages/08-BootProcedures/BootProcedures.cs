@@ -1,15 +1,10 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using Dolittle.Collections;
-using Dolittle.Logging;
-using Dolittle.Types;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Dolittle.Booting.Stages
 {
     /// <summary>
-    /// Represents the <see cref="BootStage.BootProcedures"/> stage of booting
+    /// Represents the <see cref="BootStage.BootProcedures"/> stage of booting.
     /// </summary>
     public class BootProcedures : ICanPerformBootStage<BootProceduresSettings>
     {
@@ -19,10 +14,8 @@ namespace Dolittle.Booting.Stages
         /// <inheritdoc/>
         public void Perform(BootProceduresSettings settings, IBootStageBuilder builder)
         {
-            if( settings.Enabled )
+            if (settings.Enabled)
             {
-                var logger = builder.GetAssociation(WellKnownAssociations.Logger) as ILogger;
-                var typeFinder = builder.GetAssociation(WellKnownAssociations.TypeFinder) as ITypeFinder;
                 builder.Container.Get<IBootProcedures>().Perform();
             }
         }

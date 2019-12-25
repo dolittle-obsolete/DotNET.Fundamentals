@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +11,16 @@ using Dolittle.Logging;
 namespace Dolittle.Types
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IContractToImplementorsSerializer"/>
+    /// Represents an implementation of <see cref="IContractToImplementorsSerializer"/>.
     /// </summary>
     public class ContractToImplementorsSerializer : IContractToImplementorsSerializer
     {
         readonly ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ContractToImplementorsSerializer"/>
+        /// Initializes a new instance of the <see cref="ContractToImplementorsSerializer"/> class.
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public ContractToImplementorsSerializer(ILogger logger)
         {
             _logger = logger;
@@ -52,7 +51,7 @@ namespace Dolittle.Types
         public string SerializeTypes(IEnumerable<Type> types)
         {
             var builder = new StringBuilder();
-            types.ForEach(_ => 
+            types.ForEach(_ =>
             {
                 builder.Append(GetAssemblyQualifiedNameFor(_));
                 builder.Append("\n");
@@ -106,24 +105,22 @@ namespace Dolittle.Types
         public IEnumerable<Type> DeserializeTypes(string serializedTypes)
         {
             var lines = serializedTypes.Split('\n');
-            var types = lines
-                            .Select(_ => Type.GetType(_))
-                            .Where(_ => _ != null)
-                            .ToArray();
-            return types;
+            return lines.Select(_ => Type.GetType(_))
+                        .Where(_ => _ != null)
+                        .ToArray();
         }
-
 
         string GetAssemblyQualifiedNameFor(Type type)
         {
             var name = type.AssemblyQualifiedName;
             if (string.IsNullOrEmpty(name))
             {
-                if( type.IsGenericType )
+                if (type.IsGenericType)
                     name = $"{type.Namespace}.{type.Name}, {type.Assembly.GetName().FullName}";
                 else
                     name = $"{type}, {type.Assembly.GetName().FullName}";
             }
+
             return name;
         }
     }

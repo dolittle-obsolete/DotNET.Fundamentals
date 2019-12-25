@@ -1,20 +1,16 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Linq;
-using Dolittle.DependencyInversion;
-using Dolittle.Reflection;
-using Dolittle.Types;
 using Dolittle.Collections;
+using Dolittle.DependencyInversion;
 using Dolittle.Logging;
+using Dolittle.Types;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// Represents a system that provides the bindings for the Resource system
+    /// Represents a system that provides the bindings for the Resource system.
     /// </summary>
     public class Bindings : ICanProvideBindings
     {
@@ -23,18 +19,17 @@ namespace Dolittle.ResourceTypes.Configuration
         private readonly IContainer _container;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Bindings"/>
+        /// Initializes a new instance of the <see cref="Bindings"/> class.
         /// </summary>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> used for discovering types by the resource system</param>
-        /// <param name="container"><see cref="IContainer"/> to use for getting instances</param>
-        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> used for discovering types by the resource system.</param>
+        /// <param name="container"><see cref="IContainer"/> to use for getting instances.</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public Bindings(ITypeFinder typeFinder, IContainer container, ILogger logger)
         {
             _typeFinder = typeFinder;
             _logger = logger;
             _container = container;
         }
-
 
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)

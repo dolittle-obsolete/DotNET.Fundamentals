@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Linq;
 using Machine.Specifications;
 using Moq;
@@ -47,7 +46,8 @@ namespace Dolittle.Rules.for_RuleSetEvaluation
                     context.Fail(second_rule.Object, target, second_rule_second_cause);
                 });
 
-            evaluation = new RuleSetEvaluation(new RuleSet(new IRule[] { 
+            evaluation = new RuleSetEvaluation(new RuleSet(new IRule[]
+            {
                 first_rule.Object,
                 second_rule.Object
             }));
@@ -66,6 +66,6 @@ namespace Dolittle.Rules.for_RuleSetEvaluation
         It should_have_the_second_rule_broken_with_second_reason = () => evaluation.BrokenRules.ToArray()[1].Causes.ToArray()[1].ShouldEqual(second_rule_second_cause);
 
         It should_be_considered_unsuccessful = () => evaluation.IsSuccess.ShouldBeFalse();
-        It should_be_considered_unsuccessful_through_implicit_operator = () => (evaluation == true).ShouldBeFalse();
+        It should_be_considered_unsuccessful_through_implicit_operator = () => ((bool)evaluation).ShouldBeFalse();
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Linq;
-using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -48,11 +50,13 @@ namespace Dolittle.Security.Specs.for_SecurityDescriptor
         Because of = () => result = descriptor.Authorize(new object());
 
         It should_not_be_authorized = () => result.IsAuthorized.ShouldBeFalse();
+
         It should_hold_the_results_of_each_failed_action_authorization = () =>
             {
                 result.AuthorizationFailures.Count().ShouldEqual(1);
                 result.AuthorizationFailures.All(r => r == unauthorized_target);
             };
+
         It should_not_attempt_to_authorize_action_that_cannot_authorize = () => action_that_cannot_authorize.Verify(a => a.Authorize(Moq.It.IsAny<object>()), Times.Never());
     }
 }

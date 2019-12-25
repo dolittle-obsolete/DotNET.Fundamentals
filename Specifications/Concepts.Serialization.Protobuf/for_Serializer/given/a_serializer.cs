@@ -1,8 +1,10 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
-using Machine.Specifications;
 using Dolittle.Serialization.Protobuf;
-using Dolittle.Types;
+using Machine.Specifications;
 using Moq;
 
 namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer.given
@@ -12,10 +14,11 @@ namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer.given
         protected static Serializer serializer;
         protected static ConceptConverter concept_value_converter;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             concept_value_converter = new ConceptConverter();
-            var converters = new List<IValueConverter>(new[] {
+            var converters = new List<IValueConverter>(new[]
+            {
                 concept_value_converter
             });
 

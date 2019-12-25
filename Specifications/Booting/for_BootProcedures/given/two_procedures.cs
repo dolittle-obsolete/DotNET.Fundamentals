@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using Dolittle.Logging;
 using Dolittle.Types;
@@ -14,9 +17,8 @@ namespace Dolittle.Booting.Specs.for_BootProcedures.given
         protected static bool second_procedure_can_perform = true;
 
         protected static BootProcedures boot_procedures;
-        
 
-        Establish context = () => 
+        Establish context = () =>
         {
             first_procedure = new Mock<ICanPerformBootProcedure>();
             first_procedure.Setup(_ => _.CanPerform()).Returns(() => first_procedure_can_perform);
@@ -25,7 +27,8 @@ namespace Dolittle.Booting.Specs.for_BootProcedures.given
 
             var instances = new Mock<IInstancesOf<ICanPerformBootProcedure>>();
             var listOfInstances = new List<ICanPerformBootProcedure>();
-            listOfInstances.AddRange(new[] {
+            listOfInstances.AddRange(new[]
+            {
                 first_procedure.Object,
                 second_procedure.Object
             });
