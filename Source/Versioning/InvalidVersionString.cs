@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Versioning
 {
     /// <summary>
-    /// The exception that gets thrown when a version string is invalid.
+    /// Exception that gets thrown when a version string is invalid.
     /// </summary>
     public class InvalidVersionString : ArgumentException
     {
