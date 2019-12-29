@@ -24,7 +24,7 @@ namespace Dolittle.Assemblies
         readonly IAssemblyUtility _assemblyUtility;
         readonly Dictionary<string, Library> _libraries = new Dictionary<string, Library>();
         readonly List<Assembly> _assemblies = new List<Assembly>();
-        private readonly ILogger _logger;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyProvider"/> class.
