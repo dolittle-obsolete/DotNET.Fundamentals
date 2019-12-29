@@ -10,6 +10,7 @@ namespace Dolittle.Specs.Concepts.for_ConceptAs
     public class when_comparing_on_non_generic_method : given.comparable_concepts
     {
         static int compare_least_to_object_of_another_type;
+
         Because of = () =>
         {
             compare_least_to_most = least.CompareTo((object)most);
