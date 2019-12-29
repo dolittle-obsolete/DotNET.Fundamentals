@@ -13,7 +13,7 @@ namespace Dolittle.Concepts.Serialization.Json
     /// </summary>
     public class ConverterProvider : ICanProvideConverters
     {
-        private readonly ILogger _logger;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConverterProvider"/> class.
