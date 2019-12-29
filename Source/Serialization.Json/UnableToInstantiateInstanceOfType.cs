@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Serialization.Json
 {
     /// <summary>
-    /// Indicates when the serializer is unable to instantiate a type.
+    /// Exception that gets thrown when the serializer is unable to instantiate a type.
     /// Typically due to the lack of a default constructor and mismatched parameters in the non-default constructor(s).
     /// </summary>
     public class UnableToInstantiateInstanceOfType : Exception
