@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.PropertyBags
 {
     /// <summary>
-    /// Indicates the exceptional situation where a type does not have a factory capable of constructing it.
+    /// Exception that gets thrown when a type does not have a factory capable of constructing it.
     /// </summary>
     public class NoFactoriesForType : Exception
     {

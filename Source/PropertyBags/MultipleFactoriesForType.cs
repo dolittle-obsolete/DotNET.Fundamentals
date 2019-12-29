@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.PropertyBags
 {
     /// <summary>
-    /// Defines the exceptional situation where a type has more than one <see cref="ITypeFactory" /> to build it.
+    /// Exception that gets thrown when a type has more than one <see cref="ITypeFactory" /> to build it.
     /// </summary>
     public class MultipleFactoriesForType : Exception
     {

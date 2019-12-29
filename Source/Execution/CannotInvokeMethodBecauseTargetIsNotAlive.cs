@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Dolittle.Execution
 {
     /// <summary>
-    /// Exception that is thrown when a target is not alive in a weak reference.
+    /// Exception that gets thrown when a target is not alive in a weak reference.
     /// </summary>
     public class CannotInvokeMethodBecauseTargetIsNotAlive : ArgumentException
     {

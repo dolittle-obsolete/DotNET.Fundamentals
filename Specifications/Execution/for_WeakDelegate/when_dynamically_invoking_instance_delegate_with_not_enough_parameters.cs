@@ -21,6 +21,6 @@ namespace Dolittle.Execution.for_WeakDelegate
 
         Because of = () => exception = Catch.Exception(() => weak_delegate.DynamicInvoke(43));
 
-        It should_throw_invalid_signature_exception = () => exception.ShouldBeOfExactType<InvalidSignatureException>();
+        It should_throw_invalid_signature_exception = () => exception.ShouldBeOfExactType<InvalidMethodSignature>();
     }
 }

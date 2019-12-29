@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Resilience
 {
     /// <summary>
-    /// Exception that gets thrown if there are multiple implementations of <see cref="IDefineNamedPolicy"/> in the system.
+    /// Exception that gets thrown whenthere are multiple implementations of <see cref="IDefineNamedPolicy"/> in the system.
     /// </summary>
     public class MultiplePolicyDefinersForNameFound : Exception
     {

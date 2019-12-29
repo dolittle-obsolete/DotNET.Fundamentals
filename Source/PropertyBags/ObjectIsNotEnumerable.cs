@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.PropertyBags
 {
     /// <summary>
-    /// The exception that is thrown when an object is not enumerable.
+    /// Exception that gets thrown when an object is not enumerable.
     /// </summary>
     public class ObjectIsNotEnumerable : Exception
     {

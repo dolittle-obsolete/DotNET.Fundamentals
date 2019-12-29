@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.PropertyBags.Migrations
 {
     /// <summary>
-    /// Indicates that the Property is missing from the Migration Source.
+    /// Exception that gets thrown when a property is missing from the Migration Source.
     /// </summary>
     public class MissingProperty : Exception
     {

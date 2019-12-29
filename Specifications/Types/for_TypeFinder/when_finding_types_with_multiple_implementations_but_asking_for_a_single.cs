@@ -15,6 +15,6 @@ namespace Dolittle.Types.Specs.for_TypeFinder
 
         Because of = () => exception = Catch.Exception(() => type_finder.FindSingle<IMultiple>());
 
-        It should_throw_a_multiple_types_found_exception = () => exception.ShouldBeOfExactType<MultipleTypesFoundException>();
+        It should_throw_a_multiple_types_found_exception = () => exception.ShouldBeOfExactType<MultipleTypesFound>();
     }
 }

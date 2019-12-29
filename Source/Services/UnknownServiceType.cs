@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Exception that gets thrown if a <see cref="ServiceType"/> is unknown.
+    /// Exception that gets thrown whena <see cref="ServiceType"/> is unknown.
     /// </summary>
     public class UnknownServiceType : Exception
     {

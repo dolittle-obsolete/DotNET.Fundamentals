@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Mapping
 {
     /// <summary>
-    /// The exception that is thrown when one asks for a map for unknown combination of source and target.
+    /// Exception that gets thrown when one asks for a map for unknown combination of source and target.
     /// </summary>
     public class MissingMapException : ArgumentException
     {
