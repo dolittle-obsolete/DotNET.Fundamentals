@@ -8,7 +8,7 @@ namespace Dolittle.Rules
     /// <summary>
     /// Represents a reason for why a <see cref="IRule"/> is broken.
     /// </summary>
-    public sealed class Reason
+    public class Reason
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Reason"/> class.
