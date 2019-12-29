@@ -13,6 +13,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building
         static CannotBeBuiltByAnyNonUserDefinedFactory cannot_be_built;
         static PropertyBag source;
         static Exception exception;
+
         Establish context = () =>
         {
             factory = instance_with_two_factories_for_the_same_type;

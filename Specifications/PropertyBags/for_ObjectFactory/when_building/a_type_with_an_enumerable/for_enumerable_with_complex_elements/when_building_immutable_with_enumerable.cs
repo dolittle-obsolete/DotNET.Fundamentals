@@ -14,6 +14,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
         static ImmutableWithEnumerableWithComplexType enumerable_type;
         static PropertyBag source;
         static ImmutableWithEnumerableWithComplexType result;
+
         Establish context = () =>
         {
             factory = instance;

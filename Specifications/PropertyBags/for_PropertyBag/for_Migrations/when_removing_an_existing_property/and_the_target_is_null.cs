@@ -16,6 +16,6 @@ namespace Dolittle.PropertyBags.Migrations.for_PropertyBag.for_Migrations.when_r
 
         Because of = () => exception = Catch.Exception(() => remove_property.Perform(null));
 
-        It should_fail_with_an_invalid_migration_source_exception = () => exception.ShouldBeOfExactType<InvalidMigrationSource>();
+        It should_fail_with_migration_source_cannot_be_null = () => exception.ShouldBeOfExactType<MigrationSourceCannotBeNull>();
     }
 }

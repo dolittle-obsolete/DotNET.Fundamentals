@@ -23,6 +23,6 @@ namespace Dolittle.PropertyBags.Migrations.for_PropertyBag.for_Migrations.when_a
 
         Because of = () => exception = Catch.Exception(() => add_new_int_property.Perform(target));
 
-        It should_fail_with_a_null_property_name_exception = () => exception.ShouldBeOfExactType<NullPropertyName>();
+        It should_fail_with_property_name_is_null = () => exception.ShouldBeOfExactType<PropertyNameIsNull>();
     }
 }

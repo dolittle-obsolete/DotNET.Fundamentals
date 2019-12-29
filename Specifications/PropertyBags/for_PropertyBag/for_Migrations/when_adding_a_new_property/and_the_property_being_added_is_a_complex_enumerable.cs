@@ -25,6 +25,7 @@ namespace Dolittle.PropertyBags.for_PropertyBag.for_Migrations.when_adding_a_new
         Because of = () => add_new_property.Perform(target);
 
         It should_add_the_property = () => target.ContainsKey("AddedProperty").ShouldBeTrue();
+
         It should_add_the_correct_value = () =>
         {
             var arr = target["AddedProperty"] as object[];

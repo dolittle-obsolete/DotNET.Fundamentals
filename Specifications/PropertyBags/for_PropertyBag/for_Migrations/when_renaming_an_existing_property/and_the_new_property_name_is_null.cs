@@ -26,6 +26,6 @@ namespace Dolittle.PropertyBags.Migrations.for_PropertyBag.for_Migrations.when_r
 
         Because of = () => exception = Catch.Exception(() => rename.Perform(target));
 
-        It should_fail_with_a_null_property_name_exception = () => exception.ShouldBeOfExactType<NullPropertyName>();
+        It should_fail_with_a_property_name_in_target_is_null = () => exception.ShouldBeOfExactType<PropertyNameInTargetIsNull>();
     }
 }

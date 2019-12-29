@@ -13,6 +13,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_mutable_
         static MutableTypeWithNoDefaultConstructor mutable_type;
         static PropertyBag source;
         static object result;
+
         Establish context = () =>
         {
             factory = instance;

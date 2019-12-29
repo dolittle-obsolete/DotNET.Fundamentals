@@ -13,6 +13,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_complex_
         static ComplexImmutableWithMultipleParameterConstructor immutable_type;
         static PropertyBag source;
         static object result;
+
         Establish context = () =>
         {
             factory = instance;

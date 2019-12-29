@@ -16,7 +16,7 @@ namespace Dolittle.ResourceTypes.Configuration
     {
         readonly ITypeFinder _typeFinder;
         readonly ILogger _logger;
-        private readonly IContainer _container;
+        readonly IContainer _container;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Bindings"/> class.

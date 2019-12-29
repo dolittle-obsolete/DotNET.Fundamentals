@@ -13,6 +13,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_simple_i
         static ImmutableWithPropertyBagConstructor immutable_type;
         static PropertyBag source;
         static dynamic result;
+
         Establish context = () =>
         {
             factory = instance;

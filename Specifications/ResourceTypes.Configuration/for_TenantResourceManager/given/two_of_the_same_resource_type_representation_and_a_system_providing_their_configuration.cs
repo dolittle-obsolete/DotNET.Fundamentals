@@ -13,6 +13,7 @@ namespace Dolittle.ResourceTypes.Configuration.Specs.for_TenantResourceManager.g
     {
         protected static Mock<IInstancesOf<IRepresentAResourceType>> instance_of_mongo_db_read_models_representation_mock;
         protected static Mock<ICanProvideResourceConfigurationsByTenant> a_system_provding_resource_configuration_for_read_models_mock;
+
         Establish context = () =>
         {
             var first_read_models_representation = new resource_type_with_first_service_for_first_resource_type_and_first_implementation();
