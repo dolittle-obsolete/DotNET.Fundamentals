@@ -25,7 +25,7 @@ namespace Dolittle.DependencyInversion.Autofac
         /// Initializes a new instance of the <see cref="SelfBindingRegistrationSource"/> class.
         /// </summary>
         public SelfBindingRegistrationSource()
-            : this(t => true)
+            : this(_ => true)
         {
         }
 
@@ -35,8 +35,8 @@ namespace Dolittle.DependencyInversion.Autofac
         /// <param name="predicate">A predicate that selects types the source will register.</param>
         public SelfBindingRegistrationSource(Func<Type, bool> predicate)
         {
-            _predicate = predicate ??
-                throw new ArgumentNullException(nameof(predicate));
+            if (_predicate == null) predicate = (_) => true;
+            _predicate = predicate;
         }
 
         /// <summary>
@@ -65,11 +65,6 @@ namespace Dolittle.DependencyInversion.Autofac
             Service service,
             Func<Service, IEnumerable<IComponentRegistration>> registrationAccessor)
         {
-            if (registrationAccessor == null)
-            {
-                throw new ArgumentNullException(nameof(registrationAccessor));
-            }
-
             var ts = service as TypedService;
             if (ts == null || ts.ServiceType == typeof(string))
             {

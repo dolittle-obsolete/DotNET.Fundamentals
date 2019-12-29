@@ -17,7 +17,6 @@ namespace Dolittle.Mapping
         /// <inheritdoc/>
         public void SetValue(object target, MemberInfo member, object value)
         {
-            throw new NotImplementedException();
         }
     }
 }

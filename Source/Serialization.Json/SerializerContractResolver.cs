@@ -88,8 +88,6 @@ namespace Dolittle.Serialization.Json
 
         ObjectConstructor<object> CreateObjectConstructorFrom(ConstructorInfo ctorInfo)
         {
-            if (ctorInfo == null)
-                throw new ArgumentNullException(nameof(ctorInfo));
             return a => ctorInfo.Invoke(a);
         }
     }

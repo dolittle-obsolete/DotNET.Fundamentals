@@ -28,7 +28,7 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
         public object CreateInstanceFor(IComponentContext context, Type service, Type type)
         {
             var constructors = type.GetConstructors().ToArray();
-            if (constructors.Length > 1) throw new Exception($"Unable to create instance of '{type.AssemblyQualifiedName}' - more than one constructor");
+            if (constructors.Length > 1) throw new AmbiguousConstructor(type);
             var constructor = constructors[0];
             var parameterInstances = constructor.GetParameters().Select(_ => _container.Resolve(_.ParameterType)).ToArray();
 

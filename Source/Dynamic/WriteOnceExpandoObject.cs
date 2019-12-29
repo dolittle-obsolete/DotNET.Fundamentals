@@ -96,7 +96,6 @@ namespace Dolittle.Dynamic
         /// <inheritdoc/>
         public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>

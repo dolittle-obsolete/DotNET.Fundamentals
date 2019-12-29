@@ -5,6 +5,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+#pragma warning disable DL0008
+
 namespace Dolittle.Collections
 {
     /// <summary>

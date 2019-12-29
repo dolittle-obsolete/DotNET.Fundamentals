@@ -48,8 +48,7 @@ namespace Dolittle.Concepts
         /// <returns>The value of the primitive type on which the concept is based.</returns>
         public static object GetConceptValue(this object conceptObject)
         {
-            if (!IsConcept(conceptObject))
-                throw new ArgumentException("The object is not a ConceptAs<>.  You can check if a type or an instance is a Concept through the 'IsConcept' method.");
+            if (!IsConcept(conceptObject)) throw new TypeIsNotAConcept(conceptObject.GetType());
 
             return ((dynamic)conceptObject).Value;
         }

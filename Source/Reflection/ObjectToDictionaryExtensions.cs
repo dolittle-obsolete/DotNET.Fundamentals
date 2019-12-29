@@ -1,10 +1,11 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+
+#pragma warning disable DL0008
 
 namespace Dolittle.Reflection
 {
@@ -31,8 +32,7 @@ namespace Dolittle.Reflection
         /// <returns><see cref="IDictionary"/> with all keys and values.</returns>
         public static IDictionary<string, T> ToDictionary<T>(this object source)
         {
-            if (source == null)
-                ThrowIfSourceArgumentIsNull("source");
+            ThrowIfSourceArgumentIsNull(source);
 
             var dictionary = new Dictionary<string, T>();
             foreach (var property in source.GetType().GetTypeInfo().GetProperties())
@@ -53,9 +53,9 @@ namespace Dolittle.Reflection
             return value is T;
         }
 
-        static void ThrowIfSourceArgumentIsNull(string name)
+        static void ThrowIfSourceArgumentIsNull(object source)
         {
-            throw new ArgumentNullException(name, "Unable to convert object to a dictionary. The source object is null.");
+            if (source == null) throw new SourceObjectCannotBeNull();
         }
     }
 }

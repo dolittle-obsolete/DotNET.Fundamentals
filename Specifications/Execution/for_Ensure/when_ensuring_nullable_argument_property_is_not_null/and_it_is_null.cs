@@ -18,7 +18,7 @@ namespace Dolittle.Execution.for_Ensure.when_ensuring_nullable_argument_property
         Because of = () => exception = Catch.Exception(() => Ensure.NullableArgumentPropertyIsNotNull(property_name, path, property));
 
         It should_throw_an_exception = () => exception.ShouldNotBeNull();
-        It should_be_an_argument_null_exception = () => exception.ShouldBeOfExactType<ArgumentNullException>();
-        It should_include_the_property_name_in_the_exception = () => ((ArgumentNullException)exception)?.ParamName.ShouldEqual($"{path}.{property_name}");
+        It should_be_an_argument_null_exception = () => exception.ShouldBeOfExactType<NotEnsured>();
+        It should_include_the_property_name_in_the_exception = () => ((NotEnsured)exception)?.Property.ShouldEqual($"{path}.{property_name}");
     }
 }

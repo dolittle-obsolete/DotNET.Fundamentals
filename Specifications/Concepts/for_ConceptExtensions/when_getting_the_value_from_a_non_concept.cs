@@ -16,6 +16,6 @@ namespace Dolittle.Specs.Concepts.for_ConceptExtensions
 
         Because of = () => exception = Catch.Exception(() => primitive_value.GetConceptValue());
 
-        It should_throw_an_argument_exception = () => exception.ShouldBeOfExactType<ArgumentException>();
+        It should_throw_an_argument_exception = () => exception.ShouldBeOfExactType<TypeIsNotAConcept>();
     }
 }

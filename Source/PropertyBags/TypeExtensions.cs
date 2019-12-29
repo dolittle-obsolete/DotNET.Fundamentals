@@ -109,11 +109,10 @@ namespace Dolittle.PropertyBags
         {
             if (source == null) return null;
             if (propType.ImplementsOpenGeneric(typeof(IDictionary<,>)))
-                throw new ArgumentException("property type cannot be Dictionary<,>");
-            var elementType = propType.GetEnumerableElementType();
-            var enumerableObject = source as IEnumerable;
+                throw new TypeIsNotGenericDictionary(propType);
 
-            if (enumerableObject == null) return null;
+            var elementType = propType.GetEnumerableElementType();
+            if (!(source is IEnumerable enumerableObject)) return null;
 
             var resultList = new List<object>();
             foreach (var element in enumerableObject)

@@ -12,7 +12,7 @@ namespace Dolittle.PropertyBags.Specs
 {
     public static class ShouldExtensions
     {
-        private const string NULL = "[NULL]";
+        const string NULL = "[NULL]";
 
         public static void ShouldBeAnAccurateRepresentationOf<T>(this Value<T> source, Value<T> other)
             where T : Value<T>

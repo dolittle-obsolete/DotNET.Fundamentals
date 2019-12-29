@@ -93,7 +93,7 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
         {
             var binding = _bindings.SingleOrDefault(_ => _.Service == service);
             if (binding == null && service.IsGenericType) binding = _bindings.Single(_ => _.Service == service.GetGenericTypeDefinition());
-            if (binding == null) throw new ArgumentException($"Couldn't find a binding for service {service.AssemblyQualifiedName}");
+            if (binding == null) throw new UnableToFindBindingForService(service);
             return binding;
         }
     }

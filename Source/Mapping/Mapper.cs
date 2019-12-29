@@ -28,7 +28,7 @@ namespace Dolittle.Mapping
         /// <inheritdoc/>
         public bool CanMap<TTarget, TSource>()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         /// <inheritdoc/>

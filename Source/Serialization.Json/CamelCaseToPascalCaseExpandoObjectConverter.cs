@@ -8,6 +8,8 @@ using System.Globalization;
 using Dolittle.Strings;
 using Newtonsoft.Json;
 
+#pragma warning disable DL0008
+
 namespace Dolittle.Serialization.Json
 {
     /// <summary>

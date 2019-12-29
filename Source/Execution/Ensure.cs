@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Diagnostics;
 
 namespace Dolittle.Execution
@@ -73,7 +72,7 @@ namespace Dolittle.Execution
         {
             var path = propertyPath == null ? string.Empty : $"{propertyPath}.";
             var name = $"{path}{parameterName}";
-            throw new ArgumentNullException(name, $"{name} cannot be null");
+            throw new NotEnsured(name);
         }
     }
 }
