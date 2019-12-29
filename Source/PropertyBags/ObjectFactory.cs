@@ -71,9 +71,9 @@ namespace Dolittle.PropertyBags
                     return typeFactory;
                 }
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                throw new MultipleFactoriesForType($"{type.FullName} has multiple user defined factories to build it.  A type can only have one factory defined.", ex);
+                throw new MultipleFactoriesForType(type);
             }
 
             try
@@ -82,11 +82,11 @@ namespace Dolittle.PropertyBags
                 if (typeFactory != null)
                     return typeFactory;
 
-                throw new NoFactoriesForType($"{type.FullName} has no factories to build it.");
+                throw new NoFactoriesForType(type);
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                throw new MultipleFactoriesForType($"{type.FullName} has multiple built in factories to build it.  Check your type definition.", ex);
+                throw new MultipleFactoriesForType(type);
             }
         }
     }

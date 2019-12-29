@@ -13,9 +13,9 @@ namespace Dolittle.PropertyBags
         /// <summary>
         /// Initializes a new instance of the <see cref="NoFactoriesForType"/> class.
         /// </summary>
-        /// <param name="message">A message describing the exception.</param>
-        public NoFactoriesForType(string message)
-            : base(message)
+        /// <param name="type">Type that is missing factoryíes.</param>
+        public NoFactoriesForType(Type type)
+            : base($"{type.AssemblyQualifiedName} has no factories to build it.")
         {
         }
     }

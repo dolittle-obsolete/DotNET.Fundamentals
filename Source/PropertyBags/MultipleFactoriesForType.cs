@@ -13,10 +13,9 @@ namespace Dolittle.PropertyBags
         /// <summary>
         /// Initializes a new instance of the <see cref="MultipleFactoriesForType"/> class.
         /// </summary>
-        /// <param name="message">A message describing the exception.</param>
-        /// <param name="innerException">An inner exception that is the original source of the error.</param>
-        public MultipleFactoriesForType(string message, Exception innerException)
-            : base(message, innerException)
+        /// <param name="type">Type with multiple factories.</param>
+        public MultipleFactoriesForType(Type type)
+            : base($"{type.AssemblyQualifiedName} has multiple user defined factories to build it.  A type can only have one factory defined.")
         {
         }
     }

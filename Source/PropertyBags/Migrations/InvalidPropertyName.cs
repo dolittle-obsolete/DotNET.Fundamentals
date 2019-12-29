@@ -13,9 +13,9 @@ namespace Dolittle.PropertyBags.Migrations
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidPropertyName"/> class.
         /// </summary>
-        /// <param name="message">A message describing the exception.</param>
-        public InvalidPropertyName(string message)
-            : base(message)
+        /// <param name="propertyName">The name of the property.</param>
+        public InvalidPropertyName(string propertyName)
+            : base($"{propertyName} is not a valid identifier")
         {
         }
     }

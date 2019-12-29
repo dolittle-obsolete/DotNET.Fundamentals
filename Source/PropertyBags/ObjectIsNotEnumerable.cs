@@ -13,9 +13,9 @@ namespace Dolittle.PropertyBags
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectIsNotEnumerable"/> class.
         /// </summary>
-        /// <param name="message">Message.</param>
-        public ObjectIsNotEnumerable(string message)
-            : base(message)
+        /// <param name="type">Type that is not enumerable.</param>
+        public ObjectIsNotEnumerable(Type type)
+            : base($"Object of type '{type.AssemblyQualifiedName}' is not an enumerable")
         {
         }
     }

@@ -13,9 +13,9 @@ namespace Dolittle.PropertyBags
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericBuildMethodNotFound"/> class.
         /// </summary>
-        /// <param name="message">Message.</param>
-        public GenericBuildMethodNotFound(string message)
-            : base(message)
+        /// <param name="type">The type where Build method is not found.</param>
+        public GenericBuildMethodNotFound(Type type)
+            : base($"Generic method taking one generic argument called Build was not found in the {type.AssemblyQualifiedName}")
         {
         }
     }

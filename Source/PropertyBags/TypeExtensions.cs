@@ -141,7 +141,7 @@ namespace Dolittle.PropertyBags
 
         static void ThrowIfObjectIsNotEnumerable(object obj)
         {
-            if (!(obj is IEnumerable)) throw new ObjectIsNotEnumerable("The object is not enumerable");
+            if (!(obj is IEnumerable)) throw new ObjectIsNotEnumerable(obj.GetType());
         }
 
         static void ThrowIfNotEnumerableType(Type type)
@@ -151,7 +151,7 @@ namespace Dolittle.PropertyBags
 
         static void ThrowIfGenericMethodNotFound(MethodInfo method)
         {
-            if (method == null) throw new GenericBuildMethodNotFound($"Generic method taking one generic argument called Build was not found in tbe {typeof(IObjectFactory).Name}");
+            if (method == null) throw new GenericBuildMethodNotFound(typeof(IObjectFactory));
         }
     }
 }

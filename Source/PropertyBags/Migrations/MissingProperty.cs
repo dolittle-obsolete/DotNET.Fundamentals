@@ -13,9 +13,9 @@ namespace Dolittle.PropertyBags.Migrations
         /// <summary>
         /// Initializes a new instance of the <see cref="MissingProperty"/> class.
         /// </summary>
-        /// <param name="message">A message describing the exception.</param>
-        public MissingProperty(string message)
-            : base(message)
+        /// <param name="propertyName">Name of the property.</param>
+        public MissingProperty(string propertyName)
+            : base($"{propertyName} does not exist")
         {
         }
     }

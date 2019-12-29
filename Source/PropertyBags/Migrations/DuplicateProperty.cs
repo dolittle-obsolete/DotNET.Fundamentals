@@ -13,9 +13,9 @@ namespace Dolittle.PropertyBags.Migrations
         /// <summary>
         /// Initializes a new instance of the <see cref="DuplicateProperty"/> class.
         /// </summary>
-        /// <param name="message">A message describing the exception.</param>
-        public DuplicateProperty(string message)
-            : base(message)
+        /// <param name="propertyName">Name of the property.</param>
+        public DuplicateProperty(string propertyName)
+            : base($"{propertyName} already exists")
         {
         }
     }

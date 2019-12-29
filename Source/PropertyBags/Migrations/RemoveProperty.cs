@@ -25,7 +25,7 @@ namespace Dolittle.PropertyBags.Migrations
             return nfd =>
             {
                 if (nfd == null)
-                    throw new InvalidMigrationSource("NullFreeDictionary cannot be null");
+                    throw new MigrationSourceCannotBeNull(name);
 
                 if (!nfd.ContainsKey(name))
                     return;

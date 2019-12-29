@@ -27,19 +27,19 @@ namespace Dolittle.PropertyBags.Migrations
             return nfd =>
             {
                 if (nfd == null)
-                    throw new InvalidMigrationSource("NullFreeDictionary cannot be null");
+                    throw new MigrationSourceCannotBeNull(name);
 
                 if (value == null)
                     return;
 
                 if (name == null)
-                    throw new NullPropertyName("Cannot add a property with the name NULL");
+                    throw new PropertyNameIsNull();
 
                 if (!PropertyNameValidator.IsValid(name))
-                    throw new InvalidPropertyName($"Property {name ?? "[NULL]"} is not a valid identifier");
+                    throw new InvalidPropertyName(name ?? "[NULL]");
 
                 if (nfd.ContainsKey(name))
-                    throw new DuplicateProperty($"Property {name ?? "[NULL]"} already exists on this target");
+                    throw new DuplicateProperty(name ?? "[NULL]");
 
                 nfd.Add(name, typeof(T).GetPropertyBagObjectValue(value));
             };
