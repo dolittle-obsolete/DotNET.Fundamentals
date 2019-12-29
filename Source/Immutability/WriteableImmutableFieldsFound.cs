@@ -9,7 +9,7 @@ using System.Reflection;
 namespace Dolittle.Immutability
 {
     /// <summary>
-    /// The exception that gets thrown when an <see cref="IAmImmutable">immutable object</see> is mutable
+    /// Exception that gets thrown when an <see cref="IAmImmutable">immutable object</see> is mutable
     /// by virtue of it having fields that can be written to.
     /// </summary>
     public class WriteableImmutableFieldsFound : Exception

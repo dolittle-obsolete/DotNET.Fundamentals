@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Immutability
 {
     /// <summary>
-    /// The exception that is thrown when an object is read only and one is writing to it.
+    /// Exception that gets thrown when an object is read only and one is writing to it.
     /// </summary>
     public class CannotWriteToAnImmutable : ArgumentException
     {
