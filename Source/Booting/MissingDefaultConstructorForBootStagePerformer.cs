@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Booting
 {
     /// <summary>
-    /// The exception the gets thrown if a <see cref="ICanPerformPartOfBootStage"/> is missing a default constructor.
+    /// Exception that gets thrown when a <see cref="ICanPerformPartOfBootStage"/> is missing a default constructor.
     /// </summary>
     public class MissingDefaultConstructorForBootStagePerformer : Exception
     {

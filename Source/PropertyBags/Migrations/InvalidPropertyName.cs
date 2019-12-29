@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.PropertyBags.Migrations
 {
     /// <summary>
-    /// Indicates that the Property Name being added is not a valid Property Name.
+    /// Exception that gets thrown when the Property Name being added is not a valid Property Name.
     /// </summary>
     public class InvalidPropertyName : Exception
     {

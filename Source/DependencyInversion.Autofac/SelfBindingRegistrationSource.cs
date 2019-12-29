@@ -19,7 +19,7 @@ namespace Dolittle.DependencyInversion.Autofac
     /// </remarks>
     public class SelfBindingRegistrationSource : IRegistrationSource
     {
-        private readonly Func<Type, bool> _predicate;
+        readonly Func<Type, bool> _predicate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SelfBindingRegistrationSource"/> class.

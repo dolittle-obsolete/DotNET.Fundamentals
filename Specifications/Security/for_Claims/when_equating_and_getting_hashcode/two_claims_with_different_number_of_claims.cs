@@ -17,7 +17,7 @@ namespace Dolittle.Security.for_Claims.when_equating_and_getting_hashcode
         static bool is_equal_by_operator;
         static bool is_not_equal_by_operator;
         static bool hash_code_is_equal;
-        
+
         Establish context = () =>
         {
             var list = new List<Claim>

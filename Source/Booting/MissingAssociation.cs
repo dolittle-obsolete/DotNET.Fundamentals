@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Booting
 {
     /// <summary>
-    /// Represents the exception tat gets thrown when an association is missing.
+    /// Exception that gets thrown when an association is missing.
     /// </summary>
     public class MissingAssociation : Exception
     {

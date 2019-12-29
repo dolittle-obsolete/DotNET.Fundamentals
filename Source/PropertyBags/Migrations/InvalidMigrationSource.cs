@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.PropertyBags.Migrations
 {
     /// <summary>
-    ///  Indicates that the Migration Source is not valid.
+    /// Exception that gets thrown when the Migration Source is not valid.
     /// </summary>
     public class InvalidMigrationSource : ArgumentNullException
     {
