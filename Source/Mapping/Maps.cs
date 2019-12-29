@@ -55,7 +55,7 @@ namespace Dolittle.Mapping
         void ThrowIfMissingMap(Type source, Type target)
         {
             var key = GetKeyFor(source, target);
-            if (!_mapsByKey.ContainsKey(key)) throw new MissingMapException(source, target);
+            if (!_mapsByKey.ContainsKey(key)) throw new MissingMap(source, target);
         }
     }
 }
