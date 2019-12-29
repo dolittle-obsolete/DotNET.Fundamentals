@@ -66,7 +66,7 @@ namespace Dolittle.Types
         void ThrowIfMultipleTypesFound(Type type, IEnumerable<Type> typesFound)
         {
             if (typesFound.Count() > 1)
-                throw new MultipleTypesFoundException(type, typesFound);
+                throw new MultipleTypesFound(type, typesFound);
         }
 
         void ThrowIfTypeNotFound(string fullName, Type typeFound)

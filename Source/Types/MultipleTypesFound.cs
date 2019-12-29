@@ -8,16 +8,16 @@ using System.Linq;
 namespace Dolittle.Types
 {
     /// <summary>
-    /// The exception that is thrown when multiple types are found and not allowed.
+    /// Exception that gets thrown when multiple types are found and not allowed.
     /// </summary>
-    public class MultipleTypesFoundException : ArgumentException
+    public class MultipleTypesFound : ArgumentException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultipleTypesFoundException"/> class.
+        /// Initializes a new instance of the <see cref="MultipleTypesFound"/> class.
         /// </summary>
         /// <param name="type">Type that multiple of it.</param>
         /// <param name="typesFound">The types that was found.</param>
-        public MultipleTypesFoundException(Type type, IEnumerable<Type> typesFound)
+        public MultipleTypesFound(Type type, IEnumerable<Type> typesFound)
             : base($"More than one type found for '{type.FullName}' - types found : [{string.Join(",", typesFound.Select(_ => _.FullName))}]")
         {
         }

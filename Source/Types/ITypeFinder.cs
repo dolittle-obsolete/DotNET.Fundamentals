@@ -25,7 +25,7 @@ namespace Dolittle.Types
         /// If the base type is an interface, it will look for any types implementing the interface.
         /// If it is a class, it will find anyone inheriting from that class.
         /// </remarks>
-        /// <exception cref="MultipleTypesFoundException">If there is more than one instance found.</exception>
+        /// <exception cref="MultipleTypesFound">If there is more than one instance found.</exception>
         Type FindSingle<T>();
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Dolittle.Types
         /// If the base type is an interface, it will look for any types implementing the interface.
         /// If it is a class, it will find anyone inheriting from that class.
         /// </remarks>
-        /// <exception cref="ArgumentException">If there is more than one instance found.</exception>
+        /// <exception cref="MultipleTypesFound">If there is more than one instance found.</exception>
         Type FindSingle(Type type);
 
         /// <summary>

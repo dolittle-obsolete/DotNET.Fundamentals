@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Types
 {
     /// <summary>
-    /// Exception that is thrown when a type is not possible to be resolved by its name.
+    /// Exception that gets thrown when a type is not possible to be resolved by its name.
     /// </summary>
     public class UnableToResolveTypeByName : ArgumentException
     {
