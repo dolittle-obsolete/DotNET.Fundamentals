@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Execution
 {
     /// <summary>
-    /// The exception that gets thrown when the execution context has initially been set already.
+    /// Exception that gets thrown when the execution context has initially been set already.
     /// </summary>
     public class InitialExecutionContextHasAlreadyBeenSet : Exception
     {

@@ -15,7 +15,7 @@ namespace Dolittle.PropertyBags
     {
         readonly ConcurrentDictionary<Type, InstancePropertySetter> _setters = new ConcurrentDictionary<Type, InstancePropertySetter>();
         readonly ConcurrentDictionary<Type, PropertyBagToTypeInstanceFactory> _factories = new ConcurrentDictionary<Type, PropertyBagToTypeInstanceFactory>();
-        private readonly IConstructorProvider _provider;
+        readonly IConstructorProvider _provider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MutableTypeConstructorBasedFactory"/> class.

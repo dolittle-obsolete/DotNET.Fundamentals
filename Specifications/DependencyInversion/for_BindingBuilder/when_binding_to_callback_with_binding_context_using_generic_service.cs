@@ -12,6 +12,7 @@ namespace Dolittle.DependencyInversion.for_BindingBuilder
         static Binding result;
         static BindingContext expected_binding_context;
         static BindingContext binding_context;
+
         static Func<BindingContext, string> callback = (c) =>
         {
             binding_context = c;

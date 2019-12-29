@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dolittle.Collections;
-using Dolittle.Concepts;
 using Dolittle.Dynamic;
 
 namespace Dolittle.PropertyBags

@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Booting
 {
     /// <summary>
-    /// The exception that gets thrown when a <see cref="BootStage"/> is missing.
+    /// Exception that gets thrown when a <see cref="BootStage"/> is missing.
     /// </summary>
     public class MissingBootStage : Exception
     {

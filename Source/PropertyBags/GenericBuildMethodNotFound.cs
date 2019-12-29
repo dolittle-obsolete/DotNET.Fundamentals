@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.PropertyBags
 {
     /// <summary>
-    /// The exception that gets thrown when getting the generic Build method of an <see cref="IObjectFactory"/>.
+    /// Exception that gets thrown when getting the generic Build method of an <see cref="IObjectFactory"/>.
     /// </summary>
     public class GenericBuildMethodNotFound : Exception
     {

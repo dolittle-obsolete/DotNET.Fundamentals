@@ -7,7 +7,7 @@ using Dolittle.Tenancy;
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when resources for a <see cref="TenantId"/> of a given <see cref="ResourceType"/> is not found in the resource file.
+    /// Exception that gets thrown when resources for a <see cref="TenantId"/> of a given <see cref="ResourceType"/> is not found in the resource file.
     /// </summary>
     public class MissingResourceConfigurationForResourceTypeForTenant : Exception
     {

@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The Exception that gets thrown when trying to find a <see cref="ResourceType"/> mapping to a specific <see cref="Type"/>.
+    /// Exception that gets thrown when trying to find a <see cref="ResourceType"/> mapping to a specific <see cref="Type"/>.
     /// </summary>
     public class NoResourceTypeMatchingConfigurationType : Exception
     {

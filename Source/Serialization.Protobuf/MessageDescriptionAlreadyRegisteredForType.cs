@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Serialization.Protobuf
 {
     /// <summary>
-    /// The exception that gets thrown when a <see cref="Type"/> already has a <see cref="MessageDescription"/> associated with it.
+    /// Exception that gets thrown when a <see cref="Type"/> already has a <see cref="MessageDescription"/> associated with it.
     /// </summary>
     public class MessageDescriptionAlreadyRegisteredForType : Exception
     {

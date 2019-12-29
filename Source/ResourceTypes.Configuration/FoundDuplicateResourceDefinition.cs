@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when there are duplicate resource representations.
+    /// Exception that gets thrown when there are duplicate resource representations.
     /// </summary>
     public class FoundDuplicateResourceDefinition : Exception
     {

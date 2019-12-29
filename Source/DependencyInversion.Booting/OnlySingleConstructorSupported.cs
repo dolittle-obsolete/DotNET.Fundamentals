@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.DependencyInversion.Booting
 {
     /// <summary>
-    /// The exception that gets thrown when there are more than one constructors and only one is supported.
+    /// Exception that gets thrown when there are more than one constructors and only one is supported.
     /// </summary>
     public class OnlySingleConstructorSupported : Exception
     {

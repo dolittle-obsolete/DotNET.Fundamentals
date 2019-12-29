@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Dolittle.DependencyInversion.Booting
 {
     /// <summary>
-    /// The exception that gets thrown when a constructor has dependencies that aren't supported.
+    /// Exception that gets thrown when a constructor has dependencies that aren't supported.
     /// </summary>
     public class ConstructorDependencyNotSupported : Exception
     {

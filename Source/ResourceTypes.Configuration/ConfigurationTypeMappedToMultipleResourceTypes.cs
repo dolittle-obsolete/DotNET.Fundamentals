@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when a <see cref="Type"/> is mapped up to multiple <see cref="ResourceType"/>.
+    /// Exception that gets thrown when a <see cref="Type"/> is mapped up to multiple <see cref="ResourceType"/>.
     /// </summary>
     public class ConfigurationTypeMappedToMultipleResourceTypes : Exception
     {

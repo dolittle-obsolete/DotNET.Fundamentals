@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when no implementation is found for a service.
+    /// Exception that gets thrown when no implementation is found for a service.
     /// </summary>
     public class ImplementationForServiceNotFound : Exception
     {

@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when multiple implementations for the same service is discovered.
+    /// Exception that gets thrown when multiple implementations for the same service is discovered.
     /// </summary>
     public class MultipleImplementationsFoundForService : Exception
     {

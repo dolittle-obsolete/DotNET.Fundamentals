@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when a ResourceType has already been mapped up to a ResourceTypeImplementation.
+    /// Exception that gets thrown when a ResourceType has already been mapped up to a ResourceTypeImplementation.
     /// </summary>
     public class ResourceTypeAlreadySet : Exception
     {

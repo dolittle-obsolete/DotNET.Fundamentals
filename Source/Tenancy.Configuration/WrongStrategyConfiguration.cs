@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Tenancy.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when the strategy configuration is of wrong <see cref="Type"/>.
+    /// Exception that gets thrown when the strategy configuration is of wrong <see cref="Type"/>.
     /// </summary>
     public class WrongStrategyConfiguration : Exception
     {
