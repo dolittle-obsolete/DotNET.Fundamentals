@@ -35,7 +35,7 @@ namespace Dolittle.DependencyInversion.Autofac
             var registration = new ComponentRegistration(
                 Guid.NewGuid(),
 #pragma warning disable CA2000
-                new DelegateActivator(serviceWithType.ServiceType, (c, p) =>
+                new DelegateActivator(serviceWithType.ServiceType, (c, _) =>
                 {
                     var container = c.Resolve<IContainer>();
                     var typeForFactory = serviceWithType.ServiceType.GetGenericArguments()[0];
@@ -43,8 +43,7 @@ namespace Dolittle.DependencyInversion.Autofac
                     var containerField = wrapperType.GetField("Container");
                     containerField.SetValue(null, container);
                     var activateMethod = wrapperType.GetMethod("Activate").MakeGenericMethod(typeForFactory);
-                    var factoryDelegate = activateMethod.CreateDelegate(serviceWithType.ServiceType);
-                    return factoryDelegate;
+                    return activateMethod.CreateDelegate(serviceWithType.ServiceType);
                 }),
 #pragma warning restore CA2000
                 new CurrentScopeLifetime(),
