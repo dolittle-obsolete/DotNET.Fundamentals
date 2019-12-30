@@ -55,7 +55,7 @@ namespace Dolittle.Booting.Stages
             _executionContextManager = new ExecutionContextManager(logger);
 
             builder.Bindings.Bind<Dolittle.Logging.ILogger>().To(logger);
-
+            builder.Bindings.Bind<ILoggerFactory>().To(loggerFactory);
             builder.Bindings.Bind<IExecutionContextManager>().To(_executionContextManager);
         }
 
