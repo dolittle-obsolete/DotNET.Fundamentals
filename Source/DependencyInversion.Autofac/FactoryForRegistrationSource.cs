@@ -40,7 +40,7 @@ namespace Dolittle.DependencyInversion.Autofac
                     var container = c.Resolve<IContainer>();
                     var typeForFactory = serviceWithType.ServiceType.GetGenericArguments()[0];
                     var wrapperType = typeof(FactoryForClass<>).MakeGenericType(typeForFactory);
-                    var containerField = wrapperType.GetField("container");
+                    var containerField = wrapperType.GetField("Container");
                     containerField.SetValue(null, container);
                     var activateMethod = wrapperType.GetMethod("Activate").MakeGenericMethod(typeForFactory);
                     var factoryDelegate = activateMethod.CreateDelegate(serviceWithType.ServiceType);
