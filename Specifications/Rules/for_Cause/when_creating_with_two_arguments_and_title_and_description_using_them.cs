@@ -7,7 +7,7 @@ namespace Dolittle.Rules.for_Cause
 {
     public class when_creating_with_two_arguments_and_title_and_description_using_them
     {
-        const string answer = "fourty two";
+        const string answer = "forty two";
         const string question = "what is the meaning of life";
         const string title = "The answer is {Answer}, the question is {Question}. Does that {Answer}?";
         const string description = "The long answer is {Answer} with the longer question is {Question}. Does that {Answer}?";
