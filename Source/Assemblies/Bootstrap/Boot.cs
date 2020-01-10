@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Reflection;
 using Dolittle.Assemblies.Configuration;
 using Dolittle.Assemblies.Rules;
@@ -19,14 +20,21 @@ namespace Dolittle.Assemblies.Bootstrap
         /// <param name="logger"><see cref="ILogger"/> to use for logging.</param>
         /// <param name="entryAssembly"><see cref="Assembly"/> to use as entry assembly - null indicates it will get it from the <see cref="Assembly.GetEntryAssembly()"/> method.</param>
         /// <param name="defaultAssemblyProvider">The default <see cref="ICanProvideAssemblies"/> - null inidicates it will use the default implementation.</param>
+        /// <param name="excludeAllCallback">A callback to build on the exclude all specification.</param>
         /// <returns>Discovered <see cref="IAssemblies"/>.</returns>
-        public static IAssemblies Start(ILogger logger, Assembly entryAssembly = null, ICanProvideAssemblies defaultAssemblyProvider = null)
+        public static IAssemblies Start(
+            ILogger logger,
+            Assembly entryAssembly = null,
+            ICanProvideAssemblies defaultAssemblyProvider = null,
+            Action<ExcludeAll> excludeAllCallback = null)
         {
             var assembliesConfigurationBuilder = new AssembliesConfigurationBuilder();
-            assembliesConfigurationBuilder
+            var assembliesSpecification = assembliesConfigurationBuilder
                 .ExcludeAll()
                 .ExceptProjectLibraries()
                 .ExceptDolittleLibraries();
+
+            excludeAllCallback?.Invoke(assembliesSpecification);
 
             if (entryAssembly == null)
             {

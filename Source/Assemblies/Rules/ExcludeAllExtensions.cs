@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Dolittle.Collections;
 using Dolittle.Specifications;
 
 namespace Dolittle.Assemblies.Rules
@@ -34,6 +35,20 @@ namespace Dolittle.Assemblies.Rules
         {
             var specification = excludeAll.Specification;
             specification = specification.Or(new NameStartsWith("Dolittle"));
+            excludeAll.Specification = specification;
+            return excludeAll;
+        }
+
+        /// <summary>
+        /// Include specific assemblies that start with a specific name.
+        /// </summary>
+        /// <param name="excludeAll"><see cref="ExcludeAll">configuration object</see>.</param>
+        /// <param name="names">Params of names to include.</param>
+        /// <returns>Chain of <see cref="ExcludeAll">configuration object</see>.</returns>
+        public static ExcludeAll ExceptAssembliesStartingWith(this ExcludeAll excludeAll, params string[] names)
+        {
+            var specification = excludeAll.Specification;
+            names.ForEach(_ => specification = specification.Or(new NameStartsWith(_)));
             excludeAll.Specification = specification;
             return excludeAll;
         }
