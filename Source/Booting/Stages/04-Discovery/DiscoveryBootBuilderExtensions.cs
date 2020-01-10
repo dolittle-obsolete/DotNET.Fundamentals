@@ -36,5 +36,17 @@ namespace Dolittle.Booting
             bootBuilder.Set<DiscoverySettings>(_ => _.AssemblyProvider, assemblyProvider);
             return bootBuilder;
         }
+
+        /// <summary>
+        /// Include assemblies that start with a certain name in the discovery.
+        /// </summary>
+        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build.</param>
+        /// <param name="names">Params of names to include.</param>
+        /// <returns>Chained <see cref="BootBuilder"/>.</returns>
+        public static IBootBuilder IncludeAssembliesStartingWith(this IBootBuilder bootBuilder, params string[] names)
+        {
+            bootBuilder.Set<DiscoverySettings>(_ => _.IncludeAssembliesStartWith, names);
+            return bootBuilder;
+        }
     }
 }
