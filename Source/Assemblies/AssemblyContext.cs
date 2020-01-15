@@ -136,7 +136,7 @@ namespace Dolittle.Assemblies
                     var assembly = assemblies[0];
                     var segments = assembly.Split(Path.DirectorySeparatorChar);
                     var hasRef = segments.Any(_ => _.Equals("ref", StringComparison.InvariantCultureIgnoreCase));
-                    if (hasRef) assembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}", $"lib{Path.DirectorySeparatorChar}");
+                    if (hasRef) assembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}", $"lib{Path.DirectorySeparatorChar}", StringComparison.InvariantCulture);
 
                     return AssemblyLoadContext.LoadFromAssemblyPath(assembly);
                 }
