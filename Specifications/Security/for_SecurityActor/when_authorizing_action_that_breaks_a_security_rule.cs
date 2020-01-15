@@ -1,5 +1,7 @@
-﻿using System.Linq;
-using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -29,7 +31,7 @@ namespace Dolittle.Security.Specs.for_SecurityActor
         Because of = () => result = security_actor.IsAuthorized(new object());
 
         It should_not_be_authorized = () => result.IsAuthorized.ShouldBeFalse();
-        It should_have_the_rule_that_was_broken = () => result.BrokenRules.ShouldContainOnly(new [] { rule_that_is_broken_by_action.Object });
+        It should_have_the_rule_that_was_broken = () => result.BrokenRules.ShouldContainOnly(new[] { rule_that_is_broken_by_action.Object });
         It should_not_have_any_exceptions = () => result.RulesThatEncounteredAnErrorWhenEvaluating.Any().ShouldBeFalse();
         It should_have_a_reference_to_the_actor_authorizing = () => result.Actor.ShouldEqual(security_actor);
     }

@@ -1,25 +1,23 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 namespace Dolittle.Security
 {
     /// <summary>
-    /// Defines a builder for building a <see cref="ISecurityDescriptor"/>
+    /// Defines a builder for building a <see cref="ISecurityDescriptor"/>.
     /// </summary>
     public class SecurityDescriptorBuilder : ISecurityDescriptorBuilder
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="SecurityDescriptorBuilder"/>
+        /// Initializes a new instance of the <see cref="SecurityDescriptorBuilder"/> class.
         /// </summary>
-        /// <param name="descriptor">The <see cref="ISecurityDescriptor"/> we are building</param>
+        /// <param name="descriptor">The <see cref="ISecurityDescriptor"/> we are building.</param>
         public SecurityDescriptorBuilder(ISecurityDescriptor descriptor)
         {
             Descriptor = descriptor;
         }
 
-#pragma warning disable 1591 // Xml Comments
-        public ISecurityDescriptor Descriptor { get; private set; } 
-#pragma warning restore 1591 // Xml Comments
+        /// <inheritdoc/>
+        public ISecurityDescriptor Descriptor { get; }
     }
 }

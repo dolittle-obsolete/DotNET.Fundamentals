@@ -1,22 +1,22 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 
 namespace Dolittle.Tenancy.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when the strategy configuration is of wrong <see cref="Type"/>
+    /// Exception that gets thrown when the strategy configuration is of wrong <see cref="Type"/>.
     /// </summary>
     public class WrongStrategyConfiguration : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="WrongStrategyConfiguration"/>
+        /// Initializes a new instance of the <see cref="WrongStrategyConfiguration"/> class.
         /// </summary>
-        /// <param name="expectedType"></param>
+        /// <param name="expectedType">The expected <see cref="Type"/>.</param>
         public WrongStrategyConfiguration(Type expectedType)
             : base($"Expected a configuration of type {expectedType.FullName}")
-        {}
+        {
+        }
     }
 }

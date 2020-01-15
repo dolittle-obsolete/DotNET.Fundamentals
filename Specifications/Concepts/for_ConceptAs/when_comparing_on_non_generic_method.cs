@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Concepts;
 using Machine.Specifications;
 
@@ -7,6 +10,7 @@ namespace Dolittle.Specs.Concepts.for_ConceptAs
     public class when_comparing_on_non_generic_method : given.comparable_concepts
     {
         static int compare_least_to_object_of_another_type;
+
         Because of = () =>
         {
             compare_least_to_most = least.CompareTo((object)most);
@@ -33,5 +37,5 @@ namespace Dolittle.Specs.Concepts.for_ConceptAs
         It determines_most_is_equal_to_itself = () => compare_most_to_self.ShouldEqual(given.comparable_concepts.EQUAL);
         It determines_most_is_equal_to_another_instance_of_most = () => compare_most_to_another_instance_of_most.ShouldEqual(given.comparable_concepts.EQUAL);
         It determines_most_is_greater_than_object_of_another_type = () => compare_least_to_object_of_another_type.ShouldEqual(given.comparable_concepts.GREATER_THAN);
-    }    
+    }
 }

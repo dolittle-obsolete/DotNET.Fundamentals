@@ -1,9 +1,10 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq;
 using System.Reflection;
 using Dolittle.Assemblies;
+using Dolittle.Assemblies.Rules;
 using Dolittle.Collections;
 using Dolittle.Logging;
 using Dolittle.Scheduling;
@@ -12,7 +13,7 @@ using Dolittle.Types;
 namespace Dolittle.Booting.Stages
 {
     /// <summary>
-    /// Represents the <see cref="BootStage.Discovery"/> stage of booting
+    /// Represents the <see cref="BootStage.Discovery"/> stage of booting.
     /// </summary>
     public class Discovery : ICanPerformBootStage<DiscoverySettings>
     {
@@ -27,9 +28,16 @@ namespace Dolittle.Booting.Stages
             var scheduler = builder.GetAssociation(WellKnownAssociations.Scheduler) as IScheduler;
 
             logger.Information("  Discover all assemblies");
-            var assemblies = Dolittle.Assemblies.Bootstrap.Boot.Start(logger, entryAssembly, settings.AssemblyProvider);
+            var assemblies = Assemblies.Bootstrap.Boot.Start(logger, entryAssembly, settings.AssemblyProvider, _ =>
+            {
+                if (settings.IncludeAssembliesStartWith?.Count() > 0)
+                {
+                    settings.IncludeAssembliesStartWith.ForEach(name => logger.Information($"Including assemblies starting with '{name}'"));
+                    _.ExceptAssembliesStartingWith(settings.IncludeAssembliesStartWith.ToArray());
+                }
+            });
             logger.Information("  Set up type system for discovery");
-            var typeFinder = Dolittle.Types.Bootstrap.Boot.Start(assemblies, scheduler, logger, entryAssembly);
+            var typeFinder = Types.Bootstrap.Boot.Start(assemblies, scheduler, logger, entryAssembly);
             logger.Information("  Type system ready");
 
             builder.Bindings.Bind<IAssemblies>().To(assemblies);

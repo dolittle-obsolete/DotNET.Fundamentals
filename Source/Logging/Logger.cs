@@ -1,41 +1,35 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.Lifecycle;
 
 namespace Dolittle.Logging
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ILogger"/>
+    /// Represents an implementation of <see cref="ILogger"/>.
     /// </summary>
     [Singleton]
     public class Logger : ILogger
     {
-        static ILogger _internal;
+        readonly ILogAppenders _logAppenders;
+
+        static Logger() => Internal = new NullLogger();
 
         /// <summary>
-        /// Internal logger for those scenarios where it can't be or it is inconvenient to get it injected
+        /// Initializes a new instance of the <see cref="Logger"/> class.
         /// </summary>
-        public static ILogger Internal => _internal;
-
-        static Logger()
-        {
-            _internal = new NullLogger();
-        }
-
-        ILogAppenders _logAppenders;
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="Logger"/>
-        /// </summary>
-        /// <param name="logAppenders">The <see cref="ILogAppenders">log appenders</see></param>
+        /// <param name="logAppenders">The <see cref="ILogAppenders">log appenders</see>.</param>
         public Logger(ILogAppenders logAppenders)
         {
             _logAppenders = logAppenders;
-            _internal = this;
+            Internal = this;
         }
+
+        /// <summary>
+        /// Gets the internal logger for those scenarios where it can't be or it is inconvenient to get it injected.
+        /// </summary>
+        public static ILogger Internal { get; private set; }
 
         /// <inheritdoc/>
         public void Trace(string message, string filePath, int lineNumber, string member)

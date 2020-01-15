@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +9,7 @@ using Dolittle.Lifecycle;
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Represents a <see cref="IAssemblies"/>
+    /// Represents a <see cref="IAssemblies"/>.
     /// </summary>
     [Singleton]
     public class Assemblies : IAssemblies
@@ -18,10 +17,12 @@ namespace Dolittle.Assemblies
         readonly IEnumerable<Assembly> _assemblies;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Assemblies"/>
+        /// Initializes a new instance of the <see cref="Assemblies"/> class.
         /// </summary>
+        /// <param name="entryAssembly">The entry <see cref="Assembly"/>.</param>
+        /// <param name="assemblyProvider"><see cref="IAssemblyProvider"/> for providing assemblies.</param>
         public Assemblies(Assembly entryAssembly, IAssemblyProvider assemblyProvider)
-        {   
+        {
             EntryAssembly = entryAssembly;
             _assemblies = assemblyProvider.GetAll();
         }
@@ -53,8 +54,7 @@ namespace Dolittle.Assemblies
                         where a.FullName.Contains(name)
                         select a;
 
-            var assembly = query.SingleOrDefault();
-            return assembly;
+            return query.SingleOrDefault();
         }
     }
 }

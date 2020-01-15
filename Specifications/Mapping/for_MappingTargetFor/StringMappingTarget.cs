@@ -1,5 +1,7 @@
-﻿using System.Reflection;
-using Dolittle.Mapping;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Reflection;
 
 namespace Dolittle.Mapping.Specs.for_MappingTargetFor
 {
@@ -7,7 +9,6 @@ namespace Dolittle.Mapping.Specs.for_MappingTargetFor
     {
         protected override void SetValue(string target, MemberInfo member, object value)
         {
-            
         }
     }
 }

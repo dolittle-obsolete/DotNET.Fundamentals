@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 
@@ -14,11 +17,12 @@ namespace Dolittle.Security.Specs.for_SecurityDescriptor
             _authorize = authorize;
         }
 
+        public IEnumerable<ISecurityTarget> Targets { get; }
+
         public void AddTarget(ISecurityTarget securityTarget)
         {
         }
 
-        public IEnumerable<ISecurityTarget> Targets { get; private set; }
         public bool CanAuthorize(object actionToAuthorize)
         {
             return _canAuthorize.Invoke(actionToAuthorize);
@@ -30,4 +34,5 @@ namespace Dolittle.Security.Specs.for_SecurityDescriptor
         }
 
         public string ActionType { get { return "MySecurityAction"; } }
-    }}
+    }
+}

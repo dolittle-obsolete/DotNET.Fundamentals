@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.DependencyInversion.for_BindingCollection
@@ -7,7 +10,7 @@ namespace Dolittle.DependencyInversion.for_BindingCollection
         static BindingCollection collection;
         static bool result;
 
-        Establish context = ()=> collection = new BindingCollection();
+        Establish context = () => collection = new BindingCollection();
 
         Because of = () => result = collection.HasBindingFor<string>();
 

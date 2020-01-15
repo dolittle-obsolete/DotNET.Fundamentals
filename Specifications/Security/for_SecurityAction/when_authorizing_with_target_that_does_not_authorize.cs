@@ -1,5 +1,7 @@
-﻿using System.Linq;
-using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -25,7 +27,7 @@ namespace Dolittle.Security.Specs.for_SecurityAction
                 unauthorizedSecurable.ProcessAuthorizeActorResult(unauthorisedActor);
 
                 action = new SecurityAction();
-                target_that_authorizes = CreateTarget(canAuthorize:true);
+                target_that_authorizes = CreateTarget(canAuthorize: true);
                 target_that_does_not_authorize = CreateTarget(canAuthorize: true);
                 target_that_cannot_authorize = CreateTarget(canAuthorize: false);
                 authorized_target = new AuthorizeTargetResult(target_that_authorizes.Object);
@@ -43,14 +45,16 @@ namespace Dolittle.Security.Specs.for_SecurityAction
         Because of = () => result = action.Authorize(new object());
 
         It should_not_the_authorized = () => result.IsAuthorized.ShouldBeFalse();
+
         It should_hold_the_results_of_each_failed_target_authorization = () =>
         {
             result.AuthorizationFailures.Count().ShouldEqual(1);
             result.AuthorizationFailures.Count(r => r == unauthorized_target).ShouldEqual(1);
         };
-        It should_not_attempt_to_authorize_target_that_cannot_authorize = () => target_that_cannot_authorize.Verify(t => t.Authorize(Moq.It.IsAny<object>()), Times.Never());
-        It should_have_a_reference_to_the_action = () => result.Action.ShouldEqual(action);
 
+        It should_not_attempt_to_authorize_target_that_cannot_authorize = () => target_that_cannot_authorize.Verify(t => t.Authorize(Moq.It.IsAny<object>()), Times.Never());
+
+        It should_have_a_reference_to_the_action = () => result.Action.ShouldEqual(action);
 
         static Mock<ISecurityTarget> CreateTarget(bool canAuthorize)
         {

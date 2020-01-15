@@ -1,10 +1,9 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
-using Dolittle.Types;
 using Dolittle.ResourceTypes.Configuration.Specs.given;
+using Dolittle.Types;
 using Machine.Specifications;
 using Moq;
 
@@ -14,10 +13,11 @@ namespace Dolittle.ResourceTypes.Configuration.Specs.for_TenantResourceManager.g
     {
         protected static Mock<IInstancesOf<IRepresentAResourceType>> instance_of_mongo_db_read_models_representation_mock;
         protected static Mock<ICanProvideResourceConfigurationsByTenant> a_system_provding_resource_configuration_for_read_models_mock;
-        Establish context = () => 
+
+        Establish context = () =>
         {
             var read_models_representation = new resource_type_with_first_service_for_first_resource_type_and_first_implementation();
-            var read_models_representations = new List<IRepresentAResourceType>{read_models_representation};
+            var read_models_representations = new List<IRepresentAResourceType> { read_models_representation };
             instance_of_mongo_db_read_models_representation_mock = new Mock<IInstancesOf<IRepresentAResourceType>>();
             instance_of_mongo_db_read_models_representation_mock.Setup(_ => _.GetEnumerator()).Returns(read_models_representations.GetEnumerator());
 

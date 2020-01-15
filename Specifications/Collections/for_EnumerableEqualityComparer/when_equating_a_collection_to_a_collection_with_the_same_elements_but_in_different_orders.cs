@@ -1,10 +1,11 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Collections.Generic;
+using Machine.Specifications;
+
 namespace Dolittle.Collections.for_EnumerableEqualityComparer
 {
-    using Machine.Specifications;
-    using Dolittle.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     [Subject(typeof(EnumerableEqualityComparer<>))]
     public class when_equating_a_collection_to_a_collection_with_the_same_elements_but_in_different_orders
     {
@@ -13,10 +14,10 @@ namespace Dolittle.Collections.for_EnumerableEqualityComparer
         static IEqualityComparer<IEnumerable<int>> comparer;
         static bool is_equal;
 
-        Establish context = () => 
+        Establish context = () =>
         {
-            collection = new int[]{1,2,3};
-            other = new int[]{3,2,1};
+            collection = new int[] { 1, 2, 3 };
+            other = new int[] { 3, 2, 1 };
             comparer = new EnumerableEqualityComparer<int>();
         };
 

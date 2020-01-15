@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Reflection;
 using System.Threading;
 using Dolittle.Execution;
@@ -13,11 +12,11 @@ using ExecutionContext = Dolittle.Execution.ExecutionContext;
 namespace Dolittle.Booting.Stages
 {
     /// <summary>
-    /// Represents the <see cref="BootStage.Logging"/> stage of booting
+    /// Represents the <see cref="BootStage.Logging"/> stage of booting.
     /// </summary>
     public class Logging : ICanPerformBootStage<LoggingSettings>
     {
-        readonly AsyncLocal<LoggingContext>  _currentLoggingContext = new AsyncLocal<LoggingContext>();    
+        readonly AsyncLocal<LoggingContext> _currentLoggingContext = new AsyncLocal<LoggingContext>();
         ExecutionContext _initialExecutionContext;
         IExecutionContextManager _executionContextManager;
         bool _isProduction;
@@ -32,18 +31,22 @@ namespace Dolittle.Booting.Stages
             var environment = builder.GetAssociation(WellKnownAssociations.Environment) as Environment;
             _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
 
-            var loggerFactory = settings.LoggerFactory;
-            if( loggerFactory == null ) loggerFactory = new LoggerFactory();
+#pragma warning disable CA2000
+            var loggerFactory = settings.LoggerFactory ?? new LoggerFactory();
+#pragma warning restore CA2000
 
-            _isProduction = environment == Environment.Production; 
+            _isProduction = environment == Environment.Production;
 
             var logAppender = settings.LogAppender;
-            
-            if( logAppender == null ) logAppender = (_isProduction && !settings.UseDefaultInAllEnvironments)?
-                (ILogAppender)new JsonLogAppender(GetCurrentLoggingContext):
-                (ILogAppender)new DefaultLogAppender(GetCurrentLoggingContext, loggerFactory);
 
-            var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(loggerFactory, logAppender, entryAssembly);
+            if (logAppender == null)
+            {
+                logAppender = (_isProduction && !settings.UseDefaultInAllEnvironments) ?
+                    new JsonLogAppender(GetCurrentLoggingContext) :
+                    new DefaultLogAppender(GetCurrentLoggingContext, loggerFactory) as ILogAppender;
+            }
+
+            var logAppenders = Dolittle.Logging.Bootstrap.Boot.Start(logAppender, entryAssembly);
             Dolittle.Logging.ILogger logger = settings.Logger ?? new Logger(logAppenders);
             logger.Information($"<********* BOOTSTAGE : Logging *********>");
 
@@ -52,22 +55,20 @@ namespace Dolittle.Booting.Stages
             _executionContextManager = new ExecutionContextManager(logger);
 
             builder.Bindings.Bind<Dolittle.Logging.ILogger>().To(logger);
-
+            builder.Bindings.Bind<ILoggerFactory>().To(loggerFactory);
             builder.Bindings.Bind<IExecutionContextManager>().To(_executionContextManager);
         }
 
         LoggingContext GetCurrentLoggingContext()
         {
-            Dolittle.Execution.ExecutionContext executionContext = null;
-
-
             if (LoggingContextIsSet())
             {
                 if (_executionContextManager != null) SetLatestLoggingContext();
                 return _currentLoggingContext.Value;
             }
-            
-            if( _executionContextManager != null ) executionContext = _executionContextManager.Current;
+
+            ExecutionContext executionContext;
+            if (_executionContextManager != null) executionContext = _executionContextManager.Current;
             else executionContext = _initialExecutionContext;
 
             var loggingContext = CreateLoggingContextFrom(executionContext);
@@ -76,15 +77,13 @@ namespace Dolittle.Booting.Stages
             return loggingContext;
         }
 
-        bool LoggingContextIsSet() => 
-            _currentLoggingContext != null && _currentLoggingContext.Value != null;
+        bool LoggingContextIsSet() => _currentLoggingContext?.Value != null;
 
-        void SetLatestLoggingContext() => 
-            _currentLoggingContext.Value = CreateLoggingContextFrom(_executionContextManager.Current);
-            
-        
-        LoggingContext CreateLoggingContextFrom(Dolittle.Execution.ExecutionContext executionContext) =>
-            new LoggingContext {
+        void SetLatestLoggingContext() => _currentLoggingContext.Value = CreateLoggingContextFrom(_executionContextManager.Current);
+
+        LoggingContext CreateLoggingContextFrom(ExecutionContext executionContext) =>
+            new LoggingContext
+            {
                 Application = executionContext.Application,
                 BoundedContext = executionContext.BoundedContext,
                 CorrelationId = executionContext.CorrelationId,

@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -11,13 +10,13 @@ using Microsoft.Extensions.DependencyModel.Resolution;
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Represents a <see cref="ICompilationAssemblyResolver"/> that tries to resolve from the package runtime store
+    /// Represents a <see cref="ICompilationAssemblyResolver"/> that tries to resolve from the package runtime store.
     /// </summary>
     /// <remarks>
     /// Read more here : https://docs.microsoft.com/en-us/dotnet/core/deploying/runtime-store
     /// macOS : /usr/local/share/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}
     /// Linux : /usr/share/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}
-    /// Windows : C:/Program Files/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path} 
+    /// Windows : C:/Program Files/dotnet/store/{CPU}/{targetFramework e.g. netcoreapp2.0}/{package path}.
     /// </remarks>
     public class PackageRuntimeStoreAssemblyResolver : ICompilationAssemblyResolver
     {
@@ -34,24 +33,26 @@ namespace Dolittle.Assemblies
                 // couldn't find this on Ubuntu 19.04 on a fresh dotnet sdk2.2 install
                 basePath = "/usr/share/dotnet/store";
             }
-            else 
+            else
             {
-                // keep the OSX location as the default
+                // keep the macOS location as the default
                 basePath = "/usr/local/share/dotnet/store";
             }
 
-            var cpuBasePath = Path.Combine(basePath,RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant());
+#pragma warning disable CA1308
+            var cpuBasePath = Path.Combine(basePath, RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant());
+#pragma warning restore CA1308
             if (!Directory.Exists(cpuBasePath)) return false;
-            
+
             var found = false;
 
-            foreach( var targetFrameworkBasePath in Directory.GetDirectories(cpuBasePath))
+            foreach (var targetFrameworkBasePath in Directory.GetDirectories(cpuBasePath))
             {
-                var libraryBasePath = Path.Combine(targetFrameworkBasePath,library.Path);
-                foreach( var assembly in library.Assemblies )
+                var libraryBasePath = Path.Combine(targetFrameworkBasePath, library.Path);
+                foreach (var assembly in library.Assemblies)
                 {
                     var assemblyPath = Path.Combine(libraryBasePath, assembly);
-                    if( File.Exists(assemblyPath))
+                    if (File.Exists(assemblyPath))
                     {
                         assemblies.Add(assemblyPath);
                         found = true;
@@ -61,6 +62,5 @@ namespace Dolittle.Assemblies
 
             return found;
         }
-    }    
-
+    }
 }

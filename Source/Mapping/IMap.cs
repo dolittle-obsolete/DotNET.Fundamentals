@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 
@@ -17,17 +16,17 @@ namespace Dolittle.Mapping
     public interface IMap
     {
         /// <summary>
-        /// Gets the source type the map is for
+        /// Gets the source type the map is for.
         /// </summary>
-        Type Source { get;  }
+        Type Source { get; }
 
         /// <summary>
-        /// Gets the target type the map is for
+        /// Gets the target type the map is for.
         /// </summary>
         Type Target { get; }
 
         /// <summary>
-        /// Get the mapped properties
+        /// Gets get the mapped properties.
         /// </summary>
         IEnumerable<IPropertyMap> Properties { get; }
     }

@@ -1,4 +1,7 @@
-﻿using Machine.Specifications;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Machine.Specifications;
 using It = Machine.Specifications.It;
 
 namespace Dolittle.Security.Specs.for_SecurityDescriptor
@@ -13,8 +16,8 @@ namespace Dolittle.Security.Specs.for_SecurityDescriptor
 
         public when_checking_can_authorize_with_target_that_can_authorize()
         {
-            action_that_can_authorize = new MySecurityAction(o => true, o => null);
-            action_that_cannot_authorize = new MySecurityAction(o => true, ObjectDisposedException => null);
+            action_that_can_authorize = new MySecurityAction(_ => true, _ => null);
+            action_that_cannot_authorize = new MySecurityAction(_ => true, _ => null);
 
             descriptor = new SecurityDescriptor();
             descriptor.AddAction(action_that_cannot_authorize);

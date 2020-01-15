@@ -1,10 +1,11 @@
-﻿using Dolittle.Concepts;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Dolittle.Concepts;
 using Machine.Specifications;
-using Dolittle.Specs.Concepts.given;
 
 namespace Dolittle.Specs.Concepts.for_ConceptAs
 {
-    #pragma warning disable 1718
     [Subject(typeof(ConceptAs<>))]
     public class when_checking_is_lesser_than : given.test_concepts
     {
@@ -37,18 +38,17 @@ namespace Dolittle.Specs.Concepts.for_ConceptAs
             most_is_lesser_than_primitive_value = most < most.Value;
         };
 
-        It determines_least_is_not_lesser_than_most = () =>  least_is_lesser_than_most.ShouldBeTrue();
-        It determines_least_is_not_lesser_than_middle = () =>  least_is_lesser_than_middle.ShouldBeTrue();
-        It determines_least_is_not_lesser_than_self = () =>  least_is_lesser_than_self.ShouldBeFalse();
-        It determines_least_is_not_lesser_than_primitive_value = () =>  least_is_lesser_than_primitive_value.ShouldBeFalse();
-        It determines_middle_is_not_lesser_than_most = () =>  middle_is_lesser_than_most.ShouldBeTrue();
-        It determines_middle_is_lesser_than_least = () =>  middle_is_lesser_than_least.ShouldBeFalse();
-        It determines_middle_is_not_lesser_than_self = () =>  middle_is_lesser_than_self.ShouldBeFalse(); 
-        It determines_middle_is_not_lesser_than_primitive_value = () =>  middle_is_lesser_than_primitive_value.ShouldBeFalse();
-        It determines_most_is_lesser_than_least = () =>  most_is_lesser_than_least.ShouldBeFalse();
-        It determines_most_is_lesser_than_middle = () =>  most_is_lesser_than_middle.ShouldBeFalse();
-        It determines_most_is_not_lesser_than_self = () =>  most_is_lesser_than_self.ShouldBeFalse(); 
-        It determines_most_is_not_lesser_than_primitive_value = () =>  most_is_lesser_than_primitive_value.ShouldBeFalse();
+        It determines_least_is_not_lesser_than_most = () => least_is_lesser_than_most.ShouldBeTrue();
+        It determines_least_is_not_lesser_than_middle = () => least_is_lesser_than_middle.ShouldBeTrue();
+        It determines_least_is_not_lesser_than_self = () => least_is_lesser_than_self.ShouldBeFalse();
+        It determines_least_is_not_lesser_than_primitive_value = () => least_is_lesser_than_primitive_value.ShouldBeFalse();
+        It determines_middle_is_not_lesser_than_most = () => middle_is_lesser_than_most.ShouldBeTrue();
+        It determines_middle_is_lesser_than_least = () => middle_is_lesser_than_least.ShouldBeFalse();
+        It determines_middle_is_not_lesser_than_self = () => middle_is_lesser_than_self.ShouldBeFalse();
+        It determines_middle_is_not_lesser_than_primitive_value = () => middle_is_lesser_than_primitive_value.ShouldBeFalse();
+        It determines_most_is_lesser_than_least = () => most_is_lesser_than_least.ShouldBeFalse();
+        It determines_most_is_lesser_than_middle = () => most_is_lesser_than_middle.ShouldBeFalse();
+        It determines_most_is_not_lesser_than_self = () => most_is_lesser_than_self.ShouldBeFalse();
+        It determines_most_is_not_lesser_than_primitive_value = () => most_is_lesser_than_primitive_value.ShouldBeFalse();
     }
-    #pragma warning restore 1718
 }

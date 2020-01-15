@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.Serialization.Protobuf.for_MessageDescriptions
@@ -7,7 +10,7 @@ namespace Dolittle.Serialization.Protobuf.for_MessageDescriptions
         static MessageDescription first;
         static MessageDescription second;
 
-        Because of = () => 
+        Because of = () =>
         {
             first = message_descriptions.GetFor<class_with_properties>();
             second = message_descriptions.GetFor<class_with_properties>();
@@ -15,5 +18,4 @@ namespace Dolittle.Serialization.Protobuf.for_MessageDescriptions
 
         It should_return_same_instance = () => first.GetHashCode().ShouldEqual(second.GetHashCode());
     }
-    
 }

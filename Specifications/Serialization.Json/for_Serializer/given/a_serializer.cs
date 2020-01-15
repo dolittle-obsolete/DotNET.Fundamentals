@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using Dolittle.DependencyInversion;
-using Dolittle.Serialization.Json;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Collections.Generic;
 using Dolittle.Types;
 using Machine.Specifications;
 using Moq;
@@ -16,7 +17,7 @@ namespace Dolittle.Serialization.Json.Specs.for_Serializer.given
         Establish context = () =>
                                 {
                                     converter_providers = new List<ICanProvideConverters>();
-                                    
+
                                     converter_provider_instances = new Mock<IInstancesOf<ICanProvideConverters>>();
                                     converter_provider_instances.Setup(c => c.GetEnumerator()).Returns(() => converter_providers.GetEnumerator());
                                     serializer = new Serializer(converter_provider_instances.Object);

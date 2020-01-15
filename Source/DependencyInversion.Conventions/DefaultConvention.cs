@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +10,7 @@ namespace Dolittle.DependencyInversion.Conventions
 {
     /// <summary>
     /// Represents a <see cref="IBindingConvention">IBindingConvention</see>
-    /// that will apply default conventions
+    /// that will apply default conventions.
     /// </summary>
     /// <remarks>
     /// Any interface being resolved and is prefixed with I and have an implementation
@@ -31,26 +30,26 @@ namespace Dolittle.DependencyInversion.Conventions
         public void Resolve(Type service, IBindingBuilder builder)
         {
             var serviceInstanceType = GetServiceInstanceType(service);
-            if (serviceInstanceType != null )
+            if (serviceInstanceType != null)
                 builder.To(serviceInstanceType);
         }
 
         static Type GetServiceInstanceType(Type service)
         {
             var serviceName = service.Name;
-            if (serviceName.StartsWith("I"))
+            if (serviceName.StartsWith("I", StringComparison.InvariantCulture))
             {
-                var instanceName = string.Format("{0}.{1}", service.Namespace, serviceName.Substring(1));
+                var instanceName = $"{service.Namespace}.{serviceName.Substring(1)}";
                 var serviceInstanceType = service.GetTypeInfo().Assembly.GetType(instanceName);
-                if (null != serviceInstanceType &&
-                    serviceInstanceType.GetTypeInfo().GetConstructors().Any(c=>c.IsPublic) &&
-                    IsAssignableFrom(service,serviceInstanceType) &&
+                if (serviceInstanceType?.GetTypeInfo().GetConstructors().Any(c => c.IsPublic) == true &&
+                    IsAssignableFrom(service, serviceInstanceType) &&
                     !HasMultipleImplementationInSameNamespace(service))
                 {
                     if (serviceInstanceType.GetTypeInfo().IsAbstract) return null;
                     return serviceInstanceType;
                 }
             }
+
             return null;
         }
 
@@ -58,8 +57,9 @@ namespace Dolittle.DependencyInversion.Conventions
         {
             var implementationsCount = service
                 .GetTypeInfo().Assembly.DefinedTypes.Select(t => t.AsType())
-                .Where(t => !string.IsNullOrEmpty(t.Namespace) && t.Namespace.Equals(service.Namespace))
-                .Where(t => t.HasInterface(service)).Count();
+                .Count(t => !string.IsNullOrEmpty(t.Namespace) &&
+                    t.Namespace.Equals(service.Namespace, StringComparison.InvariantCulture) &&
+                    t.HasInterface(service));
             return implementationsCount > 1;
         }
 
@@ -70,13 +70,11 @@ namespace Dolittle.DependencyInversion.Conventions
             if (isAssignable)
                 return true;
 
-            isAssignable = serviceInstanceType
-                                    .GetTypeInfo().ImplementedInterfaces
-                .Where(t =>
-                t.Name == service.Name &&
-                t.Namespace == service.Namespace).Count() == 1;
-
-            return isAssignable;
+            return serviceInstanceType
+                    .GetTypeInfo().ImplementedInterfaces
+                    .Count(t =>
+                        t.Name == service.Name &&
+                        t.Namespace == service.Namespace) == 1;
         }
     }
 }

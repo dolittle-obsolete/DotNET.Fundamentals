@@ -1,31 +1,33 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 
 namespace Dolittle.Tenancy.Configuration
 {
     /// <summary>
-    /// Represents a system that manages the file that represents the tenancy mapping strategy
+    /// Represents a system that manages the file that represents the tenancy mapping strategy.
     /// </summary>
     public interface ITenantMapManager
     {
         /// <summary>
-        /// Gets the <see cref="TenantStrategy"/> that is configured
+        /// Gets the <see cref="TenantStrategy"/> that is configured.
         /// </summary>
-        /// <value></value>
-        TenantStrategy Strategy {get; }
+        TenantStrategy Strategy { get; }
+
         /// <summary>
-        /// Gets the instance of a specific tenant mapping strategy
+        /// Gets the instance of a specific tenant mapping strategy.
         /// </summary>
-        /// <typeparam name="T">The strategy</typeparam>
-        T InstanceOfStrategy<T>() where T : class;
+        /// <typeparam name="T">Type of strategy.</typeparam>
+        /// <returns>Instance of a strategy.</returns>
+        T InstanceOfStrategy<T>()
+            where T : class;
+
         /// <summary>
-        /// Gets the instance of a specific tenant mapping strategy
+        /// Gets the instance of a specific tenant mapping strategy.
         /// </summary>
-        /// <param name="strategyType"></param>
-        /// <returns></returns>
+        /// <param name="strategyType"><see cref="Type"/> of strategy.</param>
+        /// <returns>Instance of a strategy.</returns>
         object InstanceOfStrategy(Type strategyType);
     }
 }

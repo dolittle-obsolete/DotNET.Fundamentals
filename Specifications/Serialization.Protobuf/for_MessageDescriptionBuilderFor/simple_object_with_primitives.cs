@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Reflection;
 
@@ -14,11 +17,17 @@ namespace Dolittle.Serialization.Protobuf.for_MessageDescriptionBuilderFor
         public static PropertyInfo a_date_time_offset_property = typeof(simple_object_with_primitives).GetProperty("a_date_time_offset");
 
         public Guid a_guid { get; set; }
+
         public int an_integer { get; set; }
+
         public float a_float { get; set; }
+
         public double a_double { get; set; }
-        public string a_string {  get; set; }
-        public DateTime a_date_time {  get; set; }
-        public DateTimeOffset a_date_time_offset {  get; set; }
+
+        public string a_string { get; set; }
+
+        public DateTime a_date_time { get; set; }
+
+        public DateTimeOffset a_date_time_offset { get; set; }
     }
 }

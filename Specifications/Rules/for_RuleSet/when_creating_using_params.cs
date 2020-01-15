@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -10,12 +9,12 @@ namespace Dolittle.Rules.for_RuleSet
 {
     public class when_creating_using_params
     {
-        static IRule  first_rule;
-        static IRule  second_rule;
+        static IRule first_rule;
+        static IRule second_rule;
 
         static RuleSet rule_set;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             first_rule = Mock.Of<IRule>();
             second_rule = Mock.Of<IRule>();

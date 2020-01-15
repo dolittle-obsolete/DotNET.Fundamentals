@@ -1,3 +1,7 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Linq;
 using Machine.Specifications;
 
@@ -8,7 +12,7 @@ namespace Dolittle.Serialization.Protobuf.for_MessageDescriptionBuilderFor
         static MessageDescriptionBuilderFor<simple_object_with_primitives> builder;
         static MessageDescription result;
 
-        Establish context = () => builder = new MessageDescriptionBuilderFor<simple_object_with_primitives>(typeof(simple_object_with_primitives).Name, new IPropertyDescriptionBuilder[0]);
+        Establish context = () => builder = new MessageDescriptionBuilderFor<simple_object_with_primitives>(typeof(simple_object_with_primitives).Name, Array.Empty<IPropertyDescriptionBuilder>());
 
         Because of = () => result = builder.WithAllProperties().Build();
 

@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.Serialization.Protobuf.for_ValueConverters
@@ -8,5 +11,5 @@ namespace Dolittle.Serialization.Protobuf.for_ValueConverters
         Because of = () => result = value_converters.CanConvert(typeof(string));
 
         It should_not_be_able = () => result.ShouldBeFalse();
-    }   
+    }
 }

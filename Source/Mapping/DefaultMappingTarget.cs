@@ -1,24 +1,22 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Reflection;
 
 namespace Dolittle.Mapping
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IMappingTarget"/> representing the default behavior for mapping to a target
+    /// Represents an implementation of <see cref="IMappingTarget"/> representing the default behavior for mapping to a target.
     /// </summary>
     public class DefaultMappingTarget : IMappingTarget
     {
-#pragma warning disable 1591 // Xml Comments
-        public Type TargetType { get { return typeof(object); } }
+        /// <inheritdoc/>
+        public Type TargetType => typeof(object);
 
+        /// <inheritdoc/>
         public void SetValue(object target, MemberInfo member, object value)
         {
-            throw new NotImplementedException();
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }

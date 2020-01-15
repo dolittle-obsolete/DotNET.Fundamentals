@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using Dolittle.DependencyInversion;
@@ -16,39 +15,6 @@ namespace Dolittle.Services.for_Endpoints.given
 {
     public class two_service_types_with_different_visibility_and_two_binders_each
     {
-        public interface ICanBindFirstServiceType : ICanBindServices {}
-        public interface ICanBindSecondServiceType : ICanBindServices {}
-
-        public class FirstServiceTypeFirstBinder : ICanBindFirstServiceType
-        {
-            public IEnumerable<Service> ServicesToBind;
-
-            public ServiceAspect Aspect => "Specs";
-
-            public IEnumerable<Service> BindServices() => ServicesToBind;
-        }
-
-        public class FirstServiceTypeSecondBinder : ICanBindFirstServiceType
-        {
-            public IEnumerable<Service> ServicesToBind;
-            public ServiceAspect Aspect => "Specs";
-            public IEnumerable<Service> BindServices() => ServicesToBind;
-        }
-
-        public class SecondServiceTypeFirstBinder : ICanBindSecondServiceType
-        {
-            public IEnumerable<Service> ServicesToBind;
-            public ServiceAspect Aspect => "Specs";
-            public IEnumerable<Service> BindServices() => ServicesToBind;
-        }
-
-        public class SecondServiceTypeSecondBinder : ICanBindSecondServiceType
-        {
-            public IEnumerable<Service> ServicesToBind;
-            public ServiceAspect Aspect => "Specs";
-            public IEnumerable<Service> BindServices() => ServicesToBind;
-        }
-
         protected const string first_service_type_identifier = "My First Service Type";
         protected const string second_service_type_identifier = "My Second Service Type";
 
@@ -56,7 +22,6 @@ namespace Dolittle.Services.for_Endpoints.given
         protected static Mock<ITypeFinder> type_finder;
         protected static Mock<IBoundServices> bound_services;
         protected static ILogger logger;
-        
 
         protected static Mock<IRepresentServiceType> first_service_type;
         protected static Mock<IRepresentServiceType> second_service_type;
@@ -120,13 +85,15 @@ namespace Dolittle.Services.for_Endpoints.given
 
             var firstBinderSecondServiceType = typeof(SecondServiceTypeFirstBinder);
             var secondBinderSecondServiceType = typeof(SecondServiceTypeSecondBinder);
-            
-            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindFirstServiceType))).Returns(new [] { 
+
+            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindFirstServiceType))).Returns(new[]
+            {
                 firstBinderFirstServiceType,
                 secondBinderFirstServiceType,
             });
 
-            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindSecondServiceType))).Returns(new [] { 
+            type_finder.Setup(_ => _.FindMultiple(typeof(ICanBindSecondServiceType))).Returns(new[]
+            {
                 firstBinderSecondServiceType,
                 secondBinderSecondServiceType,
             });
@@ -159,22 +126,26 @@ namespace Dolittle.Services.for_Endpoints.given
             second_service_type_second_binder_first_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
             second_service_type_second_binder_second_service = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
 
-            first_binder_first_type.ServicesToBind = new[] { 
+            first_binder_first_type.ServicesToBind = new[]
+            {
                 first_service_type_first_binder_first_service,
                 first_service_type_first_binder_second_service
             };
 
-            second_binder_first_type.ServicesToBind = new[] { 
+            second_binder_first_type.ServicesToBind = new[]
+            {
                 first_service_type_second_binder_first_service,
                 first_service_type_second_binder_second_service
             };
 
-            first_binder_second_type.ServicesToBind = new[] { 
+            first_binder_second_type.ServicesToBind = new[]
+            {
                 second_service_type_first_binder_first_service,
                 second_service_type_first_binder_second_service
             };
 
-            second_binder_second_type.ServicesToBind = new[] { 
+            second_binder_second_type.ServicesToBind = new[]
+            {
                 second_service_type_second_binder_first_service,
                 second_service_type_second_binder_second_service
             };

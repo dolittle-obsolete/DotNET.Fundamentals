@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,25 +14,19 @@ namespace Dolittle.Security
         readonly List<AuthorizeDescriptorResult> _authorizationFailures = new List<AuthorizeDescriptorResult>();
 
         /// <summary>
-        /// Gets any <see cref="AuthorizeDescriptorResult"> results</see> that were not authorized
+        /// Gets any <see cref="AuthorizeDescriptorResult"> results</see> that were not authorized.
         /// </summary>
-        public IEnumerable<AuthorizeDescriptorResult> AuthorizationFailures
-        {
-            get { return _authorizationFailures.AsEnumerable(); }
-        }
+        public IEnumerable<AuthorizeDescriptorResult> AuthorizationFailures => _authorizationFailures.AsEnumerable();
 
         /// <summary>
-        /// Gets the result of the Authorization attempt for this action and <see cref="ISecurityDescriptor"/>
+        /// Gets a value indicating whether indicates the Authorization attempt was successful or not.
         /// </summary>
-        public virtual bool IsAuthorized
-        {
-            get { return !_authorizationFailures.Any(); }
-        }
+        public virtual bool IsAuthorized => _authorizationFailures.Count == 0;
 
         /// <summary>
-        /// Processes instance of an <see cref="AuthorizeDescriptorResult"/>, adding failed authorizations to the AuthorizationFailures collection
+        /// Processes instance of an <see cref="AuthorizeDescriptorResult"/>, adding failed authorizations to the AuthorizationFailures collection.
         /// </summary>
-        /// <param name="result">Result to process</param>
+        /// <param name="result">Result to process.</param>
         public void ProcessAuthorizeDescriptorResult(AuthorizeDescriptorResult result)
         {
             if (!result.IsAuthorized)
@@ -41,9 +34,9 @@ namespace Dolittle.Security
         }
 
         /// <summary>
-        /// Gets all the broken <see cref="ISecurityRule">rules</see> for this authorization attempt
+        /// Gets all the broken <see cref="ISecurityRule">rules</see> for this authorization attempt.
         /// </summary>
-        /// <returns>A string describing each broken rule or an empty enumerable if there are none</returns>
+        /// <returns>A string describing each broken rule or an empty enumerable if there are none.</returns>
         public virtual IEnumerable<string> BuildFailedAuthorizationMessages()
         {
             var messages = new List<string>();
@@ -51,6 +44,7 @@ namespace Dolittle.Security
             {
                 messages.AddRange(result.BuildFailedAuthorizationMessages());
             }
+
             return messages;
         }
     }

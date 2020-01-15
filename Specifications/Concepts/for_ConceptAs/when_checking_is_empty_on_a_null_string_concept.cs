@@ -1,11 +1,13 @@
-﻿using Dolittle.Concepts;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Dolittle.Concepts;
 using Machine.Specifications;
-using Dolittle.Specs.Concepts.given;
 
 namespace Dolittle.Specs.Concepts.for_ConceptAs
 {
     [Subject(typeof(ConceptAs<>))]
-    public class when_checking_is_empty_on_a_null_string_concept : Dolittle.Specs.Concepts.given.concepts
+    public class when_checking_is_empty_on_a_null_string_concept : Concepts.given.concepts
     {
         static bool is_empty;
 

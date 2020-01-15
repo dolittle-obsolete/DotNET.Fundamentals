@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="2.5.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Booting\Booting.csproj" />
+    <ProjectReference Include="..\..\Source\Collections\Collections.csproj" />
+    <ProjectReference Include="..\..\Source\Configuration\Configuration.csproj" />
+    <ProjectReference Include="..\..\Source\DependencyInversion.Booting\DependencyInversion.Booting.csproj" />
+    <ProjectReference Include="..\..\Source\DependencyInversion.Autofac\DependencyInversion.Autofac.csproj" />
+  </ItemGroup>
+
+</Project>

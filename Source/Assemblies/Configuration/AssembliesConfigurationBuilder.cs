@@ -1,27 +1,25 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Assemblies.Rules;
 
 namespace Dolittle.Assemblies.Configuration
 {
     /// <summary>
-    /// Represents a builder for building configuration used by <see cref="Assemblies"/>
+    /// Represents a builder for building configuration used by <see cref="Assemblies"/>.
     /// </summary>
     public class AssembliesConfigurationBuilder
     {
         /// <summary>
-        /// Gets the <see cref="IAssemblyRuleBuilder">rule builder</see> used
+        /// Gets the <see cref="IAssemblyRuleBuilder">rule builder</see> used.
         /// </summary>
         public IAssemblyRuleBuilder RuleBuilder { get; private set; }
 
-
         /// <summary>
-        /// Exclude all assemblies with possible exceptions
+        /// Exclude all assemblies with possible exceptions.
         /// </summary>
         /// <returns>
-        /// Returns the <see cref="ExcludeAll">configuration object</see> for the rule
+        /// Returns the <see cref="ExcludeAll">configuration object</see> for the rule.
         /// </returns>
         public ExcludeAll ExcludeAll()
         {
@@ -30,12 +28,11 @@ namespace Dolittle.Assemblies.Configuration
             return excludeAll;
         }
 
-
         /// <summary>
-        /// Include all assemblies with possible exceptions
+        /// Include all assemblies with possible exceptions.
         /// </summary>
         /// <returns>
-        /// Returns the <see cref="IncludeAll">configuration object</see> for the rule
+        /// Returns the <see cref="IncludeAll">configuration object</see> for the rule.
         /// </returns>
         public IncludeAll IncludeAll()
         {

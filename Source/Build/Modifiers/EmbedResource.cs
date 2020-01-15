@@ -1,14 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Mono.Cecil;
 
 namespace Dolittle.Build
 {
     /// <summary>
     /// Represents a <see cref="ICanModifyTargetAssembly"/> that is capable of embedding resources
-    /// into an <see cref="AssemblyDefinition">assembly</see>
+    /// into an <see cref="AssemblyDefinition">assembly</see>.
     /// </summary>
     public class EmbedResource : ICanModifyTargetAssembly
     {
@@ -16,10 +15,10 @@ namespace Dolittle.Build
         readonly byte[] _bytes;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="EmbedResource"/>
+        /// Initializes a new instance of the <see cref="EmbedResource"/> class.
         /// </summary>
-        /// <param name="name">Name of the resource to embed - fully qualified</param>
-        /// <param name="bytes">Byte array to embed</param>
+        /// <param name="name">Name of the resource to embed - fully qualified.</param>
+        /// <param name="bytes">Byte array to embed.</param>
         public EmbedResource(string name, byte[] bytes)
         {
             _name = name;

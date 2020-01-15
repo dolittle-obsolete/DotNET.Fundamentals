@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using Dolittle.DependencyInversion;
-using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -13,7 +14,7 @@ namespace Dolittle.Security.Specs.for_SecurableExtensions
         static ISecurityActor actor;
         static ICanResolvePrincipal principalResolver;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             securable = new TypeSecurable(typeof(object));
             principalResolver = new Mock<ICanResolvePrincipal>().Object;

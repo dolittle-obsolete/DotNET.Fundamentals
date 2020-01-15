@@ -1,6 +1,8 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Linq;
-using Dolittle.Security;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -23,7 +25,7 @@ namespace Dolittle.Security.Specs.for_AuthorizationTargetResult
         {
             first_failed_authorization = new Mock<AuthorizeSecurableResult>(new Mock<ISecurable>().Object);
             first_failed_authorization.Setup(a => a.BuildFailedAuthorizationMessages())
-                                      .Returns(new[] {first_securable_first_description, first_securable_second_description});
+                                      .Returns(new[] { first_securable_first_description, first_securable_second_description });
             second_failed_authorization = new Mock<AuthorizeSecurableResult>(new Mock<ISecurable>().Object);
             second_failed_authorization.Setup(a => a.BuildFailedAuthorizationMessages())
                                         .Returns(new[] { second_securable_description });
@@ -31,7 +33,6 @@ namespace Dolittle.Security.Specs.for_AuthorizationTargetResult
             result = new AuthorizeTargetResult(new SecurityTarget(target_description));
             result.ProcessAuthorizeSecurableResult(first_failed_authorization.Object);
             result.ProcessAuthorizeSecurableResult(second_failed_authorization.Object);
-
         };
 
         Because of = () => failed_authorization_messages = result.BuildFailedAuthorizationMessages();

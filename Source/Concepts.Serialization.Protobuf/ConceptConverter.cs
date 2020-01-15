@@ -1,14 +1,12 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 using System;
 using Dolittle.Serialization.Protobuf;
 
 namespace Dolittle.Concepts.Serialization.Protobuf
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IValueConverter"/> that deals with serializing and deserialing of <see cref="ConceptAs{T}"/>
+    /// Represents an implementation of <see cref="IValueConverter"/> that deals with serializing and deserialing of <see cref="ConceptAs{T}"/>.
     /// </summary>
     public class ConceptConverter : IValueConverter
     {
@@ -34,6 +32,6 @@ namespace Dolittle.Concepts.Serialization.Protobuf
         public object ConvertFrom(Type objectType, object value)
         {
             return ConceptFactory.CreateConceptInstance(objectType, value);
-        }            
+        }
     }
 }

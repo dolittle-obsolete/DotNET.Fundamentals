@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -11,12 +10,12 @@ using Microsoft.Extensions.DependencyModel.Resolution;
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// 
+    /// Represents a <see cref="ICompilationAssemblyResolver"/> for the NuGet fallback folder.
     /// </summary>
     /// <remarks>
     /// macOS : /usr/local/share/dotnet/sdk/NuGetFallbackFolder/{package path}
     /// Linux : /usr/share/dotnet/sdk/NuGetFallbackFolder/{package path}
-    /// Windows : C:/Program Files/dotnet/sdk/NuGetFallbackFolder/{package path} 
+    /// Windows : C:/Program Files/dotnet/sdk/NuGetFallbackFolder/{package path}.
     /// </remarks>
     public class NuGetFallbackFolderAssemblyResolver : ICompilationAssemblyResolver
     {
@@ -33,21 +32,21 @@ namespace Dolittle.Assemblies
                 // default location on Ubuntu 19.04
                 basePath = "/usr/share/dotnet/sdk/NuGetFallbackFolder";
             }
-            else 
+            else
             {
-                // keep the OSX location as the default
+                // keep the macOS location as the default
                 basePath = "/usr/local/share/dotnet/sdk/NuGetFallbackFolder";
             }
 
             if (!Directory.Exists(basePath)) return false;
-            
+
             var found = false;
 
-            var libraryBasePath = Path.Combine(basePath,library.Path);
-            foreach( var assembly in library.Assemblies )
+            var libraryBasePath = Path.Combine(basePath, library.Path);
+            foreach (var assembly in library.Assemblies)
             {
                 var assemblyPath = Path.Combine(libraryBasePath, assembly);
-                if( File.Exists(assemblyPath))
+                if (File.Exists(assemblyPath))
                 {
                     assemblies.Add(assemblyPath);
                     found = true;
@@ -57,5 +56,4 @@ namespace Dolittle.Assemblies
             return found;
         }
     }
-
 }

@@ -1,15 +1,15 @@
-using Dolittle.PropertyBags;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Dolittle.Types;
 using Machine.Specifications;
+using Moq;
+
 namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.given
 {
-    using Moq;
-    using Dolittle.PropertyBags;
-    using Dolittle.Types;
-    using Dolittle.PropertyBags.Specs;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public class an_object_factory
     {
         protected static IObjectFactory instance;
@@ -17,7 +17,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.given
         protected static Mock<IInstancesOf<ITypeFactory>> factory_instances;
         protected static Mock<IInstancesOf<ITypeFactory>> factory_instances_with_duplicates;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             var factories = get_system_type_factories();
 
@@ -37,7 +37,7 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.given
         {
             var user_defined = new Mock<IUserDefinedTypeFactory<RequiresSpecificConstructionByUser>>();
             user_defined.Setup(f => f.CanBuild(Moq.It.IsAny<Type>())).Returns((Type t) => t == typeof(RequiresSpecificConstructionByUser));
-            user_defined.Setup(f => f.Build(Moq.It.IsAny<Type>(),Moq.It.IsAny<IObjectFactory>(),Moq.It.IsAny<PropertyBag>()))
+            user_defined.Setup(f => f.Build(Moq.It.IsAny<Type>(), Moq.It.IsAny<IObjectFactory>(), Moq.It.IsAny<PropertyBag>()))
                                 .Returns((Type t, IObjectFactory f, PropertyBag p) => t == typeof(RequiresSpecificConstructionByUser) ? new RequiresSpecificConstructionByUser() : (RequiresSpecificConstructionByUser)null);
 
             return user_defined;
@@ -59,6 +59,4 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.given
             yield return new MutableTypeConstructorBasedFactory(new ConstructorProvider());
         }
     }
-
-    
 }

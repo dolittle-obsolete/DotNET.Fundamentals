@@ -1,25 +1,23 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 namespace Dolittle.Security
 {
     /// <summary>
-    /// Defines a rule for security
+    /// Defines a rule for security.
     /// </summary>
     public interface ISecurityRule
     {
         /// <summary>
-        /// Check if a securable instance is authorized
-        /// </summary>
-        /// <param name="securable">The securable instance to check</param>
-        /// <returns>True if has access, false if not</returns>
-        bool IsAuthorized(object securable);
-
-        /// <summary>
-        /// Returns a description of the rule
+        /// Gets a description of the rule.
         /// </summary>
         string Description { get; }
 
+        /// <summary>
+        /// Check if a securable instance is authorized.
+        /// </summary>
+        /// <param name="securable">The securable instance to check.</param>
+        /// <returns>True if has access, false if not.</returns>
+        bool IsAuthorized(object securable);
     }
 }

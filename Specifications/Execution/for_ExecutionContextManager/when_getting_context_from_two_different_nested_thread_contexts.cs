@@ -1,6 +1,8 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Dolittle.Tenancy;
 using Machine.Specifications;
 
@@ -12,30 +14,24 @@ namespace Dolittle.Execution.for_ExecutionContextManager
         static TenantId second_tenant;
         static TenantId first_result;
         static TenantId second_result;
-        
+
         Because of = () =>
         {
             first_tenant = Guid.NewGuid();
             second_tenant = Guid.NewGuid();
 
-            var first_thread = new Thread(() => 
+            var first_thread = new Thread(() =>
             {
-                execution_context_manager.CurrentFor(first_tenant,"",0,"");
-                var first_nested_thread = new Thread(() => 
-                {
-                    first_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray());
-                });
+                execution_context_manager.CurrentFor(first_tenant, "", 0, "");
+                var first_nested_thread = new Thread(() => first_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray()));
                 first_nested_thread.Start();
                 first_nested_thread.Join();
             });
 
-            var second_thread = new Thread(() => 
+            var second_thread = new Thread(() =>
             {
-                execution_context_manager.CurrentFor(second_tenant,"",0,"");
-                var second_nested_thread = new Thread(() => 
-                {
-                    second_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray());
-                });
+                execution_context_manager.CurrentFor(second_tenant, "", 0, "");
+                var second_nested_thread = new Thread(() => second_result = new Guid(execution_context_manager.Current.Tenant.Value.ToByteArray()));
                 second_nested_thread.Start();
                 second_nested_thread.Join();
             });

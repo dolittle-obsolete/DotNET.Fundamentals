@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ using Dolittle.Types;
 namespace Dolittle.Configuration
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IConfigurationObjectProviders"/>
+    /// Represents an implementation of <see cref="IConfigurationObjectProviders"/>.
     /// </summary>
     [Singleton]
     public class ConfigurationObjectProviders : IConfigurationObjectProviders
@@ -22,15 +21,14 @@ namespace Dolittle.Configuration
         readonly ITypeFinder _typeFinder;
         readonly IContainer _container;
         readonly ILogger _logger;
-
         readonly IEnumerable<ICanProvideConfigurationObjects> _providers;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ConfigurationObjectProviders"/>
+        /// Initializes a new instance of the <see cref="ConfigurationObjectProviders"/> class.
         /// </summary>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding providers</param>
-        /// <param name="container"><see cerf="IContainer"/> used to get instances</param>
-        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding providers.</param>
+        /// <param name="container"><see cerf="IContainer"/> used to get instances.</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public ConfigurationObjectProviders(
             ITypeFinder typeFinder,
             IContainer container,
@@ -46,7 +44,6 @@ namespace Dolittle.Configuration
                     _logger.Trace($"Configuration Object provider : {_.AssemblyQualifiedName}");
                     return _container.Get(_) as ICanProvideConfigurationObjects;
                 }).ToArray();
-
         }
 
         /// <inheritdoc/>
@@ -54,9 +51,9 @@ namespace Dolittle.Configuration
         {
             _logger.Trace($"Try to provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
             var provider = GetProvidersFor(type).SingleOrDefault();
-            if (provider == null) 
+            if (provider == null)
             {
-                if( HasDefaultConfigurationProviderFor(type)) return ProvideDefaultConfigurationFor(type);
+                if (HasDefaultConfigurationProviderFor(type)) return ProvideDefaultConfigurationFor(type);
                 throw new MissingProviderForConfigurationObject(type);
             }
 
@@ -69,20 +66,17 @@ namespace Dolittle.Configuration
             var providerType = typeof(ICanProvideDefaultConfigurationFor<>).MakeGenericType(type);
             var actualTypes = _typeFinder.FindMultiple(providerType);
             ThrowIfMultipleDefaultProvidersFound(type, actualTypes);
-            if (actualTypes.Count() == 1) return true;
-            return false;
+            return actualTypes.Count() == 1;
         }
-
 
         object ProvideDefaultConfigurationFor(Type type)
         {
             var providerType = typeof(ICanProvideDefaultConfigurationFor<>).MakeGenericType(type);
             var actualType = _typeFinder.FindSingle(providerType);
             var instance = _container.Get(actualType);
-            var method = instance.GetType().GetMethod("Provide", BindingFlags.Public|BindingFlags.Instance);
-            var result = method.Invoke(instance, null);
-            return result;
-        }       
+            var method = instance.GetType().GetMethod("Provide", BindingFlags.Public | BindingFlags.Instance);
+            return method.Invoke(instance, null);
+        }
 
         IEnumerable<ICanProvideConfigurationObjects> GetProvidersFor(Type type)
         {
@@ -99,7 +93,6 @@ namespace Dolittle.Configuration
         {
             if (actualTypes.Count() > 1) throw new MultipleDefaultConfigurationProvidersFoundForConfigurationObject(type);
         }
-
 
         void ThrowIfMultipleProvidersCanProvide(Type type, IEnumerable<ICanProvideConfigurationObjects> providers)
         {

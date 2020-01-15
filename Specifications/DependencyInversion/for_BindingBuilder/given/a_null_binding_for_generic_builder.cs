@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.DependencyInversion.for_BindingBuilder.given
@@ -7,7 +10,7 @@ namespace Dolittle.DependencyInversion.for_BindingBuilder.given
         protected static Binding binding;
         protected static BindingBuilder<string> builder;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             binding = new Binding(typeof(string), new Strategies.Null(), new Scopes.Transient());
             builder = new BindingBuilder<string>(binding);

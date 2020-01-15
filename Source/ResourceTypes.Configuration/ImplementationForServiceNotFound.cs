@@ -1,21 +1,19 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Runtime.Serialization;
 
 namespace Dolittle.ResourceTypes.Configuration
 {
     /// <summary>
-    /// The exception that gets thrown when no implementation is found for a service
+    /// Exception that gets thrown when no implementation is found for a service.
     /// </summary>
     public class ImplementationForServiceNotFound : Exception
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="ImplementationForServiceNotFound"/>
+        /// Initializes a new instance of the <see cref="ImplementationForServiceNotFound"/> class.
         /// </summary>
-        /// <param name="service"></param>
+        /// <param name="service"><see cref="Type"/> of service.</param>
         public ImplementationForServiceNotFound(Type service)
             : base($"No implementation was found for the service {service.FullName}")
         {

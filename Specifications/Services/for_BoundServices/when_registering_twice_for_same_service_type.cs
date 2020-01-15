@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Logging;
 using Grpc.Core;
 using Machine.Specifications;
@@ -29,18 +28,18 @@ namespace Dolittle.Services.for_BoundServices
             second_service_second_type = new Service(null, ServerServiceDefinition.CreateBuilder().Build(), null);
         };
 
-        Because of = () => 
+        Because of = () =>
         {
-            bound_services.Register(service_type, new [] { first_service_first_type, second_service_first_type });
-            bound_services.Register(service_type, new [] { first_service_second_type, second_service_second_type });
+            bound_services.Register(service_type, new[] { first_service_first_type, second_service_first_type });
+            bound_services.Register(service_type, new[] { first_service_second_type, second_service_second_type });
         };
 
-        It should_hold_all_the_registered_services = () => bound_services.GetFor(service_type).ShouldContainOnly(new [] {  
-                                                                            first_service_first_type, 
+        It should_hold_all_the_registered_services = () => bound_services.GetFor(service_type).ShouldContainOnly(new[]
+                                                                        {
+                                                                            first_service_first_type,
                                                                             second_service_first_type,
-                                                                            first_service_second_type, 
-                                                                            second_service_second_type 
+                                                                            first_service_second_type,
+                                                                            second_service_second_type
                                                                         });
     }
-
 }

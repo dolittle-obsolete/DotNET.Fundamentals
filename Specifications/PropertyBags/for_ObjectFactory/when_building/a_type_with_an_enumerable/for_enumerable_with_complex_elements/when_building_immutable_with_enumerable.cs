@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Linq;
 using Dolittle.Time;
@@ -11,12 +14,13 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
         static ImmutableWithEnumerableWithComplexType enumerable_type;
         static PropertyBag source;
         static ImmutableWithEnumerableWithComplexType result;
-        Establish context = () => 
+
+        Establish context = () =>
         {
             factory = instance;
             enumerable_type = new ImmutableWithEnumerableWithComplexType(new ComplexImmutableWithMultipleParameterConstructor[]
             {
-                new ComplexImmutableWithMultipleParameterConstructor(2,"Two", DateTime.Now, new ImmutableWithMultipleParameterConstructor(3,"three", DateTime.Now, null))
+                new ComplexImmutableWithMultipleParameterConstructor(2, "Two", DateTime.Now, new ImmutableWithMultipleParameterConstructor(3, "three", DateTime.Now, null))
             });
             source = enumerable_type.ToPropertyBag();
         };

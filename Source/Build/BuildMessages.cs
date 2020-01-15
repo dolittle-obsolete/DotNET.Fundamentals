@@ -1,16 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Linq;
 using Dolittle.Lifecycle;
-using Dolittle.Strings;
 
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IBuildMessages"/>
+    /// Represents an implementation of <see cref="IBuildMessages"/>.
     /// </summary>
     [Singleton]
     public class BuildMessages : IBuildMessages
@@ -28,9 +25,8 @@ namespace Dolittle.Build
         public void Unindent()
         {
             _indentLevel--;
-            if( _indentLevel < 0 ) _indentLevel = 0;
+            if (_indentLevel < 0) _indentLevel = 0;
         }
-        
 
         /// <inheritdoc/>
         public void Trace(string message)
@@ -64,10 +60,9 @@ namespace Dolittle.Build
             Console.ResetColor();
         }
 
-
         string HandleIndentationFor(string message)
         {
-            return $"{new String(' ', IndentSize*_indentLevel)}{message}";
+            return $"{new string(' ', IndentSize * _indentLevel)}{message}";
         }
     }
 }

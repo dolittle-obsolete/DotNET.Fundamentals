@@ -1,24 +1,22 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Autofac;
-using Dolittle.Tenancy;
 
 namespace Dolittle.DependencyInversion.Autofac
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IContainer"/> specific for Autofac
+    /// Represents an implementation of <see cref="IContainer"/> specific for Autofac.
     /// </summary>
     public class Container : IContainer
     {
         readonly global::Autofac.IContainer _container;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Container"/>
+        /// Initializes a new instance of the <see cref="Container"/> class.
         /// </summary>
-        /// <param name="container"></param>
+        /// <param name="container"><see cref="global::Autofac.IContainer"/> instance.</param>
         public Container(global::Autofac.IContainer container)
         {
             _container = container;

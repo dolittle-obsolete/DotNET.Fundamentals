@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using Dolittle.IO;
@@ -11,23 +10,22 @@ using Dolittle.Serialization.Json;
 namespace Dolittle.Build
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IPerformerConfigurationManager"/>
+    /// Represents an implementation of <see cref="IPerformerConfigurationManager"/>.
     /// </summary>
     [Singleton]
     public class PerformerConfigurationManager : IPerformerConfigurationManager
     {
-        private readonly IFileSystem _fileSystem;
-        private readonly ISerializer _serializer;
-
-        private IDictionary<string, object> _configObjects;
-        private readonly IBuildMessages _buildMessages;
+        readonly IFileSystem _fileSystem;
+        readonly ISerializer _serializer;
+        readonly IBuildMessages _buildMessages;
+        IDictionary<string, object> _configObjects;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PerformerConfigurationManager"/>
+        /// Initializes a new instance of the <see cref="PerformerConfigurationManager"/> class.
         /// </summary>
-        /// <param name="buildMessages"><see cref="IBuildMessages"/> for outputting messages</param>
-        /// <param name="fileSystem"><see cref="IFileSystem"/> to use</param>
-        /// <param name="serializer">JSON <see cref="ISerializer"/></param>
+        /// <param name="buildMessages"><see cref="IBuildMessages"/> for outputting messages.</param>
+        /// <param name="fileSystem"><see cref="IFileSystem"/> to use.</param>
+        /// <param name="serializer">JSON <see cref="ISerializer"/>.</param>
         public PerformerConfigurationManager(IBuildMessages buildMessages, IFileSystem fileSystem, ISerializer serializer)
         {
             _fileSystem = fileSystem;
@@ -39,17 +37,16 @@ namespace Dolittle.Build
         public void Initialize(string jsonFile)
         {
             var json = string.Empty;
-
             try
             {
                 _buildMessages.Information($"Initializing from file '${jsonFile}'");
                 json = _fileSystem.ReadAllText(jsonFile);
                 _configObjects = _serializer.GetKeyValuesFromJson(json);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _buildMessages.Error($"Error when initializing '{jsonFile}', content: '{json}'");
-                throw ex;
+                throw;
             }
         }
 
@@ -58,8 +55,7 @@ namespace Dolittle.Build
         {
             var configObject = _configObjects[name];
             var json = _serializer.ToJson(configObject);
-            var instance = _serializer.FromJson(configurationType, json);
-            return instance;
+            return _serializer.FromJson(configurationType, json);
         }
     }
 }

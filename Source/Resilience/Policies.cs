@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ using Dolittle.Types;
 namespace Dolittle.Resilience
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IPolicies"/>
+    /// Represents an implementation of <see cref="IPolicies"/>.
     /// </summary>
     /// <remarks>
     /// For each type of policy there can only be one definition. This means there can be only
@@ -29,11 +28,11 @@ namespace Dolittle.Resilience
         readonly IDictionary<Type, IPolicy> _typedPolicies = new Dictionary<Type, IPolicy>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Policies"/>
+        /// Initializes a new instance of the <see cref="Policies"/> class.
         /// </summary>
-        /// <param name="defaultPolicyDefiners">Instances of <see cref="IDefineDefaultPolicy">default policy definers</see></param>
-        /// <param name="namedPolicyDefiners">Instances of <see cref="IDefineNamedPolicy">named policy definers</see></param>
-        /// <param name="typedPolicyDefiners">Instances of <see cref="IDefinePolicyForType">typed policy definers</see></param>
+        /// <param name="defaultPolicyDefiners">Instances of <see cref="IDefineDefaultPolicy">default policy definers</see>.</param>
+        /// <param name="namedPolicyDefiners">Instances of <see cref="IDefineNamedPolicy">named policy definers</see>.</param>
+        /// <param name="typedPolicyDefiners">Instances of <see cref="IDefinePolicyForType">typed policy definers</see>.</param>
         public Policies(
             IInstancesOf<IDefineDefaultPolicy> defaultPolicyDefiners,
             IInstancesOf<IDefineNamedPolicy> namedPolicyDefiners,
@@ -66,17 +65,8 @@ namespace Dolittle.Resilience
             if (_typedPolicies.ContainsKey(type)) return _typedPolicies[type] as IPolicyFor<T>;
             var policyFor = typeof(PolicyFor<>).MakeGenericType(type);
 
-            var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null,
-                new Type[]
-                {
-                    typeof(IPolicy)
-                },
-                new ParameterModifier[]
-                {
-                    new ParameterModifier(1)
-                });
-
-            var policy = constructor.Invoke(new [] {  Default }) as IPolicyFor<T>;
+            var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(IPolicy) }, new ParameterModifier[] { new ParameterModifier(1) });
+            var policy = constructor.Invoke(new[] { Default }) as IPolicyFor<T>;
             _typedPolicies[type] = policy;
             return policy;
         }
@@ -85,7 +75,7 @@ namespace Dolittle.Resilience
         {
             ThrowIfMultipleDefaultPoilicyDefinersAreFound();
             var underlyingPolicy = _defaultPolicyDefiners.FirstOrDefault()?.Define();
-            var policy = underlyingPolicy != null ? (IPolicy) new Policy(underlyingPolicy) : new PassThroughPolicy();
+            var policy = underlyingPolicy != null ? (IPolicy)new Policy(underlyingPolicy) : new PassThroughPolicy();
 
             return policy;
         }
@@ -105,17 +95,9 @@ namespace Dolittle.Resilience
             {
                 ThrowIfMultiplePolicyForTypeFound(_.Type);
                 var policyFor = typeof(PolicyFor<>).MakeGenericType(_.Type);
-                var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null,
-                    new Type[]
-                    {
-                        typeof(Polly.Policy)
-                    },
-                    new ParameterModifier[]
-                    {
-                        new ParameterModifier(1)
-                    });
+                var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(Polly.Policy) }, new ParameterModifier[] { new ParameterModifier(1) });
 
-                _typedPolicies[_.Type] = constructor.Invoke(new [] {  _.Define() }) as IPolicy;
+                _typedPolicies[_.Type] = constructor.Invoke(new[] { _.Define() }) as IPolicy;
             });
         }
 

@@ -1,30 +1,31 @@
-﻿/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
-using Dolittle.Lifecycle;
 using Dolittle.Collections;
+using Dolittle.Lifecycle;
 
 namespace Dolittle.Logging
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ILogAppenders"/>
+    /// Represents an implementation of <see cref="ILogAppenders"/>.
     /// </summary>
     [Singleton]
     public class LogAppenders : ILogAppenders
     {
-        List<ILogAppender> _appenders = new List<ILogAppender>();
+        readonly List<ILogAppender> _appenders = new List<ILogAppender>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="LogAppenders"/>
+        /// Initializes a new instance of the <see cref="LogAppenders"/> class.
         /// </summary>
-        /// <param name="logAppendersConfigurators"><see cref="IEnumerable{T}">Instances of <see cref="ICanConfigureLogAppenders"/></see></param>
-        /// <param name="defaultLogAppender">Default <see cref="ILogAppender"/> - if any - optional</param>
-        public LogAppenders(IEnumerable<ICanConfigureLogAppenders> logAppendersConfigurators, ILogAppender defaultLogAppender = null)
+        /// <param name="logAppendersConfigurators"><see cref="IEnumerable{T}">Instances of <see cref="ICanConfigureLogAppenders"/></see>.</param>
+        /// <param name="defaultLogAppender">Default <see cref="ILogAppender"/> - if any - optional.</param>
+        public LogAppenders(
+            IEnumerable<ICanConfigureLogAppenders> logAppendersConfigurators,
+            ILogAppender defaultLogAppender = null)
         {
-            if( defaultLogAppender != null ) Add(defaultLogAppender);
+            if (defaultLogAppender != null) Add(defaultLogAppender);
             logAppendersConfigurators.ForEach(l => l.Configure(this));
         }
 
@@ -44,7 +45,13 @@ namespace Dolittle.Logging
         }
 
         /// <inheritdoc/>
-        public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
+        public void Append(
+            string filePath,
+            int lineNumber,
+            string member,
+            LogLevel level,
+            string message,
+            Exception exception = null)
         {
             _appenders.ForEach(l =>
             {

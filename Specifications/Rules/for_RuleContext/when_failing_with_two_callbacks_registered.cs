@@ -1,11 +1,14 @@
-﻿using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
 namespace Dolittle.Rules.for_RuleContext
 {
-    public class when_failing_with_two_callbacks_registered 
+    public class when_failing_with_two_callbacks_registered
     {
         static RuleContext rule_context;
         static Mock<IRule> rule_mock;
@@ -20,7 +23,7 @@ namespace Dolittle.Rules.for_RuleContext
         {
             rule_mock = new Mock<IRule>();
             instance = new object();
-            reason = Reason.Create(Guid.NewGuid().ToString(),"Some reason");
+            reason = Reason.Create(Guid.NewGuid().ToString(), "Some reason");
             cause = reason.NoArgs();
             rule_context = new RuleContext(instance);
 

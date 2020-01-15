@@ -1,4 +1,6 @@
-﻿using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
@@ -14,8 +16,8 @@ namespace Dolittle.Security.Specs.for_SecurityDescriptor
 
         public when_checking_can_authorize_with_no_targets_that_can_authorize()
         {
-            action_that_cannot_authorize = new MySecurityAction(o => false,o => null);
-            another_action_that_cannot_authorize = new MySecurityAction(o => false,o => null);
+            action_that_cannot_authorize = new MySecurityAction(o => false, o => null);
+            another_action_that_cannot_authorize = new MySecurityAction(o => false, o => null);
 
             descriptor = new SecurityDescriptor();
             descriptor.AddAction(another_action_that_cannot_authorize);

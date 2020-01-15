@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_with_an_enumerable.for_enumerable_with_primitive_elements
@@ -8,7 +11,8 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
         static ImmutableWithEnumerableWithPrimitiveType enumerable_type;
         static PropertyBag source;
         static ImmutableWithEnumerableWithPrimitiveType result;
-        Establish context = () => 
+
+        Establish context = () =>
         {
             factory = instance;
             enumerable_type = new ImmutableWithEnumerableWithPrimitiveType(new string[]
@@ -24,7 +28,5 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
         It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<ImmutableWithEnumerableWithPrimitiveType>();
 
         It enumerable_should_not_be_null = () => result.Enumerable.ShouldNotBeNull();
-
-        //TODO: CHeck the actual content of the Enumerable
     }
 }

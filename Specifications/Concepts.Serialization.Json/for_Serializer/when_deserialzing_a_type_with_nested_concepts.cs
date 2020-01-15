@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.Serialization.Json;
 using Machine.Specifications;
@@ -15,19 +18,19 @@ namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
         Establish context = () =>
                                 {
                                     concepts = new ClassWithConcepts()
-                                                   {
-                                                       GuidConcept = Guid.NewGuid(),
-                                                       StringConcept = "BlahBlahBlah",
-                                                       LongConcept = long.MaxValue
-                                                   };
+                                    {
+                                        GuidConcept = Guid.NewGuid(),
+                                        StringConcept = "BlahBlahBlah",
+                                        LongConcept = long.MaxValue
+                                    };
 
                                     to_serialize = new ClassWithNestedConcepts()
-                                                       {
-                                                           GuidConcept = concepts.GuidConcept,
-                                                           StringConcept = concepts.StringConcept,
-                                                           LongConcept = concepts.LongConcept,
-                                                           NestedConcepts = concepts
-                                                       };
+                                    {
+                                        GuidConcept = concepts.GuidConcept,
+                                        StringConcept = concepts.StringConcept,
+                                        LongConcept = concepts.LongConcept,
+                                        NestedConcepts = concepts
+                                    };
 
                                     serialized_version = serializer.ToJson(to_serialize);
                                 };
@@ -37,6 +40,7 @@ namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer
         It should_contain_the_guid_concept = () => deserialized_version.GuidConcept.Value.ShouldEqual(to_serialize.GuidConcept.Value);
         It should_contain_the_long_concept = () => deserialized_version.LongConcept.Value.ShouldEqual(to_serialize.LongConcept.Value);
         It should_contain_the_string_concept = () => deserialized_version.StringConcept.Value.ShouldEqual(to_serialize.StringConcept.Value);
+
         It should_contain_the_nested_concepts = () =>
                                                     {
                                                         deserialized_version.NestedConcepts.GuidConcept.Value.ShouldEqual(to_serialize.GuidConcept.Value);

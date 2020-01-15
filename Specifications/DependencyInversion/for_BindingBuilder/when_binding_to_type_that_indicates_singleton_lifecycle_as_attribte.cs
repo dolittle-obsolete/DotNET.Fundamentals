@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Lifecycle;
 using Machine.Specifications;
 
@@ -6,11 +9,11 @@ namespace Dolittle.DependencyInversion.for_BindingBuilder
     public class when_binding_to_type_that_indicates_singleton_lifecycle_as_attribte : given.a_null_binding
     {
         [Singleton]
-        public class MyType {}
+        class MyType { }
 
         static Binding result;
 
-        Because of = () => 
+        Because of = () =>
         {
             builder.To(typeof(MyType));
             result = builder.Build();

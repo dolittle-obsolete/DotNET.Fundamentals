@@ -1,10 +1,10 @@
-﻿namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_mutable_type_with_multiple_constructors
-{
-    using Machine.Specifications;
-    using Dolittle.PropertyBags;
-    using Dolittle.PropertyBags.Specs;
-    using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Machine.Specifications;
+
+namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_mutable_type_with_multiple_constructors
+{
     [Subject(typeof(ObjectFactory), "Build")]
     public class using_a_parameterized_constructor_and_property_setters : given.an_object_factory
     {
@@ -15,18 +15,22 @@
         static PropertyBag source_for_string_ctor;
         static object result_from_int;
         static object result_from_string;
-        Establish context = () => 
+
+        Establish context = () =>
         {
             factory = instance;
-            mutable_type_using_int_ctor = new MutableTypeWithMultipleConstructors(42);
-            mutable_type_using_int_ctor.NullableLong = 180;
+            mutable_type_using_int_ctor = new MutableTypeWithMultipleConstructors(42)
+            {
+                NullableLong = 180
+            };
             source_for_int_ctor = mutable_type_using_int_ctor.ToPropertyBag();
 
             mutable_type_using_string_ctor = new MutableTypeWithMultipleConstructors("I think the phrase rhymes with 'Clucking Bell'");
             source_for_string_ctor = mutable_type_using_string_ctor.ToPropertyBag();
         };
 
-        Because of = () => {
+        Because of = () =>
+        {
             result_from_int = factory.Build(typeof(MutableTypeWithMultipleConstructors), source_for_int_ctor);
             result_from_string = factory.Build(typeof(MutableTypeWithMultipleConstructors), source_for_string_ctor);
         };

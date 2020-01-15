@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using Machine.Specifications;
 
@@ -11,9 +14,10 @@ namespace Dolittle.Booting.for_BootStageBuilder.given
 
         protected static object second_value = "SecondValue";
 
-        Establish context = () => 
+        Establish context = () =>
         {
-            builder = new BootStageBuilder(initialAssociations:new Dictionary<string, object> {
+            builder = new BootStageBuilder(initialAssociations: new Dictionary<string, object>
+            {
                 { first_key, first_value },
                 { second_key, second_value }
             });

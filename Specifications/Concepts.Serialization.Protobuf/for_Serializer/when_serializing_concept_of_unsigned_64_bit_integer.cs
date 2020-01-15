@@ -1,7 +1,8 @@
-using System;
-using Dolittle.Concepts;
-using Machine.Specifications;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Serialization.Protobuf;
+using Machine.Specifications;
 
 namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer
 {
@@ -9,7 +10,7 @@ namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer
     {
         class type_for_serialization
         {
-            public ConceptAs<UInt64> concept {  get; set; }
+            public ConceptAs<ulong> concept { get; set; }
         }
 
         static type_for_serialization original;
@@ -17,7 +18,7 @@ namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer
 
         Establish context = () =>
         {
-            original = new type_for_serialization {concept = new ConceptAs<UInt64> { Value = UInt64.MaxValue }};
+            original = new type_for_serialization { concept = new ConceptAs<ulong> { Value = ulong.MaxValue } };
             message_descriptions.Setup(_ => _.GetFor<type_for_serialization>()).Returns(MessageDescription.DefaultFor<type_for_serialization>());
         };
 
@@ -28,5 +29,5 @@ namespace Dolittle.Concepts.Serialization.Protobuf.for_Serializer
         };
 
         It should_hold_the_correct_value = () => deserialized.concept.ShouldEqual(original.concept);
-    }    
+    }
 }

@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +14,17 @@ using Dolittle.Reflection;
 namespace Dolittle.DependencyInversion.Autofac.Tenancy
 {
     /// <summary>
-    /// Represents a <see cref="IRegistrationSource"/> that deals with 
+    /// Represents a <see cref="IRegistrationSource"/> that deals with.
     /// </summary>
     public class BindingsPerTenantsRegistrationSource : IRegistrationSource
     {
-        static List<Binding> _bindings = new List<Binding>();
+        static readonly List<Binding> _bindings = new List<Binding>();
         readonly InstancesPerTenant _instancesPerTenant;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BindingsPerTenantsRegistrationSource"/>
+        /// Initializes a new instance of the <see cref="BindingsPerTenantsRegistrationSource"/> class.
         /// </summary>
-        /// <param name="instancesPerTenant"></param>
+        /// <param name="instancesPerTenant">The <see cref="InstancesPerTenant"/>.</param>
         public BindingsPerTenantsRegistrationSource(InstancesPerTenant instancesPerTenant)
         {
             _instancesPerTenant = instancesPerTenant;
@@ -35,9 +34,9 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
         public bool IsAdapterForIndividualComponents => false;
 
         /// <summary>
-        /// Add a <see cref="Binding"/> for the registration source to use
+        /// Add a <see cref="Binding"/> for the registration source to use.
         /// </summary>
-        /// <param name="binding"><see cref="Binding"/> to add</param>
+        /// <param name="binding"><see cref="Binding"/> to add.</param>
         public static void AddBinding(Binding binding)
         {
             _bindings.Add(binding);
@@ -46,8 +45,7 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
         /// <inheritdoc/>
         public IEnumerable<IComponentRegistration> RegistrationsFor(Service service, Func<Service, IEnumerable<IComponentRegistration>> registrationAccessor)
         {
-            var serviceWithType = service as IServiceWithType;
-            if( serviceWithType == null ) return Enumerable.Empty<IComponentRegistration>();
+            if (!(service is IServiceWithType serviceWithType)) return Enumerable.Empty<IComponentRegistration>();
 
             if (serviceWithType.ServiceType.HasAttribute<SingletonPerTenantAttribute>() &&
                 (!HasService(serviceWithType.ServiceType) &&
@@ -56,33 +54,36 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
                 AddBinding(new Binding(serviceWithType.ServiceType, new Strategies.Type(serviceWithType.ServiceType), new Scopes.Transient()));
             }
 
-            if( serviceWithType == null ||
+            if (serviceWithType == null ||
                 (!HasService(serviceWithType.ServiceType) &&
                 !IsGenericAndHasGenericService(serviceWithType.ServiceType)))
+            {
                 return Enumerable.Empty<IComponentRegistration>();
+            }
 
             var registration = new ComponentRegistration(
                 Guid.NewGuid(),
-
-                new DelegateActivator(serviceWithType.ServiceType, 
-                    (c, p) => 
+#pragma warning disable CA2000
+                new DelegateActivator(
+                    serviceWithType.ServiceType,
+                    (c, p) =>
                         _instancesPerTenant.Resolve(c, GetBindingFor(serviceWithType.ServiceType), serviceWithType.ServiceType)),
+#pragma warning restore CA2000
 
                 new CurrentScopeLifetime(),
                 InstanceSharing.None,
                 InstanceOwnership.OwnedByLifetimeScope,
                 new[] { service },
-                new Dictionary<string, object>()
-            );
-            
-            return new[] { registration };
+                new Dictionary<string, object>());
+
+            return new[] { registration };
         }
 
         bool HasService(Type service)
         {
             return _bindings.Any(_ => _.Service == service);
         }
-        
+
         bool IsGenericAndHasGenericService(Type service)
         {
             return service.IsGenericType && _bindings.Any(_ => _.Service == service.GetGenericTypeDefinition());
@@ -91,9 +92,9 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
         Binding GetBindingFor(Type service)
         {
             var binding = _bindings.SingleOrDefault(_ => _.Service == service);
-            if( binding == null && service.IsGenericType) binding = _bindings.Single(_ => _.Service == service.GetGenericTypeDefinition());
-            if( binding == null ) throw new ArgumentException($"Couldn't find a binding for service {service.AssemblyQualifiedName}");
+            if (binding == null && service.IsGenericType) binding = _bindings.Single(_ => _.Service == service.GetGenericTypeDefinition());
+            if (binding == null) throw new UnableToFindBindingForService(service);
             return binding;
         }
-   }
+    }
 }
