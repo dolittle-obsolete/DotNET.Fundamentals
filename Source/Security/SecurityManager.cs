@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Linq;
 using Dolittle.Lifecycle;
@@ -10,7 +9,7 @@ using Dolittle.Types;
 namespace Dolittle.Security
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ISecurityManager"/>
+    /// Represents an implementation of <see cref="ISecurityManager"/>.
     /// </summary>
     [Singleton]
     public class SecurityManager : ISecurityManager
@@ -18,16 +17,17 @@ namespace Dolittle.Security
         readonly IEnumerable<ISecurityDescriptor> _securityDescriptors;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SecurityManager"/>
+        /// Initializes a new instance of the <see cref="SecurityManager"/> class.
         /// </summary>
-        /// <param name="securityDescriptors"><see cref="IInstancesOf{ISecurityDescriptor}">Instances of security descriptors</see></param>
+        /// <param name="securityDescriptors"><see cref="IInstancesOf{ISecurityDescriptor}">Instances of security descriptors</see>.</param>
         public SecurityManager(IInstancesOf<ISecurityDescriptor> securityDescriptors)
         {
             _securityDescriptors = securityDescriptors;
         }
 
         /// <inheritdoc/>
-        public AuthorizationResult Authorize<T>(object target) where T : ISecurityAction
+        public AuthorizationResult Authorize<T>(object target)
+            where T : ISecurityAction
         {
             var result = new AuthorizationResult();
             if (!_securityDescriptors.Any())
@@ -38,7 +38,7 @@ namespace Dolittle.Security
             if (!applicableSecurityDescriptors.Any())
                 return result;
 
-            foreach(var securityDescriptor in applicableSecurityDescriptors)
+            foreach (var securityDescriptor in applicableSecurityDescriptors)
                 result.ProcessAuthorizeDescriptorResult(securityDescriptor.Authorize(target));
 
             return result;

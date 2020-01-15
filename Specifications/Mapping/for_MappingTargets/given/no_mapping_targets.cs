@@ -1,6 +1,9 @@
-﻿using Dolittle.Mapping;
-using Machine.Specifications;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Linq;
+using Machine.Specifications;
 
 namespace Dolittle.Mapping.Specs.for_MappingTargets.given
 {
@@ -10,7 +13,7 @@ namespace Dolittle.Mapping.Specs.for_MappingTargets.given
 
         Establish context = () =>
         {
-            mapping_targets_mock.Setup(m => m.GetEnumerator()).Returns(new IMappingTarget[0].AsEnumerable().GetEnumerator());
+            mapping_targets_mock.Setup(m => m.GetEnumerator()).Returns(Array.Empty<IMappingTarget>().AsEnumerable().GetEnumerator());
             targets = new MappingTargets(mapping_targets_mock.Object);
         };
     }

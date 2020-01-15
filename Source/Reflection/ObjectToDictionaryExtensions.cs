@@ -1,38 +1,38 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using System;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
+#pragma warning disable DL0008
+
 namespace Dolittle.Reflection
 {
     /// <summary>
-    /// Provides extension methods for converting any <see cref="object"/> to a <see cref="IDictionary"/>
+    /// Provides extension methods for converting any <see cref="object"/> to a <see cref="IDictionary"/>.
     /// </summary>
     public static class ObjectToDictionaryExtensions
     {
         /// <summary>
-        /// Convert an <see cref="object"/> to a <see cref="IDictionary"/>
+        /// Convert an <see cref="object"/> to a <see cref="IDictionary"/>.
         /// </summary>
-        /// <param name="source"><see cref="Object"/> to turn into a dictionary</param>
-        /// <returns><see cref="IDictionary"/> with all keys and values</returns>
+        /// <param name="source"><see cref="object"/> to turn into a dictionary.</param>
+        /// <returns><see cref="IDictionary"/> with all keys and values.</returns>
         public static IDictionary<string, object> ToDictionary(this object source)
         {
             return source.ToDictionary<object>();
         }
 
         /// <summary>
-        /// Convert an <see cref="object"/> to a <see cref="IDictionary"/>
+        /// Convert an <see cref="object"/> to a <see cref="IDictionary"/>.
         /// </summary>
-        /// <param name="source"><see cref="Object"/> to turn into a dictionary</param>
-        /// <returns><see cref="IDictionary"/> with all keys and values</returns>
+        /// <typeparam name="T">Type of value.</typeparam>
+        /// <param name="source"><see cref="object"/> to turn into a dictionary.</param>
+        /// <returns><see cref="IDictionary"/> with all keys and values.</returns>
         public static IDictionary<string, T> ToDictionary<T>(this object source)
         {
-            if (source == null)
-                ThrowExceptionIfSourceArgumentIsNull();
+            ThrowIfSourceArgumentIsNull(source);
 
             var dictionary = new Dictionary<string, T>();
             foreach (var property in source.GetType().GetTypeInfo().GetProperties())
@@ -53,9 +53,9 @@ namespace Dolittle.Reflection
             return value is T;
         }
 
-        static void ThrowExceptionIfSourceArgumentIsNull()
+        static void ThrowIfSourceArgumentIsNull(object source)
         {
-            throw new ArgumentNullException("source", "Unable to convert object to a dictionary. The source object is null.");
+            if (source == null) throw new SourceObjectCannotBeNull();
         }
     }
 }

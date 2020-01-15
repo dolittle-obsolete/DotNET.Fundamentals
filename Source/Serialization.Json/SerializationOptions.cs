@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -9,48 +8,34 @@ using Newtonsoft.Json;
 namespace Dolittle.Serialization.Json
 {
     /// <summary>
-    /// Represents the options for serialization
+    /// Represents the options for serialization.
     /// </summary>
     public class SerializationOptions : ISerializationOptions
     {
         /// <summary>
-        /// The default serialization options
+        /// The default serialization options.
         /// </summary>
-        /// <returns>An instance of <see cref="ISerializationOptions"/></returns>
+        /// <returns>An instance of <see cref="ISerializationOptions"/>.</returns>
         public static readonly ISerializationOptions Default = new SerializationOptions(SerializationOptionsFlags.None);
 
         /// <summary>
-        /// Serialization options for using camel case
+        /// Serialization options for using camel case.
         /// </summary>
-        /// <returns>An instance of <see cref="ISerializationOptions"/></returns>
+        /// <returns>An instance of <see cref="ISerializationOptions"/>.</returns>
         public static readonly ISerializationOptions CamelCase = new SerializationOptions(SerializationOptionsFlags.UseCamelCase);
 
         /// <summary>
-        /// Serialization options for including type names
+        /// Serialization options for including type names.
         /// </summary>
-        /// <returns>An instance of <see cref="ISerializationOptions"/></returns>
+        /// <returns>An instance of <see cref="ISerializationOptions"/>.</returns>
         public static readonly ISerializationOptions IncludeTypeNames = new SerializationOptions(SerializationOptionsFlags.IncludeTypeNames);
 
         /// <summary>
-        /// Create a custom <see cref="SerializationOptions"/>
+        /// Initializes a new instance of the <see cref="SerializationOptions"/> class.
         /// </summary>
-        /// <param name="flags"><see cref="SerializationOptionsFlags"/> to use</param>
-        /// <param name="converters">Any <see cref="IEnumerable{JsonConverter}">converters</see> to use</param>
-        /// <param name="callback">A callback for working directly with the <see cref="JsonSerializer"/> for configuring how the serializer works</param>
-        /// <returns>An instance of <see cref="SerializationOptions"/></returns>
-        public static ISerializationOptions Custom(SerializationOptionsFlags flags=SerializationOptionsFlags.None, IEnumerable<JsonConverter> converters=null, Action<JsonSerializer> callback=null)
-        {
-            return new SerializationOptions(flags, converters, callback);
-        }
-
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="SerializationOptions"/>
-        /// </summary>
-        /// <param name="flags">The serialization flags</param>
-        /// <param name="converters">A collection of additional <see cref="JsonConverter">converters</see></param>
-        /// <param name="callback">A callback for working directly with the <see cref="JsonSerializer"/> for configuring how the serializer works</param>
-        /// <param name="ignoreDefaultConverters">Wether or not to ingore the default discovered Json converters</param>
+        /// <param name="flags">The serialization flags.</param>
+        /// <param name="converters">A collection of additional <see cref="JsonConverter">converters</see>.</param>
+        /// <param name="callback">A callback for working directly with the <see cref="JsonSerializer"/> for configuring how the serializer works.</param>
         /// <remarks>
         /// All instances of this class or subclasses must be immutable, because mapping from
         /// serialization options to contract resolvers are cached for performance reasons.
@@ -58,25 +43,16 @@ namespace Dolittle.Serialization.Json
         protected SerializationOptions(
             SerializationOptionsFlags flags,
             IEnumerable<JsonConverter> converters = null,
-            Action<JsonSerializer> callback = null,
-            bool ignoreDefaultConverters = false)
+            Action<JsonSerializer> callback = null)
         {
             Flags = flags;
-            if( converters == null ) Converters = new JsonConverter[0];
-            else Converters = converters;
+            Converters = converters ?? Array.Empty<JsonConverter>();
 
-            if( callback == null ) Callback = (o) => {};
-            else Callback = callback;
+            Callback = callback ?? (_ => { });
         }
 
         /// <inheritdoc/>
-        public virtual bool ShouldSerializeProperty(Type type, string propertyName)
-        {
-            return true;
-        }
-
-        /// <inheritdoc/>
-        public SerializationOptionsFlags Flags { get; private set; }
+        public SerializationOptionsFlags Flags { get; }
 
         /// <inheritdoc/>
         public IEnumerable<JsonConverter> Converters { get; }
@@ -86,5 +62,26 @@ namespace Dolittle.Serialization.Json
 
         /// <inheritdoc/>
         public bool IgnoreDiscoveredConverters { get; }
+
+        /// <summary>
+        /// Create a custom <see cref="SerializationOptions"/>.
+        /// </summary>
+        /// <param name="flags"><see cref="SerializationOptionsFlags"/> to use.</param>
+        /// <param name="converters">Any <see cref="IEnumerable{JsonConverter}">converters</see> to use.</param>
+        /// <param name="callback">A callback for working directly with the <see cref="JsonSerializer"/> for configuring how the serializer works.</param>
+        /// <returns>An instance of <see cref="SerializationOptions"/>.</returns>
+        public static ISerializationOptions Custom(
+            SerializationOptionsFlags flags = SerializationOptionsFlags.None,
+            IEnumerable<JsonConverter> converters = null,
+            Action<JsonSerializer> callback = null)
+        {
+            return new SerializationOptions(flags, converters, callback);
+        }
+
+        /// <inheritdoc/>
+        public virtual bool ShouldSerializeProperty(Type type, string propertyName)
+        {
+            return true;
+        }
     }
 }

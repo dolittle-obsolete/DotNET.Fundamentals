@@ -1,10 +1,12 @@
-﻿using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Concepts;
 using Machine.Specifications;
 
 namespace Dolittle.Specs.Concepts.for_ConceptExtensions
 {
-    [Subject(typeof (ConceptExtensions))]
+    [Subject(typeof(ConceptExtensions))]
     public class when_checking_is_concept_on_a_concept : Dolittle.Specs.Concepts.given.concepts
     {
         static bool is_a_concept;

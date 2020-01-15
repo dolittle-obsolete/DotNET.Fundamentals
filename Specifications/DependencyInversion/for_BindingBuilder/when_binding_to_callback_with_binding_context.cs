@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Machine.Specifications;
 
@@ -8,7 +11,7 @@ namespace Dolittle.DependencyInversion.for_BindingBuilder
         static Binding result;
         static Func<BindingContext, object> callback = (bindingContext) => "result";
 
-        Because of = () => 
+        Because of = () =>
         {
             builder.To(callback);
             result = builder.Build();

@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq;
 using Machine.Specifications;
-using Dolittle.Security;
 using Moq;
 using It = Machine.Specifications.It;
-
 
 namespace Dolittle.Security.Specs.for_UserSecurityActorExtensions
 {

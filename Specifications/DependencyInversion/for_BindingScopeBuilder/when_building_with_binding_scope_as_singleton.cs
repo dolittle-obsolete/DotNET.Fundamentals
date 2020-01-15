@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.DependencyInversion.Scopes;
 using Machine.Specifications;
 
@@ -7,7 +10,7 @@ namespace Dolittle.DependencyInversion.for_BindingScopeBuilder
     {
         static Binding result;
 
-        Because of = () => 
+        Because of = () =>
         {
             builder.Singleton();
             result = builder.Build();

@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Linq;
 using Machine.Specifications;
 
@@ -7,7 +10,7 @@ namespace Dolittle.DependencyInversion.for_BindingProviderBuilder
     {
         static IBindingCollection result;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             builder.Bind(typeof(string));
             builder.Bind(typeof(object));

@@ -1,19 +1,18 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 namespace Dolittle.DependencyInversion.Booting
 {
     /// <summary>
-    /// Represents the result of booting
+    /// Represents the result of booting.
     /// </summary>
     public class BootResult
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="BootResult"/>
+        /// Initializes a new instance of the <see cref="BootResult"/> class.
         /// </summary>
-        /// <param name="container">Configured <see cref="IContainer"/></param>
-        /// <param name="bindings">Configured <see cref="IBindingCollection">bindings</see></param>
+        /// <param name="container">Configured <see cref="IContainer"/>.</param>
+        /// <param name="bindings">Configured <see cref="IBindingCollection">bindings</see>.</param>
         public BootResult(IContainer container, IBindingCollection bindings)
         {
             Container = container;
@@ -21,13 +20,13 @@ namespace Dolittle.DependencyInversion.Booting
         }
 
         /// <summary>
-        /// Gets the <see cref="IContainer"/> configured
+        /// Gets the <see cref="IContainer"/> configured.
         /// </summary>
-        public IContainer Container { get; }
+        public IContainer Container { get; }
 
         /// <summary>
-        /// Gets the <see cref="IBindingCollection">bindings</see> set up during boot
+        /// Gets the <see cref="IBindingCollection">bindings</see> set up during boot.
         /// </summary>
-        public IBindingCollection Bindings { get; }
+        public IBindingCollection Bindings { get; }
     }
 }

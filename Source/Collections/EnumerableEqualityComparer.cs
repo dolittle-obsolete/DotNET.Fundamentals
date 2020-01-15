@@ -1,67 +1,68 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Dolittle.Collections
 {
-	
-	/// <summary>
-	/// Compares to enumerables and returns true if the same elements are in both collections in the same order
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
+    /// <summary>
+    /// Compares to enumerables and returns true if the same elements are in both collections in the same order.
+    /// </summary>
+    /// <typeparam name="T">Type that gets compared.</typeparam>
     public class EnumerableEqualityComparer<T> : IEqualityComparer<IEnumerable<T>>
-	{
-		/// http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
-		
-		/// <summary>
-		/// Generates a hashcode for the enumberable, utilising the hashcode of each element
-		/// </summary>
-		/// <param name="enumerable">The enumerable to generte the hashcode for</param>
-		/// <returns>The hashcode value</returns>
-		public int GetHashCode(IEnumerable<T> enumerable)
-		{
-			if (enumerable != null)
-			{
-				unchecked
-				{
-					int hash = 17;
-					foreach (var item in enumerable)
-					{
-						hash = hash * 23 + ((item != null) ? item.GetHashCode() : 0);
-					}
+    {
+        /// <summary>
+        /// Generates a hashcode for the enumberable, utilising the hashcode of each element.
+        /// </summary>
+        /// <param name="enumerable">The enumerable to generte the hashcode for.</param>
+        /// <returns>The hashcode value.</returns>
+        /// <remarks>
+        /// Inspired by:
+        /// http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode.
+        /// </remarks>
+        public int GetHashCode(IEnumerable<T> enumerable)
+        {
+            if (enumerable != null)
+            {
+                unchecked
+                {
+                    int hash = 17;
+                    foreach (var item in enumerable)
+                    {
+                        hash = (hash * 23) + ((item != null) ? item.GetHashCode() : 0);
+                    }
 
-					return hash;
-				}
-			}
-			return 0;
-		}
+                    return hash;
+                }
+            }
 
-		/// <summary>
-		/// Equates two IEnumerable{T}s 
-		/// </summary>
-		/// <param name="first">First Enumerable</param>
-		/// <param name="second">Second Enumerable</param>
-		/// <returns>True if the exact same elements, in the same order, are in both enumerables</returns>
-		public bool Equals(IEnumerable<T> first, IEnumerable<T> second)
-		{
-			if (object.ReferenceEquals(first, second) || (first == null && second == null) )
-			{
-				return true;
-			}
+            return 0;
+        }
 
-			if(first == null || second == null)
-				return false;
+        /// <summary>
+        /// Equates two <see cref="IEnumerable{T}">enumerables</see>.
+        /// </summary>
+        /// <param name="left">Left <see cref="IEnumerable{T}"/>.</param>
+        /// <param name="right">Right <see cref="IEnumerable{T}"/>.</param>
+        /// <returns>True if the exact same elements, in the same order, are in both enumerables.</returns>
+        public bool Equals(IEnumerable<T> left, IEnumerable<T> right)
+        {
+            if (object.ReferenceEquals(left, right) || (left == null && right == null))
+            {
+                return true;
+            }
 
-            var firstArray = first.ToArray();
-            var secondArray = second.ToArray();
-
-            if(firstArray.Length != secondArray.Length)
+            if (left == null || right == null)
                 return false;
 
-            for (int i = 0; i < firstArray.Count(); i++)
+            var firstArray = left.ToArray();
+            var secondArray = right.ToArray();
+
+            if (firstArray.Length != secondArray.Length)
+                return false;
+
+            for (int i = 0; i < firstArray.Length; i++)
             {
                 if (!object.Equals(firstArray[i], secondArray[i]))
                 {
@@ -70,8 +71,6 @@ namespace Dolittle.Collections
             }
 
             return true;
-		}
-	} 
+        }
+    }
 }
-
-

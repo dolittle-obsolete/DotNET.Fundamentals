@@ -1,28 +1,27 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Dolittle.Collections;
 using Dolittle.Lifecycle;
 using Dolittle.Logging;
-using Grpc.Core;
 
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IBoundServices"/>
+    /// Represents an implementation of <see cref="IBoundServices"/>.
     /// </summary>
     [Singleton]
     public class BoundServices : IBoundServices
     {
-        readonly ConcurrentDictionary<ServiceType, List<Service>>    _servicesPerServiceType = new  ConcurrentDictionary<ServiceType, List<Service>>();
+        readonly ConcurrentDictionary<ServiceType, List<Service>> _servicesPerServiceType = new ConcurrentDictionary<ServiceType, List<Service>>();
         readonly ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BoundServices"/>
+        /// Initializes a new instance of the <see cref="BoundServices"/> class.
         /// </summary>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public BoundServices(ILogger logger)
         {
             _logger = logger;
@@ -31,12 +30,9 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Register(ServiceType type, IEnumerable<Service> services)
         {
-            services.ForEach(service => 
-            {
-                _logger.Information($"Registering bound service '{service.Descriptor?.Name ?? "unknown"}'");
-            });
+            services.ForEach(service => _logger.Information($"Registering bound service '{service.Descriptor?.Name ?? "unknown"}'"));
 
-            if( !_servicesPerServiceType.ContainsKey(type) ) _servicesPerServiceType[type] = new List<Service>();
+            if (!_servicesPerServiceType.ContainsKey(type)) _servicesPerServiceType[type] = new List<Service>();
             _servicesPerServiceType[type].AddRange(services);
         }
 

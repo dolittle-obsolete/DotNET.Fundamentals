@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using Dolittle.Concepts;
 using Dolittle.Specs.Concepts.given;
 using Machine.Specifications;
@@ -13,6 +16,6 @@ namespace Dolittle.Specs.Concepts.for_ConceptExtensions
 
         Because of = () => exception = Catch.Exception(() => primitive_value.GetConceptValue());
 
-        It should_throw_an_argument_exception = () => exception.ShouldBeOfExactType<ArgumentException>();
+        It should_throw_an_argument_exception = () => exception.ShouldBeOfExactType<TypeIsNotAConcept>();
     }
 }

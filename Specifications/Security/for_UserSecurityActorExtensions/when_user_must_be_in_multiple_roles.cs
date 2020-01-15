@@ -1,19 +1,20 @@
-﻿using System.Linq;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq;
 using Machine.Specifications;
-using Dolittle.Security;
 using Moq;
 using It = Machine.Specifications.It;
-
 
 namespace Dolittle.Security.Specs.for_UserSecurityActorExtensions
 {
     public class when_user_must_be_in_multiple_roles
     {
-        static UserSecurityActor    actor;
+        static UserSecurityActor actor;
 
         Establish context = () => actor = new UserSecurityActor(Mock.Of<ICanResolvePrincipal>());
 
-        Because of = () => actor.MustBeInRoles("Something","SomethingElse");
+        Because of = () => actor.MustBeInRoles("Something", "SomethingElse");
 
         It should_add_only_role_rules_to_the_actor = () => actor.Rules.All(c => c.GetType() == typeof(RoleRule)).ShouldBeTrue();
         It should_add_two_role_rules_to_the_actor = () => actor.Rules.Count(c => c.GetType() == typeof(RoleRule)).ShouldEqual(2);

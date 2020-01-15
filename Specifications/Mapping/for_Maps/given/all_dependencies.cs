@@ -1,4 +1,7 @@
-﻿using Dolittle.Mapping;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Dolittle.Mapping;
 using Dolittle.Types;
 using Machine.Specifications;
 using Moq;

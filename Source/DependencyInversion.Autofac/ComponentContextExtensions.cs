@@ -1,8 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
- 
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +9,21 @@ using Autofac.Core;
 
 namespace Dolittle.DependencyInversion.Autofac
 {
-    // Taken from https://stackoverflow.com/a/6994144
-
     /// <summary>
-    /// Extension methods for 
+    /// Extension methods for <see cref="IComponentContext"/>.
     /// </summary>
+    /// <remarks>
+    /// Taken from https://stackoverflow.com/a/6994144.
+    /// </remarks>
     public static class ComponentContextExtensions
     {
         /// <summary>
-        /// Resolves an unregistered service
+        /// Resolves an unregistered service.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="serviceType"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <param name="context">The <see cref="IComponentContext"/>.</param>
+        /// <param name="serviceType">Service type.</param>
+        /// <param name="parameters"><see cref="IEnumerable{T}"/> of <see cref="Parameter"/>.</param>
+        /// <returns>Resolved component.</returns>
         public static object ResolveUnregistered(this IComponentContext context, Type serviceType, IEnumerable<Parameter> parameters)
         {
             var scope = context.Resolve<ILifetimeScope>();
@@ -36,42 +35,48 @@ namespace Dolittle.DependencyInversion.Autofac
                 return context.ResolveComponent(reg, parameters);
             }
         }
+
         /// <summary>
-        /// Resolves an unregistered service
+        /// Resolves an unregistered service.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="serviceType"></param>
-        /// <returns></returns>
+        /// <param name="context">The <see cref="IComponentContext"/>.</param>
+        /// <param name="serviceType"><see cref="Type"/> to resolve.</param>
+        /// <returns>Resolved service.</returns>
         public static object ResolveUnregistered(this IComponentContext context, Type serviceType)
         {
             return ResolveUnregistered(context, serviceType, Enumerable.Empty<Parameter>());
         }
+
         /// <summary>
-        /// Resolves an unregistered service
+        /// Resolves an unregistered service.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="serviceType"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <param name="context">The <see cref="IComponentContext"/>.</param>
+        /// <param name="serviceType"><see cref="Type"/> to resolve.</param>
+        /// <param name="parameters">Params of <see cref="Parameter"/>.</param>
+        /// <returns>Resolved service.</returns>
         public static object ResolveUnregistered(this IComponentContext context, Type serviceType, params Parameter[] parameters)
         {
             return ResolveUnregistered(context, serviceType, (IEnumerable<Parameter>)parameters);
         }
+
         /// <summary>
-        /// Resolves an unregistered service
+        /// Resolves an unregistered service.
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        /// <param name="context">The <see cref="IComponentContext"/>.</param>
+        /// <typeparam name="TService"><see cref="Type"/> to resolve.</typeparam>
+        /// <returns>Resolved service.</returns>
         public static TService ResolveUnregistered<TService>(this IComponentContext context)
         {
             return (TService)ResolveUnregistered(context, typeof(TService), Enumerable.Empty<Parameter>());
         }
+
         /// <summary>
-        /// Resolves an unregistered service
+        /// Resolves an unregistered service.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <param name="context">The <see cref="IComponentContext"/>.</param>
+        /// <param name="parameters">Params of <see cref="Parameter"/>.</param>
+        /// <typeparam name="TService"><see cref="Type"/> to resolve.</typeparam>
+        /// <returns>Resolved service.</returns>
         public static TService ResolveUnregistered<TService>(this IComponentContext context, params Parameter[] parameters)
         {
             return (TService)ResolveUnregistered(context, typeof(TService), (IEnumerable<Parameter>)parameters);

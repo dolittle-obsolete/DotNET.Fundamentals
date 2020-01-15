@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Reflection;
 using Dolittle.Assemblies;
@@ -16,16 +15,17 @@ namespace Dolittle.Types.Specs.for_TypeFeeder
     [Subject(typeof(TypeFeeder))]
     public class when_feeding
     {
+        protected static Type[] types;
         static Mock<Assembly> assembly_mock;
         static Mock<IAssemblies> assemblies_mock;
-        protected static Type[] types;
         static Mock<IContractToImplementorsMap> contract_to_implementors_map_mock;
 
         static TypeFeeder type_feeder;
 
         Establish context = () =>
         {
-            types = new[] {
+            types = new[]
+            {
                 typeof(ISingle),
                 typeof(Single),
                 typeof(IMultiple),
@@ -44,10 +44,10 @@ namespace Dolittle.Types.Specs.for_TypeFeeder
             contract_to_implementors_map_mock.SetupGet(c => c.All).Returns(types);
 
             type_feeder = new TypeFeeder(new SyncScheduler(), Mock.Of<ILogger>());
-        };     
+        };
 
         Because of = () => type_feeder.Feed(assemblies_mock.Object, contract_to_implementors_map_mock.Object);
 
-        It should_populate_map = () => contract_to_implementors_map_mock.Verify(c=>c.Feed(types), Times.Once);
+        It should_populate_map = () => contract_to_implementors_map_mock.Verify(c => c.Feed(types), Times.Once);
     }
 }

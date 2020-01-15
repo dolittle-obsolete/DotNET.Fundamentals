@@ -1,26 +1,26 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 
 namespace Dolittle.Rules
 {
     /// <summary>
-    /// Defines the basis for a rule builder
+    /// Defines the basis for a rule builder.
     /// </summary>
+    /// <typeparam name="T">Type of <see cref="IRule"/> the builder is for.</typeparam>
     public interface IRuleBuilder<T>
-        where T:IRule
+        where T : IRule
     {
         /// <summary>
-        /// Gets the rules from the builder
+        /// Gets the rules from the builder.
         /// </summary>
         IEnumerable<T> Rules { get; }
 
         /// <summary>
-        /// Add a rule to the builder
+        /// Add a rule to the builder.
         /// </summary>
-        /// <param name="rule">A rule that implements <see cref="IRule"/> to add</param>
+        /// <param name="rule">A rule that implements <see cref="IRule"/> to add.</param>
         void AddRule(T rule);
     }
 }

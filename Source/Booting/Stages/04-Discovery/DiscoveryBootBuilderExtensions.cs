@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Reflection;
 using Dolittle.Assemblies;
@@ -10,16 +9,16 @@ using Dolittle.Booting.Stages;
 namespace Dolittle.Booting
 {
     /// <summary>
-    /// Extensions for building <see cref="DiscoverySettings"/> 
+    /// Extensions for building <see cref="DiscoverySettings"/>.
     /// </summary>
     public static class DiscoveryBootBuilderExtensions
     {
         /// <summary>
-        /// With a set of known <see cref="AssemblyName">assemblies</see>
+        /// With a set of known <see cref="AssemblyName">assemblies</see>.
         /// </summary>
-        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
-        /// <param name="assemblies"><see cref="IEnumerable{T}"/> of <see cref="AssemblyName"/> to use as well known assemblies, instead of discovering</param>
-        /// <returns>Chained <see cref="BootBuilder"/></returns>
+        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build.</param>
+        /// <param name="assemblies"><see cref="IEnumerable{T}"/> of <see cref="AssemblyName"/> to use as well known assemblies, instead of discovering.</param>
+        /// <returns>Chained <see cref="BootBuilder"/>.</returns>
         public static IBootBuilder WithAssemblies(this IBootBuilder bootBuilder, IEnumerable<AssemblyName> assemblies)
         {
             bootBuilder.Set<DiscoverySettings>(_ => _.AssemblyProvider, new WellKnownAssembliesAssemblyProvider(assemblies));
@@ -27,14 +26,26 @@ namespace Dolittle.Booting
         }
 
         /// <summary>
-        /// With a custom <see cref="ICanProvideAssemblies"/>
+        /// With a custom <see cref="ICanProvideAssemblies"/>.
         /// </summary>
-        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build</param>
-        /// <param name="assemblyProvider">An <see cref="ICanProvideAssemblies">assembly provider</see> instance</param>
-        /// <returns>Chained <see cref="BootBuilder"/></returns>
+        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build.</param>
+        /// <param name="assemblyProvider">An <see cref="ICanProvideAssemblies">assembly provider</see> instance.</param>
+        /// <returns>Chained <see cref="BootBuilder"/>.</returns>
         public static IBootBuilder WithAssemblyProvider(this IBootBuilder bootBuilder, ICanProvideAssemblies assemblyProvider)
         {
             bootBuilder.Set<DiscoverySettings>(_ => _.AssemblyProvider, assemblyProvider);
+            return bootBuilder;
+        }
+
+        /// <summary>
+        /// Include assemblies that start with a certain name in the discovery.
+        /// </summary>
+        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build.</param>
+        /// <param name="names">Params of names to include.</param>
+        /// <returns>Chained <see cref="BootBuilder"/>.</returns>
+        public static IBootBuilder IncludeAssembliesStartingWith(this IBootBuilder bootBuilder, params string[] names)
+        {
+            bootBuilder.Set<DiscoverySettings>(_ => _.IncludeAssembliesStartWith, names);
             return bootBuilder;
         }
     }

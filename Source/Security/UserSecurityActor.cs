@@ -1,27 +1,28 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Linq;
 
 namespace Dolittle.Security
 {
     /// <summary>
-    /// Represents a concrete <see cref="SecurityActor"/> for a user
+    /// Represents a concrete <see cref="SecurityActor"/> for a user.
     /// </summary>
     public class UserSecurityActor : SecurityActor, IUserSecurityActor
     {
-        readonly ICanResolvePrincipal _resolvePrincipal;
-
         /// <summary>
-        /// Description of the <see cref="UserSecurityActor"/>
+        /// Description of the <see cref="UserSecurityActor"/>.
         /// </summary>
         public const string USER = "User";
 
+        readonly ICanResolvePrincipal _resolvePrincipal;
+
         /// <summary>
-        /// Instantiates an instance of <see cref="UserSecurityActor"/>
+        /// Initializes a new instance of the <see cref="UserSecurityActor"/> class.
         /// </summary>
-        public UserSecurityActor(ICanResolvePrincipal resolvePrincipal) : base(USER)
+        /// <param name="resolvePrincipal"><see cref="ICanResolvePrincipal"/> for resolving the principal.</param>
+        public UserSecurityActor(ICanResolvePrincipal resolvePrincipal)
+            : base(USER)
         {
             _resolvePrincipal = resolvePrincipal;
         }
@@ -35,7 +36,7 @@ namespace Dolittle.Security
         /// <inheritdoc/>
         public bool HasClaimType(string claimType)
         {
-            return _resolvePrincipal.Resolve().FindAll(claimType).Count() > 0;
+            return _resolvePrincipal.Resolve().FindAll(claimType).Any();
         }
 
         /// <inheritdoc/>

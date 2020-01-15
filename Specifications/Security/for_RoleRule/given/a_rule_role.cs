@@ -1,5 +1,7 @@
-﻿using System.Linq;
-using Dolittle.Security;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq;
 using Moq;
 
 namespace Dolittle.Security.Specs.for_RoleRule.given
@@ -15,12 +17,12 @@ namespace Dolittle.Security.Specs.for_RoleRule.given
             required_role = "MY_ROLE";
             user = new Mock<IUserSecurityActor>();
             user.Setup(m => m.IsInRole(It.IsAny<string>())).Returns(false);
-            rule = new RoleRule(user.Object,required_role);
+            rule = new RoleRule(user.Object, required_role);
         }
 
         protected static void SetUserRole(string role)
         {
-            SetUserRoles(new[] {role});
+            SetUserRoles(new[] { role });
         }
 
         protected static void SetUserRoles(string[] roles)

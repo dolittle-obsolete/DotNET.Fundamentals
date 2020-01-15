@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../../Build/MSBuild/specs.props"></Import>
+
+  <Import Project="../../specs.props"/>
 
   <PropertyGroup>
     <AssemblyName>Dolittle.DependencyInversion.Autofac.Specs</AssemblyName>

@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_with_an_enumerable.for_enumerable_with_primitive_elements
@@ -8,17 +11,20 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
         static MutableWithEnumerableAndPrimitiveType complex_type;
         static PropertyBag source;
         static MutableWithEnumerableAndPrimitiveType result;
-        Establish context = () => 
+
+        Establish context = () =>
         {
             factory = instance;
-            complex_type = new MutableWithEnumerableAndPrimitiveType();
-            complex_type.Enumerable = new string[]
+            complex_type = new MutableWithEnumerableAndPrimitiveType
             {
-                "s1",
-                null,
-                "s2"
+                Enumerable = new string[]
+                {
+                    "s1",
+                    null,
+                    "s2"
+                },
+                String = "string"
             };
-            complex_type.String = "string";
 
             source = complex_type.ToPropertyBag();
         };
@@ -27,6 +33,6 @@ namespace Dolittle.PropertyBags.Specs.for_ObjectFactory.when_building.a_type_wit
 
         It should_build_an_instance_of_the_type = () => result.ShouldBeOfExactType<MutableWithEnumerableAndPrimitiveType>();
 
-        It enumerable_should_not_be_null = () => result.Enumerable.ShouldNotBeNull();         
+        It enumerable_should_not_be_null = () => result.Enumerable.ShouldNotBeNull();
     }
 }

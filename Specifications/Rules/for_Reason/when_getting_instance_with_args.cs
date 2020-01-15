@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.Rules.Specs.for_Reason
@@ -14,7 +17,7 @@ namespace Dolittle.Rules.Specs.for_Reason
 
         static Cause instance;
 
-        Establish context = () => args = new{FirstArgument=first_argument, SecondArgument=second_argument};
+        Establish context = () => args = new { FirstArgument = first_argument, SecondArgument = second_argument };
 
         Because of = () => instance = reason.WithArgs(args);
 

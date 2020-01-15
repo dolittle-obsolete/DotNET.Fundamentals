@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -9,7 +8,7 @@ using System.Reflection.Emit;
 namespace Dolittle.Reflection
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IProxying"/>
+    /// Represents an implementation of <see cref="IProxying"/>.
     /// </summary>
     public class Proxying : IProxying
     {
@@ -35,8 +34,8 @@ namespace Dolittle.Reflection
 
             foreach (var property in type.GetTypeInfo().GetProperties())
             {
-                var propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.None, property.PropertyType, new Type[0]);
-                var getMethodBuilder = typeBuilder.DefineMethod("get_" + property.Name, MethodAttributes.Public | MethodAttributes.Abstract | MethodAttributes.Virtual, property.PropertyType, new Type[0]);
+                var propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.None, property.PropertyType, Array.Empty<Type>());
+                var getMethodBuilder = typeBuilder.DefineMethod("get_" + property.Name, MethodAttributes.Public | MethodAttributes.Abstract | MethodAttributes.Virtual, property.PropertyType, Array.Empty<Type>());
                 propertyBuilder.SetGetMethod(getMethodBuilder);
                 var setMethodBuilder = typeBuilder.DefineMethod("set_" + property.Name, MethodAttributes.Public | MethodAttributes.Abstract | MethodAttributes.Virtual, property.PropertyType, new[] { property.PropertyType });
                 propertyBuilder.SetSetMethod(setMethodBuilder);
@@ -53,8 +52,8 @@ namespace Dolittle.Reflection
 
             foreach (var property in type.GetTypeInfo().GetProperties())
             {
-                var propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.None, property.PropertyType, new Type[0]);
-                var getMethodBuilder = typeBuilder.DefineMethod("get_" + property.Name, MethodAttributes.Public | MethodAttributes.Virtual, property.PropertyType, new Type[0]);
+                var propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.None, property.PropertyType, Array.Empty<Type>());
+                var getMethodBuilder = typeBuilder.DefineMethod("get_" + property.Name, MethodAttributes.Public | MethodAttributes.Virtual, property.PropertyType, Array.Empty<Type>());
                 propertyBuilder.SetGetMethod(getMethodBuilder);
                 var setMethodBuilder = typeBuilder.DefineMethod("set_" + property.Name, MethodAttributes.Public | MethodAttributes.Virtual, property.PropertyType, new[] { property.PropertyType });
                 propertyBuilder.SetSetMethod(setMethodBuilder);
@@ -64,28 +63,23 @@ namespace Dolittle.Reflection
             return classForType;
         }
 
-
         static string CreateUniqueName(string prefix)
         {
             var uid = Guid.NewGuid().ToString();
             uid = uid.Replace('-', '_');
-            var name = string.Format("{0}{1}", prefix, uid);
-            return name;
+            return $"{prefix}{uid}";
         }
-
 
         static TypeBuilder DefineInterface(Type type)
         {
             var name = CreateUniqueName(type.Name);
-            var typeBuilder = DynamicModule.DefineType(name, TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract | TypeAttributes.Serializable);
-            return typeBuilder;
+            return DynamicModule.DefineType(name, TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract | TypeAttributes.Serializable);
         }
 
         static TypeBuilder DefineClass(Type type)
         {
             var name = CreateUniqueName(type.Name);
-            var typeBuilder = DynamicModule.DefineType(name, TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.Serializable);
-            return typeBuilder;
+            return DynamicModule.DefineType(name, TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.Serializable);
         }
     }
 }

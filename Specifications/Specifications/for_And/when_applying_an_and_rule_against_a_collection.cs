@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
@@ -22,7 +21,6 @@ namespace Dolittle.Specifications.Specs.for_And
             the_squares = my_colored_shapes.Where(s => s.Shape == "Square").AsEnumerable();
 
             green_squares = the_greens.Intersect(the_squares).Distinct();
-
         };
 
         Because of = () => satisfied_shapes = squares.And(green).SatisfyingElementsFrom(my_colored_shapes);

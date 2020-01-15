@@ -1,4 +1,7 @@
-﻿using Machine.Specifications;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Machine.Specifications;
 
 namespace Dolittle.Concepts.Serialization.Protobuf.Specs.for_ConceptConverter
 {
@@ -7,7 +10,7 @@ namespace Dolittle.Concepts.Serialization.Protobuf.Specs.for_ConceptConverter
     {
         static bool can_convert;
 
-        Because of = () => can_convert = converter.CanConvert(typeof (ConceptAsGuid));
+        Because of = () => can_convert = converter.CanConvert(typeof(ConceptAsGuid));
 
         It should_be_able_to_convert = () => can_convert.ShouldBeTrue();
     }

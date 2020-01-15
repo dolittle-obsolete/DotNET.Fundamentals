@@ -1,14 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-using Dolittle.Execution;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Reflection;
+using Dolittle.Execution;
 
 namespace Dolittle.Booting.Stages
 {
     /// <summary>
-    /// Represents the <see cref="BootStage.Basics"/> stage of booting
+    /// Represents the <see cref="BootStage.Basics"/> stage of booting.
     /// </summary>
     public class Basics : ICanPerformBootStage<BasicsSettings>
     {

@@ -1,23 +1,22 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Assemblies.Configuration;
 using Microsoft.Extensions.DependencyModel;
 
 namespace Dolittle.Assemblies
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IAssemblyFilters"/>
+    /// Represents an implementation of <see cref="IAssemblyFilters"/>.
     /// </summary>
     public class AssemblyFilters : IAssemblyFilters
     {
-        AssembliesConfiguration _assembliesConfiguration;
+        readonly AssembliesConfiguration _assembliesConfiguration;
 
         /// <summary>
-        /// Initializes an instance of <see cref="AssemblyFilters"/>
+        /// Initializes a new instance of the <see cref="AssemblyFilters"/> class.
         /// </summary>
-        /// <param name="assembliesConfiguration"></param>
+        /// <param name="assembliesConfiguration">The <see cref="AssembliesConfiguration"/>.</param>
         public AssemblyFilters(AssembliesConfiguration assembliesConfiguration)
         {
             _assembliesConfiguration = assembliesConfiguration;

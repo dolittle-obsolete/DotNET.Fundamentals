@@ -1,6 +1,9 @@
-﻿using Dolittle.Concepts;
-using Machine.Specifications;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Dolittle.Concepts;
 using Dolittle.Specs.Concepts.given;
+using Machine.Specifications;
 
 namespace Dolittle.Specs.Concepts.for_ConceptExtensions
 {
@@ -11,10 +14,7 @@ namespace Dolittle.Specs.Concepts.for_ConceptExtensions
         static long primitive_value = 100;
         static object returned_value;
 
-        Establish context = () =>
-        {
-            value = new InheritingFromLongConcept { Value = primitive_value };
-        };
+        Establish context = () => value = new InheritingFromLongConcept { Value = primitive_value };
 
         Because of = () => returned_value = value.GetConceptValue();
 

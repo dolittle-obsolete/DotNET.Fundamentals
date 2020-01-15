@@ -1,55 +1,54 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 
 namespace Dolittle.Resilience
 {
     /// <summary>
-    /// Reperesents an implementation of <see cref="IPolicy"/>
+    /// Reperesents an implementation of <see cref="IPolicy"/>.
     /// </summary>
     public class Policy : IPolicy
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="Policy"/>
+        /// Initializes a new instance of the <see cref="Policy"/> class.
         /// </summary>
-        /// <param name="delegatedPolicy"><see cref="IPolicy"/> to delegate to</param>
+        /// <param name="delegatedPolicy"><see cref="IPolicy"/> to delegate to.</param>
         public Policy(IPolicy delegatedPolicy)
         {
             DelegatedPolicy = delegatedPolicy;
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Policy"/>
+        /// Initializes a new instance of the <see cref="Policy"/> class.
         /// </summary>
-        /// <param name="underlyingPolicy">The underlying <see cref="Polly.Policy"/></param>
+        /// <param name="underlyingPolicy">The underlying <see cref="Polly.Policy"/>.</param>
         public Policy(Polly.Policy underlyingPolicy)
         {
             UnderlyingPolicy = underlyingPolicy;
         }
 
         /// <summary>
-        /// Gets the underlying <see cref="Polly.Policy">policy</see>
+        /// Gets the underlying <see cref="Polly.Policy">policy</see>.
         /// </summary>
-        public Polly.Policy UnderlyingPolicy { get; }
+        public Polly.Policy UnderlyingPolicy { get; }
 
         /// <summary>
-        /// Gets the delegated <see cref="IPolicy"/>
+        /// Gets the delegated <see cref="IPolicy"/>.
         /// </summary>
-        public IPolicy DelegatedPolicy { get; }
-    
+        public IPolicy DelegatedPolicy { get; }
+
         /// <inheritdoc/>
         public void Execute(Action action)
         {
-            if( DelegatedPolicy != null ) DelegatedPolicy.Execute(action);
+            if (DelegatedPolicy != null) DelegatedPolicy.Execute(action);
             else UnderlyingPolicy.Execute(action);
         }
 
         /// <inheritdoc/>
         public TResult Execute<TResult>(Func<TResult> action)
         {
-            if( DelegatedPolicy != null ) return DelegatedPolicy.Execute(action);
+            if (DelegatedPolicy != null) return DelegatedPolicy.Execute(action);
             return UnderlyingPolicy.Execute(action);
         }
     }

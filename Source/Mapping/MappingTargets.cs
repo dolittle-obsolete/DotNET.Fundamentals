@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using Dolittle.Collections;
@@ -10,19 +9,18 @@ using Dolittle.Types;
 namespace Dolittle.Mapping
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IMappingTargets"/>
+    /// Represents an implementation of <see cref="IMappingTargets"/>.
     /// </summary>
     public class MappingTargets : IMappingTargets
     {
-        static DefaultMappingTarget _defaultMappingTarget = new DefaultMappingTarget();
-
-        IInstancesOf<IMappingTarget> _mappingTargets;
-        Dictionary<Type, IMappingTarget> _mappingTargetsByType;
+        static readonly DefaultMappingTarget _defaultMappingTarget = new DefaultMappingTarget();
+        readonly IInstancesOf<IMappingTarget> _mappingTargets;
+        readonly Dictionary<Type, IMappingTarget> _mappingTargetsByType;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="MappingTargets"/>
+        /// Initializes a new instance of the <see cref="MappingTargets"/> class.
         /// </summary>
-        /// <param name="mappingTargets"></param>
+        /// <param name="mappingTargets"><see cref="IInstancesOf{T}"/> of <see cref="IMappingTarget"/>.</param>
         public MappingTargets(IInstancesOf<IMappingTarget> mappingTargets)
         {
             _mappingTargets = mappingTargets;

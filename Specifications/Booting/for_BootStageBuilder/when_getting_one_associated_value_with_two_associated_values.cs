@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Machine.Specifications;
 
 namespace Dolittle.Booting.for_BootStageBuilder
@@ -12,10 +15,10 @@ namespace Dolittle.Booting.for_BootStageBuilder
 
         static object result;
 
-        Establish context = () => 
+        Establish context = () =>
         {
-            builder.Associate(first_key,first_value);
-            builder.Associate(second_key,second_value);
+            builder.Associate(first_key, first_value);
+            builder.Associate(second_key, second_value);
         };
 
         Because of = () => result = builder.GetAssociation(second_key);

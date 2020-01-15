@@ -1,4 +1,7 @@
-﻿using Dolittle.Serialization.Json;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Dolittle.Serialization.Json;
 using Machine.Specifications;
 
 namespace Dolittle.Concepts.Serialization.Json.Specs.for_Serializer

@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Build/MSBuild/default.props"/>
+  <Import Project="../../default.props"/>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.DependencyInversion.Management</AssemblyName>
   </PropertyGroup>
 
@@ -15,6 +14,4 @@
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\DependencyInversion.Booting\DependencyInversion.Booting.csproj" />
   </ItemGroup>
-
-
 </Project>

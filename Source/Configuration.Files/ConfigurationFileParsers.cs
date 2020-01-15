@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ using Dolittle.Types;
 namespace Dolittle.Configuration.Files
 {
     /// <summary>
-    /// Represents an implementation of <see creF="IConfigurationFileParsers"/>
+    /// Represents an implementation of <see creF="IConfigurationFileParsers"/>.
     /// </summary>
     public class ConfigurationFileParsers : IConfigurationFileParsers
     {
@@ -19,10 +18,10 @@ namespace Dolittle.Configuration.Files
         readonly IEnumerable<ICanParseConfigurationFile> _parsers;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ConfigurationFileParsers"/>
+        /// Initializes a new instance of the <see cref="ConfigurationFileParsers"/> class.
         /// </summary>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding parsers</param>
-        /// <param name="container"><see cerf="IContainer"/> used to get instances</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding parsers.</param>
+        /// <param name="container"><see cerf="IContainer"/> used to get instances.</param>
         public ConfigurationFileParsers(ITypeFinder typeFinder, IContainer container)
         {
             _typeFinder = typeFinder;

@@ -1,14 +1,9 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dolittle.Lifecycle;
-using Dolittle.Logging;
-using Dolittle.Serialization.Json;
 using Dolittle.Tenancy;
 using Dolittle.Types;
 
@@ -18,25 +13,25 @@ namespace Dolittle.ResourceTypes.Configuration
     [Singleton]
     public class TenantResourceManager : ITenantResourceManager
     {
-        IEnumerable<IRepresentAResourceType> _resourceDefinitions;
-        ICanProvideResourceConfigurationsByTenant _resourceConfigurationByTenantProvider;
+        readonly IEnumerable<IRepresentAResourceType> _resourceDefinitions;
+        readonly ICanProvideResourceConfigurationsByTenant _resourceConfigurationByTenantProvider;
 
         /// <summary>
-        /// Instantiates an instance of <see cref="TenantResourceManager"/>
+        /// Initializes a new instance of the <see cref="TenantResourceManager"/> class.
         /// </summary>
-        /// <param name="resourceDefinitions"></param>
-        /// <param name="resourceConfigurationByTenantProvider"></param>
+        /// <param name="resourceDefinitions"><see cref="IInstancesOf{T}"/> of <see cref="IRepresentAResourceType"/>.</param>
+        /// <param name="resourceConfigurationByTenantProvider"><see cref="ICanProvideResourceConfigurationsByTenant"/> for providing configuration for resources.</param>
         public TenantResourceManager(IInstancesOf<IRepresentAResourceType> resourceDefinitions, ICanProvideResourceConfigurationsByTenant resourceConfigurationByTenantProvider)
         {
             _resourceDefinitions = resourceDefinitions;
             _resourceConfigurationByTenantProvider = resourceConfigurationByTenantProvider;
         }
-        
+
         /// <inheritdoc/>
-        public T GetConfigurationFor<T>(TenantId tenantId) where T : class
+        public T GetConfigurationFor<T>(TenantId tenantId)
+            where T : class
         {
             var resourceType = RetrieveResourceType<T>();
-            
             return _resourceConfigurationByTenantProvider.ConfigurationFor<T>(tenantId, resourceType);
         }
 

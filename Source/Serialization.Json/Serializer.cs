@@ -1,7 +1,6 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -11,10 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Dolittle.Collections;
-using Dolittle.DependencyInversion;
 using Dolittle.Lifecycle;
 using Dolittle.Reflection;
-using Dolittle.Serialization;
 using Dolittle.Strings;
 using Dolittle.Types;
 using Newtonsoft.Json;
@@ -23,7 +20,7 @@ using Newtonsoft.Json.Linq;
 namespace Dolittle.Serialization.Json
 {
     /// <summary>
-    /// Represents a <see cref="ISerializer"/>
+    /// Represents a <see cref="ISerializer"/>.
     /// </summary>
     [Singleton]
     public class Serializer : ISerializer
@@ -38,9 +35,9 @@ namespace Dolittle.Serialization.Json
         readonly List<JsonConverter> _converters = new List<JsonConverter>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Serializer"/>
+        /// Initializes a new instance of the <see cref="Serializer"/> class.
         /// </summary>
-        /// <param name="converterProviders">Instances of <see cref="ICanProvideConverters"/></param>
+        /// <param name="converterProviders">Instances of <see cref="ICanProvideConverters"/>.</param>
         public Serializer(IInstancesOf<ICanProvideConverters> converterProviders)
         {
             _converterProviders = converterProviders;
@@ -56,7 +53,6 @@ namespace Dolittle.Serialization.Json
             SetSerializerForConvertersRequiringIt(_converters);
         }
 
-
         /// <inheritdoc/>
         public T FromJson<T>(string json, ISerializationOptions options = null)
         {
@@ -68,36 +64,41 @@ namespace Dolittle.Serialization.Json
         {
             var serializer = CreateSerializerForDeserialization(options);
             using (var textReader = new StringReader(json))
+            using (var reader = new JsonTextReader(textReader))
             {
-                using (var reader = new JsonTextReader(textReader))
+                object instance;
+
+                if (type.HasDefaultConstructor())
                 {
-                    object instance;
-
-                    if (type.HasDefaultConstructor())
+                    try
                     {
-                        try
+                        var value = serializer.Deserialize(reader, type);
+                        if (value == null || value.GetType() != type)
                         {
-                            var value = serializer.Deserialize(reader, type);
-                            if (value == null || value.GetType() != type)
-                            {
-                                var converter = serializer.Converters.SingleOrDefault(c => c.CanConvert(type) && c.CanRead);
-                                if (converter != null) return converter.ReadJson(reader, type, null, serializer);
-                            } else return value;
-                        } catch {}
+                            var converter = serializer.Converters.SingleOrDefault(c => c.CanConvert(type) && c.CanRead);
+                            if (converter != null) return converter.ReadJson(reader, type, null, serializer);
+                        }
+                        else
+                        {
+                            return value;
+                        }
                     }
-
-                    if (type.GetTypeInfo().IsValueType ||
-                        type.HasInterface<IEnumerable>())
-                        instance = serializer.Deserialize(reader, type);
-                    else
-                    {
-                        IEnumerable<string> propertiesMatched;
-                        instance = CreateInstanceOf(type, json, out propertiesMatched);
-
-                        DeserializeRemaindingProperties(type, serializer, reader, instance, propertiesMatched);
-                    }
-                    return instance;
+                    catch { }
                 }
+
+                if (type.GetTypeInfo().IsValueType ||
+                    type.HasInterface<IEnumerable>())
+                {
+                    instance = serializer.Deserialize(reader, type);
+                }
+                else
+                {
+                    instance = CreateInstanceOf(type, json, out IEnumerable<string> propertiesMatched);
+
+                    DeserializeRemaindingProperties(type, serializer, reader, instance, propertiesMatched);
+                }
+
+                return instance;
             }
         }
 
@@ -132,9 +133,12 @@ namespace Dolittle.Serialization.Json
             var serialized = ToJson(instance, options);
 
             var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(serialized);
-            writer.Flush();
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.Write(serialized);
+                writer.Flush();
+            }
+
             stream.Position = 0;
 
             return stream;
@@ -146,69 +150,80 @@ namespace Dolittle.Serialization.Json
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
         }
 
-
-
         object CreateInstanceOf(Type type, string json, out IEnumerable<string> propertiesMatched)
         {
-            propertiesMatched = new string[0];
+            propertiesMatched = Array.Empty<string>();
             if (type.HasDefaultConstructor())
+            {
                 return Activator.CreateInstance(type);
+            }
             else
             {
                 if (DoesPropertiesMatchConstructor(type, json))
                     return CreateInstanceByPropertiesMatchingConstructor(type, json, out propertiesMatched);
             }
+
             throw new UnableToInstantiateInstanceOfType(type);
         }
 
-
         bool DoesPropertiesMatchConstructor(Type type, string json)
         {
-            var hash = JObject.Load(new JsonTextReader(new StringReader(json)));
-            var constructor = type.GetNonDefaultConstructor();
-            var parameters = constructor.GetParameters();
-            var properties = hash.Properties();
-            var matchingParameters = parameters.Where(cp => properties.Select(p => p.Name.ToCamelCase()).Contains(cp.Name.ToCamelCase()));
-            return matchingParameters.Count() == parameters.Length;
+            using (var reader = new JsonTextReader(new StringReader(json)))
+            {
+                var hash = JObject.Load(reader);
+                var constructor = type.GetNonDefaultConstructor();
+                var parameters = constructor.GetParameters();
+                var properties = hash.Properties();
+                var matchingParameters = parameters.Where(cp => properties.Select(p => p.Name.ToCamelCase()).Contains(cp.Name.ToCamelCase()));
+                return matchingParameters.Count() == parameters.Length;
+            }
         }
 
         object CreateInstanceByPropertiesMatchingConstructor(Type type, string json, out IEnumerable<string> propertiesMatched)
         {
-            var propertiesFound = new List<string>();
-            var hash = JObject.Load(new JsonTextReader(new StringReader(json)));
-            var properties = hash.Properties();
-
-            var constructor = type.GetNonDefaultConstructor();
-
-            var parameters = constructor.GetParameters();
-            var parameterInstances = new List<object>();
-
-            var toObjectMethod = typeof(JToken).GetTypeInfo().GetMethod("ToObject", new Type[] { typeof(JsonSerializer) });
-            var serializer = CreateSerializerForDeserialization(SerializationOptions.CamelCase);
-
-            foreach (var parameter in parameters)
+            using (var reader = new JsonTextReader(new StringReader(json)))
             {
-                var property = properties.Single(p => p.Name.ToCamelCase() == parameter.Name.ToCamelCase());
-                propertiesFound.Add(property.Name);
+                var propertiesFound = new List<string>();
+                var hash = JObject.Load(reader);
+                var properties = hash.Properties();
 
-                object parameterInstance = null;
-                if (parameter.ParameterType == typeof(object))
+                var constructor = type.GetNonDefaultConstructor();
+
+                var parameters = constructor.GetParameters();
+                var parameterInstances = new List<object>();
+
+                var toObjectMethod = typeof(JToken).GetTypeInfo().GetMethod("ToObject", new Type[] { typeof(JsonSerializer) });
+                var serializer = CreateSerializerForDeserialization(SerializationOptions.CamelCase);
+
+                foreach (var parameter in parameters)
                 {
-                    parameterInstance = serializer.Deserialize(new JsonTextReader(new StringReader(property.Value.ToString())), typeof(ExpandoObject));
-                }
-                else
-                {
-                    var genericToObjectMethod = toObjectMethod.MakeGenericMethod(parameter.ParameterType);
-                    parameterInstance = genericToObjectMethod.Invoke(property.Value, new[] { serializer });
+                    var property = properties.Single(p => p.Name.ToCamelCase() == parameter.Name.ToCamelCase());
+                    propertiesFound.Add(property.Name);
+
+                    object parameterInstance = null;
+                    if (parameter.ParameterType == typeof(object))
+                    {
+                        using (var stringReader = new StringReader(property.Value.ToString()))
+                        {
+                            using (var jsonTextReader = new JsonTextReader(stringReader))
+                            {
+                                parameterInstance = serializer.Deserialize(jsonTextReader, typeof(ExpandoObject));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var genericToObjectMethod = toObjectMethod.MakeGenericMethod(parameter.ParameterType);
+                        parameterInstance = genericToObjectMethod.Invoke(property.Value, new[] { serializer });
+                    }
+
+                    parameterInstances.Add(parameterInstance);
                 }
 
-                parameterInstances.Add(parameterInstance);
+                propertiesMatched = propertiesFound;
+                return constructor.Invoke(parameterInstances.ToArray());
             }
-            propertiesMatched = propertiesFound;
-            var instance = constructor.Invoke(parameterInstances.ToArray());
-            return instance;
         }
-
 
         void DeserializeRemaindingProperties(Type type, JsonSerializer serializer, JsonTextReader reader, object instance, IEnumerable<string> propertiesMatched)
         {
@@ -223,9 +238,8 @@ namespace Dolittle.Serialization.Json
                     if (!propertiesMatched.Contains(propertyName))
                     {
                         var typeInfo = type.GetTypeInfo();
-                        var property = typeInfo.GetProperty(propertyName);
-                        if (property == null) property = typeInfo.GetProperty(propertyName.ToPascalCase());
-                        if (property != null && property.CanWrite)
+                        var property = typeInfo.GetProperty(propertyName) ?? typeInfo.GetProperty(propertyName.ToPascalCase());
+                        if (property?.CanWrite == true)
                         {
                             var deserialized = serializer.Deserialize(reader, property.PropertyType);
                             property.SetValue(instance, deserialized);
@@ -234,7 +248,6 @@ namespace Dolittle.Serialization.Json
                 }
             }
         }
-
 
         JsonSerializer CreateSerializerForDeserialization(ISerializationOptions options = null)
         {
@@ -248,7 +261,7 @@ namespace Dolittle.Serialization.Json
 
         JsonSerializer RetrieveSerializer(ISerializationOptions options, bool ignoreReadOnlyProperties = false)
         {
-            if (options.Flags.HasFlag(SerializationOptionsFlags.IncludeTypeNames))
+            if ((options.Flags & SerializationOptionsFlags.IncludeTypeNames) != 0)
             {
                 if (ignoreReadOnlyProperties) return _cacheAutoTypeNameReadOnly.GetOrAdd(options, _ => CreateSerializer(options, TypeNameHandling.Auto, ignoreReadOnlyProperties));
                 return _cacheAutoTypeName.GetOrAdd(options, _ => CreateSerializer(options, TypeNameHandling.Auto, ignoreReadOnlyProperties));
@@ -269,7 +282,7 @@ namespace Dolittle.Serialization.Json
                 TypeNameHandling = typeNameHandling,
                 ContractResolver = contractResolver,
             };
-            if( !options.IgnoreDiscoveredConverters ) _converters.ForEach(serializer.Converters.Add);
+            if (!options.IgnoreDiscoveredConverters) _converters.ForEach(serializer.Converters.Add);
             SetSerializerForConvertersRequiringIt(options.Converters);
             options.Converters.ForEach(serializer.Converters.Add);
             options.Callback(serializer);
@@ -279,7 +292,7 @@ namespace Dolittle.Serialization.Json
 
         void SetSerializerForConvertersRequiringIt(IEnumerable<JsonConverter> converters)
         {
-            converters.Where(_ => _ is IRequireSerializer).ForEach(_ => (_ as IRequireSerializer).Add(this));
+            converters.Where(_ => _ is IRequireSerializer).ForEach(_ => (_ as IRequireSerializer)?.Add(this));
         }
     }
 }

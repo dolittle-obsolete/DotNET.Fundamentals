@@ -1,17 +1,14 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
+using Dolittle.Lifecycle;
+using Dolittle.Reflection;
 
 namespace Dolittle.PropertyBags
 {
-    using System;
-    using System.Collections.Concurrent;
-    using Dolittle.Lifecycle;
-    using Dolittle.Reflection;
-
     /// <summary>
-    /// Creates a instance of the immutable type using the default ctor
+    /// Creates a instance of the immutable type using the default ctor.
     /// </summary>
     [Singleton]
     public class EmptyTypeFactory : ITypeFactory
@@ -19,13 +16,13 @@ namespace Dolittle.PropertyBags
         /// <inheritdoc />
         public object Build(Type type, IObjectFactory objectFactory, PropertyBag source)
         {
-           return Activator.CreateInstance(type);
+            return Activator.CreateInstance(type);
         }
 
         /// <inheritdoc />
         public T Build<T>(IObjectFactory objectFactory, PropertyBag source)
         {
-            return (T)Build(typeof(T),objectFactory,source);
+            return (T)Build(typeof(T), objectFactory, source);
         }
 
         /// <inheritdoc />

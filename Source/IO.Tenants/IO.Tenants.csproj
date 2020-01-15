@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props"/>
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Dolittle.IO.Tenants</AssemblyName>
   </PropertyGroup>
-  <Import Project="../../Build/MSBuild/default.props" />
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Execution\Execution.csproj" />
     <ProjectReference Include="..\Configuration\Configuration.csproj" />
@@ -12,5 +12,4 @@
     <ProjectReference Include="..\ResourceTypes\ResourceTypes.csproj" />
     <ProjectReference Include="..\ResourceTypes.Configuration\ResourceTypes.Configuration.csproj" />
   </ItemGroup>    
-
 </Project>

@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Autofac;
 using Machine.Specifications;
@@ -24,7 +23,7 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy.for_InstancesPerTenant
             tenant_key_creator.Setup(_ => _.GetKeyFor(binding, Moq.It.IsAny<Type>())).Returns(() => current_tenant);
         };
 
-        Because of = () => 
+        Because of = () =>
         {
             current_tenant = "First Tenant";
             first_instance = instances_per_tenant.Resolve(Mock.Of<IComponentContext>(), binding, typeof(string));
@@ -35,5 +34,5 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy.for_InstancesPerTenant
         It should_return_an_instance_for_the_first_instance = () => first_instance.ShouldNotBeNull();
         It should_return_an_instance_for_the_second_instance = () => second_instance.ShouldNotBeNull();
         It should_resolve_to_different_instance = () => second_instance.ShouldNotEqual(first_instance);
-    }    
+    }
 }

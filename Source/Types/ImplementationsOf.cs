@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,18 +8,18 @@ using System.Collections.Generic;
 namespace Dolittle.Types
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IImplementationsOf{T}"/>
+    /// Represents an implementation of <see cref="IImplementationsOf{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Base type to discover for - must be an abstract class or an interface</typeparam>
+    /// <typeparam name="T">Base type to discover for - must be an abstract class or an interface.</typeparam>
     public class ImplementationsOf<T> : IImplementationsOf<T>
         where T : class
     {
-        IEnumerable<Type> _types;
+        readonly IEnumerable<Type> _types;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ImplementationsOf{T}"/>
+        /// Initializes a new instance of the <see cref="ImplementationsOf{T}"/> class.
         /// </summary>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding types</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding types.</param>
         public ImplementationsOf(ITypeFinder typeFinder)
         {
             _types = typeFinder.FindMultiple<T>();

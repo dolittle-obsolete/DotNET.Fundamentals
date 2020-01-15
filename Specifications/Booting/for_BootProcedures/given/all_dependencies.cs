@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.DependencyInversion;
 using Dolittle.Execution;
 using Dolittle.Logging;
@@ -13,7 +16,7 @@ namespace Dolittle.Booting.Specs.for_BootProcedures.given
 
         protected static Mock<IExecutionContextManager> execution_context_manager;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             logger = new Mock<ILogger>();
             container = new Mock<IContainer>();

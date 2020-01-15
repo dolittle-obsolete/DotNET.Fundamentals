@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,19 +10,19 @@ using Dolittle.Collections;
 namespace Dolittle.DependencyInversion
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IBindingCollection"/>
+    /// Represents an implementation of <see cref="IBindingCollection"/>.
     /// </summary>
     public class BindingCollection : IBindingCollection
     {
-        readonly List<Binding>  _bindings = new List<Binding>();
+        readonly List<Binding> _bindings = new List<Binding>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BindingCollection"/>
+        /// Initializes a new instance of the <see cref="BindingCollection"/> class.
         /// </summary>
-        /// <param name="bindingCollections"></param>
+        /// <param name="bindingCollections">Params of <see cref="IEnumerable{T}"/> of <see cref="Binding"/>.</param>
         public BindingCollection(params IEnumerable<Binding>[] bindingCollections)
         {
-            bindingCollections.ForEach(_ => 
+            bindingCollections.ForEach(_ =>
             {
                 var newBindings = _.Where(binding => !HasBindingFor(binding.Service));
                 _bindings.AddRange(newBindings);
@@ -47,7 +46,6 @@ namespace Dolittle.DependencyInversion
         {
             return _bindings.GetEnumerator();
         }
-
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()

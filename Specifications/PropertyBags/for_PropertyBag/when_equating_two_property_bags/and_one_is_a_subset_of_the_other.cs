@@ -1,19 +1,13 @@
-﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- * --------------------------------------------------------------------------------------------*/
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using Dolittle.Collections;
-using Dolittle.Concepts;
-using Dolittle.PropertyBags;
 using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property_bags
 {
-
-    [Subject(typeof(PropertyBag),"Equals")]    
+    [Subject(typeof(PropertyBag), "Equals")]
     public class and_one_is_a_subset_of_the_other
     {
         static PropertyBag first;
@@ -23,24 +17,26 @@ namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property
         static bool is_equal_based_on_operator;
         static bool have_the_same_hashcode;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             var first_dictionary = new NullFreeDictionary<string, object>
-            { 
-                {"string", "with a value"},
-                {"integer", 42},
-                {"DateTime", DateTime.UtcNow},
-                {"Concept", new StringConcept("A Concept")}
+            {
+                { "string", "with a value" },
+                { "integer", 42 },
+                { "DateTime", DateTime.UtcNow },
+                { "Concept", new StringConcept("A Concept") }
             };
 
-            var second_dictionary = new NullFreeDictionary<string,object>(first_dictionary);
-            second_dictionary.Add("AnotherProperty","This is not in the first dictionary");
+            var second_dictionary = new NullFreeDictionary<string, object>(first_dictionary)
+            {
+                { "AnotherProperty", "This is not in the first dictionary" }
+            };
 
             first = new PropertyBag(first_dictionary);
             second = new PropertyBag(second_dictionary);
         };
 
-        Because of = () => 
+        Because of = () =>
         {
             is_equal_based_on_equals_method = first.Equals(second);
             is_equal_based_on_operator = first == second;

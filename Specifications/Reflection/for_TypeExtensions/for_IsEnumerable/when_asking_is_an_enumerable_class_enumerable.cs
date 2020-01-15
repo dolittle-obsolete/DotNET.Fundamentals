@@ -1,27 +1,11 @@
-using System.Collections;
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using Machine.Specifications;
 
 namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
 {
-    class ComplexType 
-    {
-        public int MyProperty { get; set; }
-    }
-
-    class MyEnumerable : IEnumerable<ComplexType>
-    {
-        IEnumerable<ComplexType> _list = new List<ComplexType>();
-        public IEnumerator<ComplexType> GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
-    }
     public class when_asking_is_an_enumerable_class_enumerable
     {
         static bool IEnumerable_is_enumerable;
@@ -36,7 +20,7 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
         static bool string_is_enumerable;
         static bool char_is_enumerable;
 
-        Because of = () => 
+        Because of = () =>
         {
             IEnumerable_is_enumerable = typeof(System.Collections.IEnumerable).IsEnumerable();
             ICollection_is_enumerable = typeof(System.Collections.ICollection).IsEnumerable();
@@ -63,6 +47,5 @@ namespace Dolittle.Reflection.Specs.for_TypeExtensions.for_IsEnumerable
         It should_consider_object_as_not_enumerable = () => object_is_enumerable.ShouldBeFalse();
         It should_consider_string_as_not_enumerable = () => string_is_enumerable.ShouldBeFalse();
         It should_consider_char_as_not_enumerable = () => char_is_enumerable.ShouldBeFalse();
-        
     }
 }

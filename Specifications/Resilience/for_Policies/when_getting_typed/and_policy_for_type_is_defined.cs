@@ -1,12 +1,11 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.Types.Testing;
 using Machine.Specifications;
 using Moq;
-using It=Machine.Specifications.It;
+using It = Machine.Specifications.It;
 
 namespace Dolittle.Resilience.Specs.for_Policies.when_getting_typed
 {
@@ -20,18 +19,17 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_getting_typed
 
         static Mock<IDefinePolicyForType> typed_policy_definer;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             underlying_policy = Polly.Policy.NoOp();
             typed_policy_definer = new Mock<IDefinePolicyForType>();
             typed_policy_definer.SetupGet(_ => _.Type).Returns(type);
             typed_policy_definer.Setup(_ => _.Define()).Returns(underlying_policy);
-            
+
             policies = new Policies(
                 new StaticInstancesOf<IDefineDefaultPolicy>(),
                 new StaticInstancesOf<IDefineNamedPolicy>(),
-                new StaticInstancesOf<IDefinePolicyForType>(typed_policy_definer.Object)
-            );
+                new StaticInstancesOf<IDefinePolicyForType>(typed_policy_definer.Object));
         };
 
         Because of = () => typed_policy = policies.GetFor<string>() as PolicyFor<string>;

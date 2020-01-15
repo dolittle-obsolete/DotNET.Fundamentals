@@ -1,3 +1,6 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Machine.Specifications;
 
@@ -10,12 +13,13 @@ namespace Dolittle.DependencyInversion.for_BindingBuilder
         static BindingContext expected_binding_context;
         static BindingContext binding_context;
 
-        static Func<BindingContext, Type> callback = (c) => {
+        static Func<BindingContext, Type> callback = (c) =>
+        {
             binding_context = c;
             return return_value;
         };
 
-        Because of = () => 
+        Because of = () =>
         {
             expected_binding_context = new BindingContext(typeof(object));
             builder.To(callback);

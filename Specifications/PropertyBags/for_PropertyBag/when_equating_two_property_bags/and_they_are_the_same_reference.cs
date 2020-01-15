@@ -1,18 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- * --------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using Machine.Specifications;
-using Dolittle.PropertyBags;
 using Dolittle.Collections;
+using Machine.Specifications;
 
 namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property_bags
 {
-    # pragma warning disable 1718
-    [Subject(typeof(PropertyBag),"Equals")]    
+    [Subject(typeof(PropertyBag), "Equals")]
     public class and_they_are_the_same_reference
     {
         static PropertyBag first;
@@ -21,20 +16,20 @@ namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property
         static bool is_equal_based_on_operator;
         static bool have_the_same_hashcode;
 
-        Establish context = () => 
+        Establish context = () =>
         {
             var dictionary = new NullFreeDictionary<string, object>
-            { 
-                {"string", "with a value"},
-                {"integer", 42},
-                {"DateTime", DateTime.UtcNow},
-                {"Concept", new StringConcept("A Concept")}
+            {
+                { "string", "with a value" },
+                { "integer", 42 },
+                { "DateTime", DateTime.UtcNow },
+                { "Concept", new StringConcept("A Concept") }
             };
 
             first = new PropertyBag(dictionary);
         };
 
-        Because of = () => 
+        Because of = () =>
         {
             is_equal_based_on_equals_method = first.Equals(first);
             is_equal_based_on_operator = first == first;
@@ -45,5 +40,4 @@ namespace Dolittle.PropertyBags.Specs.for_PropertyBag.when_equating_two_property
         It should_be_equal_based_on_the_operator = () => is_equal_based_on_operator.ShouldBeTrue();
         It should_have_the_same_hashcode = () => have_the_same_hashcode.ShouldBeTrue();
     }
-    # pragma warning restore 1718
 }

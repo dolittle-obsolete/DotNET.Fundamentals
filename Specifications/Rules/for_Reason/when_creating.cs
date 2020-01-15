@@ -1,4 +1,7 @@
-﻿using Machine.Specifications;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Machine.Specifications;
 
 namespace Dolittle.Rules.Specs.for_Reason
 {
@@ -9,7 +12,7 @@ namespace Dolittle.Rules.Specs.for_Reason
         static string description = "Some description";
         static Reason reason;
 
-        Because of = () => reason = Reason.Create(id,title,description);
+        Because of = () => reason = Reason.Create(id, title, description);
 
         It should_have_the_id_set = () => reason.Id.ToString().ToLowerInvariant().ShouldEqual(id);
         It should_have_title_set = () => reason.Title.ShouldEqual(title);

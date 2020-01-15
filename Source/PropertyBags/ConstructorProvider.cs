@@ -1,22 +1,22 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- * --------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
+using System.Reflection;
+using Dolittle.Immutability;
+using Dolittle.Lifecycle;
+using Dolittle.Reflection;
 
 namespace Dolittle.PropertyBags
 {
-    using System;
-    using System.Reflection;
-    using Dolittle.Immutability;
-    using Dolittle.Lifecycle;
-    using Dolittle.Reflection;
-
     /// <summary>
-    /// A default implemenatation of <see cref="IConstructorProvider" />
+    /// A default implemenatation of <see cref="IConstructorProvider" />.
+    /// </summary>
+    /// <remarks>
     /// If it is an immutable type, it uses the PropertyBag constuctor if it exists, otherwise it tries
     /// to find the constructor with the most parameters.
     /// If the type is mutable, it will use the default constructor if present, otherwise the constructor with the most parameters.
-    /// </summary>
+    /// </remarks>
     [Singleton]
     public class ConstructorProvider : IConstructorProvider
     {
@@ -29,7 +29,7 @@ namespace Dolittle.PropertyBags
         /// <inheritdoc />
         public ConstructorInfo GetFor(Type type)
         {
-            if(type.IsImmutable())
+            if (type.IsImmutable())
                 return GetCtorForImmutable(type);
             return GetCtorForMutable(type);
         }
@@ -37,15 +37,12 @@ namespace Dolittle.PropertyBags
         ConstructorInfo GetCtorForImmutable(Type type)
         {
             var propertyBagCtor = type.GetPropertyBagConstructor();
-            if(propertyBagCtor != null)
-                return propertyBagCtor;
-
-            return type.GetNonDefaultConstructorWithGreatestNumberOfParameters();
+            return propertyBagCtor ?? type.GetNonDefaultConstructorWithGreatestNumberOfParameters();
         }
 
         ConstructorInfo GetCtorForMutable(Type type)
         {
-            if(type.HasDefaultConstructor())
+            if (type.HasDefaultConstructor())
                 return type.GetDefaultConstructor();
 
             return type.GetNonDefaultConstructorWithGreatestNumberOfParameters();

@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ using Dolittle.Types;
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IEndpoints"/>
+    /// Represents an implementation of <see cref="IEndpoints"/>.
     /// </summary>
     [Singleton]
     public class Endpoints : IEndpoints
@@ -30,14 +29,14 @@ namespace Dolittle.Services
         readonly IBoundServices _boundServices;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Endpoints"/>
+        /// Initializes a new instance of the <see cref="Endpoints"/> class.
         /// </summary>
-        /// <param name="serviceTypes">Instances of <see cref="IRepresentServiceType"/></param>
-        /// <param name="configuration"><see cref="EndpointsConfiguration"/> for all endpoints</param>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding services to host</param>
-        /// <param name="container"><see cref="IContainer"/> for working with instances of host binders</param>
-        /// <param name="boundServices"><see cref="IBoundServices"/> for registering services that gets bound</param>
-        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        /// <param name="serviceTypes">Instances of <see cref="IRepresentServiceType"/>.</param>
+        /// <param name="configuration"><see cref="EndpointsConfiguration"/> for all endpoints.</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding services to host.</param>
+        /// <param name="container"><see cref="IContainer"/> for working with instances of host binders.</param>
+        /// <param name="boundServices"><see cref="IBoundServices"/> for registering services that gets bound.</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public Endpoints(
             IInstancesOf<IRepresentServiceType> serviceTypes,
             EndpointsConfiguration configuration,
@@ -58,7 +57,7 @@ namespace Dolittle.Services
         }
 
         /// <summary>
-        /// Destructs the <see cref="Endpoints"/> instance
+        /// Finalizes an instance of the <see cref="Endpoints"/> class.
         /// </summary>
         ~Endpoints()
         {
@@ -106,7 +105,6 @@ namespace Dolittle.Services
                 var configuration = _configuration[type];
                 endpoint.Start(type, configuration, servicesByVisibility[type]);
             }
-
         }
 
         /// <inheritdoc/>
@@ -135,10 +133,7 @@ namespace Dolittle.Services
                 var binder = _container.Get(_) as ICanBindServices;
 
                 var boundServices = binder.BindServices();
-                boundServices.ForEach(service =>
-                {
-                    _logger.Information($"Service : {service.Descriptor?.FullName ?? "Unknown"}");
-                });
+                boundServices.ForEach(service => _logger.Information($"Service : {service.Descriptor?.FullName ?? "Unknown"}"));
 
                 services.AddRange(boundServices);
             });

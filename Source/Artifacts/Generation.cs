@@ -1,10 +1,12 @@
-﻿using System;
+﻿// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Concepts;
 
 namespace Dolittle.Artifacts
 {
     /// <summary>
-    /// Represents a particular stage in the evolution of an artifact, corresponding to a specific form
+    /// Represents a particular stage in the evolution of an artifact, corresponding to a specific form.
     /// </summary>
     public class Generation : ConceptAs<uint>
     {
@@ -14,19 +16,23 @@ namespace Dolittle.Artifacts
         public static readonly Generation Initial = 0;
 
         /// <summary>
-        /// Instantiates a <see cref="Generation" /> with a value of 0
+        /// Initializes a new instance of the <see cref="Generation"/> class.
         /// </summary>
+        /// <remarks>
+        /// It gets initialized with the <see cref="Initial"/> value.
+        /// </remarks>
         public Generation() => Value = 0;
+
         /// <summary>
-        /// Instantiates a <see cref="Generation" /> with the supplied generation
+        /// Initializes a new instance of the <see cref="Generation"/> class.
         /// </summary>
-        /// <param name="value">The generation to initialize</param>
+        /// <param name="value">The generation to initialize with.</param>
         public Generation(uint value) => Value = value;
 
         /// <summary>
-        /// Implicit convertion from Uint to Generation
+        /// Implicit convertion from Uint to Generation.
         /// </summary>
-        /// <param name="value">Value to initialize the <see cref="Generation" /> instance with</param>
+        /// <param name="value">Value to initialize the <see cref="Generation" /> instance with.</param>
         public static implicit operator Generation(uint value) => new Generation(value);
     }
 }
