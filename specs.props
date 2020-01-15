@@ -6,5 +6,7 @@
 
     <ItemGroup>
         <PackageReference Include="Dolittle.Common.Specs" Version="2.*"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+        <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.9.0" />
     </ItemGroup>
 </Project>
