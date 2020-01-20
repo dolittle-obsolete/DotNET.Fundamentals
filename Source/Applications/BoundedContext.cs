@@ -12,7 +12,7 @@ namespace Dolittle.Applications
     public class BoundedContext : ConceptAs<Guid>
     {
         /// <summary>
-        /// Represents the identifier for a not set application.
+        /// Represents the identifier for a not set bounded context.
         /// </summary>
         public static readonly BoundedContext NotSet = Guid.Parse("68ed1213-c025-4d73-8767-d54cc1dba090");
 
@@ -26,7 +26,7 @@ namespace Dolittle.Applications
         }
 
         /// <summary>
-        /// Create a new <see cref="BoundedContext"/>identifier.
+        /// Create a new <see cref="BoundedContext"/> identifier.
         /// </summary>
         /// <returns><see cref="BoundedContext"/>.</returns>
         public static BoundedContext New()
