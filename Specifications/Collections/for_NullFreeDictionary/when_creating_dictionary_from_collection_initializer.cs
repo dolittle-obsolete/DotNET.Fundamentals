@@ -3,7 +3,7 @@
 
 using Machine.Specifications;
 
-namespace Dolittle.Collections.Specs.for_NullFreeDictionary
+namespace Dolittle.Collections.for_NullFreeDictionary
 {
     public class when_creating_dictionary_from_collection_initializer
     {
