@@ -35,3 +35,26 @@ the payload looks like can be found [here](https://github.com/dolittle-fundament
 The client will automatically add this in a header key called `executioncontext-bin`.
 In addition on the server side, similarly; every call is intercepted and the
 header is decoded and the current call path will have the correct `ExecutionContext`.
+
+## Known Clients
+
+The client binding system works around the concept of known clients. A known client
+is a client we know which service it represents, what type the client implementation
+is and what the visibility of the endpoint it is connecting to is.
+
+In order for the system to know about these, you need to implement an interface
+called `IKnowAboutClients` and return all the definitions you know about. The system
+will at startup discover any implementations of these and configure everything accordingly.
+This is the thing that enables the IoC bindings to just work.
+
+Below is a sample
+
+```csharp
+public class SampleServiceClients : IKnowAboutClients
+{
+    public IEnumerable<Client> Clients => new[]
+    {
+        new Client(EndpointVisibility.Private, typeof(TestServiceClient), TestService.Descriptor)
+    };
+}
+```
