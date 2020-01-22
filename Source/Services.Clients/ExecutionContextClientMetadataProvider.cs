@@ -40,7 +40,7 @@ namespace Dolittle.Services.Clients
             _logger.Information($"Setting execution context on call - TenantId: {current.Tenant} - CorrelationId: {current.CorrelationId}");
             var currentMessage = new grpc.ExecutionContext
             {
-                MicroService = current.BoundedContext.ToProtobuf(),
+                Microservice = current.BoundedContext.ToProtobuf(),
                 Tenant = current.Tenant.ToProtobuf(),
                 CorrelationId = current.CorrelationId.ToProtobuf(),
             };
