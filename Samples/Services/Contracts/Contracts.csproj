@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <AssemblyName>Contracts</AssemblyName>
+        <DolittleProtoProject>./</DolittleProtoProject>
+        <DolittleProtoRoot>./</DolittleProtoRoot>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dolittle.Common" Version="2.*"/>
+        <PackageReference Include="Dolittle.Protobuf.MSBuild" Version="1.*"/>
+    </ItemGroup>
+</Project>
