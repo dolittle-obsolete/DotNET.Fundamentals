@@ -1,0 +1,14 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+syntax = "proto3";
+
+package dolittle.security;
+
+option csharp_namespace = "Dolittle.Security.Contracts";
+
+message Claim {
+    string key = 1;
+    string value = 2;
+    string valueType = 3;
+}

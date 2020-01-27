@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../../default.props"/>
+
+    <PropertyGroup>
+        <RootNamespace>Dolittle.Fundamentals.Contracts</RootNamespace>
+        <AssemblyName>Dolittle.Fundamentals.Contracts</AssemblyName>
+        <DolittleProtoProject>./</DolittleProtoProject>
+        <DolittleProtoRoot>./</DolittleProtoRoot>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dolittle.Protobuf.MSBuild" Version="1.*"/>
+    </ItemGroup>
+</Project>
