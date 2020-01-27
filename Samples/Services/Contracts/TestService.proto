@@ -17,4 +17,5 @@ message Response {
 
 service TestService {
     rpc SayHelloTo(Request) returns(Response);
+    rpc SayHelloToStream(stream Request) returns(stream Response);
 }
