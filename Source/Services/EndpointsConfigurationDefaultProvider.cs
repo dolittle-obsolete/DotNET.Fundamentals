@@ -9,7 +9,7 @@ namespace Dolittle.Services
     /// <summary>
     /// Represents a <see cref="ICanProvideDefaultConfigurationFor{T}">default provider</see> for <see cref="EndpointsConfiguration"/>.
     /// </summary>
-    public class EndpointConfigurationDefaultProvider : ICanProvideDefaultConfigurationFor<EndpointsConfiguration>
+    public class EndpointsConfigurationDefaultProvider : ICanProvideDefaultConfigurationFor<EndpointsConfiguration>
     {
         /// <summary>
         /// Accesses the static configurations for providing default <see cref="EndpointConfiguration"/> for different <see cref="ServiceType">service types</see>.
