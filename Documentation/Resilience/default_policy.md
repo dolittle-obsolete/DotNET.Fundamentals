@@ -3,7 +3,7 @@ title: Default Policy
 description: Overview of how to work with a default policy
 keywords: Overview, Resilience
 author: einari
-weight: 1
+weight: 2
 aliases: 
     - /fundamentals/dotnet.fundamentals/resilience/default_policy
 ---
