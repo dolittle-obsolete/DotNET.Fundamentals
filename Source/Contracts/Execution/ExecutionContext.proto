@@ -1,0 +1,17 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+syntax = "proto3";
+
+import "Security/Claim.proto";
+
+package dolittle.execution;
+
+option csharp_namespace = "Dolittle.Execution.Contracts";
+
+message ExecutionContext {
+    bytes microservice = 1;
+    bytes tenant = 2;
+    bytes correlationId = 3;
+    repeated dolittle.security.Claim claims = 4;
+}
