@@ -2,13 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Collections.Generic;
-using System.Linq;
 using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
 using Google.Protobuf;
 using Grpc.Core;
-using grpc = Dolittle.Execution.Contracts;
 
 namespace Dolittle.Services.Clients
 {
@@ -38,20 +36,7 @@ namespace Dolittle.Services.Clients
         {
             var current = _executionContextManager.Current;
             _logger.Information($"Setting execution context on call - TenantId: {current.Tenant} - CorrelationId: {current.CorrelationId}");
-            var currentMessage = new grpc.ExecutionContext
-            {
-                Microservice = current.BoundedContext.ToProtobuf(),
-                Tenant = current.Tenant.ToProtobuf(),
-                CorrelationId = current.CorrelationId.ToProtobuf(),
-            };
-
-            currentMessage.Claims.AddRange(current.Claims.Select(_ => new Security.Contracts.Claim
-            {
-                Key = _.Name,
-                Value = _.Value,
-                ValueType = _.ValueType
-            }));
-
+            var currentMessage = current.ToProtobuf();
             var currentMessageAsBytes = currentMessage.ToByteArray();
 
             return new[]
