@@ -79,6 +79,16 @@ namespace Dolittle.Protobuf
         }
 
         /// <summary>
+        /// Convert a <see cref="Execution.ExecutionContext"/> to <see cref="ByteString"/>.
+        /// </summary>
+        /// <param name="executionContext"><see cref="Execution.ExecutionContext"/> to convert from.</param>
+        /// <returns>Converted <see cref="ByteString"/>.</returns>
+        public static ByteString ToByteString(this Execution.ExecutionContext executionContext)
+        {
+            return executionContext.ToProtobuf().ToByteString();
+        }
+
+        /// <summary>
         /// Convert from <see cref="Claims"/> to <see cref="IEnumerable{T}"/> of <see cref="Security.Contracts.Claim"/>.
         /// </summary>
         /// <param name="claims"><see cref="Claims"/> to convert from.</param>
