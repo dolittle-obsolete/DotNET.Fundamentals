@@ -136,7 +136,7 @@ namespace Dolittle.Services
 
             var executionContext = grpc.ExecutionContext.Parser.ParseFrom(executionContextEntry.ValueBytes);
 
-            var claims = new Claims(executionContext.Claims.Select(_ => new Claim(_.Key, _.Value, _.ValueType)));
+            var claims = executionContext.Claims.ToClaims();
             var tenant = executionContext.Tenant.To<TenantId>();
             var correlationId = executionContext.CorrelationId.To<CorrelationId>();
 
