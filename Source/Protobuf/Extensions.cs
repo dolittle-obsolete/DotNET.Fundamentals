@@ -3,9 +3,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Dolittle.Concepts;
 using Dolittle.Security;
 using Google.Protobuf;
+using Grpc.Core;
 
 namespace Dolittle.Protobuf
 {
@@ -14,6 +16,8 @@ namespace Dolittle.Protobuf
     /// </summary>
     public static class Extensions
     {
+        static string _argumentsKey = $"arguments{Metadata.BinaryHeaderSuffix}";
+
         /// <summary>
         /// Convert a <see cref="ByteString"/> to a <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/>.
         /// </summary>
@@ -97,6 +101,42 @@ namespace Dolittle.Protobuf
         public static Claims ToClaims(this IEnumerable<Security.Contracts.Claim> claims)
         {
             return new Claims(claims.Select(_ => new Claim(_.Key, _.Value, _.ValueType)));
+        }
+
+        /// <summary>
+        /// Convert to metadata that is used as arguments in the header.
+        /// </summary>
+        /// <param name="message"><see cref="IMessage"/> to convert.</param>
+        /// <returns>A <see cref="Metadata.Entry"/> that can be used directly.</returns>
+        public static Metadata.Entry ToArgumentsMetadata(this IMessage message)
+        {
+            return new Metadata.Entry(_argumentsKey, message.ToByteArray());
+        }
+
+        /// <summary>
+        /// Get the arguments message from a <see cref="ServerCallContext"/>.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of <see cref="IMessage"/>.</typeparam>
+        /// <param name="callContext"><see cref="ServerCallContext"/> to get arguments message from.</param>
+        /// <exceptions><see cref="MissingArgumentsHeaderOnCallContext"/>.</exceptions>
+        /// <returns>The arguments message instance.</returns>
+        public static TMessage GetArgumentsMessage<TMessage>(this ServerCallContext callContext)
+            where TMessage : IMessage<TMessage>, new()
+        {
+            var entry = callContext.RequestHeaders.FirstOrDefault(_ => _.Key == _argumentsKey);
+            if (entry == default)
+            {
+                throw new MissingArgumentsHeaderOnCallContext(callContext);
+            }
+
+            var property = typeof(TMessage).GetProperty("Parser", BindingFlags.Public | BindingFlags.Static);
+            if (property == default)
+            {
+                throw new MissingParserForMessageType(typeof(TMessage));
+            }
+
+            var parser = property.GetValue(null) as MessageParser<TMessage>;
+            return parser.ParseFrom(entry.ValueBytes);
         }
     }
 }
