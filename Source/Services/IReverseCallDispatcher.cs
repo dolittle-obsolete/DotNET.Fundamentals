@@ -21,7 +21,7 @@ namespace Dolittle.Services
         /// </summary>
         /// <param name="request">Request <see cref="IMessage"/>.</param>
         /// <param name="callback">Callback for getting the <see cref="IMessage">response</see>.</param>
-        void Call(TRequest request, Action<TResponse> callback);
+        void Call(TRequest request, Func<TResponse, Task> callback);
 
         /// <summary>
         /// Wait till client is disconnected. This will block.

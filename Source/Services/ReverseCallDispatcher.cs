@@ -27,7 +27,7 @@ namespace Dolittle.Services
         where TRequest : IMessage
     {
         readonly object _lockObject = new object();
-        readonly ConcurrentDictionary<ulong, Action<TResponse>> _requests = new ConcurrentDictionary<ulong, Action<TResponse>>();
+        readonly ConcurrentDictionary<ulong, Func<TResponse, Task>> _requests = new ConcurrentDictionary<ulong, Func<TResponse, Task>>();
         readonly ConcurrentDictionary<ulong, TResponse> _queuedResponses = new ConcurrentDictionary<ulong, TResponse>();
         readonly ConcurrentQueue<TResponse> _queuedForProcessing = new ConcurrentQueue<TResponse>();
         readonly ManualResetEventSlim _processEvent = new ManualResetEventSlim(false);
@@ -77,7 +77,7 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public void Call(TRequest request, Action<TResponse> callback)
+        public void Call(TRequest request, Func<TResponse, Task> callback)
         {
             lock (_lockObject)
             {
@@ -98,7 +98,7 @@ namespace Dolittle.Services
             }
         }
 
-        void HandleResponseProcessing()
+        async Task HandleResponseProcessing()
         {
             while (!_context.CancellationToken.IsCancellationRequested)
             {
@@ -110,7 +110,7 @@ namespace Dolittle.Services
                     if (_queuedForProcessing.TryDequeue(out var response))
                     {
                         var callNumber = (ulong)_responseProperty.GetValue(response);
-                        _requests[callNumber](response);
+                        await _requests[callNumber](response).ConfigureAwait(false);
                         _requests.TryRemove(callNumber, out _);
 
                         ResolveFromQueue();

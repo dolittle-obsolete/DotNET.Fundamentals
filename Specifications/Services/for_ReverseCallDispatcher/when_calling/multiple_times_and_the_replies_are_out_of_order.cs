@@ -93,6 +93,8 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
                     {
                         tcs.SetResult(true);
                     }
+
+                    return Task.CompletedTask;
                 });
 
                 expected_ordering.Add((ulong)i + 1);

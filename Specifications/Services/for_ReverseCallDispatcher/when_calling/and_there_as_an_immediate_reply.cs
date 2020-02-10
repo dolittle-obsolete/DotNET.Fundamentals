@@ -68,6 +68,7 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
             {
                 result = _;
                 tcs.SetResult(true);
+                return Task.CompletedTask;
             });
 
             tcs.Task.Wait();
