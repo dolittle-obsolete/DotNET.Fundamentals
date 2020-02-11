@@ -6,7 +6,6 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Dolittle.Logging;
 using Dolittle.Reflection;
@@ -28,9 +27,9 @@ namespace Dolittle.Services
     {
         readonly object _lockObject = new object();
         readonly ConcurrentDictionary<ulong, Func<TResponse, Task>> _requests = new ConcurrentDictionary<ulong, Func<TResponse, Task>>();
+        readonly ConcurrentDictionary<ulong, TaskCompletionSource<object>> _callbackTasks = new ConcurrentDictionary<ulong, TaskCompletionSource<object>>();
         readonly ConcurrentDictionary<ulong, TResponse> _queuedResponses = new ConcurrentDictionary<ulong, TResponse>();
         readonly ConcurrentQueue<TResponse> _queuedForProcessing = new ConcurrentQueue<TResponse>();
-        readonly ManualResetEventSlim _processEvent = new ManualResetEventSlim(false);
         readonly IAsyncStreamReader<TResponse> _responseStream;
         readonly IServerStreamWriter<TRequest> _requestStream;
         readonly ServerCallContext _context;
@@ -73,11 +72,10 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Dispose()
         {
-            _processEvent.Dispose();
         }
 
         /// <inheritdoc/>
-        public void Call(TRequest request, Func<TResponse, Task> callback)
+        public Task Call(TRequest request, Func<TResponse, Task> callback)
         {
             lock (_lockObject)
             {
@@ -85,7 +83,12 @@ namespace Dolittle.Services
                 _requestProperty.SetValue(request, _lastCallNumber);
                 _requests[_lastCallNumber] = callback;
 
+                var taskCompletionSource = new TaskCompletionSource<object>();
+                _callbackTasks[_lastCallNumber] = taskCompletionSource;
+
                 _requestStream.WriteAsync(request).ConfigureAwait(false);
+
+                return taskCompletionSource.Task;
             }
         }
 
@@ -102,8 +105,7 @@ namespace Dolittle.Services
         {
             while (!_context.CancellationToken.IsCancellationRequested)
             {
-                _processEvent.Wait();
-                _processEvent.Reset();
+                await Task.Delay(50).ConfigureAwait(false);
 
                 while (_queuedForProcessing.Count > 0)
                 {
@@ -112,6 +114,8 @@ namespace Dolittle.Services
                         var callNumber = (ulong)_responseProperty.GetValue(response);
                         await _requests[callNumber](response).ConfigureAwait(false);
                         _requests.TryRemove(callNumber, out _);
+                        _callbackTasks[callNumber].SetResult(null);
+                        _callbackTasks.TryRemove(callNumber, out _);
 
                         ResolveFromQueue();
                     }
@@ -154,7 +158,6 @@ namespace Dolittle.Services
                 }
 
                 _queuedForProcessing.Enqueue(response);
-                _processEvent.Set();
 
                 return true;
             }

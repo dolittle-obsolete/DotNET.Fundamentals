@@ -63,15 +63,11 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
 
         Because of = () =>
         {
-            var tcs = new TaskCompletionSource<bool>();
             dispatcher.Call(request, _ =>
             {
                 result = _;
-                tcs.SetResult(true);
                 return Task.CompletedTask;
-            });
-
-            tcs.Task.Wait();
+            }).Wait();
         };
 
         It should_send_the_request = () => request_sent.ShouldEqual(request);

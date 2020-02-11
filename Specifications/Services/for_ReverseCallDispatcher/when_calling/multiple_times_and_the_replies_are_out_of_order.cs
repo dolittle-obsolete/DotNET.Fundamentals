@@ -18,7 +18,7 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
 {
     public class multiple_times_and_the_replies_are_out_of_order
     {
-        const int total_requests = 5;
+        const int total_requests = 500;
         static ReverseCallDispatcher<MyResponse, MyRequest> dispatcher;
         static Mock<IAsyncStreamReader<MyResponse>> response_stream;
         static Mock<IServerStreamWriter<MyRequest>> request_stream;
@@ -79,28 +79,19 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
         Because of = () =>
         {
             var tasks = new List<Task>();
-            var tcs = new TaskCompletionSource<bool>();
-            var responsesReceived = 0;
 
             for (var i = 0; i < total_requests; i++)
             {
-                dispatcher.Call(new MyRequest(), _ =>
+                tasks.Add(dispatcher.Call(new MyRequest(), _ =>
                 {
-                    responsesReceived++;
                     responses.Add(_);
-
-                    if (responsesReceived == total_requests)
-                    {
-                        tcs.SetResult(true);
-                    }
-
                     return Task.CompletedTask;
-                });
+                }));
 
                 expected_ordering.Add((ulong)i + 1);
             }
 
-            tcs.Task.Wait();
+            Task.WaitAll(tasks.ToArray());
         };
 
         It should_respond_in_same_order = () => responses.Select(_ => _.CallNumber).ToArray().ShouldEqual(expected_ordering.ToArray());
