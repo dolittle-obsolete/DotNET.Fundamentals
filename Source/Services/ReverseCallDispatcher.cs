@@ -75,6 +75,16 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
+        public Task Call(TRequest request, Action<TResponse> callback)
+        {
+            return Call(request, response =>
+            {
+                callback(response);
+                return Task.CompletedTask;
+            });
+        }
+
+        /// <inheritdoc/>
         public Task Call(TRequest request, Func<TResponse, Task> callback)
         {
             lock (_lockObject)

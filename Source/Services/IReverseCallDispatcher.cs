@@ -22,6 +22,14 @@ namespace Dolittle.Services
         /// <param name="request">Request <see cref="IMessage"/>.</param>
         /// <param name="callback">Callback for getting the <see cref="IMessage">response</see>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task Call(TRequest request, Action<TResponse> callback);
+
+        /// <summary>
+        /// Dispatch a call to the client.
+        /// </summary>
+        /// <param name="request">Request <see cref="IMessage"/>.</param>
+        /// <param name="callback">Callback for getting the <see cref="IMessage">response</see>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task Call(TRequest request, Func<TResponse, Task> callback);
 
         /// <summary>
