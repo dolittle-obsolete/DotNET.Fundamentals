@@ -1,13 +1,11 @@
 ---
 title: Overview
-url: /fundamentals/dotnet-fundamentals/services/
 description: Overview of services
 keywords: Overview, Services
 author: einari
 weight: 1
 aliases: 
-    - /fundamentals/dotnet.fundamentals/services
-    - /fundamentals/dotnet-fundamentals/services/overview
+    - /fundamentals/dotnet.fundamentals/services/overview/
 ---
 
 In our fundamentals, you'll find a package called [Services](https://www.nuget.org/packages/Dolittle.Services/).

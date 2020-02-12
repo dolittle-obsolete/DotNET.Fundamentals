@@ -1,11 +1,11 @@
 ---
 title: Getting started
-url: //fundamentals/dotnet-fundamentals/dependencyinversion/
 description: Overview of how you can started
 keywords: Getting started, Dependency Inversion
 author: einari
 weight: 1
 aliases: 
+    - /fundamentals/dotnet.fundamentals/dependencyinversion/getting-started
     - /fundamentals/dotnet.fundamentals/dependencyinversion/getting_started
     - /fundamentals/dotnet-fundamentals/dependencyinversion/getting_started
 ---
@@ -119,7 +119,7 @@ for both `foo` and `bar` and also recursively instantiated.
 Since there is a default [convention]({{< relref conventions >}}) for hooking up any abstract class or interface
 prefixed with `I` to an implementation with same name without the prefix, this will just work.
 
-For more complex binding scenarios, you want to [provide bindings]({{< relref provide_bindings >}}) yourself.
+For more complex binding scenarios, you want to [provide bindings]({{< relref providing_bindings >}}) yourself.
 
 ## Using from "bare metal"
 

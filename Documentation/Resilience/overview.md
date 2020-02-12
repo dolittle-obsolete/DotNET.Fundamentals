@@ -1,13 +1,11 @@
 ---
 title: Overview
-url: /fundamentals/dotnet-fundamentals/resilience/
 description: Overview of Resilience
 keywords: Overview, Resilience
 author: einari
 weight: 1
 aliases: 
-    - /fundamentals/dotnet.fundamentals/resilience
-    - /fundamentals/dotnet-fundamentals/resilience/overview
+    - /fundamentals/dotnet.fundamentals/resilience/overview/
 ---
 
 In our fundamentals, you'll find a package called [Resilience](https://www.nuget.org/packages/Dolittle.Resilience/).
