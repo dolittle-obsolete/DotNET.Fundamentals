@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -13,8 +14,8 @@ namespace Dolittle.Rules.for_BrokenRule
         static Mock<IRuleContext> rule_context;
         static object instance;
         static BrokenRule broken_rule;
-        static Reason first_reason = Reason.Create("2da82a45-e779-4823-ae12-c02023ee8e5f", "First reason");
-        static Reason second_reason = Reason.Create("5e536622-5b92-44ea-ba83-cfa14d5029b4", "Second reason");
+        static Reason first_reason = Reason.Create(new Guid("2da82a45-e779-4823-ae12-c02023ee8e5f"), "First reason");
+        static Reason second_reason = Reason.Create(new Guid("5e536622-5b92-44ea-ba83-cfa14d5029b4"), "Second reason");
 
         static Cause first_cause;
         static Cause second_cause;

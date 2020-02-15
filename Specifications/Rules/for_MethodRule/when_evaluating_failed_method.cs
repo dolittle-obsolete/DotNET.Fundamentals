@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -10,7 +11,7 @@ namespace Dolittle.Rules.for_MethodRule
     public class when_evaluating_failed_method
     {
         const string rule_name = "This is the rule";
-        static Reason reason = Reason.Create("f2049be1-c421-45d1-bdd5-a9eb4530c3dc", "Title", "Description");
+        static Reason reason = Reason.Create(new Guid("f2049be1-c421-45d1-bdd5-a9eb4530c3dc"), "Title", "Description");
         static Cause cause;
         static Mock<IRuleContext> rule_context;
         static object instance;

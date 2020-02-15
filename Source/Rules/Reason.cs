@@ -46,11 +46,11 @@ namespace Dolittle.Rules
         /// The format of the Guid has to be :
         /// 00000000-0000-0000-0000-000000000000.
         /// </remarks>
-        public static Reason Create(string id, string title, string description = "")
+        public static Reason Create(Guid id, string title, string description = "")
         {
             return new Reason
             {
-                Id = Guid.Parse(id),
+                Id = id,
                 Title = title,
                 Description = description
             };
