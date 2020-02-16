@@ -96,7 +96,7 @@ namespace Dolittle.Services
                 var taskCompletionSource = new TaskCompletionSource<object>();
                 _callbackTasks[_lastCallNumber] = taskCompletionSource;
 
-                _requestStream.WriteAsync(request).ConfigureAwait(false);
+                _requestStream.WriteAsync(request).GetAwaiter().GetResult();
 
                 return taskCompletionSource.Task;
             }

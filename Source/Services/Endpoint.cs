@@ -43,7 +43,7 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Dispose()
         {
-            _server?.ShutdownAsync().Wait();
+            _server?.ShutdownAsync().GetAwaiter().GetResult();
         }
 
         /// <inheritdoc/>
