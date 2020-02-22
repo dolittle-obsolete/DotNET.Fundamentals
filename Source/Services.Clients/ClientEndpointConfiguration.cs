@@ -11,7 +11,7 @@ namespace Dolittle.Services.Clients
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientEndpointConfiguration"/> class.
         /// </summary>
-        /// <param name="host">The host to connect to.</param>clien
+        /// <param name="host">The host to connect to.</param>
         /// <param name="port">Port to run the host on.</param>
         public ClientEndpointConfiguration(string host, int port)
         {
