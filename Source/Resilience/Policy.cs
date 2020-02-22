@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Resilience
 {
     /// <summary>
-    /// Reperesents an implementation of <see cref="IPolicy"/>.
+    /// Represents an implementation of <see cref="IPolicy"/>.
     /// </summary>
     public class Policy : IPolicy
     {

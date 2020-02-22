@@ -28,11 +28,29 @@ namespace Dolittle.Resilience
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
-            builder.Bind(typeof(IPolicyFor<>)).To((BindingContext context) =>
-            {
-                var policies = _getContainer().Get<IPolicies>();
+            var policies = _getContainer().Get<IPolicies>();
+            BindPolicyFor(builder, policies);
+            BindAsyncPolicyFor(builder, policies);
+        }
 
+        void BindPolicyFor(IBindingProviderBuilder builder, IPolicies policies)
+        {
+             builder.Bind(typeof(IPolicyFor<>)).To((BindingContext context) =>
+            {
                 Expression<Func<IPolicyFor<object>>> getForExpression = () => policies.GetFor<object>();
+                var methodInfo = getForExpression.GetMethodInfo().GetGenericMethodDefinition();
+                var target = context.Service.GenericTypeArguments[0];
+                var genericMethodInfo = methodInfo.MakeGenericMethod(target);
+                var result = genericMethodInfo.Invoke(policies, null);
+                return result;
+            });
+        }
+
+        void BindAsyncPolicyFor(IBindingProviderBuilder builder, IPolicies policies)
+        {
+             builder.Bind(typeof(IPolicyFor<>)).To((BindingContext context) =>
+            {
+                Expression<Func<IAsyncPolicyFor<object>>> getForExpression = () => policies.GetAsyncFor<object>();
                 var methodInfo = getForExpression.GetMethodInfo().GetGenericMethodDefinition();
                 var target = context.Service.GenericTypeArguments[0];
                 var genericMethodInfo = methodInfo.MakeGenericMethod(target);
