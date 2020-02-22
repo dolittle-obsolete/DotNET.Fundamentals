@@ -35,7 +35,7 @@ namespace Dolittle.Resilience
 
         void BindPolicyFor(IBindingProviderBuilder builder, IPolicies policies)
         {
-             builder.Bind(typeof(IPolicyFor<>)).To((BindingContext context) =>
+            builder.Bind(typeof(IPolicyFor<>)).To((BindingContext context) =>
             {
                 Expression<Func<IPolicyFor<object>>> getForExpression = () => policies.GetFor<object>();
                 var methodInfo = getForExpression.GetMethodInfo().GetGenericMethodDefinition();
@@ -48,7 +48,7 @@ namespace Dolittle.Resilience
 
         void BindAsyncPolicyFor(IBindingProviderBuilder builder, IPolicies policies)
         {
-             builder.Bind(typeof(IPolicyFor<>)).To((BindingContext context) =>
+            builder.Bind(typeof(IAsyncPolicyFor<>)).To((BindingContext context) =>
             {
                 Expression<Func<IAsyncPolicyFor<object>>> getForExpression = () => policies.GetAsyncFor<object>();
                 var methodInfo = getForExpression.GetMethodInfo().GetGenericMethodDefinition();
