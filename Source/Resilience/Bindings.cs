@@ -28,7 +28,7 @@ namespace Dolittle.Resilience
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
-            var policies = _getContainer().Get<IPolicies>();
+            var policies = _getContainer().Get<Policies>();
             BindPolicyFor(builder, policies);
             BindAsyncPolicyFor(builder, policies);
         }
