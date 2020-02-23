@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Threading.Tasks;
 
 namespace Dolittle.Resilience
 {
@@ -48,8 +49,14 @@ namespace Dolittle.Resilience
         /// <inheritdoc/>
         public TResult Execute<TResult>(Func<TResult> action)
         {
+            ThrowIfAsyncAction(typeof(TResult));
             if (DelegatedPolicy != null) return DelegatedPolicy.Execute(action);
             return UnderlyingPolicy.Execute(action);
+        }
+
+        void ThrowIfAsyncAction(Type type)
+        {
+            if (typeof(Task).IsAssignableFrom(type)) throw new SynchronousPolicyCannotReturnTask(type);
         }
     }
 }
