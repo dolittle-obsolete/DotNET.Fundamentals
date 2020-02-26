@@ -173,7 +173,7 @@ namespace Dolittle.DependencyInversion.Autofac
                     ThrowIfRegistrationSourceProviderTypeIsMissingDefaultConstructor(registrationSourceProviderType);
                     var registrationSourceProvider = Activator.CreateInstance(registrationSourceProviderType) as ICanProvideRegistrationSources;
                     var registrationSources = registrationSourceProvider.Provide();
-                    registrationSources.ForEach(containerBuilder.RegisterSource);
+                    registrationSources.ForEach(_ => containerBuilder.RegisterSource(_));
                 });
             });
         }
