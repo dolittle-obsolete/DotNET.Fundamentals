@@ -21,7 +21,7 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
         /// <param name="containerBuilder"><see cref="ContainerBuilder"/> instance.</param>
         public TypeActivator(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterBuildCallback(c => _container = c);
+            containerBuilder.RegisterBuildCallback(c => _container = c as global::Autofac.IContainer);
         }
 
         /// <inheritdoc/>
