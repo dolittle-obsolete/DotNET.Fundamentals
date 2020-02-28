@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.DependencyModel.Resolution;
@@ -137,7 +138,8 @@ namespace Dolittle.Assemblies
                     var segments = assembly.Split(Path.DirectorySeparatorChar);
                     var hasRef = segments.Any(_ => _.Equals("ref", StringComparison.InvariantCultureIgnoreCase));
                     if (hasRef) assembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}", $"lib{Path.DirectorySeparatorChar}", StringComparison.InvariantCulture);
-
+                    if (compilationLibrary.Type.Equals("referenceassembly"))
+                        return LoadFromSharedAspNetCoreFolder(compilationLibrary);
                     return AssemblyLoadContext.LoadFromAssemblyPath(assembly);
                 }
                 catch
@@ -192,6 +194,28 @@ namespace Dolittle.Assemblies
                 library.Serviceable,
                 library.Path ?? library.RuntimeAssemblyGroups.Select(g => g.AssetPaths.Count > 0 ? g.AssetPaths[0] : null).FirstOrDefault(),
                 library.HashPath);
+        }
+
+        Assembly LoadFromSharedAspNetCoreFolder(CompilationLibrary library)
+        {
+            var version = library.Version;
+            if (version.Split('.').Length == 4) version = string.Join('.', version.Split('.').Take(3));
+            string basePath;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                basePath = @"c:\Program Files\dotnet\shared";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // default location on Ubuntu 19.04
+                basePath = "/usr/share/dotnet/shared";
+            }
+            else
+            {
+                // keep the macOS location as the default
+                basePath = "/usr/local/share/dotnet/shared";
+            }
+            return AssemblyLoadContext.LoadFromAssemblyPath(Path.Combine(basePath, "Microsoft.AspNetCore.App", version, $"{library.Name}.dll"));
         }
     }
 }
