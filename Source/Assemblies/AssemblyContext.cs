@@ -164,8 +164,6 @@ namespace Dolittle.Assemblies
                 return string.Equals(runtime.Name, name.Name, StringComparison.OrdinalIgnoreCase);
             }
 
-            var libs = DependencyContext.RuntimeLibraries.Where(NamesMatch);
-
             var runtimeLibrary = DependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);
             if (runtimeLibrary != null) return GetCompilationLibraryFrom(runtimeLibrary);
 
