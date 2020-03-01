@@ -27,26 +27,11 @@ namespace Dolittle.Types.Bootstrap
 
             IContractToImplementorsMap contractToImplementorsMap;
 
-#if false   // Re-enable when https://github.com/dolittle-fundamentals/DotNET.Fundamentals/issues/219 is fixed
-            if (CachedContractToImplementorsMap.HasCachedMap(entryAssembly))
-            {
-                var before = DateTime.UtcNow;
-                logger.Information("Contract to implementors map cache found - using it instead of dynamically discovery");
-                contractToImplementorsMap = new CachedContractToImplementorsMap(
-                    new ContractToImplementorsSerializer(logger), 
-                    entryAssembly);
-                Console.WriteLine($"CachedMap : {DateTime.UtcNow.Subtract(before).ToString("G")}");
-            }
-            else
-#endif
-            {
-                logger.Information("Using runtime discovery for contract to implementors map");
-                contractToImplementorsMap = new ContractToImplementorsMap(scheduler);
-                contractToImplementorsMap.Feed(entryAssembly.GetTypes());
+            contractToImplementorsMap = new ContractToImplementorsMap(scheduler);
+            contractToImplementorsMap.Feed(entryAssembly.GetTypes());
 
-                var typeFeeder = new TypeFeeder(scheduler, logger);
-                typeFeeder.Feed(assemblies, contractToImplementorsMap);
-            }
+            var typeFeeder = new TypeFeeder(scheduler, logger);
+            typeFeeder.Feed(assemblies, contractToImplementorsMap);
 
             return new TypeFinder(contractToImplementorsMap);
         }
