@@ -43,7 +43,10 @@ namespace Dolittle.Assemblies
             foreach (var path in Directory.GetDirectories(basePath))
             {
                 if (found) break;
-                var versionDir = Path.Combine(path, library.Version);
+
+                var version = new Version(library.Version);
+                var versionDir = Path.Combine(path, $"{version.Major}.{version.Minor}.{version.Build}");
+
                 if (Directory.Exists(versionDir))
                 {
                     foreach (var file in Directory.GetFiles(versionDir))
