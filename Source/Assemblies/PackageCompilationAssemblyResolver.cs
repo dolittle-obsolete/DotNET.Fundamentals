@@ -14,12 +14,16 @@ namespace Dolittle.Assemblies
     /// <summary>
     /// Represents an implementation of <see cref="ICompilationAssemblyResolver"/>.
     /// </summary>
+    /// <remarks>
+    /// This is based on https://github.com/dotnet/core-setup/blob/master/src/managed/Microsoft.Extensions.DependencyModel/Resolution/PackageCompilationAssemblyResolver.cs.
+    /// We need it to actually find the path to the assembly if its not in the library, so extending the behavior.
+    /// </remarks>
     public class PackageCompilationAssemblyResolver : ICompilationAssemblyResolver
     {
         readonly string[] _nugetPackageDirectories;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PackageCompilationAssemblyResolver"/>
+        /// Initializes a new instance of the <see cref="PackageCompilationAssemblyResolver"/> class.
         /// </summary>
         public PackageCompilationAssemblyResolver()
         {
@@ -57,6 +61,7 @@ namespace Dolittle.Assemblies
                     }
                 }
             }
+
             return false;
         }
 
@@ -103,9 +108,6 @@ namespace Dolittle.Assemblies
             {
                 if (!TryResolveAssemblyFile(basePath, assembly, out string fullName))
                 {
-                    // if one of the files can't be found, skip this package path completely.
-                    // there are package paths that don't include all of the "ref" assemblies 
-                    // (ex. ones created by 'dotnet store')
                     results = null;
                     return false;
                 }
