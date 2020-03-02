@@ -17,5 +17,6 @@
     <ProjectReference Include="..\Logging\Logging.csproj" />
     <ProjectReference Include="..\Reflection\Reflection.csproj" />
     <ProjectReference Include="..\Specifications\Specifications.csproj" />
+    <ProjectReference Include="..\Versioning\Versioning.csproj" />
   </ItemGroup>
 </Project>
