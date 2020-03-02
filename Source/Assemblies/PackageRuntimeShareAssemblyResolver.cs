@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using Dolittle.Versioning;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.DependencyModel.Resolution;
 
@@ -44,8 +45,9 @@ namespace Dolittle.Assemblies
             {
                 if (found) break;
 
-                var version = new Version(library.Version);
-                var versionDir = Path.Combine(path, $"{version.Major}.{version.Minor}.{version.Build}");
+                var converter = new VersionConverter();
+                var version = converter.FromString(library.Version);
+                var versionDir = Path.Combine(path, $"{version.Major}.{version.Minor}.{version.Patch}");
 
                 if (Directory.Exists(versionDir))
                 {
