@@ -7,9 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Validation\Validation.csproj" />
+    <ProjectReference Include="..\..\Source\Rules.Machine.Specifications\Rules.Machine.Specifications.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Dolittle.Machine.Specifications.Rules" Version="2.*"/>
-  </ItemGroup>
 </Project>
