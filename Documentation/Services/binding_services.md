@@ -6,6 +6,7 @@ author: einari
 weight: 2
 aliases: 
     - /fundamentals/dotnet.fundamentals/services/binding_services
+    - /fundamentals/dotnet-fundamentals/services/binding_services
 ---
 gRPC services are typically defined in a `.proto` file and using the gRPC tooling you can
 generate a proxy representation for your programming language. These are then types that

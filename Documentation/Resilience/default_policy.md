@@ -6,6 +6,7 @@ author: einari
 weight: 2
 aliases: 
     - /fundamentals/dotnet.fundamentals/resilience/default_policy
+    - /fundamentals/dotnet-fundamentals/resilience/default_policy
 ---
 The resilience system has the concept of a default policy.
 This is the policy that gets used if there is no specific policy for a

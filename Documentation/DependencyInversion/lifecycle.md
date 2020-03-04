@@ -6,6 +6,7 @@ author: einari
 weight: 6
 aliases: 
     - /fundamentals/dotnet.fundamentals/dependencyinversion/lifecycle
+    - /fundamentals/dotnet-fundamentals/dependencyinversion/lifecycle
 ---
 One of the traits of an IoC container is to govern the lifecycle outside of
 the types needing the dependencies. This can typically be done at the

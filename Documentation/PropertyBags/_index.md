@@ -5,6 +5,7 @@ keywords: Overview, Property Bag
 author: smithmx
 aliases: 
     - /fundamentals/dotnet.fundamentals/propertybags
+    - /fundamentals/dotnet-fundamentals/propertybags
 ---
 ## Definition
 

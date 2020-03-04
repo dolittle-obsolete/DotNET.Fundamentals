@@ -6,6 +6,7 @@ author: einari
 weight: 1
 aliases: 
     - /fundamentals/dotnet.fundamentals/services/overview/
+    - /fundamentals/dotnet-fundamentals/services/overview/
 ---
 
 In our fundamentals, you'll find a package called [Services](https://www.nuget.org/packages/Dolittle.Services/).

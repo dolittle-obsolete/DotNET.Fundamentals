@@ -6,6 +6,7 @@ author: einari
 weight: 3
 aliases: 
     - /fundamentals/dotnet.fundamentals/dependencyinversion/providing_bindings/
+    - /fundamentals/dotnet-fundamentals/dependencyinversion/providing_bindings/
 ---
 When a [convention]({{< relref conventions >}}) does not cover your
 scenario, or you need to bind something based on configuration or similar.

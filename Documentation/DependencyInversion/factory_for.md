@@ -6,6 +6,7 @@ author: einari
 weight: 7
 aliases: 
     - /fundamentals/dotnet.fundamentals/dependencyinversion/factory_for
+    - /fundamentals/dotnet-fundamentals/dependencyinversion/factory_for
 ---
 Instead of working with the container as a service locator directly,
 as described [here]({{< relref container >}}); you can represent what

@@ -6,6 +6,7 @@ author: einari
 weight: 3
 aliases: 
     - /fundamentals/dotnet.fundamentals/resilience/policy_for_type
+    - /fundamentals/dotnet-fundamentals/resilience/policy_for_type
 ---
 Policies for specific types are accessible and defined linked to a type. These can
 be very useful to use for specific resources needing resilience and makes it easy

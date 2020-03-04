@@ -8,6 +8,7 @@ aliases:
     - /fundamentals/dotnet.fundamentals/dependencyinversion/getting-started
     - /fundamentals/dotnet.fundamentals/dependencyinversion/getting_started
     - /fundamentals/dotnet-fundamentals/dependencyinversion/getting_started
+    - /fundamentals/dotnet-fundamentals/dependencyinversion/getting-started
 ---
 
 ## Overview

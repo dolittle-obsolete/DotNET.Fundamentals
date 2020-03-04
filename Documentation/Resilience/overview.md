@@ -6,6 +6,7 @@ author: einari
 weight: 1
 aliases: 
     - /fundamentals/dotnet.fundamentals/resilience/overview/
+    - /fundamentals/dotnet-fundamentals/resilience/overview/
 ---
 
 In our fundamentals, you'll find a package called [Resilience](https://www.nuget.org/packages/Dolittle.Resilience/).
