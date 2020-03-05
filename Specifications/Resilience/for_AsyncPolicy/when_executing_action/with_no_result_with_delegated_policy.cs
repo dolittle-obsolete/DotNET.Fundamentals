@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using Moq;
@@ -22,6 +23,6 @@ namespace Dolittle.Resilience.for_AsyncPolicy.when_executing_action
 
         Because of = () => policy.ExecuteAsync(() => Task.CompletedTask).GetAwaiter().GetResult();
 
-        It should_forward_call_to_delegated_policy = () => delegated_policy.Verify(_ => _.ExecuteAsync(Moq.It.IsAny<Func<Task>>()), Times.Once);
+        It should_forward_call_to_delegated_policy = () => delegated_policy.Verify(_ => _.ExecuteAsync(Moq.It.IsAny<Func<CancellationToken, Task>>(), Moq.It.IsAny<bool>(), Moq.It.IsAny<CancellationToken>()), Times.Once);
     }
 }

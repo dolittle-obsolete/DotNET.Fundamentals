@@ -3,7 +3,7 @@
 
 using Machine.Specifications;
 
-namespace Dolittle.Resilience.Specs.for_Policies.when_getting_typed
+namespace Dolittle.Resilience.for_Policies.when_getting_typed.policy
 {
     public class and_no_policy_for_type_has_been_defined : given.defined_default_policy
     {

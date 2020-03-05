@@ -8,9 +8,9 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Resilience.Specs.for_Policies.when_creating
+namespace Dolittle.Resilience.for_Policies.when_creating
 {
-    public class and_there_are_multiple_definers_for_default_policy
+    public class with_multiple_definers_for_default_policy
     {
         static IInstancesOf<IDefineDefaultPolicy> default_policy_definers;
         static Exception result;
@@ -24,7 +24,13 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_creating
                 secondDefiner.Object);
         };
 
-        Because of = () => result = Catch.Exception(() => new Policies(default_policy_definers, new StaticInstancesOf<IDefineNamedPolicy>(), new StaticInstancesOf<IDefinePolicyForType>()));
+        Because of = () => result = Catch.Exception(() => new Policies(
+            default_policy_definers,
+            new StaticInstancesOf<IDefineDefaultAsyncPolicy>(),
+            new StaticInstancesOf<IDefineNamedPolicy>(),
+            new StaticInstancesOf<IDefineNamedAsyncPolicy>(),
+            new StaticInstancesOf<IDefinePolicyForType>(),
+            new StaticInstancesOf<IDefineAsyncPolicyForType>()));
 
         It should_throw_multiple_default_policy_definers_found = () => result.ShouldBeOfExactType<MultipleDefaultPolicyDefinersFound>();
     }

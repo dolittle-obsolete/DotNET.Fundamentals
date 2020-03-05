@@ -6,7 +6,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Resilience.Specs.for_Policies.when_getting_named
+namespace Dolittle.Resilience.for_Policies.when_getting_named.policy
 {
     public class and_policy_for_name_is_defined
     {
@@ -28,8 +28,11 @@ namespace Dolittle.Resilience.Specs.for_Policies.when_getting_named
 
             policies = new Policies(
                 new StaticInstancesOf<IDefineDefaultPolicy>(),
+                new StaticInstancesOf<IDefineDefaultAsyncPolicy>(),
                 new StaticInstancesOf<IDefineNamedPolicy>(named_policy_definer.Object),
-                new StaticInstancesOf<IDefinePolicyForType>());
+                new StaticInstancesOf<IDefineNamedAsyncPolicy>(),
+                new StaticInstancesOf<IDefinePolicyForType>(),
+                new StaticInstancesOf<IDefineAsyncPolicyForType>());
         };
 
         Because of = () => named_policy = policies.GetNamed(name) as NamedPolicy;

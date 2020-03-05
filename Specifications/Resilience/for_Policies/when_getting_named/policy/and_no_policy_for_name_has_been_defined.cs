@@ -3,7 +3,7 @@
 
 using Machine.Specifications;
 
-namespace Dolittle.Resilience.Specs.for_Policies.when_getting_named
+namespace Dolittle.Resilience.for_Policies.when_getting_named.policy
 {
     public class and_no_policy_for_name_has_been_defined : given.defined_default_policy
     {

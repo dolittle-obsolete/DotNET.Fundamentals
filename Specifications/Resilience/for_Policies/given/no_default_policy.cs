@@ -4,7 +4,7 @@
 using Dolittle.Types.Testing;
 using Machine.Specifications;
 
-namespace Dolittle.Resilience.Specs.for_Policies.given
+namespace Dolittle.Resilience.for_Policies.given
 {
     public class no_default_policy
     {
@@ -14,8 +14,11 @@ namespace Dolittle.Resilience.Specs.for_Policies.given
         {
             policies = new Policies(
                 new StaticInstancesOf<IDefineDefaultPolicy>(),
+                new StaticInstancesOf<IDefineDefaultAsyncPolicy>(),
                 new StaticInstancesOf<IDefineNamedPolicy>(),
-                new StaticInstancesOf<IDefinePolicyForType>());
+                new StaticInstancesOf<IDefineNamedAsyncPolicy>(),
+                new StaticInstancesOf<IDefinePolicyForType>(),
+                new StaticInstancesOf<IDefineAsyncPolicyForType>());
         };
     }
 }
