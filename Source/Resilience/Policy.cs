@@ -23,16 +23,16 @@ namespace Dolittle.Resilience
         /// <summary>
         /// Initializes a new instance of the <see cref="Policy"/> class.
         /// </summary>
-        /// <param name="underlyingPolicy">The underlying <see cref="Polly.Policy"/>.</param>
-        public Policy(Polly.Policy underlyingPolicy)
+        /// <param name="underlyingPolicy">The underlying <see cref="Polly.ISyncPolicy"/>.</param>
+        public Policy(Polly.ISyncPolicy underlyingPolicy)
         {
             UnderlyingPolicy = underlyingPolicy;
         }
 
         /// <summary>
-        /// Gets the underlying <see cref="Polly.Policy">policy</see>.
+        /// Gets the underlying <see cref="Polly.ISyncPolicy">policy</see>.
         /// </summary>
-        public Polly.Policy UnderlyingPolicy { get; }
+        public Polly.ISyncPolicy UnderlyingPolicy { get; }
 
         /// <summary>
         /// Gets the delegated <see cref="IPolicy"/>.

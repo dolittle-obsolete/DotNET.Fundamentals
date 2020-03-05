@@ -21,8 +21,8 @@ namespace Dolittle.Resilience
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncPolicyFor{T}"/> class.
         /// </summary>
-        /// <param name="underlyingPolicy">The underlying <see cref="Polly.Policy"/>.</param>
-        public AsyncPolicyFor(Polly.AsyncPolicy underlyingPolicy)
+        /// <param name="underlyingPolicy">The underlying <see cref="Polly.IAsyncPolicy"/>.</param>
+        public AsyncPolicyFor(Polly.IAsyncPolicy underlyingPolicy)
             : base(underlyingPolicy)
         {
         }
