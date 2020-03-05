@@ -11,7 +11,7 @@ namespace Dolittle.Resilience.Specs.for_Policies.given
     {
         protected static Policies policies;
         protected static Mock<IDefineDefaultPolicy> policy_definer;
-        protected static Polly.Policy underlying_policy;
+        protected static Polly.ISyncPolicy underlying_policy;
 
         Establish context = () =>
         {
