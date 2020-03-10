@@ -6,9 +6,9 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Resilience.Specs.for_Policy
+namespace Dolittle.Resilience.for_Policy.when_executing_action
 {
-    public class when_executing_action_with_result_with_delegated_policy
+    public class with_result_with_delegated_policy
     {
         const string expected_result = "Fourty Two";
         static Policy policy;

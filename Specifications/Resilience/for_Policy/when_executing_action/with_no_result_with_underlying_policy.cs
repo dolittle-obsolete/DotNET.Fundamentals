@@ -4,9 +4,9 @@
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Resilience.Specs.for_Policy
+namespace Dolittle.Resilience.for_Policy.when_executing_action
 {
-    public class when_executing_action_with_no_result_with_underlying_policy
+    public class with_no_result_with_underlying_policy
     {
         static Policy policy;
         static bool called;

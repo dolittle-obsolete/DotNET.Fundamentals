@@ -11,7 +11,7 @@ namespace Dolittle.Resilience
         /// <summary>
         /// Define the policy.
         /// </summary>
-        /// <returns>The defined <see cref="Polly.AsyncPolicy"/>.</returns>
-        Polly.AsyncPolicy Define();
+        /// <returns>The defined <see cref="Polly.IAsyncPolicy"/>.</returns>
+        Polly.IAsyncPolicy Define();
     }
 }

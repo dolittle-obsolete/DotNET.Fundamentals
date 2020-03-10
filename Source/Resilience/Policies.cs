@@ -110,7 +110,7 @@ namespace Dolittle.Resilience
             var policyFor = typeof(AsyncPolicyFor<>).MakeGenericType(type);
 
             var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(IAsyncPolicy) }, new ParameterModifier[] { new ParameterModifier(1) });
-            var policy = constructor.Invoke(new[] { Default }) as IAsyncPolicyFor<T>;
+            var policy = constructor.Invoke(new[] { DefaultAsync }) as IAsyncPolicyFor<T>;
             _typedAsyncPolicies[type] = policy;
             return policy;
         }
@@ -155,7 +155,7 @@ namespace Dolittle.Resilience
             {
                 ThrowIfMultiplePolicyForTypeFound(_.Type);
                 var policyFor = typeof(PolicyFor<>).MakeGenericType(_.Type);
-                var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(Polly.Policy) }, new ParameterModifier[] { new ParameterModifier(1) });
+                var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(Polly.ISyncPolicy) }, new ParameterModifier[] { new ParameterModifier(1) });
 
                 _typedPolicies[_.Type] = constructor.Invoke(new[] { _.Define() }) as IPolicy;
             });
@@ -167,7 +167,7 @@ namespace Dolittle.Resilience
             {
                 ThrowIfMultiplePolicyForTypeFound(_.Type);
                 var policyFor = typeof(AsyncPolicyFor<>).MakeGenericType(_.Type);
-                var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(Polly.AsyncPolicy) }, new ParameterModifier[] { new ParameterModifier(1) });
+                var constructor = policyFor.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(Polly.IAsyncPolicy) }, new ParameterModifier[] { new ParameterModifier(1) });
 
                 _typedAsyncPolicies[_.Type] = constructor.Invoke(new[] { _.Define() }) as IAsyncPolicy;
             });
@@ -180,12 +180,12 @@ namespace Dolittle.Resilience
 
         void ThrowIfMultiplePolicyForNameFound(string name)
         {
-            if (_namedPolicies.ContainsKey(name) || _defaultAsyncPolicyDefiners.Count() > 1) throw new MultiplePolicyDefinersForNameFound(name);
+            if (_namedPolicies.ContainsKey(name) || _namedAsyncPolicies.ContainsKey(name)) throw new MultiplePolicyDefinersForNameFound(name);
         }
 
         void ThrowIfMultiplePolicyForTypeFound(Type type)
         {
-            if (_typedPolicies.ContainsKey(type) || _defaultAsyncPolicyDefiners.Count() > 1) throw new MultiplePolicyDefinersForTypeFound(type);
+            if (_typedPolicies.ContainsKey(type) || _typedAsyncPolicies.ContainsKey(type)) throw new MultiplePolicyDefinersForTypeFound(type);
         }
     }
 }
