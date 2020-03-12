@@ -2,10 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading;
-using Dolittle.Assemblies;
 using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Tenancy;
@@ -19,8 +17,6 @@ namespace AssemblyContext
 
         static void Main()
         {
-            var currentDirectory = Directory.GetCurrentDirectory();
-
             var assembly = typeof(Program).Assembly;
 
             var loggerFactory = LoggerFactory.Create(_ => _.AddConsole());
@@ -29,6 +25,7 @@ namespace AssemblyContext
             var logger = new Logger(logAppenders) as Dolittle.Logging.ILogger;
 
             logger.Information($"Creating assembly context for '{assembly}'");
+
             var assemblyContext = Dolittle.Assemblies.AssemblyContext.From(assembly);
 
             var projectReferencedAssemblies = assemblyContext.GetProjectReferencedAssemblies();
@@ -38,9 +35,13 @@ namespace AssemblyContext
                 logger.Information($"Project referenced assembly '{projectReferencedAssembly.FullName}'");
             }
 
-            var allExportedTypes = projectReferencedAssemblies.SelectMany(_ => _.ExportedTypes);
+            var allExportedTypes = projectReferencedAssemblies.SelectMany(_ => _.ExportedTypes).ToArray();
+            var controllerType = allExportedTypes.First(_ => _ == typeof(MyController));
 
-            logger.Information($"Totally {allExportedTypes.Count()} exported types");
+            var referencedAssemblies = assemblyContext.GetReferencedAssemblies();
+            logger.Information($"Total referenced assemblies : {referencedAssemblies.Count()}");
+
+            logger.Information($"Totally {allExportedTypes.Length} exported types");
             logger.Information("Done");
 
             loggerFactory.Dispose();
