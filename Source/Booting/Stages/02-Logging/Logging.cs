@@ -85,7 +85,7 @@ namespace Dolittle.Booting.Stages
             new LoggingContext
             {
                 Application = executionContext.Application,
-                BoundedContext = executionContext.BoundedContext,
+                Microservice = executionContext.Microservice,
                 CorrelationId = executionContext.CorrelationId,
                 Environment = executionContext.Environment,
                 TenantId = executionContext.Tenant

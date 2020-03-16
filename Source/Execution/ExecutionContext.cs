@@ -18,7 +18,7 @@ namespace Dolittle.Execution
         /// Initializes a new instance of the <see cref="ExecutionContext"/> class.
         /// </summary>
         /// <param name="application"><see cref="Application"/> that is currently executing.</param>
-        /// <param name="boundedContext"><see cref="BoundedContext"/> that is currently executing.</param>
+        /// <param name="microservice"><see cref="Applications.Microservice"/> that is currently executing.</param>
         /// <param name="tenant"><see cref="TenantId"/> that is currently part of the <see cref="ExecutionContext"/>.</param>
         /// <param name="environment"><see cref="Environment"/> for this <see cref="ExecutionContext"/>.</param>
         /// <param name="correlationId"><see cref="CorrelationId"/> for this <see cref="ExecutionContext"/>.</param>
@@ -26,7 +26,7 @@ namespace Dolittle.Execution
         /// <param name="cultureInfo"><see cref="CultureInfo"/> for the <see cref="ExecutionContext"/>.</param>
         public ExecutionContext(
             Application application,
-            BoundedContext boundedContext,
+            Microservice microservice,
             TenantId tenant,
             Environment environment,
             CorrelationId correlationId,
@@ -34,7 +34,7 @@ namespace Dolittle.Execution
             CultureInfo cultureInfo)
         {
             Application = application;
-            BoundedContext = boundedContext;
+            Microservice = microservice;
             Tenant = tenant;
             Environment = environment;
             CorrelationId = correlationId;
@@ -48,9 +48,9 @@ namespace Dolittle.Execution
         public Application Application { get; }
 
         /// <summary>
-        /// Gets the <see cref="BoundedContext"/> for the <see cref="ExecutionContext">execution context</see>.
+        /// Gets the <see cref="Microservice"/> for the <see cref="ExecutionContext">execution context</see>.
         /// </summary>
-        public BoundedContext BoundedContext { get; }
+        public Microservice Microservice { get; }
 
         /// <summary>
         /// Gets the <see cref="TenantId"/> for the <see cref="ExecutionContext">execution context</see>.

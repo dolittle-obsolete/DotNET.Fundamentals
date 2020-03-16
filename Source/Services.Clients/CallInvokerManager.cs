@@ -42,7 +42,7 @@ namespace Dolittle.Services.Clients
         }
 
         /// <inheritdoc/>
-        public CallInvoker GetFor(Type type)
+        public CallInvoker GetFor(Type type, string host = default, int port = default)
         {
             ThrowIfTypeDoesNotImplementClientBase(type);
 
@@ -52,10 +52,11 @@ namespace Dolittle.Services.Clients
             var keepAliveTime = new ChannelOption("grpc.keepalive_time", 1000);
             var keepAliveTimeout = new ChannelOption("grpc.keepalive_timeout_ms", 500);
             var keepAliveWithoutCalls = new ChannelOption("grpc.keepalive_permit_without_calls", 1);
-
+            host = host == default ? endpointConfiguration.Host : host;
+            port = port == default ? endpointConfiguration.Port : port;
             var channel = new Channel(
-                endpointConfiguration.Host,
-                endpointConfiguration.Port,
+                host,
+                port,
                 ChannelCredentials.Insecure,
                 new[] { keepAliveTime, keepAliveTimeout, keepAliveWithoutCalls });
 
