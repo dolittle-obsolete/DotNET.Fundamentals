@@ -6,7 +6,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Dolittle.Services.Clients.for_ClientManager.when_getting
+namespace Dolittle.Services.Clients.for_ClientManager.when_getting.with_host_and_address
 {
     public class and_type_is_valid : given.a_client_manager
     {
@@ -21,16 +21,20 @@ namespace Dolittle.Services.Clients.for_ClientManager.when_getting
             public CallInvoker Invoker { get; }
         }
 
-        static MyClient result;
+        static string host;
+        static int port;
         static Mock<CallInvoker> call_invoker;
+        static MyClient result;
 
         Establish context = () =>
         {
+            host = "host";
+            port = 1;
             call_invoker = new Mock<CallInvoker>();
-            call_invoker_manager.Setup(_ => _.GetFor(typeof(MyClient), Moq.It.IsAny<string>(), Moq.It.IsAny<int>())).Returns(call_invoker.Object);
+            call_invoker_manager.Setup(_ => _.GetFor(typeof(MyClient), host, port)).Returns(call_invoker.Object);
         };
 
-        Because of = () => result = client_manager.Get(typeof(MyClient)) as MyClient;
+        Because of = () => result = client_manager.Get(typeof(MyClient), host, port) as MyClient;
 
         It should_pass_the_call_invoker = () => result.Invoker.ShouldEqual(call_invoker.Object);
     }
