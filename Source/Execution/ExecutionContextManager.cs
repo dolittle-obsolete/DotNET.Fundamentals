@@ -25,7 +25,7 @@ namespace Dolittle.Execution
         readonly ILogger _logger;
 
         Application _application;
-        BoundedContext _boundedContext;
+        Microservice _microservice;
         Environment _environment;
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Dolittle.Execution
         {
             _logger = logger;
             _application = Application.NotSet;
-            _boundedContext = BoundedContext.NotSet;
+            _microservice = Microservice.NotSet;
             _environment = Environment.Undetermined;
         }
 
@@ -82,7 +82,7 @@ namespace Dolittle.Execution
 
             _executionContext.Value = new ExecutionContext(
                 Application.NotSet,
-                BoundedContext.NotSet,
+                Microservice.NotSet,
                 TenantId.System,
                 Environment.Undetermined,
                 CorrelationId.System,
@@ -95,60 +95,60 @@ namespace Dolittle.Execution
         /// <inheritdoc/>
         public void SetConstants(
             Application application,
-            BoundedContext boundedContext,
+            Microservice microservice,
             Environment environment)
         {
             _application = application;
-            _boundedContext = boundedContext;
+            _microservice = microservice;
             _environment = environment;
         }
 
         /// <inheritdoc/>
-        public ExecutionContext System(
-            string filePath,
-            int lineNumber,
-            string member)
-        {
-            return CurrentFor(TenantId.System, CorrelationId.System, filePath, lineNumber, member);
-        }
+        public ExecutionContext System(string filePath, int lineNumber, string member) =>
+            CurrentFor(TenantId.System, CorrelationId.System, filePath, lineNumber, member);
 
         /// <inheritdoc/>
-        public ExecutionContext System(
-            CorrelationId correlationId,
-            string filePath,
-            int lineNumber,
-            string member)
-        {
-            return CurrentFor(TenantId.System, correlationId, filePath, lineNumber, member);
-        }
+        public ExecutionContext System(CorrelationId correlationId, string filePath, int lineNumber, string member) =>
+            CurrentFor(TenantId.System, correlationId, filePath, lineNumber, member);
 
         /// <inheritdoc/>
-        public ExecutionContext CurrentFor(
-            TenantId tenant,
-            string filePath,
-            int lineNumber,
-            string member)
-        {
-            return CurrentFor(tenant, CorrelationId.New(), Claims.Empty, filePath, lineNumber, member);
-        }
+        public ExecutionContext CurrentFor(TenantId tenant, string filePath, int lineNumber, string member) =>
+            CurrentFor(_application, _microservice, tenant, CorrelationId.New(), Claims.Empty, filePath, lineNumber, member);
 
         /// <inheritdoc/>
-        public ExecutionContext CurrentFor(
-            TenantId tenant,
-            CorrelationId correlationId,
-            string filePath,
-            int lineNumber,
-            string member)
-        {
-            return CurrentFor(tenant, correlationId, Claims.Empty, filePath, lineNumber, member);
-        }
+        public ExecutionContext CurrentFor(Microservice microservice, TenantId tenant, string filePath, int lineNumber, string member) =>
+            CurrentFor(_application, microservice, tenant, CorrelationId.New(), Claims.Empty, filePath, lineNumber, member);
 
         /// <inheritdoc/>
-        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, Claims claims, string filePath, int lineNumber, string member)
+        public ExecutionContext CurrentFor(Application application, Microservice microservice, TenantId tenant, string filePath, int lineNumber, string member) =>
+            CurrentFor(application, microservice, tenant, CorrelationId.New(), Claims.Empty, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, string filePath, int lineNumber, string member) =>
+            CurrentFor(_application, _microservice, tenant, correlationId, Claims.Empty, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(Microservice microservice, TenantId tenant, CorrelationId correlationId, string filePath, int lineNumber, string member) =>
+            CurrentFor(_application, microservice, tenant, correlationId, Claims.Empty, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(Application application, Microservice microservice, TenantId tenant, CorrelationId correlationId, string filePath, int lineNumber, string member) =>
+            CurrentFor(application, microservice, tenant, correlationId, Claims.Empty, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, Claims claims, string filePath, int lineNumber, string member) =>
+            CurrentFor(_application, _microservice, tenant, correlationId, claims, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(Microservice microservice, TenantId tenant, CorrelationId correlationId, Claims claims, string filePath, int lineNumber, string member) =>
+            CurrentFor(_application, microservice, tenant, correlationId, claims, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(Application application, Microservice microservice, TenantId tenant, CorrelationId correlationId, Claims claims, string filePath, int lineNumber, string member)
         {
             var executionContext = new ExecutionContext(
-                _application,
-                _boundedContext,
+                application,
+                microservice,
                 tenant,
                 _environment,
                 correlationId,
