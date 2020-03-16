@@ -59,8 +59,9 @@ namespace Dolittle.Services.Clients.for_ExecutionContextClientMetadataProvider
         };
 
         It should_have_one_entry = () => result.Count().ShouldEqual(1);
-        It should_hold_correct_tenant_id = () => resulting_execution_context.Tenant.To<TenantId>().ShouldEqual(current.Tenant);
+        It should_hold_correct_application_id = () => resulting_execution_context.Application.To<Application>().ShouldEqual(current.Application);
         It should_hold_correct_microservice_id = () => resulting_execution_context.Microservice.To<Microservice>().ShouldEqual(current.Microservice);
+        It should_hold_correct_tenant_id = () => resulting_execution_context.Tenant.To<TenantId>().ShouldEqual(current.Tenant);
         It should_hold_correct_correlation_id = () => resulting_execution_context.CorrelationId.To<CorrelationId>().ShouldEqual(current.CorrelationId);
         It should_hold_correct_claims = () => resulting_execution_context.Claims.Select(_ => new Claim(_.Key, _.Value, _.ValueType)).ShouldContainOnly(current.Claims);
     }
