@@ -35,7 +35,7 @@ namespace Dolittle.Services.Clients
         public IEnumerable<Metadata.Entry> Provide()
         {
             var current = _executionContextManager.Current;
-            _logger.Information($"Setting execution context on call - TenantId: {current.Tenant} - CorrelationId: {current.CorrelationId}");
+            _logger.Information($"Setting execution context on call - Application: '{current.Application}' Microservice: '{current.Microservice}' TenantId: {current.Tenant} - CorrelationId: {current.CorrelationId}");
             var currentMessage = current.ToProtobuf();
             var currentMessageAsBytes = currentMessage.ToByteArray();
 

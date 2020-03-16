@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Dolittle.Applications;
 using Dolittle.Execution;
 using Dolittle.Tenancy;
 
@@ -18,11 +19,15 @@ namespace Dolittle.Protobuf
         /// <param name="executionContext"><see cref="Execution.Contracts.ExecutionContext"/> to set current.</param>
         public static void CurrentFor(this IExecutionContextManager executionContextManager, Execution.Contracts.ExecutionContext executionContext)
         {
+            var application = executionContext.Application.To<Application>();
+            var microservice = executionContext.Application.To<Microservice>();
             var tenant = executionContext.Tenant.To<TenantId>();
             var correlationId = executionContext.CorrelationId.To<CorrelationId>();
             var claims = executionContext.Claims.ToClaims();
 
             executionContextManager.CurrentFor(
+                application,
+                microservice,
                 tenant,
                 correlationId,
                 claims);
