@@ -14,7 +14,7 @@ namespace Dolittle.Resilience.for_AsyncPolicy.when_executing_action
 
         Establish context = () => policy = new AsyncPolicy(Polly.Policy.NoOpAsync());
 
-        Because of = () => policy.ExecuteAsync(() =>
+        Because of = () => policy.Execute(() =>
         {
             called = true;
             return Task.CompletedTask;
