@@ -21,10 +21,10 @@ namespace Dolittle.Resilience.for_AsyncPolicy.when_executing_action
         {
             delegated_policy = new Mock<IAsyncPolicy>();
             policy = new AsyncPolicy(delegated_policy.Object);
-            delegated_policy.Setup(_ => _.ExecuteAsync<string>(Moq.It.IsAny<Func<CancellationToken, Task<string>>>(), Moq.It.IsAny<bool>(), Moq.It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(expected_result));
+            delegated_policy.Setup(_ => _.Execute<string>(Moq.It.IsAny<Func<CancellationToken, Task<string>>>(), Moq.It.IsAny<bool>(), Moq.It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(expected_result));
         };
 
-        Because of = () => result = policy.ExecuteAsync(() => Task.FromResult(expected_result)).GetAwaiter().GetResult();
+        Because of = () => result = policy.Execute(() => Task.FromResult(expected_result)).GetAwaiter().GetResult();
 
         It should_forward_call_to_delegated_policy_and_return_result = () => result.ShouldEqual(expected_result);
     }

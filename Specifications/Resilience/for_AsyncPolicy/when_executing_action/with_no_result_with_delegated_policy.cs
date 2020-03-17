@@ -21,8 +21,8 @@ namespace Dolittle.Resilience.for_AsyncPolicy.when_executing_action
             policy = new AsyncPolicy(delegated_policy.Object);
         };
 
-        Because of = () => policy.ExecuteAsync(() => Task.CompletedTask).GetAwaiter().GetResult();
+        Because of = () => policy.Execute(() => Task.CompletedTask).GetAwaiter().GetResult();
 
-        It should_forward_call_to_delegated_policy = () => delegated_policy.Verify(_ => _.ExecuteAsync(Moq.It.IsAny<Func<CancellationToken, Task>>(), Moq.It.IsAny<bool>(), Moq.It.IsAny<CancellationToken>()), Times.Once);
+        It should_forward_call_to_delegated_policy = () => delegated_policy.Verify(_ => _.Execute(Moq.It.IsAny<Func<CancellationToken, Task>>(), Moq.It.IsAny<bool>(), Moq.It.IsAny<CancellationToken>()), Times.Once);
     }
 }
