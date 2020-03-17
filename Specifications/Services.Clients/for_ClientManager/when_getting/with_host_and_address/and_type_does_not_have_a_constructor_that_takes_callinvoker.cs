@@ -5,7 +5,7 @@ using System;
 using Grpc.Core;
 using Machine.Specifications;
 
-namespace Dolittle.Services.Clients.for_ClientManager.when_getting.with_host_and_address
+namespace Dolittle.Services.Clients.for_ClientManager.when_getting
 {
     public class and_type_does_not_have_a_constructor_that_takes_callinvoker : given.a_client_manager
     {
@@ -13,9 +13,17 @@ namespace Dolittle.Services.Clients.for_ClientManager.when_getting.with_host_and
         {
         }
 
+        static string host;
+        static int port;
         static Exception result;
 
-        Because of = () => result = Catch.Exception(() => client_manager.Get(typeof(MyClient)));
+        Establish context = () =>
+        {
+            host = "host";
+            port = 1;
+        };
+
+        Because of = () => result = Catch.Exception(() => client_manager.Get(typeof(MyClient), host, port));
 
         It should_throw_missing_expected_constructor_for_client_type = () => result.ShouldBeOfExactType<MissingExpectedConstructorForClientType>();
     }

@@ -15,7 +15,9 @@ namespace Dolittle.Services.Clients
         /// Get for a specific type of client - must implement <see cref="ClientBase"/>.
         /// </summary>
         /// <param name="type">Type of client to get for - must implement <see cref="ClientBase"/>.</param>
+        /// <param name="host">The host the client should connect to. If default value it uses the 'clients' configuration.</param>
+        /// <param name="port">The port the client should connect on. If default value it uses the 'clients' configuration.</param>
         /// <returns><see cref="CallInvoker"/>.</returns>
-        CallInvoker GetFor(Type type);
+        CallInvoker GetFor(Type type, string host = default, int port = default);
     }
 }

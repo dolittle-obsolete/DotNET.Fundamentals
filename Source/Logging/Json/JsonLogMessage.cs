@@ -34,7 +34,7 @@ namespace Dolittle.Logging.Json
             LogLevel = logLevel;
             Timestamp = timestamp;
             Application = loggingContext.Application;
-            BoundedContext = loggingContext.BoundedContext;
+            Microservice = loggingContext.Microservice;
             TenantId = loggingContext.TenantId;
             Environment = loggingContext.Environment;
             CorrelationId = loggingContext.CorrelationId;
@@ -61,9 +61,9 @@ namespace Dolittle.Logging.Json
         public Guid Application { get; }
 
         /// <summary>
-        /// Gets the BoundedContext Id.
+        /// Gets the Microservice Id.
         /// </summary>
-        public Guid BoundedContext { get; }
+        public Guid Microservice { get; }
 
         /// <summary>
         /// Gets the Tenant Id.
