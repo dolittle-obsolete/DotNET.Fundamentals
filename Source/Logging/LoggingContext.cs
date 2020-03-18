@@ -16,9 +16,9 @@ namespace Dolittle.Logging
         public Guid Application { get; set; }
 
         /// <summary>
-        /// Gets or sets the BoundedContext Id.
+        /// Gets or sets the Microservice Id.
         /// </summary>
-        public Guid BoundedContext { get; set; }
+        public Guid Microservice { get; set; }
 
         /// <summary>
         /// Gets or sets the Tenant Id.

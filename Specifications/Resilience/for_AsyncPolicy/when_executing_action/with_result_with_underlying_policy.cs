@@ -15,7 +15,7 @@ namespace Dolittle.Resilience.for_AsyncPolicy.when_executing_action
 
         Establish context = () => policy = new AsyncPolicy(Polly.Policy.NoOpAsync());
 
-        Because of = () => result = policy.ExecuteAsync(() => Task.FromResult(expected_result)).GetAwaiter().GetResult();
+        Because of = () => result = policy.Execute(() => Task.FromResult(expected_result)).GetAwaiter().GetResult();
 
         It should_forward_call_to_delegated_policy_and_return_result = () => result.ShouldEqual(expected_result);
     }

@@ -18,21 +18,21 @@ namespace Dolittle.Resilience
     public class PassThroughAsyncPolicy : IAsyncPolicy
     {
         /// <inheritdoc/>
-        public Task ExecuteAsync(Func<Task> action) => ExecuteAsync(_ => action(), CancellationToken.None);
+        public Task Execute(Func<Task> action) => Execute(_ => action(), CancellationToken.None);
 
         /// <inheritdoc/>
-        public Task ExecuteAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken) => ExecuteAsync(action, false, CancellationToken.None);
+        public Task Execute(Func<CancellationToken, Task> action, CancellationToken cancellationToken) => Execute(action, false, CancellationToken.None);
 
         /// <inheritdoc/>
-        public async Task ExecuteAsync(Func<CancellationToken, Task> action, bool continueOnCapturedContext, CancellationToken cancellationToken) => await action(cancellationToken).ConfigureAwait(continueOnCapturedContext);
+        public async Task Execute(Func<CancellationToken, Task> action, bool continueOnCapturedContext, CancellationToken cancellationToken) => await action(cancellationToken).ConfigureAwait(continueOnCapturedContext);
 
         /// <inheritdoc/>
-        public Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> action) => ExecuteAsync(_ => action(), CancellationToken.None);
+        public Task<TResult> Execute<TResult>(Func<Task<TResult>> action) => Execute(_ => action(), CancellationToken.None);
 
         /// <inheritdoc/>
-        public Task<TResult> ExecuteAsync<TResult>(Func<CancellationToken, Task<TResult>> action, CancellationToken cancellationToken) => ExecuteAsync(action, false, CancellationToken.None);
+        public Task<TResult> Execute<TResult>(Func<CancellationToken, Task<TResult>> action, CancellationToken cancellationToken) => Execute(action, false, CancellationToken.None);
 
         /// <inheritdoc/>
-        public async Task<TResult> ExecuteAsync<TResult>(Func<CancellationToken, Task<TResult>> action, bool continueOnCapturedContext, CancellationToken cancellationToken) => await action(cancellationToken).ConfigureAwait(continueOnCapturedContext);
+        public async Task<TResult> Execute<TResult>(Func<CancellationToken, Task<TResult>> action, bool continueOnCapturedContext, CancellationToken cancellationToken) => await action(cancellationToken).ConfigureAwait(continueOnCapturedContext);
     }
 }

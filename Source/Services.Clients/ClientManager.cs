@@ -25,14 +25,18 @@ namespace Dolittle.Services.Clients
         }
 
         /// <inheritdoc/>
-        public ClientBase Get(Type type)
+        public ClientBase Get(Type type, string host = default, int port = default)
         {
             ThrowIfTypeDoesNotImplementClientBase(type);
             var constructor = type.GetConstructor(new[] { typeof(CallInvoker) });
             ThrowIfMissingExpectedConstructorClientType(type, constructor);
 
-            return constructor.Invoke(new[] { _callInvokerManager.GetFor(type) }) as ClientBase;
+            return constructor.Invoke(new[] { _callInvokerManager.GetFor(type, host, port) }) as ClientBase;
         }
+
+        /// <inheritdoc/>
+        public TClient Get<TClient>(string host = default, int port = default)
+            where TClient : ClientBase => Get(typeof(TClient), host, port) as TClient;
 
         void ThrowIfTypeDoesNotImplementClientBase(Type type)
         {

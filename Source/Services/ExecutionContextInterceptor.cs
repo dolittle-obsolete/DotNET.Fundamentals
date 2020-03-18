@@ -3,6 +3,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
+using Dolittle.Applications;
 using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
@@ -137,12 +138,16 @@ namespace Dolittle.Services
             var executionContext = grpc.ExecutionContext.Parser.ParseFrom(executionContextEntry.ValueBytes);
 
             var claims = executionContext.Claims.ToClaims();
+            var application = executionContext.Application.To<Application>();
+            var microservice = executionContext.Microservice.To<Microservice>();
             var tenant = executionContext.Tenant.To<TenantId>();
             var correlationId = executionContext.CorrelationId.To<CorrelationId>();
 
-            _logger.Information($"Establishing execution context for '{method}' - TenantId: {tenant}, CorrelationId: {correlationId}");
+            _logger.Information($"Establishing execution context for '{method}' - Application: '{application}' Microservice: '{microservice}' TenantId: '{tenant}', CorrelationId: '{correlationId}'");
 
             _executionContextManager.CurrentFor(
+                application,
+                microservice,
                 tenant,
                 correlationId,
                 claims);

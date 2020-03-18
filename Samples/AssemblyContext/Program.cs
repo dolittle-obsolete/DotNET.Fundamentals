@@ -54,7 +54,7 @@ namespace AssemblyContext
             var loggingContext = new LoggingContext
             {
                 Application = Guid.Parse("919ce6c5-a9f6-4d6f-a2e2-1f9d717e7263"),
-                BoundedContext = Guid.Parse("fd7d3776-0ed0-4ddd-85be-f1ad7455491e"),
+                Microservice = Guid.Parse("fd7d3776-0ed0-4ddd-85be-f1ad7455491e"),
                 CorrelationId = CorrelationId.New(),
                 Environment = Dolittle.Execution.Environment.Development,
                 TenantId = TenantId.Development

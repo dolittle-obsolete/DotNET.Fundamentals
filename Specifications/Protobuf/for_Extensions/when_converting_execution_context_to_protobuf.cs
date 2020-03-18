@@ -34,7 +34,8 @@ namespace Dolittle.Protobuf.for_Extensions
 
         Because of = () => result = execution_context.ToProtobuf();
 
-        It should_hold_the_correct_microservice = () => result.Microservice.To<BoundedContext>().ShouldEqual(execution_context.BoundedContext);
+        It should_hold_the_correct_application = () => result.Application.To<Application>().ShouldEqual(execution_context.Application);
+        It should_hold_the_correct_microservice = () => result.Microservice.To<Microservice>().ShouldEqual(execution_context.Microservice);
         It should_hold_the_correct_tenant = () => result.Tenant.To<TenantId>().ShouldEqual(execution_context.Tenant);
         It should_hold_the_correct_correlation_id = () => result.CorrelationId.To<CorrelationId>().ShouldEqual(execution_context.CorrelationId);
         It should_hold_the_correct_claims = () => result.Claims.ToClaims().ShouldEqual(execution_context.Claims);

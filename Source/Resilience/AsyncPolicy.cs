@@ -41,28 +41,28 @@ namespace Dolittle.Resilience
         public IAsyncPolicy DelegatedPolicy { get; }
 
         /// <inheritdoc/>
-        public Task ExecuteAsync(Func<Task> action) => ExecuteAsync(_ => action(), CancellationToken.None);
+        public Task Execute(Func<Task> action) => Execute(_ => action(), CancellationToken.None);
 
         /// <inheritdoc/>
-        public Task ExecuteAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken) => ExecuteAsync(action, false, cancellationToken);
+        public Task Execute(Func<CancellationToken, Task> action, CancellationToken cancellationToken) => Execute(action, false, cancellationToken);
 
         /// <inheritdoc/>
-        public Task ExecuteAsync(Func<CancellationToken, Task> action, bool continueOnCapturedContext, CancellationToken cancellationToken)
+        public Task Execute(Func<CancellationToken, Task> action, bool continueOnCapturedContext, CancellationToken cancellationToken)
         {
-            if (DelegatedPolicy != null) return DelegatedPolicy.ExecuteAsync(action, continueOnCapturedContext, cancellationToken);
+            if (DelegatedPolicy != null) return DelegatedPolicy.Execute(action, continueOnCapturedContext, cancellationToken);
             else return UnderlyingPolicy.ExecuteAsync(action, cancellationToken, continueOnCapturedContext);
         }
 
         /// <inheritdoc/>
-        public Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> action) => ExecuteAsync(_ => action(), CancellationToken.None);
+        public Task<TResult> Execute<TResult>(Func<Task<TResult>> action) => Execute(_ => action(), CancellationToken.None);
 
         /// <inheritdoc/>
-        public Task<TResult> ExecuteAsync<TResult>(Func<CancellationToken, Task<TResult>> action, CancellationToken cancellationToken) => ExecuteAsync(action, false, cancellationToken);
+        public Task<TResult> Execute<TResult>(Func<CancellationToken, Task<TResult>> action, CancellationToken cancellationToken) => Execute(action, false, cancellationToken);
 
         /// <inheritdoc/>
-        public Task<TResult> ExecuteAsync<TResult>(Func<CancellationToken, Task<TResult>> action, bool continueOnCapturedContext, CancellationToken cancellationToken)
+        public Task<TResult> Execute<TResult>(Func<CancellationToken, Task<TResult>> action, bool continueOnCapturedContext, CancellationToken cancellationToken)
         {
-            if (DelegatedPolicy != null) return DelegatedPolicy.ExecuteAsync(action, continueOnCapturedContext, cancellationToken);
+            if (DelegatedPolicy != null) return DelegatedPolicy.Execute(action, continueOnCapturedContext, cancellationToken);
             return UnderlyingPolicy.ExecuteAsync(action, cancellationToken, continueOnCapturedContext);
         }
     }

@@ -19,7 +19,7 @@ namespace Dolittle.Resilience
         /// <param name="action"><see cref="Func{Task}"/> to execute.</param>
         /// <returns>The Task.</returns>
         [DebuggerStepThrough]
-        Task ExecuteAsync(Func<Task> action);
+        Task Execute(Func<Task> action);
 
         /// <summary>
         /// Execute an async action within the policy.
@@ -28,7 +28,7 @@ namespace Dolittle.Resilience
         /// <param name="cancellationToken">The <see cref="CancellationToken" />.</param>
         /// <returns>The Task.</returns>
         [DebuggerStepThrough]
-        Task ExecuteAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken);
+        Task Execute(Func<CancellationToken, Task> action, CancellationToken cancellationToken);
 
         /// <summary>
         /// Execute an async action within the policy.
@@ -38,7 +38,7 @@ namespace Dolittle.Resilience
         /// <param name="cancellationToken">The <see cref="CancellationToken" />.</param>
         /// <returns>The Task.</returns>
         [DebuggerStepThrough]
-        Task ExecuteAsync(Func<CancellationToken, Task> action, bool continueOnCapturedContext, CancellationToken cancellationToken);
+        Task Execute(Func<CancellationToken, Task> action, bool continueOnCapturedContext, CancellationToken cancellationToken);
 
         /// <summary>
         /// /// Executes an action within the policy and returns the result from the action.
@@ -47,7 +47,7 @@ namespace Dolittle.Resilience
         /// <param name="action"><see cref="Func{Task}"/> to call.</param>
         /// <returns>Result from the action.</returns>
         [DebuggerStepThrough]
-        Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> action);
+        Task<TResult> Execute<TResult>(Func<Task<TResult>> action);
 
         /// <summary>
         /// Executes an action within the policy and returns the result from the action.
@@ -57,7 +57,7 @@ namespace Dolittle.Resilience
         /// <param name="cancellationToken">The <see cref="CancellationToken" />.</param>
         /// <returns>Result from the action.</returns>
         [DebuggerStepThrough]
-        Task<TResult> ExecuteAsync<TResult>(Func<CancellationToken, Task<TResult>> action, CancellationToken cancellationToken);
+        Task<TResult> Execute<TResult>(Func<CancellationToken, Task<TResult>> action, CancellationToken cancellationToken);
 
         /// <summary>
         /// Executes an action within the policy and returns the result from the action.
@@ -68,6 +68,6 @@ namespace Dolittle.Resilience
         /// <param name="cancellationToken">The <see cref="CancellationToken" />.</param>
         /// <returns>Result from the action.</returns>
         [DebuggerStepThrough]
-        Task<TResult> ExecuteAsync<TResult>(Func<CancellationToken, Task<TResult>> action, bool continueOnCapturedContext, CancellationToken cancellationToken);
+        Task<TResult> Execute<TResult>(Func<CancellationToken, Task<TResult>> action, bool continueOnCapturedContext, CancellationToken cancellationToken);
     }
 }

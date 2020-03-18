@@ -69,7 +69,8 @@ namespace Dolittle.Protobuf
         {
             var message = new Execution.Contracts.ExecutionContext
             {
-                Microservice = executionContext.BoundedContext.ToProtobuf(),
+                Application = executionContext.Application.ToProtobuf(),
+                Microservice = executionContext.Microservice.ToProtobuf(),
                 Tenant = executionContext.Tenant.ToProtobuf(),
                 CorrelationId = executionContext.CorrelationId.ToProtobuf(),
             };
