@@ -51,6 +51,7 @@ namespace Dolittle.Logging
                 logger = _loggers[loggerKey];
             }
 
+            if (!logger.IsEnabled(Translate(level))) return;
             message = $"[{member}({lineNumber})]-{message}";
 
             switch (level)
@@ -63,5 +64,16 @@ namespace Dolittle.Logging
                 case LogLevel.Error: logger.LogError(0, exception, message); break;
             }
         }
+
+        Microsoft.Extensions.Logging.LogLevel Translate(LogLevel level) => level switch
+        {
+            LogLevel.Trace => Microsoft.Extensions.Logging.LogLevel.Trace,
+            LogLevel.Debug => Microsoft.Extensions.Logging.LogLevel.Debug,
+            LogLevel.Info => Microsoft.Extensions.Logging.LogLevel.Information,
+            LogLevel.Warning => Microsoft.Extensions.Logging.LogLevel.Warning,
+            LogLevel.Critical => Microsoft.Extensions.Logging.LogLevel.Critical,
+            LogLevel.Error => Microsoft.Extensions.Logging.LogLevel.Error,
+            _ => Microsoft.Extensions.Logging.LogLevel.None
+        };
     }
 }
