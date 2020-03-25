@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <DolittleCustomTasksAssemblyFile>$(MSBuildThisFileDirectory)../tasks/netstandard2.1/publish/Dolittle.Build.MSBuild.Tasks.dll</DolittleCustomTasksAssemblyFile>
+        <DolittleCustomTasksAssemblyFile>$(MSBuildThisFileDirectory)../tasks/netstandard2.0/publish/Dolittle.Build.MSBuild.Tasks.dll</DolittleCustomTasksAssemblyFile>
     </PropertyGroup>
     <UsingTask TaskName="Dolittle.Build.MSBuild.Tasks.PluginAndConfigurationDiscoverer" AssemblyFile="$(DolittleCustomTasksAssemblyFile)"/>
     <UsingTask TaskName="Dolittle.Build.MSBuild.Tasks.TempFileGenerator" AssemblyFile="$(DolittleCustomTasksAssemblyFile)"/>

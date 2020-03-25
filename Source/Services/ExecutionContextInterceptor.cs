@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Dolittle.Applications;
@@ -46,8 +47,16 @@ namespace Dolittle.Services
             where TRequest : class
             where TResponse : class
         {
-            SetCurrentExecutionContext(context.Method, context.Options.Headers);
-            return base.AsyncClientStreamingCall(context, continuation);
+            try
+            {
+                SetCurrentExecutionContext(context.Method, context.Options.Headers);
+                return base.AsyncClientStreamingCall(context, continuation);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, context);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -55,8 +64,16 @@ namespace Dolittle.Services
             where TRequest : class
             where TResponse : class
         {
-            SetCurrentExecutionContext(context.Method, context.Options.Headers);
-            return base.AsyncDuplexStreamingCall(context, continuation);
+            try
+            {
+                SetCurrentExecutionContext(context.Method, context.Options.Headers);
+                return base.AsyncDuplexStreamingCall(context, continuation);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, context);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -64,8 +81,16 @@ namespace Dolittle.Services
             where TRequest : class
             where TResponse : class
         {
-            SetCurrentExecutionContext(context.Method, context.Options.Headers);
-            return base.AsyncServerStreamingCall(request, context, continuation);
+            try
+            {
+                SetCurrentExecutionContext(context.Method, context.Options.Headers);
+                return base.AsyncServerStreamingCall(request, context, continuation);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, context);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -73,8 +98,16 @@ namespace Dolittle.Services
                     where TRequest : class
                     where TResponse : class
         {
-            SetCurrentExecutionContext(context.Method, context.Options.Headers);
-            return base.AsyncUnaryCall(request, context, continuation);
+            try
+            {
+                SetCurrentExecutionContext(context.Method, context.Options.Headers);
+                return base.AsyncUnaryCall(request, context, continuation);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, context);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -82,8 +115,16 @@ namespace Dolittle.Services
             where TRequest : class
             where TResponse : class
         {
-            SetCurrentExecutionContext(context.Method, context.Options.Headers);
-            return base.BlockingUnaryCall(request, context, continuation);
+            try
+            {
+                SetCurrentExecutionContext(context.Method, context.Options.Headers);
+                return base.BlockingUnaryCall(request, context, continuation);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, context);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -91,8 +132,16 @@ namespace Dolittle.Services
             where TRequest : class
             where TResponse : class
         {
-            SetCurrentExecutionContext(context.Method, context.RequestHeaders);
-            return base.ClientStreamingServerHandler(requestStream, context, continuation);
+            try
+            {
+                SetCurrentExecutionContext(context.Method, context.RequestHeaders);
+                return base.ClientStreamingServerHandler(requestStream, context, continuation);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, context);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -100,8 +149,16 @@ namespace Dolittle.Services
             where TRequest : class
             where TResponse : class
         {
-            SetCurrentExecutionContext(context.Method, context.RequestHeaders);
-            return base.DuplexStreamingServerHandler(requestStream, responseStream, context, continuation);
+            try
+            {
+                SetCurrentExecutionContext(context.Method, context.RequestHeaders);
+                return base.DuplexStreamingServerHandler(requestStream, responseStream, context, continuation);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, context);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -109,8 +166,16 @@ namespace Dolittle.Services
             where TRequest : class
             where TResponse : class
         {
-            SetCurrentExecutionContext(context.Method, context.RequestHeaders);
-            return base.ServerStreamingServerHandler(request, responseStream, context, continuation);
+            try
+            {
+                SetCurrentExecutionContext(context.Method, context.RequestHeaders);
+                return base.ServerStreamingServerHandler(request, responseStream, context, continuation);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, context);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -151,6 +216,18 @@ namespace Dolittle.Services
                 tenant,
                 correlationId,
                 claims);
+        }
+
+        void HandleException<TRequest, TResponse>(Exception ex, ClientInterceptorContext<TRequest, TResponse> context)
+            where TRequest : class
+            where TResponse : class
+        {
+            _logger.Error(ex, $"Problems handling '{context.Method}' call");
+        }
+
+        void HandleException(Exception ex, ServerCallContext context)
+        {
+            _logger.Error(ex, $"Problems handling '{context.Method}' call");
         }
     }
 }

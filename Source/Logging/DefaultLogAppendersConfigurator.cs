@@ -30,7 +30,7 @@ namespace Dolittle.Logging
         /// <inheritdoc/>
         public void Configure(ILogAppenders appenders)
         {
-            if (_environment == "Production") appenders.Add(new Json.JsonLogAppender(_getCurrentLoggingContext));
+            if (_environment == "Production") appenders.Add(new Json.JsonLogAppender(_getCurrentLoggingContext, _loggerFactory));
             else appenders.Add(new DefaultLogAppender(_getCurrentLoggingContext, _loggerFactory));
         }
     }
