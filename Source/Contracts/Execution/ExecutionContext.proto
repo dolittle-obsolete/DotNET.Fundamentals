@@ -4,15 +4,17 @@
 syntax = "proto3";
 
 import "Security/Claim.proto";
+import "Versioning/Version.proto";
 
 package dolittle.execution;
 
 option csharp_namespace = "Dolittle.Execution.Contracts";
 
 message ExecutionContext {
-    bytes application = 1;
-    bytes microservice = 2;
-    bytes tenant = 3;
-    bytes correlationId = 4;
-    repeated dolittle.security.Claim claims = 5;
+    bytes microservice = 1;
+    Version version = 2;
+    string environment = 3;
+    bytes tenant = 4;
+    bytes correlationId = 5;
+    repeated dolittle.security.Claim claims = 6;
 }

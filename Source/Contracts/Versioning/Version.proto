@@ -1,0 +1,18 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+syntax = "proto3";
+
+import "Security/Claim.proto";
+
+package dolittle.execution;
+
+option csharp_namespace = "Dolittle.Versioning.Contracts";
+
+message Version {
+    uint32 major = 1;
+    uint32 minor = 2;
+    uint32 patch = 3;
+    uint32 build = 4;
+    string preReleaseString = 5;
+}
