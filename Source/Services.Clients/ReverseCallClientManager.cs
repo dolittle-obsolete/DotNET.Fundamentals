@@ -17,27 +17,29 @@ namespace Dolittle.Services.Clients
     public class ReverseCallClientManager : IReverseCallClientManager
     {
         /// <inheritdoc/>
-        public void Handle<TResponse, TRequest>(
+        public Task Handle<TResponse, TRequest>(
             AsyncDuplexStreamingCall<TResponse, TRequest> call,
             Expression<Func<TResponse, ulong>> responseProperty,
             Expression<Func<TRequest, ulong>> requestProperty,
-            Func<ReverseCall<TResponse, TRequest>, Task> callback)
+            Func<ReverseCall<TResponse, TRequest>, Task> callback,
+            CancellationToken token)
             where TResponse : IMessage
             where TRequest : IMessage
         {
             var responsePropertyInfo = responseProperty.GetPropertyInfo();
             var requestPropertyInfo = requestProperty.GetPropertyInfo();
 
-            Task.Run(async () =>
-            {
-                while (await call.ResponseStream.MoveNext(CancellationToken.None).ConfigureAwait(false))
+            return Task.Run(
+                async () =>
                 {
-                    var callNumber = (ulong)requestPropertyInfo.GetValue(call.ResponseStream.Current);
+                    while (await call.ResponseStream.MoveNext(token).ConfigureAwait(false))
+                    {
+                        var callNumber = (ulong)requestPropertyInfo.GetValue(call.ResponseStream.Current);
 
-                    var reverseCall = new ReverseCall<TResponse, TRequest>(call.ResponseStream.Current, call.RequestStream, callNumber, responsePropertyInfo);
-                    await callback(reverseCall).ConfigureAwait(false);
-                }
-            });
+                        var reverseCall = new ReverseCall<TResponse, TRequest>(call.ResponseStream.Current, call.RequestStream, callNumber, responsePropertyInfo);
+                        await callback(reverseCall).ConfigureAwait(false);
+                    }
+                }, token);
         }
     }
 }

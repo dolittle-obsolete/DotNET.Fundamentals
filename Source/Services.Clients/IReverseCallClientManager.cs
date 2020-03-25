@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using Grpc.Core;
@@ -21,9 +22,11 @@ namespace Dolittle.Services.Clients
         /// <param name="responseProperty">An <see cref="Expression{T}"/> for describing what property on response message that will hold the unique call identifier.</param>
         /// <param name="requestProperty">An <see cref="Expression{T}"/> for describing what property on request message that will hold the unique call identifier.</param>
         /// <param name="callback">The <see cref="Func{T1, TOut}">callback</see> for requests coming from server.</param>
+        /// <param name="token">Optional. A <see cref="CancellationToken" /> to cancel the operation.</param>
         /// <typeparam name="TResponse">Type of <see cref="IMessage"/> for the responses from the client.</typeparam>
         /// <typeparam name="TRequest">Type of <see cref="IMessage"/> for the requests to the client.</typeparam>
-        void Handle<TResponse, TRequest>(AsyncDuplexStreamingCall<TResponse, TRequest> call, Expression<Func<TResponse, ulong>> responseProperty, Expression<Func<TRequest, ulong>> requestProperty, Func<ReverseCall<TResponse, TRequest>, Task> callback)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task Handle<TResponse, TRequest>(AsyncDuplexStreamingCall<TResponse, TRequest> call, Expression<Func<TResponse, ulong>> responseProperty, Expression<Func<TRequest, ulong>> requestProperty, Func<ReverseCall<TResponse, TRequest>, Task> callback, CancellationToken token = default)
             where TResponse : IMessage
             where TRequest : IMessage;
     }
