@@ -42,7 +42,7 @@ namespace Dolittle.Booting.Stages
             if (logAppender == null)
             {
                 logAppender = (_isProduction && !settings.UseDefaultInAllEnvironments) ?
-                    new JsonLogAppender(GetCurrentLoggingContext) :
+                    new JsonLogAppender(GetCurrentLoggingContext, loggerFactory) :
                     new DefaultLogAppender(GetCurrentLoggingContext, loggerFactory) as ILogAppender;
             }
 
