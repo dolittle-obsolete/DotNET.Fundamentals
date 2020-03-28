@@ -13,7 +13,7 @@ namespace Dolittle.Logging
     /// An implementation of <see cref="ILoggerManager"/>.
     /// </summary>
     [Singleton]
-    internal class LoggerManager : ILoggerManager
+    public class LoggerManager : ILoggerManager
     {
         readonly IDictionary<Type, Logger> _loggers;
         bool _isCapturingBootLogs;

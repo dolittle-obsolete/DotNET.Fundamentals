@@ -10,7 +10,7 @@ namespace Dolittle.Logging
     /// Represents an implementation of <see cref="ILoggerManager"/> that creates loggers that does nothing.
     /// </summary>
     [Singleton]
-    internal class NullLoggerManager : ILoggerManager
+    public class NullLoggerManager : ILoggerManager
     {
         private NullLoggerManager()
         {

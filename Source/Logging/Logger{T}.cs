@@ -7,7 +7,9 @@ namespace Dolittle.Logging
     /// Represents an implementation of <see cref="ILogger"/>.
     /// </summary>
     /// <typeparam name="T">The type that the log messages relate to.</typeparam>
+#pragma warning disable CA1812
     internal class Logger<T> : Logger, ILogger<T>
     {
     }
+#pragma warning restore CA1812
 }
