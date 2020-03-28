@@ -21,7 +21,7 @@ namespace Dolittle.Logging
         /// Formats and writes a trace log message.
         /// </summary>
         /// <param name="exception">The exception to log.</param>
-        /// <param name="message">Format string of the log message in message template format. Example: <c>"User {User} logged in from {Address}"</c></param>
+        /// <param name="message">Format string of the log message in message template format.</param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         void Trace(Exception exception, string message, params object[] args);
 
@@ -36,7 +36,7 @@ namespace Dolittle.Logging
         /// Formats and writes a debug log message.
         /// </summary>
         /// <param name="exception">The exception to log.</param>
-        /// <param name="message">Format string of the log message in message template format. Example: <c>"User {User} logged in from {Address}"</c></param>
+        /// <param name="message">Format string of the log message in message template format.</param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         void Debug(Exception exception, string message, params object[] args);
 
@@ -51,7 +51,7 @@ namespace Dolittle.Logging
         /// Formats and writes a information log message.
         /// </summary>
         /// <param name="exception">The exception to log.</param>
-        /// <param name="message">Format string of the log message in message template format. Example: <c>"User {User} logged in from {Address}"</c></param>
+        /// <param name="message">Format string of the log message in message template format.</param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         void Information(Exception exception, string message, params object[] args);
 
@@ -66,7 +66,7 @@ namespace Dolittle.Logging
         /// Formats and writes a warning log message.
         /// </summary>
         /// <param name="exception">The exception to log.</param>
-        /// <param name="message">Format string of the log message in message template format. Example: <c>"User {User} logged in from {Address}"</c></param>
+        /// <param name="message">Format string of the log message in message template format.</param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         void Warning(Exception exception, string message, params object[] args);
 
@@ -81,7 +81,7 @@ namespace Dolittle.Logging
         /// Formats and writes a critical log message.
         /// </summary>
         /// <param name="exception">The exception to log.</param>
-        /// <param name="message">Format string of the log message in message template format. Example: <c>"User {User} logged in from {Address}"</c></param>
+        /// <param name="message">Format string of the log message in message template format.</param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         void Critical(Exception exception, string message, params object[] args);
 
@@ -96,7 +96,7 @@ namespace Dolittle.Logging
         /// Formats and writes a error log message.
         /// </summary>
         /// <param name="exception">The exception to log.</param>
-        /// <param name="message">Format string of the log message in message template format. Example: <c>"User {User} logged in from {Address}"</c></param>
+        /// <param name="message">Format string of the log message in message template format.</param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         void Error(Exception exception, string message, params object[] args);
     }
