@@ -10,6 +10,10 @@ namespace Dolittle.Logging
     /// </summary>
     internal class NullLogger : ILogger
     {
+        protected NullLogger()
+        {
+        }
+
         /// <summary>
         /// Gets the static singleton instance of <see cref="NullLogger"/>.
         /// </summary>

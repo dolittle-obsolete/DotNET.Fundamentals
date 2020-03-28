@@ -9,6 +9,10 @@ namespace Dolittle.Logging
     /// <typeparam name="T">The type that the log messages relate to.</typeparam>
     internal class NullLogger<T> : NullLogger, ILogger<T>
     {
+        protected NullLogger()
+        {
+        }
+
         /// <summary>
         /// Gets the static singleton instance of <see cref="NullLogger{T}"/>.
         /// </summary>

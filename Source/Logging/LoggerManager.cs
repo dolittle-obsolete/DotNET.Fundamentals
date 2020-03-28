@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dolittle.Lifecycle;
+using Dolittle.Logging.Booting;
 
 namespace Dolittle.Logging
 {
@@ -14,27 +16,62 @@ namespace Dolittle.Logging
     internal class LoggerManager : ILoggerManager
     {
         readonly IDictionary<Type, Logger> _loggers;
+        bool _isCapturingBootLogs;
         ILogMessageWriterCreator[] _creators;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LoggerManager"/> class.
-        /// </summary>
-        public LoggerManager()
+        LoggerManager()
         {
             _loggers = new Dictionary<Type, Logger>();
-            _creators = new ILogMessageWriterCreator[] { null };
+            _isCapturingBootLogs = true;
+            _creators = new ILogMessageWriterCreator[] { new BootLogMessageWriterCreator() };
         }
+
+        /// <summary>
+        /// Gets the static singleton instance of the <see cref="LoggerManager"/>.
+        /// </summary>
+        public static ILoggerManager Instance { get; } = new LoggerManager();
 
         /// <inheritdoc/>
         public void AddLogMessageWriterCreators(params ILogMessageWriterCreator[] creators)
         {
             lock (_loggers)
             {
-                _creators = creators;
-
-                foreach ((var type, var logger) in _loggers)
+                if (!_isCapturingBootLogs)
                 {
-                    logger.LogMessageWriters = CreateWriters(type);
+                    _creators = _creators.Union(creators).ToArray();
+                    foreach ((var type, var logger) in _loggers)
+                    {
+                        logger.LogMessageWriters = CreateWriters(type);
+                    }
+                }
+                else
+                {
+                    var bootCreator = _creators[0] as BootLogMessageWriterCreator;
+                    _creators = creators;
+
+                    var newLogWriters = new Dictionary<Type, ILogMessageWriter[]>();
+
+                    ILogMessageWriter[] WritersForType(Type type)
+                    {
+                        if (!newLogWriters.TryGetValue(type, out var writers))
+                        {
+                            writers = CreateWriters(type);
+                            newLogWriters[type] = writers;
+                        }
+
+                        return writers;
+                    }
+
+                    bootCreator.FlushTo(WritersForType);
+
+                    foreach ((var type, var logger) in _loggers)
+                    {
+                        logger.LogMessageWriters = WritersForType(type);
+                    }
+
+                    bootCreator.FlushTo(WritersForType);
+
+                    _isCapturingBootLogs = false;
                 }
             }
         }
