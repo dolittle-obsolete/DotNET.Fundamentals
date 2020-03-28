@@ -7,7 +7,7 @@ using Dolittle.Logging;
 namespace Dolittle.Booting.Stages
 {
     /// <summary>
-    /// Represents the settings for <see cref="BootStage.Logging"/> stage
+    /// Represents the settings for <see cref="BootStage.Logging"/> stage.
     /// </summary>
     public class LoggingSettings : IRepresentSettingsForBootStage
     {

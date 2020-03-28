@@ -22,7 +22,8 @@ namespace Dolittle.DependencyInversion.Booting.Stages
         public void Perform(ContainerSettings settings, IBootStageBuilder builder)
         {
             IBindingCollection resultingBindings;
-            var logger = builder.GetAssociation(WellKnownAssociations.Logger) as ILogger;
+            var loggerManager = builder.GetAssociation(WellKnownAssociations.LoggerManager) as ILoggerManager;
+            var logger = loggerManager.CreateLogger<Container>();
             var typeFinder = builder.GetAssociation(WellKnownAssociations.TypeFinder) as ITypeFinder;
             var scheduler = builder.GetAssociation(WellKnownAssociations.Scheduler) as IScheduler;
 

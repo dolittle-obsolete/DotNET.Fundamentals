@@ -3,7 +3,6 @@
 
 using Dolittle.Booting.Stages;
 using Dolittle.Logging;
-using Microsoft.Extensions.Logging;
 
 namespace Dolittle.Booting
 {

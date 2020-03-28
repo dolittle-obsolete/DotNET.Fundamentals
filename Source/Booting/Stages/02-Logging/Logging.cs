@@ -33,7 +33,7 @@ namespace Dolittle.Booting.Stages
 
             var executionContextLogger = loggerManager.CreateLogger<ExecutionContextManager>();
 
-            ExecutionContextManager.SetInitialExecutionContext();
+            ExecutionContextManager.SetInitialExecutionContext(executionContextLogger);
 
             builder.Bindings.Bind<IExecutionContextManager>().To(new ExecutionContextManager(executionContextLogger));
         }
