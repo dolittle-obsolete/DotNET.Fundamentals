@@ -11,7 +11,7 @@ namespace Dolittle.Logging
     public interface ILogMessageWriterCreator
     {
         /// <summary>
-        /// Creates a logger for the provided type.
+        /// Creates a logger message writer for the provided type.
         /// </summary>
         /// <param name="type">The type that the logger relates to.</param>
         /// <returns>An <see cref="ILogMessageWriter"/>.</returns>

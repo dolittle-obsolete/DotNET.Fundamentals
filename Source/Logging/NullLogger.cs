@@ -1,4 +1,4 @@
-﻿// Copyright (c) Dolittle. All rights reserved.
+// Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
@@ -8,13 +8,12 @@ namespace Dolittle.Logging
     /// <summary>
     /// Represents an implementation of <see cref="ILogger"/> that does nothing.
     /// </summary>
-    /// <typeparam name="T">The type that the log messages relate to.</typeparam>
-    internal class NullLogger<T> : ILogger<T>
+    internal class NullLogger : ILogger
     {
         /// <summary>
-        /// Gets the static singleton instance of <see cref="NullLogger{T}"/>.
+        /// Gets the static singleton instance of <see cref="NullLogger"/>.
         /// </summary>
-        public static ILogger<T> Instance { get; } = new NullLogger<T>();
+        public static ILogger Instance { get; } = new NullLogger();
 
         /// <inheritdoc/>
         public void Trace(string message, params object[] args)
