@@ -58,9 +58,9 @@ namespace Dolittle.DependencyInversion.Booting
             Strategies.Constant constant => constant.Target,
             Strategies.Callback callback => callback.Target(),
             Strategies.CallbackWithBindingContext callback => callback.Target(new BindingContext(type)),
-            Strategies.Type typeConstant => Create(typeConstant.Target),
-            Strategies.TypeCallback typeCallback => Create(typeCallback.Target()),
-            Strategies.TypeCallbackWithBindingContext typeCallback => Create(typeCallback.Target(new BindingContext(type))),
+            Strategies.Type typeConstant => Get(typeConstant.Target),
+            Strategies.TypeCallback typeCallback => Get(typeCallback.Target()),
+            Strategies.TypeCallbackWithBindingContext typeCallback => Get(typeCallback.Target(new BindingContext(type))),
             _ => null
         };
 
