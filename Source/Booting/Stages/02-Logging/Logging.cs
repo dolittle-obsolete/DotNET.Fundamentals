@@ -4,6 +4,7 @@
 using System.Linq;
 using Dolittle.Execution;
 using Dolittle.Logging;
+using Dolittle.Logging.Internal;
 
 namespace Dolittle.Booting.Stages
 {

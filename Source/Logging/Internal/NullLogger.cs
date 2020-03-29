@@ -3,13 +3,16 @@
 
 using System;
 
-namespace Dolittle.Logging
+namespace Dolittle.Logging.Internal
 {
     /// <summary>
     /// Represents an implementation of <see cref="ILogger"/> that does nothing.
     /// </summary>
-    internal class NullLogger : ILogger
+    public class NullLogger : ILogger
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullLogger"/> class.
+        /// </summary>
         protected NullLogger()
         {
         }

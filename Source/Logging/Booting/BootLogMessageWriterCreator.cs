@@ -9,7 +9,7 @@ namespace Dolittle.Logging.Booting
     /// <summary>
     /// An implementation of <see cref="ILogMessageWriterCreator"/> that creates instances of <see cref="BootLogMessageWriter"/>.
     /// </summary>
-    internal class BootLogMessageWriterCreator : ILogMessageWriterCreator
+    public class BootLogMessageWriterCreator : ILogMessageWriterCreator
     {
         readonly ConcurrentQueue<BootLogMessage> _messages;
 

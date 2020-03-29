@@ -8,7 +8,7 @@ namespace Dolittle.Logging.Booting
     /// <summary>
     /// Represents a buffered log message that was captured from a <see cref="ILogger"/> during booting.
     /// </summary>
-    internal class BootLogMessage
+    public class BootLogMessage
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BootLogMessage"/> class.
@@ -50,6 +50,8 @@ namespace Dolittle.Logging.Booting
         /// <summary>
         /// Gets the object array that contains zero or more objects to format.
         /// </summary>
+#pragma warning disable CA1819
         public object[] Arguments { get; }
+#pragma warning restore CA1819
     }
 }

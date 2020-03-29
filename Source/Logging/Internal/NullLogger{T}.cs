@@ -1,14 +1,17 @@
 ﻿// Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace Dolittle.Logging
+namespace Dolittle.Logging.Internal
 {
     /// <summary>
     /// Represents an implementation of <see cref="ILogger"/> that does nothing.
     /// </summary>
     /// <typeparam name="T">The type that the log messages relate to.</typeparam>
-    internal class NullLogger<T> : NullLogger, ILogger<T>
+    public class NullLogger<T> : NullLogger, ILogger<T>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullLogger{T}"/> class.
+        /// </summary>
         protected NullLogger()
         {
         }

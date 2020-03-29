@@ -4,7 +4,7 @@
 using System;
 using Dolittle.Lifecycle;
 
-namespace Dolittle.Logging
+namespace Dolittle.Logging.Internal
 {
     /// <summary>
     /// Represents an implementation of <see cref="ILoggerManager"/> that creates loggers that does nothing.

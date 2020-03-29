@@ -3,14 +3,19 @@
 
 using System;
 
-namespace Dolittle.Logging
+namespace Dolittle.Logging.Internal
 {
     /// <summary>
     /// Represents an implementation of <see cref="ILogger"/>.
     /// </summary>
-    internal abstract class InternalLogger : ILogger
+    public abstract class InternalLogger : ILogger
     {
+        /// <summary>
+        /// Gets or sets the instances of <see cref="ILogMessageWriter"/> to use for writing log messages.
+        /// </summary>
+#pragma warning disable CA1819
         public ILogMessageWriter[] LogMessageWriters { get; set; }
+#pragma warning restore CA1819
 
         /// <inheritdoc/>
         public void Trace(string message, params object[] args) => Write(LogLevel.Trace, message, args);
@@ -48,6 +53,12 @@ namespace Dolittle.Logging
         /// <inheritdoc/>
         public void Error(Exception exception, string message, params object[] args) => Write(LogLevel.Error, exception, message, args);
 
+        /// <summary>
+        /// Writes the log message to the log message writers in <see cref="LogMessageWriters"/>.
+        /// </summary>
+        /// <param name="logLevel">The <see cref="LogLevel"/> of the message.</param>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
         protected virtual void Write(LogLevel logLevel, string message, params object[] args)
         {
             var writers = LogMessageWriters;
@@ -65,6 +76,13 @@ namespace Dolittle.Logging
             }
         }
 
+        /// <summary>
+        /// Writes the log message with an exception to the log message writers in <see cref="LogMessageWriters"/>.
+        /// </summary>
+        /// <param name="logLevel">The <see cref="LogLevel"/> of the message.</param>
+        /// <param name="exception">The exception to log.</param>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
         protected virtual void Write(LogLevel logLevel, Exception exception, string message, params object[] args)
         {
             var writers = LogMessageWriters;

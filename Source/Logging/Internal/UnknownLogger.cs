@@ -3,12 +3,12 @@
 
 using System;
 
-namespace Dolittle.Logging
+namespace Dolittle.Logging.Internal
 {
     /// <summary>
     /// The logger used when the source type cannot be determined.
     /// </summary>
-    internal class UnknownLogger : InternalLogger<UnknownLogMessageSource>
+    public class UnknownLogger : InternalLogger<UnknownLogMessageSource>
     {
         const string _messagePrefix = "The following log message was written by a logger whose source could not be determined. " +
                                       "This is probably because the source instance was not created using the normal container. " +
@@ -16,9 +16,11 @@ namespace Dolittle.Logging
                                       "2) explicitly specify the source type in the logger e.g. ILogger<SourceType>. " +
                                       "Original message: ";
 
+        /// <inheritdoc/>
         protected override void Write(LogLevel logLevel, string message, params object[] args)
             => base.Write(logLevel, _messagePrefix + message, args);
 
+        /// <inheritdoc/>
         protected override void Write(LogLevel logLevel, Exception exception, string message, params object[] args)
             => base.Write(logLevel, exception, _messagePrefix + message, args);
     }

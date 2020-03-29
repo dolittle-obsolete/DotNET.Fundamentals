@@ -8,7 +8,7 @@ namespace Dolittle.Logging.Booting
     /// <summary>
     /// An implementation of <see cref="ILogMessageWriter"/> that writes log messages to a buffer to be written to an actual log after booting has completed.
     /// </summary>
-    internal class BootLogMessageWriter : ILogMessageWriter
+    public class BootLogMessageWriter : ILogMessageWriter
     {
         readonly BootLogMessageWriterCreator _creator;
         readonly Type _type;

@@ -7,7 +7,7 @@ using System.Linq;
 using Dolittle.Lifecycle;
 using Dolittle.Logging.Booting;
 
-namespace Dolittle.Logging
+namespace Dolittle.Logging.Internal
 {
     /// <summary>
     /// An implementation of <see cref="ILoggerManager"/>.
