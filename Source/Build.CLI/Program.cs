@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Runtime.Loader;
 using Dolittle.Assemblies;
 using Dolittle.Booting;
-using Dolittle.Logging;
+using Dolittle.Logging.Internal;
 
 namespace Dolittle.Build.CLI
 {
