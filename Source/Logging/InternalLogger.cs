@@ -48,7 +48,7 @@ namespace Dolittle.Logging
         /// <inheritdoc/>
         public void Error(Exception exception, string message, params object[] args) => Write(LogLevel.Error, exception, message, args);
 
-        void Write(LogLevel logLevel, string message, params object[] args)
+        protected virtual void Write(LogLevel logLevel, string message, params object[] args)
         {
             var writers = LogMessageWriters;
             if (writers == null) return;
@@ -65,7 +65,7 @@ namespace Dolittle.Logging
             }
         }
 
-        void Write(LogLevel logLevel, Exception exception, string message, params object[] args)
+        protected virtual void Write(LogLevel logLevel, Exception exception, string message, params object[] args)
         {
             var writers = LogMessageWriters;
             if (writers == null) return;

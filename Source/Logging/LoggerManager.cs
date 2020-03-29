@@ -86,8 +86,13 @@ namespace Dolittle.Logging
             {
                 if (!_loggers.TryGetValue(type, out var logger))
                 {
-                    logger = Activator.CreateInstance(typeof(InternalLogger<>).MakeGenericType(type)) as InternalLogger;
+                    if (type == typeof(UnknownLogMessageSource))
+                        logger = new UnknownLogger();
+                    else
+                        logger = Activator.CreateInstance(typeof(InternalLogger<>).MakeGenericType(type)) as InternalLogger;
+
                     logger.LogMessageWriters = CreateWriters(type);
+
                     _loggers[type] = logger;
                 }
 
