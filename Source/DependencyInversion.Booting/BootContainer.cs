@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Booting;
 using Dolittle.Collections;
-using Dolittle.Logging;
 
 namespace Dolittle.DependencyInversion.Booting
 {
@@ -42,22 +41,28 @@ namespace Dolittle.DependencyInversion.Booting
         /// <inheritdoc/>
         public object Get(Type type)
         {
-            if (_bindings.TryGetValue(type, out var strategy))
-            {
-                return strategy switch
-                {
-                    Strategies.Constant constant => constant.Target,
-                    Strategies.Callback callback => callback.Target(),
-                    Strategies.CallbackWithBindingContext callback => callback.Target(new BindingContext(type)),
-                    Strategies.Type typeConstant => Create(typeConstant.Target),
-                    Strategies.TypeCallback typeCallback => Create(typeCallback.Target()),
-                    Strategies.TypeCallbackWithBindingContext typeCallback => Create(typeCallback.Target(new BindingContext(type))),
-                    _ => null
-                };
-            }
+            if (_bindings.TryGetValue(type, out var strategyForType))
+                return InstanciateBinding(strategyForType, type);
+
+            if (type.IsGenericType && _bindings.TryGetValue(type.GetGenericTypeDefinition(), out var strategyForOpenGenericType))
+                return InstanciateBinding(strategyForOpenGenericType, type);
+
+            if (type.IsInterface)
+                throw new TypeNotBoundInContainer(type, _bindings.Select(_ => _.Key));
 
             return Create(type);
         }
+
+        object InstanciateBinding(IActivationStrategy strategy, Type type) => strategy switch
+        {
+            Strategies.Constant constant => constant.Target,
+            Strategies.Callback callback => callback.Target(),
+            Strategies.CallbackWithBindingContext callback => callback.Target(new BindingContext(type)),
+            Strategies.Type typeConstant => Create(typeConstant.Target),
+            Strategies.TypeCallback typeCallback => Create(typeCallback.Target()),
+            Strategies.TypeCallbackWithBindingContext typeCallback => Create(typeCallback.Target(new BindingContext(type))),
+            _ => null
+        };
 
         object Create(Type type)
         {
@@ -66,16 +71,19 @@ namespace Dolittle.DependencyInversion.Booting
             if (constructors.Length > 1) throw new OnlySingleConstructorSupported(type);
             var constructor = constructors[0];
 
-            var parameters = new List<object>();
-            foreach (var parameter in constructor.GetParameters())
+            var parameters = constructor.GetParameters().Select(parameter =>
             {
-                if (!_bindings.ContainsKey(parameter.ParameterType))
+                try
+                {
+                    return Get(parameter.ParameterType);
+                }
+                catch (TypeNotBoundInContainer)
+                {
                     throw new ConstructorDependencyNotSupported(type, parameter.ParameterType, _bindings.Select(_ => _.Key));
+                }
+            }).ToArray();
 
-                parameters.Add(Get(parameter.ParameterType));
-            }
-
-            return constructor.Invoke(parameters.ToArray());
+            return constructor.Invoke(parameters);
         }
     }
 }
