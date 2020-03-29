@@ -3,6 +3,8 @@
 
 using Dolittle.Booting.Stages;
 using Dolittle.Logging;
+using Dolittle.Logging.Microsoft;
+using Microsoft.Extensions.Logging;
 
 namespace Dolittle.Booting
 {
@@ -23,17 +25,17 @@ namespace Dolittle.Booting
             return bootBuilder;
         }
 
-        // /// <summary>
-        // /// Set <see cref="ILoggerFactory"/> to use.
-        // /// </summary>
-        // /// <param name="bootBuilder"><see cref="BootBuilder"/> to build.</param>
-        // /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use.</param>
-        // /// <returns>Chained <see cref="BootBuilder"/>.</returns>
-        // public static IBootBuilder UseLoggerFactory(this IBootBuilder bootBuilder, ILoggerFactory loggerFactory)
-        // {
-        //     bootBuilder.Set<LoggingSettings>(_ => _.LoggerFactory, loggerFactory);
-        //     return bootBuilder;
-        // }
+        /// <summary>
+        /// Set <see cref="ILoggerFactory"/> to use.
+        /// </summary>
+        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build.</param>
+        /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use.</param>
+        /// <returns>Chained <see cref="BootBuilder"/>.</returns>
+        public static IBootBuilder UseLoggerFactory(this IBootBuilder bootBuilder, ILoggerFactory loggerFactory)
+        {
+            bootBuilder.Set<LoggingSettings>(_ => _.LogMessageWriterCreators, new[] { new LogMessageWriterCreator(loggerFactory) });
+            return bootBuilder;
+        }
 
         /// <summary>
         /// Disables logging.
