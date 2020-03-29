@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Autofac;
 using Autofac.Core.Resolving;
+using Dolittle.Logging;
 
 namespace Dolittle.DependencyInversion.Autofac.Tenancy
 {
@@ -30,7 +31,13 @@ namespace Dolittle.DependencyInversion.Autofac.Tenancy
             var constructors = type.GetConstructors().ToArray();
             if (constructors.Length > 1) throw new AmbiguousConstructor(type);
             var constructor = constructors[0];
-            var parameterInstances = constructor.GetParameters().Select(_ => _container.Resolve(_.ParameterType)).ToArray();
+            var parameterInstances = constructor.GetParameters().Select(_ =>
+            {
+                if (_.ParameterType == typeof(ILogger))
+                    return _container.Resolve(typeof(ILogger<>).MakeGenericType(type));
+
+                return _container.Resolve(_.ParameterType);
+            }).ToArray();
 
             var instanceLookup = context as IInstanceLookup;
 

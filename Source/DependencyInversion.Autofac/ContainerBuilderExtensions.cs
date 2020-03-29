@@ -45,6 +45,7 @@ namespace Dolittle.DependencyInversion.Autofac
             containerBuilder.RegisterSource(new FactoryForRegistrationSource());
             containerBuilder.RegisterSource(new OpenGenericCallbackRegistrationSource());
             containerBuilder.RegisterSource(new OpenGenericTypeCallbackRegistrationSource());
+            containerBuilder.RegisterModule(new LoggerModule());
             DiscoverAndRegisterRegistrationSources(containerBuilder, allAssemblies);
 
             RegisterUpBindingsIntoContainerBuilder(bindings, containerBuilder);

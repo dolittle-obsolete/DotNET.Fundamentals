@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Booting;
 using Dolittle.Collections;
+using Dolittle.Logging;
 
 namespace Dolittle.DependencyInversion.Booting
 {
@@ -75,6 +76,9 @@ namespace Dolittle.DependencyInversion.Booting
             {
                 try
                 {
+                    if (parameter.ParameterType == typeof(ILogger))
+                        return Get(typeof(ILogger<>).MakeGenericType(type));
+
                     return Get(parameter.ParameterType);
                 }
                 catch (TypeNotBoundInContainer)
