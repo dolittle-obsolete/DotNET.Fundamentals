@@ -40,7 +40,7 @@ namespace Dolittle.DependencyInversion.Booting.Stages
                     typeFinder,
                     scheduler,
                     fileSystem,
-                    logger,
+                    loggerManager,
                     settings.ContainerType,
                     bindings,
                     builder.Container as BootContainer);
@@ -52,7 +52,7 @@ namespace Dolittle.DependencyInversion.Booting.Stages
                     typeFinder,
                     scheduler,
                     fileSystem,
-                    logger,
+                    loggerManager,
                     bindings,
                     builder.Container as BootContainer);
                 resultingBindings = bootResult.Bindings;
