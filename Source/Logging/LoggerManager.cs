@@ -15,13 +15,13 @@ namespace Dolittle.Logging
     [Singleton]
     public class LoggerManager : ILoggerManager
     {
-        readonly IDictionary<Type, Logger> _loggers;
+        readonly IDictionary<Type, InternalLogger> _loggers;
         bool _isCapturingBootLogs;
         ILogMessageWriterCreator[] _creators;
 
         LoggerManager()
         {
-            _loggers = new Dictionary<Type, Logger>();
+            _loggers = new Dictionary<Type, InternalLogger>();
             _isCapturingBootLogs = true;
             _creators = new ILogMessageWriterCreator[] { new BootLogMessageWriterCreator() };
         }
@@ -86,7 +86,7 @@ namespace Dolittle.Logging
             {
                 if (!_loggers.TryGetValue(type, out var logger))
                 {
-                    logger = Activator.CreateInstance(typeof(Logger<>).MakeGenericType(type)) as Logger;
+                    logger = Activator.CreateInstance(typeof(InternalLogger<>).MakeGenericType(type)) as InternalLogger;
                     logger.LogMessageWriters = CreateWriters(type);
                     _loggers[type] = logger;
                 }

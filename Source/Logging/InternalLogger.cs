@@ -8,7 +8,7 @@ namespace Dolittle.Logging
     /// <summary>
     /// Represents an implementation of <see cref="ILogger"/>.
     /// </summary>
-    internal abstract class Logger : ILogger
+    internal abstract class InternalLogger : ILogger
     {
         public ILogMessageWriter[] LogMessageWriters { get; set; }
 
