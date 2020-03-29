@@ -19,7 +19,16 @@ namespace Dolittle.Specs.Logging.for_InternalLogger
 
         Because of = () => logger.Critical(message, arguments);
 
-        It should_forward_to_writer_one_with_level_critical_without_exception = () => writer_one.Verify(_ => _.Write(LogLevel.Critical, message, arguments), Moq.Times.Once());
-        It should_forward_to_writer_two_with_level_critical_without_exception = () => writer_two.Verify(_ => _.Write(LogLevel.Critical, message, arguments), Moq.Times.Once());
+        It should_forward_to_writer_one_with_level_critical_without_exception = () =>
+        {
+            writer_one.Verify(_ => _.Write(LogLevel.Critical, message, arguments), Moq.Times.Once());
+            writer_one.VerifyNoOtherCalls();
+        };
+
+        It should_forward_to_writer_two_with_level_critical_without_exception = () =>
+        {
+            writer_two.Verify(_ => _.Write(LogLevel.Critical, message, arguments), Moq.Times.Once());
+            writer_two.VerifyNoOtherCalls();
+        };
     }
 }

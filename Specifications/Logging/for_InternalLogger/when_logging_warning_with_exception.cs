@@ -22,7 +22,16 @@ namespace Dolittle.Specs.Logging.for_InternalLogger
 
         Because of = () => logger.Warning(exception, message, arguments);
 
-        It should_forward_to_writer_one_with_level_warning_with_exception = () => writer_one.Verify(_ => _.Write(LogLevel.Warning, exception, message, arguments), Moq.Times.Once());
-        It should_forward_to_writer_two_with_level_warning_with_exception = () => writer_two.Verify(_ => _.Write(LogLevel.Warning, exception, message, arguments), Moq.Times.Once());
+        It should_forward_to_writer_one_with_level_warning_with_exception = () =>
+        {
+            writer_one.Verify(_ => _.Write(LogLevel.Warning, exception, message, arguments), Moq.Times.Once());
+            writer_one.VerifyNoOtherCalls();
+        };
+
+        It should_forward_to_writer_two_with_level_warning_with_exception = () =>
+        {
+            writer_two.Verify(_ => _.Write(LogLevel.Warning, exception, message, arguments), Moq.Times.Once());
+            writer_two.VerifyNoOtherCalls();
+        };
     }
 }
