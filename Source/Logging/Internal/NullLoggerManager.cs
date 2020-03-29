@@ -12,7 +12,7 @@ namespace Dolittle.Logging.Internal
     [Singleton]
     public class NullLoggerManager : ILoggerManager
     {
-        private NullLoggerManager()
+        NullLoggerManager()
         {
         }
 
