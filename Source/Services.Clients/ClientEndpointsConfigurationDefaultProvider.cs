@@ -12,13 +12,11 @@ namespace Dolittle.Services.Clients
     public class ClientEndpointsConfigurationDefaultProvider : ICanProvideDefaultConfigurationFor<ClientEndpointsConfiguration>
     {
         /// <inheritdoc/>
-        public ClientEndpointsConfiguration Provide()
-        {
-            return new ClientEndpointsConfiguration(new Dictionary<EndpointVisibility, ClientEndpointConfiguration>
+        public ClientEndpointsConfiguration Provide() =>
+            new ClientEndpointsConfiguration(new Dictionary<EndpointVisibility, ClientEndpointConfiguration>
             {
                 { EndpointVisibility.Public, new ClientEndpointConfiguration("localhost", EndpointsConfigurationDefaultProvider.DefaultPublicPort) },
                 { EndpointVisibility.Private, new ClientEndpointConfiguration("localhost", EndpointsConfigurationDefaultProvider.DefaultPrivatePort) }
             });
-        }
     }
 }
