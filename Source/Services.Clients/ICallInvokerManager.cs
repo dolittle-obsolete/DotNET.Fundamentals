@@ -7,7 +7,7 @@ using Grpc.Core;
 namespace Dolittle.Services.Clients
 {
     /// <summary>
-    /// Defines a system that managed <see cref="CallInvoker">call invokers</see>.
+    /// Defines a system that manages <see cref="CallInvoker">call invokers</see>.
     /// </summary>
     public interface ICallInvokerManager
     {
