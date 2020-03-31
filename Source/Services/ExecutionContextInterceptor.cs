@@ -208,7 +208,7 @@ namespace Dolittle.Services
             var tenant = executionContext.Tenant.To<TenantId>();
             var correlationId = executionContext.CorrelationId.To<CorrelationId>();
 
-            _logger.Information($"Establishing execution context for '{method}' - Application: '{application}' Microservice: '{microservice}' TenantId: '{tenant}', CorrelationId: '{correlationId}'");
+            _logger.Trace($"Establishing execution context for '{method}' - Application: '{application}' Microservice: '{microservice}' TenantId: '{tenant}', CorrelationId: '{correlationId}'");
 
             _executionContextManager.CurrentFor(
                 application,
