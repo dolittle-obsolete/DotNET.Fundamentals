@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using Dolittle.Applications;
 using Dolittle.Lifecycle;
@@ -63,19 +62,14 @@ namespace Dolittle.Execution
         /// <summary>
         /// Set the initial <see cref="ExecutionContext"/>.
         /// </summary>
-        /// <param name="filePath">The path of the file setting the initial <see cref="ExecutionContext"/>.</param>
-        /// <param name="lineNumber">The line number into the file.</param>
-        /// <param name="member">The member in the file.</param>
+        /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         /// <remarks>
         /// This can only be called once per process and is typically called by entrypoints into Dolittle itself.
         /// </remarks>
         /// <returns>An <see cref="ExecutionContext"/> instance.</returns>
-        public static ExecutionContext SetInitialExecutionContext(
-            [CallerFilePath] string filePath = "",
-            [CallerLineNumber] int lineNumber = 0,
-            [CallerMemberName] string member = "")
+        public static ExecutionContext SetInitialExecutionContext(ILogger logger)
         {
-            Logger.Internal.Trace($"Setting initial execution context - called from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
+            logger.Trace("Setting initial execution context");
             if (_initialExecutionContextSet) throw new InitialExecutionContextHasAlreadyBeenSet();
 
             _initialExecutionContextSet = true;

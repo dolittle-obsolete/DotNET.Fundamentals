@@ -3,6 +3,7 @@
 
 using Dolittle.Booting.Stages;
 using Dolittle.Logging;
+using Dolittle.Logging.Microsoft;
 using Microsoft.Extensions.Logging;
 
 namespace Dolittle.Booting
@@ -13,25 +14,14 @@ namespace Dolittle.Booting
     public static class LoggingBootBuilderExtensions
     {
         /// <summary>
-        /// Set <see cref="ILogAppender"/> to use.
+        /// Set the log message writer creators to use.
         /// </summary>
         /// <param name="bootBuilder"><see cref="BootBuilder"/> to build.</param>
-        /// <param name="logAppender"><see cref="ILogAppender"/> to use.</param>
+        /// <param name="creators">The instances of <see cref="ILogMessageWriterCreator"/> to use.</param>
         /// <returns>Chained <see cref="BootBuilder"/>.</returns>
-        public static IBootBuilder UseLogAppender(this IBootBuilder bootBuilder, ILogAppender logAppender)
+        public static IBootBuilder UseLogMessageWriterCreators(this IBootBuilder bootBuilder, params ILogMessageWriterCreator[] creators)
         {
-            bootBuilder.Set<LoggingSettings>(_ => _.LogAppender, logAppender);
-            return bootBuilder;
-        }
-
-        /// <summary>
-        /// Sets the default logger for all environments.
-        /// </summary>
-        /// <param name="bootBuilder"><see cref="BootBuilder"/> to build.</param>
-        /// <returns>Chained <see cref="BootBuilder"/>.</returns>
-        public static IBootBuilder UseDefaultLoggerInAllEnvironments(this IBootBuilder bootBuilder)
-        {
-            bootBuilder.Set<LoggingSettings>(_ => _.UseDefaultInAllEnvironments, true);
+            bootBuilder.Set<LoggingSettings>(_ => _.LogMessageWriterCreators, creators);
             return bootBuilder;
         }
 
@@ -43,7 +33,7 @@ namespace Dolittle.Booting
         /// <returns>Chained <see cref="BootBuilder"/>.</returns>
         public static IBootBuilder UseLoggerFactory(this IBootBuilder bootBuilder, ILoggerFactory loggerFactory)
         {
-            bootBuilder.Set<LoggingSettings>(_ => _.LoggerFactory, loggerFactory);
+            bootBuilder.Set<LoggingSettings>(_ => _.LogMessageWriterCreators, new[] { new LogMessageWriterCreator(loggerFactory) });
             return bootBuilder;
         }
 
@@ -54,7 +44,7 @@ namespace Dolittle.Booting
         /// <returns>Chained <see cref="BootBuilder"/>.</returns>
         public static IBootBuilder NoLogging(this IBootBuilder bootBuilder)
         {
-            bootBuilder.Set<LoggingSettings>(_ => _.Logger, new NullLogger());
+            bootBuilder.Set<LoggingSettings>(_ => _.DisableLogging, true);
             return bootBuilder;
         }
     }

@@ -41,9 +41,9 @@ namespace Dolittle.Booting
         public const string Environment = "Environment";
 
         /// <summary>
-        /// The <see cref="ILogger"/>.
+        /// The <see cref="ILoggerManager"/>.
         /// </summary>
-        public const string Logger = "Logger";
+        public const string LoggerManager = "LoggerManager";
 
         /// <summary>
         /// Current <see cref="IBindingCollection">bindings</see>.

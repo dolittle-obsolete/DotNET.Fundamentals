@@ -63,14 +63,17 @@ namespace Dolittle.Booting
             {
                 new BindingBuilder(Binding.For(typeof(GetContainer))).To((GetContainer)(() => _container)).Build()
             });
-            _logger = new NullLogger();
 
             aggregatedAssociations[WellKnownAssociations.Bindings] = bindingCollection;
 
             while (_stages.Count > 0)
             {
                 var stage = _stages.Dequeue();
-                if (aggregatedAssociations.ContainsKey(WellKnownAssociations.Logger)) _logger = aggregatedAssociations[WellKnownAssociations.Logger] as ILogger;
+                if (aggregatedAssociations.ContainsKey(WellKnownAssociations.LoggerManager))
+                {
+                    var loggerManager = aggregatedAssociations[WellKnownAssociations.LoggerManager] as ILoggerManager;
+                    _logger = loggerManager.CreateLogger<BootStages>();
+                }
 
                 var interfaces = stage.GetType().GetInterfaces();
 
@@ -81,7 +84,7 @@ namespace Dolittle.Booting
                 if (isBefore) suffix = " (before)";
                 if (isAfter) suffix = " (after)";
 
-                _logger.Information($"<********* BOOTSTAGE : {stage.BootStage}{suffix} *********>");
+                _logger?.Information($"<********* BOOTSTAGE : {stage.BootStage}{suffix} *********>");
 
                 var performer = interfaces.SingleOrDefault(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanPerformPartOfBootStage<>));
                 var settingsType = performer.GetGenericArguments()[0];
