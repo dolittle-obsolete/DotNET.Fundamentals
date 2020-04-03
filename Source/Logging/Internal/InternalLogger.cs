@@ -8,8 +8,12 @@ namespace Dolittle.Logging.Internal
     /// <summary>
     /// Represents an implementation of <see cref="ILogger"/>.
     /// </summary>
-    public abstract class InternalLogger : ILogger
+    public class InternalLogger : ILogger
     {
+        protected InternalLogger()
+        {
+        }
+
         /// <summary>
         /// Gets or sets the instances of <see cref="ILogMessageWriter"/> to use for writing log messages.
         /// </summary>

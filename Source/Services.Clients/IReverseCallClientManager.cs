@@ -26,7 +26,12 @@ namespace Dolittle.Services.Clients
         /// <typeparam name="TResponse">Type of <see cref="IMessage"/> for the responses from the client.</typeparam>
         /// <typeparam name="TRequest">Type of <see cref="IMessage"/> for the requests to the client.</typeparam>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task Handle<TResponse, TRequest>(AsyncDuplexStreamingCall<TResponse, TRequest> call, Expression<Func<TResponse, ulong>> responseProperty, Expression<Func<TRequest, ulong>> requestProperty, Func<ReverseCall<TResponse, TRequest>, Task> callback, CancellationToken token = default)
+        Task Handle<TResponse, TRequest>(
+            AsyncDuplexStreamingCall<TResponse, TRequest> call,
+            Expression<Func<TResponse, ulong>> responseProperty,
+            Expression<Func<TRequest, ulong>> requestProperty,
+            Func<ReverseCall<TResponse, TRequest>, Task> callback,
+            CancellationToken token = default)
             where TResponse : IMessage
             where TRequest : IMessage;
     }

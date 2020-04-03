@@ -37,10 +37,8 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public bool HasFor(ServiceType type)
-        {
-            return _servicesPerServiceType.ContainsKey(type);
-        }
+        public bool HasFor(ServiceType type) =>
+            _servicesPerServiceType.ContainsKey(type);
 
         /// <inheritdoc/>
         public IEnumerable<Service> GetFor(ServiceType type)

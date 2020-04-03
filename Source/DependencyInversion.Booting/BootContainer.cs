@@ -54,7 +54,7 @@ namespace Dolittle.DependencyInversion.Booting
             return Create(type);
         }
 
-        object InstanciateBinding(IActivationStrategy strategy, Type type) => strategy switch
+        object InstantiateBinding(IActivationStrategy strategy, Type type) => strategy switch
         {
             Strategies.Constant constant => constant.Target,
             Strategies.Callback callback => callback.Target(),

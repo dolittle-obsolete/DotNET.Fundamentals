@@ -25,9 +25,7 @@ namespace Dolittle.Services.Clients
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Metadata.Entry> Provide()
-        {
-            return _metadataProviders.SelectMany(_ => _.Provide());
-        }
+        public IEnumerable<Metadata.Entry> Provide() =>
+            _metadataProviders.SelectMany(_ => _.Provide());
     }
 }

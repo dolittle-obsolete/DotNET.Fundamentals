@@ -107,10 +107,7 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public IEnumerable<EndpointInfo> GetEndpoints()
-        {
-            return _endpointInfos;
-        }
+        public IEnumerable<EndpointInfo> GetEndpoints() => _endpointInfos;
 
         IEndpoint GetEndpointFor(EndpointVisibility type)
         {
