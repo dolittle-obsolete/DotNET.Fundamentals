@@ -76,7 +76,9 @@ namespace Dolittle.DependencyInversion.Autofac
                     {
                         case Strategies.Type type:
                             {
-                                var registrationBuilder = containerBuilder.RegisterGeneric(type.Target).As(binding.Service);
+                                var registrationBuilder = containerBuilder.RegisterGeneric(type.Target)
+                                    .AsSelf()
+                                    .As(binding.Service);
                                 if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
                             }
 
@@ -117,7 +119,9 @@ namespace Dolittle.DependencyInversion.Autofac
                     {
                         case Strategies.Type type:
                             {
-                                var registrationBuilder = containerBuilder.RegisterType(type.Target).As(binding.Service);
+                                var registrationBuilder = containerBuilder.RegisterType(type.Target)
+                                    .AsSelf()
+                                    .As(binding.Service);
                                 if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
                             }
 
