@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Dolittle.Collections;
 using Dolittle.Logging;
 using Grpc.Core.Interceptors;
@@ -19,6 +18,7 @@ namespace Dolittle.Services
         readonly ILogger _logger;
         readonly ExecutionContextInterceptor _executionContextInterceptor;
         grpc::Server _server;
+        bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Endpoint"/> class.
@@ -29,6 +29,7 @@ namespace Dolittle.Services
             ILogger logger,
             ExecutionContextInterceptor executionContextInterceptor)
         {
+            System.Console.WriteLine("CREATING");
             _logger = logger;
             _executionContextInterceptor = executionContextInterceptor;
         }
@@ -44,7 +45,11 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Dispose()
         {
-            _server?.ShutdownAsync().GetAwaiter().GetResult();
+            if (!_disposed)
+            {
+                _disposed = true;
+                _server?.ShutdownAsync().GetAwaiter().GetResult();
+            }
         }
 
         /// <inheritdoc/>
