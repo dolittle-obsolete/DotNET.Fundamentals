@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.Booting;
 using Dolittle.Collections;
+using Dolittle.Logging;
 
 namespace Dolittle.DependencyInversion.Booting
 {
@@ -15,7 +16,7 @@ namespace Dolittle.DependencyInversion.Booting
     /// </summary>
     public class BootContainer : IContainer
     {
-        readonly IDictionary<Type, object> _bindings;
+        readonly IDictionary<Type, IActivationStrategy> _bindings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BootContainer"/> class.
@@ -24,10 +25,12 @@ namespace Dolittle.DependencyInversion.Booting
         /// <param name="newBindingsNotifier"><see cref="ICanNotifyForNewBindings">Notifier</see> of new <see cref="Binding">bindings</see>.</param>
         public BootContainer(IBindingCollection bindings, ICanNotifyForNewBindings newBindingsNotifier)
         {
-            _bindings = ConvertBindings(bindings);
-            _bindings[typeof(IContainer)] = this;
+            _bindings = bindings.ToDictionary(_ => _.Service, _ => _.Strategy);
 
-            newBindingsNotifier.SubscribeTo(_ => ConvertBindings(_).ForEach(_bindings.Add));
+            _bindings[typeof(IContainer)] = new Strategies.Constant(this);
+            _bindings[typeof(GetContainer)] = new Strategies.Constant((GetContainer)(() => this));
+
+            newBindingsNotifier.SubscribeTo(_ => _.ToDictionary(_ => _.Service, _ => _.Strategy).ForEach(_bindings.Add));
         }
 
         /// <inheritdoc/>
@@ -39,52 +42,52 @@ namespace Dolittle.DependencyInversion.Booting
         /// <inheritdoc/>
         public object Get(Type type)
         {
-            var constructors = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
-            if (constructors.Length == 0) return Activator.CreateInstance(type) as ICanProvideBindings;
-            if (constructors.Length > 1) throw new OnlySingleConstructorSupported(type);
+            if (_bindings.TryGetValue(type, out var strategyForType))
+                return InstanciateBinding(strategyForType, type);
 
-            var instances = new List<object>();
+            if (type.IsGenericType && _bindings.TryGetValue(type.GetGenericTypeDefinition(), out var strategyForOpenGenericType))
+                return InstanciateBinding(strategyForOpenGenericType, type);
 
-            var constructor = constructors[0];
-            var parameters = constructor.GetParameters();
+            if (type.IsInterface)
+                throw new TypeNotBoundInContainer(type, _bindings.Select(_ => _.Key));
 
-            foreach (var parameter in parameters)
-            {
-                if (!_bindings.ContainsKey(parameter.ParameterType))
-                    throw new ConstructorDependencyNotSupported(type, parameter.ParameterType, _bindings.Select(_ => _.Key));
-
-                var binding = _bindings[parameter.ParameterType];
-                if (binding is Delegate && parameter.ParameterType != typeof(GetContainer))
-                {
-                    var bindingDelegate = binding as Delegate;
-                    binding = bindingDelegate.DynamicInvoke();
-                }
-
-                instances.Add(binding);
-            }
-
-            var bindingProvider = constructor.Invoke(instances.ToArray());
-            return bindingProvider;
+            return Create(type);
         }
 
-        IDictionary<Type, object> ConvertBindings(IBindingCollection bindings)
+        object InstantiateBinding(IActivationStrategy strategy, Type type) => strategy switch
         {
-            return bindings.ToDictionary(
-                _ => _.Service,
-                _ =>
-                {
-                    switch (_.Strategy)
-                    {
-                        case Strategies.Constant constant: return constant.Target;
-                        case Strategies.Callback callback: return callback.Target;
-                        case Strategies.CallbackWithBindingContext callback: return callback.Target;
-                        case Strategies.Type type: return type.Target;
-                        case Strategies.TypeCallback typeCallback: return typeCallback.Target;
-                        case Strategies.TypeCallbackWithBindingContext typeCallback: return typeCallback.Target;
-                    }
+            Strategies.Constant constant => constant.Target,
+            Strategies.Callback callback => callback.Target(),
+            Strategies.CallbackWithBindingContext callback => callback.Target(new BindingContext(type)),
+            Strategies.Type typeConstant => Get(typeConstant.Target),
+            Strategies.TypeCallback typeCallback => Get(typeCallback.Target()),
+            Strategies.TypeCallbackWithBindingContext typeCallback => Get(typeCallback.Target(new BindingContext(type))),
+            _ => null
+        };
 
-                    return null;
-                });
+        object Create(Type type)
+        {
+            var constructors = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+            if (constructors.Length == 0) return Activator.CreateInstance(type);
+            if (constructors.Length > 1) throw new OnlySingleConstructorSupported(type);
+            var constructor = constructors[0];
+
+            var parameters = constructor.GetParameters().Select(parameter =>
+            {
+                try
+                {
+                    if (parameter.ParameterType == typeof(ILogger))
+                        return Get(typeof(ILogger<>).MakeGenericType(type));
+
+                    return Get(parameter.ParameterType);
+                }
+                catch (TypeNotBoundInContainer)
+                {
+                    throw new ConstructorDependencyNotSupported(type, parameter.ParameterType, _bindings.Select(_ => _.Key));
+                }
+            }).ToArray();
+
+            return constructor.Invoke(parameters);
         }
     }
 }

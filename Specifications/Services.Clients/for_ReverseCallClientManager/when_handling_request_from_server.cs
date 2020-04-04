@@ -59,7 +59,8 @@ namespace Dolittle.Services.Clients.for_ReverseCallClientManager
                 {
                     result_source.SetResult(reverseCall);
                     return Task.CompletedTask;
-                });
+                },
+                CancellationToken.None);
         };
 
         Because of = () =>
