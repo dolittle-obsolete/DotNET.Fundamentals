@@ -29,7 +29,6 @@ namespace Dolittle.Services
             ILogger logger,
             ExecutionContextInterceptor executionContextInterceptor)
         {
-            System.Console.WriteLine("CREATING");
             _logger = logger;
             _executionContextInterceptor = executionContextInterceptor;
         }
@@ -39,17 +38,14 @@ namespace Dolittle.Services
         /// </summary>
         ~Endpoint()
         {
-            Dispose();
+            Dispose(false);
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (!_disposed)
-            {
-                _disposed = true;
-                _server?.ShutdownAsync().GetAwaiter().GetResult();
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>
@@ -91,6 +87,17 @@ namespace Dolittle.Services
             {
                 _logger.Error(ex, $"Couldn't start {type} host");
             }
+        }
+
+        /// <summary>
+        /// Disposes resources.
+        /// </summary>
+        /// <param name="disposeManagedResources">Whether to dispose managed resources.</param>
+        protected virtual void Dispose(bool disposeManagedResources)
+        {
+            if (_disposed) return;
+            _server.ShutdownAsync().GetAwaiter().GetResult();
+            _disposed = true;
         }
     }
 }
