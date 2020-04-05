@@ -16,6 +16,7 @@ namespace Dolittle.DependencyInversion.Booting
     /// </summary>
     public class BootContainer : IContainer
     {
+        static IContainer _container;
         readonly IDictionary<Type, IActivationStrategy> _bindings;
 
         /// <summary>
@@ -27,10 +28,21 @@ namespace Dolittle.DependencyInversion.Booting
         {
             _bindings = bindings.ToDictionary(_ => _.Service, _ => _.Strategy);
 
-            _bindings[typeof(IContainer)] = new Strategies.Constant(this);
-            _bindings[typeof(GetContainer)] = new Strategies.Constant((GetContainer)(() => this));
+            _bindings[typeof(IContainer)] = new Strategies.Callback(() => _container);
+            _bindings[typeof(GetContainer)] = new Strategies.Constant((GetContainer)(() => _container));
 
             newBindingsNotifier.SubscribeTo(_ => _.ToDictionary(_ => _.Service, _ => _.Strategy).ForEach(_bindings.Add));
+
+            _container = this;
+        }
+
+        /// <summary>
+        /// Method that gets called when <see cref="IContainer"/> is ready.
+        /// </summary>
+        /// <param name="container"><see cref="IContainer"/> instance.</param>
+        public static void ContainerReady(IContainer container)
+        {
+            _container = container;
         }
 
         /// <inheritdoc/>

@@ -69,7 +69,7 @@ namespace Dolittle.Hosting.Microsoft
             try
             {
                 var container = serviceProvider.GetService(typeof(IContainer)) as IContainer;
-                DependencyInversion.Booting.Boot.ContainerReady(container);
+                DependencyInversion.Booting.BootContainer.ContainerReady(container);
                 BootStages.ContainerReady(container);
 
                 var logMessageWriterCreatorProviders = container.Get<IInstancesOf<ICanProvideLogMessageWriterCreators>>();
