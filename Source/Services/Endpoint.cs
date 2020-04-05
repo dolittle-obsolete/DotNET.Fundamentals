@@ -72,11 +72,11 @@ namespace Dolittle.Services
                 _server
                     .Ports
                     .ForEach(_ =>
-                        _logger.Information($"Starting {type} host on {_.Host}" + (_.Port > 0 ? $" for port {_.Port}" : string.Empty)));
+                        _logger.Information("Starting {endpointVisibility} host on {host}" + (_.Port > 0 ? " for port {port}" : string.Empty), type, _.Host, _.Port));
 
                 services.ForEach(_ =>
                 {
-                    _logger.Debug($"Exposing service '{_.Descriptor.FullName}'");
+                    _logger.Debug("Exposing service '{serviceName}'", _.Descriptor.FullName);
                     var serverDefinition = _.ServerDefinition.Intercept(_executionContextInterceptor);
                     _server.Services.Add(serverDefinition);
                 });
@@ -85,7 +85,7 @@ namespace Dolittle.Services
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"Couldn't start {type} host");
+                _logger.Error(ex, "Couldn't start {type} host", type);
             }
         }
 

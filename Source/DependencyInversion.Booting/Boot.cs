@@ -141,7 +141,7 @@ namespace Dolittle.DependencyInversion.Booting
 
             foreach (var binding in bindingCollection)
             {
-                logger.Trace($"Discovered Binding : {binding.Service.AssemblyQualifiedName} - {binding.Strategy.GetType().Name}");
+                logger.Trace("Discovered Binding : {bindingServiceName} - {bindingStrategyTypeName}", binding.Service.AssemblyQualifiedName, binding.Strategy.GetType().Name);
             }
 
             var asmBindings = bindingCollection.Where(_ => _.Service == typeof(IAssemblies)).ToArray();

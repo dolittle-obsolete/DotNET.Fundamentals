@@ -159,7 +159,7 @@ namespace Dolittle.Execution
             int lineNumber,
             string member)
         {
-            _logger.Trace($"Setting execution context ({context}) - from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
+            _logger.Trace("Setting execution context ({context}) - from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
             Current = context;
             return context;
         }

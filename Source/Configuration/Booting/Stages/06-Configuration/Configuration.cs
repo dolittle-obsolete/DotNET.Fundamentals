@@ -31,12 +31,12 @@ namespace Dolittle.Configuration
             var configurationObjectTypes = typeFinder.FindMultiple<IConfigurationObject>();
             configurationObjectTypes.ForEach(_ =>
             {
-                logger.Trace($"Bind configuration object '{_.GetFriendlyConfigurationName()} - {_.AssemblyQualifiedName}'");
+                logger.Trace("Bind configuration object '{configurationObjectName} - {configurationObjectType}'", _.GetFriendlyConfigurationName(), _.AssemblyQualifiedName);
                 _.ShouldBeImmutable();
                 builder.Bindings.Bind(_).To(() =>
                 {
                     var instance = configurationObjectProviders.Provide(_);
-                    logger.Trace($"Providing configuration object '{_.GetFriendlyConfigurationName()} - {_.AssemblyQualifiedName}' - {instance.GetHashCode()}");
+                    logger.Trace("Providing configuration object '{configurationObjectName} - {configurationTypeName}' - {configurationObjectHash}", _.GetFriendlyConfigurationName(), _.AssemblyQualifiedName, instance.GetHashCode());
                     return instance;
                 });
             });

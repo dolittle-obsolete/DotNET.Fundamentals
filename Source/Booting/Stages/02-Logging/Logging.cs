@@ -32,7 +32,7 @@ namespace Dolittle.Booting.Stages
             builder.Bindings.Bind<ILogger>().To(() => loggerManager.CreateLogger<UnknownLogMessageSource>());
 
             var logger = loggerManager.CreateLogger<Logging>();
-            logger.Debug($"<********* BOOTSTAGE : Logging *********>");
+            logger.Debug("<********* BOOTSTAGE : Logging *********>");
 
             var executionContextLogger = loggerManager.CreateLogger<ExecutionContextManager>();
 

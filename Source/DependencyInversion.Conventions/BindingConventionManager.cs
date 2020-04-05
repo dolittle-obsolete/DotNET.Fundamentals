@@ -65,7 +65,7 @@ namespace Dolittle.DependencyInversion.Conventions
             IEnumerable<Type> allTypes,
             ConcurrentBag<IBindingCollection> bindingCollections)
         {
-            _logger.Trace((string)$"Handle convention type {conventionType.AssemblyQualifiedName}");
+            _logger.Trace("Handle convention type {conventionType}", conventionType.AssemblyQualifiedName);
 
             var convention = _bootContainer.Get(conventionType) as IBindingConvention;
             var servicesToResolve = allTypes.Where(service => convention.CanResolve(service));
