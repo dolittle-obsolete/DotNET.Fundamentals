@@ -25,14 +25,14 @@ namespace Dolittle.Booting.Stages
             {
                 loggerManager.AddLogMessageWriterCreators(settings.LogMessageWriterCreators.ToArray());
             }
-
+            
             builder.Associate(WellKnownAssociations.LoggerManager, loggerManager);
             builder.Bindings.Bind<ILoggerManager>().To(loggerManager);
             builder.Bindings.Bind(typeof(ILogger<>)).To(context => loggerManager.CreateLogger(context.Service.GetGenericArguments()[0]));
             builder.Bindings.Bind<ILogger>().To(() => loggerManager.CreateLogger<UnknownLogMessageSource>());
 
             var logger = loggerManager.CreateLogger<Logging>();
-            logger.Information($"<********* BOOTSTAGE : Logging *********>");
+            logger.Debug($"<********* BOOTSTAGE : Logging *********>");
 
             var executionContextLogger = loggerManager.CreateLogger<ExecutionContextManager>();
 
