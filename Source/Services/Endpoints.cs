@@ -1,7 +1,6 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dolittle.Collections;
@@ -27,7 +26,6 @@ namespace Dolittle.Services
         readonly IContainer _container;
         readonly ILogger _logger;
         readonly IBoundServices _boundServices;
-        bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Endpoints"/> class.

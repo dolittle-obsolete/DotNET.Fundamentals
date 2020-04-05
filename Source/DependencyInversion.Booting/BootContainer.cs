@@ -43,10 +43,10 @@ namespace Dolittle.DependencyInversion.Booting
         public object Get(Type type)
         {
             if (_bindings.TryGetValue(type, out var strategyForType))
-                return InstanciateBinding(strategyForType, type);
+                return InstantiateBinding(strategyForType, type);
 
             if (type.IsGenericType && _bindings.TryGetValue(type.GetGenericTypeDefinition(), out var strategyForOpenGenericType))
-                return InstanciateBinding(strategyForOpenGenericType, type);
+                return InstantiateBinding(strategyForOpenGenericType, type);
 
             if (type.IsInterface)
                 throw new TypeNotBoundInContainer(type, _bindings.Select(_ => _.Key));
