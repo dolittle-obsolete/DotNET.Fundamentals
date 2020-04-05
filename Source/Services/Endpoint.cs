@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dolittle.Collections;
 using Dolittle.Logging;
 using Grpc.Core.Interceptors;
@@ -74,7 +75,7 @@ namespace Dolittle.Services
 
                 services.ForEach(_ =>
                 {
-                    _logger.Information($"Exposing service '{_.Descriptor.FullName}'");
+                    _logger.Debug($"Exposing service '{_.Descriptor.FullName}'");
                     var serverDefinition = _.ServerDefinition.Intercept(_executionContextInterceptor);
                     _server.Services.Add(serverDefinition);
                 });

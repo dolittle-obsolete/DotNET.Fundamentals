@@ -84,7 +84,7 @@ namespace Dolittle.Booting
                 if (isBefore) suffix = " (before)";
                 if (isAfter) suffix = " (after)";
 
-                _logger?.Information($"<********* BOOTSTAGE : {stage.BootStage}{suffix} *********>");
+                _logger?.Debug($"<********* BOOTSTAGE : {stage.BootStage}{suffix} *********>");
 
                 var performer = interfaces.SingleOrDefault(_ => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(ICanPerformPartOfBootStage<>));
                 var settingsType = performer.GetGenericArguments()[0];

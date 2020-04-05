@@ -87,16 +87,16 @@ namespace Dolittle.Types
                     }
                     else
                     {
-                        _logger.Information($"No implementations of '{keyValue[0]}'");
+                        _logger.Debug($"No implementations of '{keyValue[0]}'");
                     }
                 }
                 else
                 {
-                    _logger.Information($"Can't find contract type '{keyValue[0]}' - {line}");
+                    _logger.Debug($"Can't find contract type '{keyValue[0]}' - {line}");
                 }
             });
 
-            _logger.Information($"Using {contractsCount} contracts mapped to {implementorsCount} implementors in total");
+            _logger.Trace($"Using {contractsCount} contracts mapped to {implementorsCount} implementors in total");
 
             return map;
         }

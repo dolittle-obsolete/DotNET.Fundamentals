@@ -46,18 +46,18 @@ namespace Dolittle.Booting
             _executionContextManager.System(BootProceduresCorrelationId);
             var queue = new Queue<ICanPerformBootProcedure>(_procedures);
 
-            _logger.Information($"Starting to perform {queue.Count} boot procedures");
+            _logger.Debug($"Starting to perform {queue.Count} boot procedures");
             while (queue.Count > 0)
             {
                 var procedure = queue.Dequeue();
                 if (procedure.CanPerform())
                 {
-                    _logger.Information($"Performing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
+                    _logger.Debug($"Performing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
                     procedure.Perform();
                 }
                 else
                 {
-                    _logger.Information($"Re-enqueing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
+                    _logger.Debug($"Re-enqueuing boot procedure called '{procedure.GetType().AssemblyQualifiedName}'");
                     queue.Enqueue(procedure);
                 }
             }
