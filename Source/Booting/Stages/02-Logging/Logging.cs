@@ -25,7 +25,7 @@ namespace Dolittle.Booting.Stages
             {
                 loggerManager.AddLogMessageWriterCreators(settings.LogMessageWriterCreators.ToArray());
             }
-            
+
             builder.Associate(WellKnownAssociations.LoggerManager, loggerManager);
             builder.Bindings.Bind<ILoggerManager>().To(loggerManager);
             builder.Bindings.Bind(typeof(ILogger<>)).To(context => loggerManager.CreateLogger(context.Service.GetGenericArguments()[0]));
