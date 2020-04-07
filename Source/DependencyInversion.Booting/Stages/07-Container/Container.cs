@@ -35,26 +35,11 @@ namespace Dolittle.DependencyInversion.Booting.Stages
             if (settings.ContainerType != null)
             {
                 logger.Trace($"Starting DependencyInversion with predefined container type '{settings.ContainerType.AssemblyQualifiedName}'");
-                resultingBindings = Dolittle.DependencyInversion.Booting.Boot.Start(
-                    assemblies,
-                    typeFinder,
-                    scheduler,
-                    fileSystem,
-                    loggerManager,
-                    settings.ContainerType,
-                    bindings,
-                    builder.Container as BootContainer);
+                resultingBindings = Boot.Start(assemblies, typeFinder, scheduler, fileSystem, loggerManager, settings.ContainerType, bindings, builder.Container as BootContainer);
             }
             else
             {
-                var bootResult = Dolittle.DependencyInversion.Booting.Boot.Start(
-                    assemblies,
-                    typeFinder,
-                    scheduler,
-                    fileSystem,
-                    loggerManager,
-                    bindings,
-                    builder.Container as BootContainer);
+                var bootResult = Boot.Start(assemblies, typeFinder, scheduler, fileSystem, loggerManager, bindings, builder.Container as BootContainer);
                 resultingBindings = bootResult.Bindings;
                 builder.UseContainer(bootResult.Container);
                 logger.Trace($"Using container of type '{builder.Container.GetType().AssemblyQualifiedName}'");

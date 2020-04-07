@@ -10,6 +10,9 @@ namespace Dolittle.Logging.Internal
     /// </summary>
     public class InternalLogger : ILogger
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InternalLogger"/> class.
+        /// </summary>
         protected InternalLogger()
         {
         }
