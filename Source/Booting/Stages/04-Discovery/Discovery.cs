@@ -33,7 +33,7 @@ namespace Dolittle.Booting.Stages
             {
                 if (settings.IncludeAssembliesStartWith?.Count() > 0)
                 {
-                    settings.IncludeAssembliesStartWith.ForEach(name => logger.Trace($"Including assemblies starting with '{name}'"));
+                    settings.IncludeAssembliesStartWith.ForEach(name => logger.Trace("Including assemblies starting with '{name}'", name));
                     _.ExceptAssembliesStartingWith(settings.IncludeAssembliesStartWith.ToArray());
                 }
             });

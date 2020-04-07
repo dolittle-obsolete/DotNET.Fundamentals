@@ -24,13 +24,13 @@ namespace Dolittle.Assemblies
             if (entryAssembly == null) entryAssembly = Assembly.GetEntryAssembly();
             var dependencyModel = DependencyContext.Load(entryAssembly);
 
-            logger.Trace($"Dependency model has {dependencyModel.RuntimeLibraries.Count} libraries");
+            logger.Trace("Dependency model has {runtimeLibrariesCount} libraries", dependencyModel.RuntimeLibraries.Count);
             Libraries = dependencyModel.RuntimeLibraries.Cast<RuntimeLibrary>().Where(_ => _.RuntimeAssemblyGroups.Count > 0).ToArray();
-            logger.Trace($"Dependency model has {Libraries.Count()} libraries belonging to an assembly group");
+            logger.Trace("Dependency model has {librariesCount} libraries belonging to an assembly group", Libraries.Count());
 
             foreach (var library in Libraries)
             {
-                logger.Trace($"Providing '{library.Name}, {library.Version}'");
+                logger.Trace("Providing '{libraryName}, {libraryVersion}'", library.Name, library.Version);
             }
         }
 

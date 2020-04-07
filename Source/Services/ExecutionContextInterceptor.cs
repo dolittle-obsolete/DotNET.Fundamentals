@@ -208,7 +208,7 @@ namespace Dolittle.Services
             var tenant = executionContext.Tenant.To<TenantId>();
             var correlationId = executionContext.CorrelationId.To<CorrelationId>();
 
-            _logger.Trace($"Establishing execution context for '{method}' - Application: '{application}' Microservice: '{microservice}' TenantId: '{tenant}', CorrelationId: '{correlationId}'");
+            _logger.Trace("Establishing execution context for '{method}' - Application: '{application}' Microservice: '{microservice}' TenantId: '{tenant}', CorrelationId: '{correlationId}'", method, application, microservice, tenant, correlationId);
 
             _executionContextManager.CurrentFor(
                 application,
@@ -222,12 +222,12 @@ namespace Dolittle.Services
             where TRequest : class
             where TResponse : class
         {
-            _logger.Error(ex, $"Problems handling '{context.Method}' call");
+            _logger.Error(ex, "Problems handling '{method}' call", context.Method);
         }
 
         void HandleException(Exception ex, ServerCallContext context)
         {
-            _logger.Error(ex, $"Problems handling '{context.Method}' call");
+            _logger.Error(ex, "Problems handling '{method}' call", context.Method);
         }
     }
 }
