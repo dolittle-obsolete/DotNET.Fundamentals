@@ -111,47 +111,49 @@ namespace Dolittle.Services
 
         async Task HandleResponseProcessing()
         {
-            while (!_context.CancellationToken.IsCancellationRequested && !_finishedHandlingResponse)
+            try
             {
-                await Task.Delay(50).ConfigureAwait(false);
-
-                while (_queuedForProcessing.Count > 0)
+                while (!_context.CancellationToken.IsCancellationRequested && !_finishedHandlingResponse)
                 {
-                    if (_queuedForProcessing.TryDequeue(out var response))
-                    {
-                        var callNumber = (ulong)_responseProperty.GetValue(response);
-                        await _requests[callNumber](response).ConfigureAwait(false);
-                        _requests.TryRemove(callNumber, out _);
-                        _callbackTasks[callNumber].SetResult(null);
-                        _callbackTasks.TryRemove(callNumber, out _);
+                    await Task.Delay(50).ConfigureAwait(false);
 
-                        ResolveFromQueue();
+                    while (_queuedForProcessing.Count > 0)
+                    {
+                        if (_queuedForProcessing.TryDequeue(out var response))
+                        {
+                            var callNumber = (ulong)_responseProperty.GetValue(response);
+                            await _requests[callNumber](response).ConfigureAwait(false);
+                            _requests.TryRemove(callNumber, out _);
+                            _callbackTasks[callNumber].SetResult(null);
+                            _callbackTasks.TryRemove(callNumber, out _);
+
+                            ResolveFromQueue();
+                        }
                     }
                 }
+            }
+            finally
+            {
+                _finishedHandlingResponse = true;
             }
         }
 
         async Task HandleResponse()
         {
-            while (await _responseStream.MoveNext(_context.CancellationToken).ConfigureAwait(false))
+            try
             {
-                try
+                while (!_finishedHandlingResponse && await _responseStream.MoveNext(_context.CancellationToken).ConfigureAwait(false))
                 {
                     lock (_lockObject)
                     {
                         TryResolve(_responseStream.Current);
                     }
                 }
-                catch
-                {
-                    if (_context.CancellationToken.IsCancellationRequested)
-                    {
-                        break;
-                    }
-                }
             }
-
-            _finishedHandlingResponse = true;
+            finally
+            {
+                _finishedHandlingResponse = true;
+            }
         }
 
         bool TryResolve(TResponse response)
