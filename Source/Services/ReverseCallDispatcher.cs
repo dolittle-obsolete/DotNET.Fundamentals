@@ -39,6 +39,7 @@ namespace Dolittle.Services
         readonly Task _handleResponse;
         ulong _lastCallNumber = 0;
         ulong _lastResolvedCallNumber = 0;
+        bool _finishedHandlingResponse;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallDispatcher{TResponse, TRequest}"/> class.
@@ -110,7 +111,7 @@ namespace Dolittle.Services
 
         async Task HandleResponseProcessing()
         {
-            while (!_context.CancellationToken.IsCancellationRequested)
+            while (!_context.CancellationToken.IsCancellationRequested && !_finishedHandlingResponse)
             {
                 await Task.Delay(50).ConfigureAwait(false);
 
@@ -149,6 +150,8 @@ namespace Dolittle.Services
                     }
                 }
             }
+
+            _finishedHandlingResponse = true;
         }
 
         bool TryResolve(TResponse response)
