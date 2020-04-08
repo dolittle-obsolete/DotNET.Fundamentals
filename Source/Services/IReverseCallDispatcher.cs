@@ -33,9 +33,13 @@ namespace Dolittle.Services
         Task Call(TRequest request, Func<TResponse, Task> callback);
 
         /// <summary>
-        /// Wait till client is disconnected. This will block.
+        /// Starts handling the reverse calls and returns a task that represents the processing of these calls.
         /// </summary>
+        /// <remarks>
+        /// If the handling of the calls finishes all future calls to this method will return the same task as the first time.
+        /// If this task throws an <see cref="Exception" /> then all future calls to this method will throw the same <see cref="Exception" />.
+        /// </remarks>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task WaitTillDisconnected();
+        Task HandleCalls();
     }
 }

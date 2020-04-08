@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -12,8 +13,6 @@ using Dolittle.Reflection;
 using Google.Protobuf;
 using Grpc.Core;
 
-#pragma warning disable CA2008
-
 namespace Dolittle.Services
 {
     /// <summary>
@@ -21,7 +20,7 @@ namespace Dolittle.Services
     /// </summary>
     /// <typeparam name="TResponse">Type of <see cref="IMessage"/> for the responses from the client.</typeparam>
     /// <typeparam name="TRequest">Type of <see cref="IMessage"/> for the requests to the client.</typeparam>
-    public class ReverseCallDispatcher<TResponse, TRequest> : IReverseCallDispatcher<TResponse, TRequest>, IDisposable
+    public class ReverseCallDispatcher<TResponse, TRequest> : IReverseCallDispatcher<TResponse, TRequest>
         where TResponse : IMessage
         where TRequest : IMessage
     {
@@ -36,6 +35,8 @@ namespace Dolittle.Services
         readonly ILogger _logger;
         readonly PropertyInfo _responseProperty;
         readonly PropertyInfo _requestProperty;
+        readonly IEnumerable<Task> _tasks;
+        readonly Task _handleResponse;
         ulong _lastCallNumber = 0;
         ulong _lastResolvedCallNumber = 0;
 
@@ -63,15 +64,12 @@ namespace Dolittle.Services
             _responseProperty = responseProperty.GetPropertyInfo();
             _requestProperty = requestProperty.GetPropertyInfo();
 
-            _context.CancellationToken.ThrowIfCancellationRequested();
-
-            Task.Run(HandleResponse);
-            Task.Run(HandleResponseProcessing);
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
+            _tasks = new[]
+                {
+                    Task.Run(HandleResponse),
+                    Task.Run(HandleResponseProcessing)
+                };
+            _handleResponse = Task.WhenAny(_tasks);
         }
 
         /// <inheritdoc/>
@@ -103,12 +101,11 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public async Task WaitTillDisconnected()
+        public async Task HandleCalls()
         {
-            while (!_context.CancellationToken.IsCancellationRequested)
-            {
-                await Task.Delay(100).ConfigureAwait(false);
-            }
+            await _handleResponse.ConfigureAwait(false);
+            var exception = _tasks.FirstOrDefault(_ => _.Exception != null)?.Exception;
+            if (exception != null) throw exception;
         }
 
         async Task HandleResponseProcessing()
@@ -184,7 +181,7 @@ namespace Dolittle.Services
             if (_queuedResponses.Count > 0)
             {
                 var resolving = true;
-                while (resolving)
+                while (!_context.CancellationToken.IsCancellationRequested && resolving)
                 {
                     if (_queuedResponses.Count == 0) break;
 
