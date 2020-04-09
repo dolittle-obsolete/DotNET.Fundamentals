@@ -20,6 +20,8 @@ namespace Dolittle.DependencyInversion.Booting
     /// </summary>
     public static class Boot
     {
+        static IContainer _container;
+
         /// <summary>
         /// Initialize the entire DependencyInversion pipeline.
         /// </summary>
@@ -44,10 +46,12 @@ namespace Dolittle.DependencyInversion.Booting
             logger.Trace("DependencyInversion start");
             var initialBindings = GetBootBindings(assemblies, typeFinder, scheduler, fileSystem, loggerManager);
             if (bootContainer == null) bootContainer = new BootContainer(initialBindings, new NewBindingsNotificationHub());
+            _container = bootContainer;
 
             var otherBindings = new List<Binding>();
 
             if (bindings != null) otherBindings.AddRange(bindings);
+            otherBindings.Add(Bind(typeof(IContainer), () => _container, false));
 
             logger.Trace("Discover and Build bindings");
             var bindingCollection = DiscoverAndBuildBuildBindings(
@@ -59,10 +63,11 @@ namespace Dolittle.DependencyInversion.Booting
                 otherBindings);
 
             logger.Trace("Discover container");
-            var container = DiscoverAndConfigureContainer(bootContainer, assemblies, typeFinder, bindingCollection);
+            _container = DiscoverAndConfigureContainer(bootContainer, assemblies, typeFinder, bindingCollection);
+            BootContainer.ContainerReady(_container);
 
             logger.Trace("Return boot result");
-            return new BootResult(container, bindingCollection);
+            return new BootResult(_container, bindingCollection);
         }
 
         /// <summary>
@@ -92,6 +97,7 @@ namespace Dolittle.DependencyInversion.Booting
             var initialBindings = GetBootBindings(assemblies, typeFinder, scheduler, fileSystem, loggerManager);
 
             if (bootContainer == null) bootContainer = new BootContainer(initialBindings, new NewBindingsNotificationHub());
+            _container = bootContainer;
 
             var otherBindings = new List<Binding>();
 
@@ -108,6 +114,16 @@ namespace Dolittle.DependencyInversion.Booting
                 otherBindings);
         }
 
+        /// <summary>
+        /// Method that gets called when <see cref="IContainer"/> is ready.
+        /// </summary>
+        /// <param name="container"><see cref="IContainer"/> instance.</param>
+        public static void ContainerReady(IContainer container)
+        {
+            _container = container;
+            BootContainer.ContainerReady(container);
+        }
+
         static IBindingCollection GetBootBindings(
             IAssemblies assemblies,
             ITypeFinder typeFinder,
@@ -122,6 +138,7 @@ namespace Dolittle.DependencyInversion.Booting
                 Bind(typeof(IScheduler), scheduler),
                 Bind(typeof(IFileSystem), fileSystem),
                 Bind(typeof(ILoggerManager), loggerManager),
+                Bind(typeof(GetContainer), (GetContainer)(() => _container))
             });
         }
 

@@ -28,19 +28,17 @@ namespace Dolittle.DependencyInversion.Booting
         {
             _bindings = bindings.ToDictionary(_ => _.Service, _ => _.Strategy);
 
-            _bindings[typeof(IContainer)] = new Strategies.Callback(() => _container);
-            _bindings[typeof(GetContainer)] = new Strategies.Constant((GetContainer)(() => _container));
+            _bindings[typeof(IContainer)] = new Strategies.Constant(this);
+            _bindings[typeof(GetContainer)] = new Strategies.Constant((GetContainer)(() => this));
 
             newBindingsNotifier.SubscribeTo(_ => _.ToDictionary(_ => _.Service, _ => _.Strategy).ForEach(_bindings.Add));
-
-            _container = this;
         }
 
         /// <summary>
         /// Method that gets called when <see cref="IContainer"/> is ready.
         /// </summary>
         /// <param name="container"><see cref="IContainer"/> instance.</param>
-        public static void ContainerReady(IContainer container)
+        internal static void ContainerReady(IContainer container)
         {
             _container = container;
         }
@@ -54,6 +52,8 @@ namespace Dolittle.DependencyInversion.Booting
         /// <inheritdoc/>
         public object Get(Type type)
         {
+            if (_container != null && _container.GetType() != typeof(BootContainer)) return _container.Get(type);
+
             if (_bindings.TryGetValue(type, out var strategyForType))
                 return InstantiateBinding(strategyForType, type);
 
