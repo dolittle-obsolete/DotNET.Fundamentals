@@ -34,15 +34,6 @@ namespace Dolittle.DependencyInversion.Booting
             newBindingsNotifier.SubscribeTo(_ => _.ToDictionary(_ => _.Service, _ => _.Strategy).ForEach(_bindings.Add));
         }
 
-        /// <summary>
-        /// Method that gets called when <see cref="IContainer"/> is ready.
-        /// </summary>
-        /// <param name="container"><see cref="IContainer"/> instance.</param>
-        internal static void ContainerReady(IContainer container)
-        {
-            _container = container;
-        }
-
         /// <inheritdoc/>
         public T Get<T>()
         {
@@ -64,6 +55,15 @@ namespace Dolittle.DependencyInversion.Booting
                 throw new TypeNotBoundInContainer(type, _bindings.Select(_ => _.Key));
 
             return Create(type);
+        }
+
+        /// <summary>
+        /// Method that gets called when <see cref="IContainer"/> is ready.
+        /// </summary>
+        /// <param name="container"><see cref="IContainer"/> instance.</param>
+        internal static void ContainerReady(IContainer container)
+        {
+            _container = container;
         }
 
         object InstantiateBinding(IActivationStrategy strategy, Type type) => strategy switch
