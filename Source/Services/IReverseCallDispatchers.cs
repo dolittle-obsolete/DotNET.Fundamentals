@@ -24,7 +24,12 @@ namespace Dolittle.Services
         /// <typeparam name="TResponse">Type of <see cref="IMessage"/> for the responses from the client.</typeparam>
         /// <typeparam name="TRequest">Type of <see cref="IMessage"/> for the requests to the client.</typeparam>
         /// <returns>A <see cref="IReverseCallDispatcher{TResponse, TRequest}"/>.</returns>
-        IReverseCallDispatcher<TResponse, TRequest> GetDispatcherFor<TResponse, TRequest>(IAsyncStreamReader<TResponse> responseStream, IServerStreamWriter<TRequest> requestStream, ServerCallContext context, Expression<Func<TResponse, ulong>> responseProperty, Expression<Func<TRequest, ulong>> requestProperty)
+        IReverseCallDispatcher<TResponse, TRequest> GetDispatcherFor<TResponse, TRequest>(
+            IAsyncStreamReader<TResponse> responseStream,
+            IServerStreamWriter<TRequest> requestStream,
+            ServerCallContext context,
+            Expression<Func<TResponse, ulong>> responseProperty,
+            Expression<Func<TRequest, ulong>> requestProperty)
             where TResponse : IMessage
             where TRequest : IMessage;
     }

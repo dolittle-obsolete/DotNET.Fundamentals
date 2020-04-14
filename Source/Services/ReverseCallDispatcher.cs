@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -12,8 +13,6 @@ using Dolittle.Reflection;
 using Google.Protobuf;
 using Grpc.Core;
 
-#pragma warning disable CA2008
-
 namespace Dolittle.Services
 {
     /// <summary>
@@ -21,7 +20,7 @@ namespace Dolittle.Services
     /// </summary>
     /// <typeparam name="TResponse">Type of <see cref="IMessage"/> for the responses from the client.</typeparam>
     /// <typeparam name="TRequest">Type of <see cref="IMessage"/> for the requests to the client.</typeparam>
-    public class ReverseCallDispatcher<TResponse, TRequest> : IReverseCallDispatcher<TResponse, TRequest>, IDisposable
+    public class ReverseCallDispatcher<TResponse, TRequest> : IReverseCallDispatcher<TResponse, TRequest>
         where TResponse : IMessage
         where TRequest : IMessage
     {
@@ -36,8 +35,11 @@ namespace Dolittle.Services
         readonly ILogger _logger;
         readonly PropertyInfo _responseProperty;
         readonly PropertyInfo _requestProperty;
+        readonly IEnumerable<Task> _tasks;
+        readonly Task _handleResponse;
         ulong _lastCallNumber = 0;
         ulong _lastResolvedCallNumber = 0;
+        bool _finishedHandlingResponse;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallDispatcher{TResponse, TRequest}"/> class.
@@ -63,15 +65,12 @@ namespace Dolittle.Services
             _responseProperty = responseProperty.GetPropertyInfo();
             _requestProperty = requestProperty.GetPropertyInfo();
 
-            _context.CancellationToken.ThrowIfCancellationRequested();
-
-            Task.Run(HandleResponse);
-            Task.Run(HandleResponseProcessing);
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
+            _tasks = new[]
+                {
+                    Task.Run(HandleResponse),
+                    Task.Run(HandleResponseProcessing)
+                };
+            _handleResponse = Task.WhenAny(_tasks);
         }
 
         /// <inheritdoc/>
@@ -103,54 +102,57 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public async Task WaitTillDisconnected()
+        public async Task HandleCalls()
         {
-            while (!_context.CancellationToken.IsCancellationRequested)
-            {
-                await Task.Delay(100).ConfigureAwait(false);
-            }
+            await _handleResponse.ConfigureAwait(false);
+            var exception = _tasks.FirstOrDefault(_ => _.Exception != null)?.Exception;
+            if (exception != null) throw exception;
         }
 
         async Task HandleResponseProcessing()
         {
-            while (!_context.CancellationToken.IsCancellationRequested)
+            try
             {
-                await Task.Delay(50).ConfigureAwait(false);
-
-                while (_queuedForProcessing.Count > 0)
+                while (!_context.CancellationToken.IsCancellationRequested && !_finishedHandlingResponse)
                 {
-                    if (_queuedForProcessing.TryDequeue(out var response))
-                    {
-                        var callNumber = (ulong)_responseProperty.GetValue(response);
-                        await _requests[callNumber](response).ConfigureAwait(false);
-                        _requests.TryRemove(callNumber, out _);
-                        _callbackTasks[callNumber].SetResult(null);
-                        _callbackTasks.TryRemove(callNumber, out _);
+                    await Task.Delay(50).ConfigureAwait(false);
 
-                        ResolveFromQueue();
+                    while (_queuedForProcessing.Count > 0)
+                    {
+                        if (_queuedForProcessing.TryDequeue(out var response))
+                        {
+                            var callNumber = (ulong)_responseProperty.GetValue(response);
+                            await _requests[callNumber](response).ConfigureAwait(false);
+                            _requests.TryRemove(callNumber, out _);
+                            _callbackTasks[callNumber].SetResult(null);
+                            _callbackTasks.TryRemove(callNumber, out _);
+
+                            ResolveFromQueue();
+                        }
                     }
                 }
+            }
+            finally
+            {
+                _finishedHandlingResponse = true;
             }
         }
 
         async Task HandleResponse()
         {
-            while (await _responseStream.MoveNext(_context.CancellationToken).ConfigureAwait(false))
+            try
             {
-                try
+                while (!_finishedHandlingResponse && await _responseStream.MoveNext(_context.CancellationToken).ConfigureAwait(false))
                 {
                     lock (_lockObject)
                     {
                         TryResolve(_responseStream.Current);
                     }
                 }
-                catch
-                {
-                    if (_context.CancellationToken.IsCancellationRequested)
-                    {
-                        break;
-                    }
-                }
+            }
+            finally
+            {
+                _finishedHandlingResponse = true;
             }
         }
 
@@ -184,7 +186,7 @@ namespace Dolittle.Services
             if (_queuedResponses.Count > 0)
             {
                 var resolving = true;
-                while (resolving)
+                while (!_context.CancellationToken.IsCancellationRequested && resolving)
                 {
                     if (_queuedResponses.Count == 0) break;
 
