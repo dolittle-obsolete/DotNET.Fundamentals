@@ -7,12 +7,12 @@
 
   <ItemGroup>
     <ProjectReference Include="../Concepts/Concepts.csproj"/>
-    <ProjectReference Include="../Contracts/Contracts.csproj"/>
     <ProjectReference Include="../Execution/Execution.csproj"/>
     <ProjectReference Include="../Security/Security.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dolittle.Contracts" Version="$(ContractsVersion)" Alias="contracts"/>
     <PackageReference Include="Google.Protobuf" Version="3.11.2" />
   </ItemGroup>
 </Project>
