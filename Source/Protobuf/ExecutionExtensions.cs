@@ -3,7 +3,10 @@
 
 extern alias contracts;
 
+using System.Globalization;
+using Dolittle.Applications;
 using Dolittle.Execution;
+using Dolittle.Tenancy;
 using grpc = contracts::Dolittle.Execution.Contracts;
 
 namespace Dolittle.Protobuf
@@ -30,5 +33,20 @@ namespace Dolittle.Protobuf
 
             return message;
         }
+
+        /// <summary>
+        /// Convert a <see cref="grpc.ExecutionContext"/> to <see cref="ExecutionContext"/>.
+        /// </summary>
+        /// <param name="executionContext"><see cref="grpc.ExecutionContext"/> to convert from.</param>
+        /// <returns>Converted <see cref="ExecutionContext"/>.</returns>
+        public static ExecutionContext ToExecutionContext(this grpc.ExecutionContext executionContext) =>
+            new ExecutionContext(
+                executionContext.MicroserviceId.To<Microservice>(),
+                executionContext.TenantId.To<TenantId>(),
+                executionContext.Version.ToVersion(),
+                executionContext.Environment,
+                executionContext.CorrelationId.To<CorrelationId>(),
+                executionContext.Claims.ToClaims(),
+                CultureInfo.InvariantCulture);
     }
 }
