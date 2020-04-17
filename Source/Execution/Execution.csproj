@@ -15,5 +15,6 @@
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\Tenancy\Tenancy.csproj" />
     <ProjectReference Include="..\Security\Security.csproj" />
+    <ProjectReference Include="..\Versioning\Versioning.csproj" />
   </ItemGroup>
 </Project>
