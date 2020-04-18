@@ -1,10 +1,17 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+extern alias contracts;
+
+using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dolittle.Protobuf;
+using Dolittle.Reflection;
 using Google.Protobuf;
 using Grpc.Core;
+using grpc = contracts::Dolittle.Services.Contracts;
 
 namespace Dolittle.Services.Clients
 {
@@ -18,31 +25,33 @@ namespace Dolittle.Services.Clients
         where TRequest : IMessage
     {
         readonly IClientStreamWriter<TResponse> _streamWriter;
-        readonly PropertyInfo _responseProperty;
+        readonly Func<TResponse, grpc.ReverseCallResponseContext> _getResponseContext;
+        readonly PropertyInfo _responseContextProperty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCall{TResponse, TRequest}"/> class.
         /// </summary>
         /// <param name="request">The request coming from the server.</param>
         /// <param name="streamWriter"><see cref="IClientStreamWriter{T}"/> for replying on.</param>
-        /// <param name="callNumber">The identifier of the call.</param>
-        /// <param name="responseProperty"><see cref="PropertyInfo"/> for setting the call identifier on the response.</param>
+        /// <param name="callId">The identifier of the call.</param>
+        /// <param name="responseContextProperty">An <see cref="Expression{T}"/> for describing what property on response message that will hold the <see cref="grpc.ReverseCallResponseContext" />.</param>
         public ReverseCall(
             TRequest request,
             IClientStreamWriter<TResponse> streamWriter,
-            ulong callNumber,
-            PropertyInfo responseProperty)
+            ReverseCallId callId,
+            Expression<Func<TResponse, grpc.ReverseCallResponseContext>> responseContextProperty)
         {
             Request = request;
             _streamWriter = streamWriter;
-            CallNumber = callNumber;
-            _responseProperty = responseProperty;
+            CallId = callId;
+            _getResponseContext = responseContextProperty.Compile();
+            _responseContextProperty = responseContextProperty.GetPropertyInfo();
         }
 
         /// <summary>
-        /// Gets the unique call number.
+        /// Gets the unique <see cref="ReverseCallId" />.
         /// </summary>
-        public ulong CallNumber { get; }
+        public ReverseCallId CallId { get; }
 
         /// <summary>
         /// Gets the request coming in from the server.
@@ -56,7 +65,9 @@ namespace Dolittle.Services.Clients
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task Reply(TResponse reply)
         {
-            _responseProperty.SetValue(reply, CallNumber);
+            var responseContext = _getResponseContext(reply);
+            responseContext.CallId = CallId.ToProtobuf();
+            _responseContextProperty.SetValue(reply, responseContext);
             return _streamWriter.WriteAsync(reply);
         }
     }
