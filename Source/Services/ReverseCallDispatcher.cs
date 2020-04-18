@@ -75,12 +75,22 @@ namespace Dolittle.Services
                 var requestContext = _getRequestContext(request);
                 requestContext.CallId = callId.ToProtobuf();
                 _requestContextProperty.SetValue(request, requestContext);
-                _calls[callId] = new TaskCompletionSource<TResponse>();
 
-                _logger.Trace("Dispatching reverse call with Call Id = '{callId}' Request = {request}", callId, request);
-                _requestStream.WriteAsync(request).GetAwaiter().GetResult();
+                if (!_calls.TryGetValue(callId, out var completionSource))
+                {
+                    completionSource = new TaskCompletionSource<TResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
+                    completionSource.Task.ContinueWith(_ => _calls.TryRemove(callId, out var _), TaskScheduler.Current);
 
-                return _calls[callId].Task;
+                    _calls[callId] = completionSource;
+                    _logger.Trace("Dispatching reverse call with Call Id = '{callId}' Request = {request}", callId, request);
+                    _requestStream.WriteAsync(request).GetAwaiter().GetResult();
+                }
+                else
+                {
+                    _logger.Debug("Reverse call with Call Id = '{callId}' is already dispatched", callId);
+                }
+
+                return completionSource.Task;
             }
         }
 
