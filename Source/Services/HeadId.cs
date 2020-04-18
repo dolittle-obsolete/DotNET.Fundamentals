@@ -7,14 +7,14 @@ using Dolittle.Concepts;
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents the id of a reverse call.
+    /// Represents the id of a head.
     /// </summary>
-    public class ReverseCallId : ConceptAs<Guid>
+    public class HeadId : ConceptAs<Guid>
     {
         /// <summary>
-        /// Implicitly convert <see cref="Guid" /> to <see cref="ReverseCallId" />.
+        /// Implicitly convert <see cref="Guid" /> to <see cref="HeadId" />.
         /// </summary>
         /// <param name="id">The id.</param>
-        public static implicit operator ReverseCallId(Guid id) => new ReverseCallId { Value = id };
+        public static implicit operator HeadId(Guid id) => new HeadId { Value = id };
     }
 }
