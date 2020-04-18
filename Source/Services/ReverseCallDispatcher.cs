@@ -126,7 +126,7 @@ namespace Dolittle.Services
             Action<TaskCompletionSource<TResponse>> cancelCall = null;
             if (ex == null)
             {
-                _logger.Warning("Cancelling remaining uncompleted reverse calls");
+                _logger.Debug("Cancelling remaining uncompleted reverse calls");
                 cancelCall = completionSource => completionSource.TrySetCanceled();
             }
             else
