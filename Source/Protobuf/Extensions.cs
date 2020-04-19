@@ -53,37 +53,6 @@ namespace Dolittle.Protobuf
             new grpc.Uuid { Value = ByteString.CopyFrom(id.Value.ToByteArray()) };
 
         /// <summary>
-        /// Convert a <see cref="ConceptAs{T}" /> <see cref="string" /> to <see cref="grpc.Failure" /> with not set <see cref="Guid" /> as failure id.
-        /// </summary>
-        /// <param name="failureReason">The reason for failure.</param>
-        /// <returns>Converted <see cref="grpc.Failure" />.</returns>
-        public static grpc.Failure ToProtobufFailure(this ConceptAs<string> failureReason) => failureReason.Value.ToProtobufFailure(Guid.Empty);
-
-        /// <summary>
-        /// Convert a <see cref="ConceptAs{T}" /> <see cref="string" /> to <see cref="grpc.Failure" /> with given <see cref="Guid" /> as failure id.
-        /// </summary>
-        /// <param name="failureReason">The reason for failure.</param>
-        /// <param name="failureId">The failure id.</param>
-        /// <returns>Converted <see cref="grpc.Failure" />.</returns>
-        public static grpc.Failure ToProtobufFailure(this ConceptAs<string> failureReason, Guid failureId) => failureReason.Value.ToProtobufFailure(failureId);
-
-        /// <summary>
-        /// Convert a <see cref="string" /> to <see cref="grpc.Failure" /> with not set <see cref="Guid" /> as failure id.
-        /// </summary>
-        /// <param name="failureReason">The reason for failure.</param>
-        /// <returns>Converted <see cref="grpc.Failure" />.</returns>
-        public static grpc.Failure ToProtobufFailure(this string failureReason) => failureReason.ToProtobufFailure(Guid.Empty);
-
-        /// <summary>
-        /// Convert a <see cref="string" /> to <see cref="grpc.Failure" /> with given <see cref="Guid" /> as failure id.
-        /// </summary>
-        /// <param name="failureReason">The reason for failure.</param>
-        /// <param name="failureId">The failure id.</param>
-        /// <returns>Converted <see cref="grpc.Failure" />.</returns>
-        public static grpc.Failure ToProtobufFailure(this string failureReason, Guid failureId) =>
-            new grpc.Failure { Reason = failureReason, Id = failureId.ToProtobuf() };
-
-        /// <summary>
         /// Convert a <see cref="Failure" /> to <see cref="grpc.Failure" />.
         /// </summary>
         /// <param name="failure"><see cref="Failure" /> to convert.</param>
