@@ -21,5 +21,11 @@ namespace Dolittle.Services
         /// <param name="request">Request <see cref="IMessage"/>.</param>
         /// <returns>A <see cref="Task"/> that, when resolved, returns the response.</returns>
         Task<TResponse> Call(TRequest request);
+
+        /// <summary>
+        /// Waits for the <see cref="IReverseCallDispatcher{TResponse, TRequest}" /> to finish dispatching calls.
+        /// </summary>
+        /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+        Task WaitTillCompleted();
     }
 }

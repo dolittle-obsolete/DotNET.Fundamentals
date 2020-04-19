@@ -37,6 +37,7 @@ namespace Dolittle.Services
         readonly Func<TResponse, grpc.ReverseCallResponseContext> _getResponseContext;
         readonly Func<TRequest, grpc.ReverseCallRequestContext> _getRequestContext;
         readonly PropertyInfo _requestContextProperty;
+        readonly TaskCompletionSource<bool> _dispatcherCompletionSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallDispatcher{TResponse, TRequest}"/> class.
@@ -62,6 +63,8 @@ namespace Dolittle.Services
             _getResponseContext = responseContextProperty.Compile();
             _getRequestContext = requestContextProperty.Compile();
             _requestContextProperty = requestContextProperty.GetPropertyInfo();
+
+            _dispatcherCompletionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             Task.Run(HandleResponse);
         }
@@ -94,6 +97,9 @@ namespace Dolittle.Services
             }
         }
 
+        /// <inheritdoc/>
+        public Task WaitTillCompleted() => _dispatcherCompletionSource.Task;
+
         async Task HandleResponse()
         {
             try
@@ -113,32 +119,35 @@ namespace Dolittle.Services
                     }
                 }
 
+                _dispatcherCompletionSource.TrySetResult(true);
                 CancelRemainingCalls();
             }
             catch (Exception ex)
             {
+                _dispatcherCompletionSource.TrySetException(ex);
                 CancelRemainingCalls(ex);
             }
         }
 
-        void CancelRemainingCalls(Exception ex = null)
+        void CancelRemainingCalls()
         {
-            Action<TaskCompletionSource<TResponse>> cancelCall = null;
-            if (ex == null)
-            {
-                _logger.Debug("Cancelling remaining uncompleted reverse calls");
-                cancelCall = completionSource => completionSource.TrySetCanceled();
-            }
-            else
-            {
-                _logger.Warning(ex, "Reading from response stream failed. Cancelling remaining uncompleted reverse calls");
-                cancelCall = completionSource => completionSource.TrySetException(ex);
-            }
+            _logger.Debug("Cancelling remaining uncompleted reverse calls");
 
             foreach ((var callId, var completionSource) in _calls.Where(_ => !_.Value.Task.IsCompleted).ToList())
             {
                 _logger.Trace("Cancelling uncompleted call with reverse call id '{callId}'", callId);
-                cancelCall(completionSource);
+                completionSource.TrySetCanceled();
+            }
+        }
+
+        void CancelRemainingCalls(Exception ex)
+        {
+            _logger.Warning(ex, "Reading from response stream failed. Cancelling remaining uncompleted reverse calls");
+
+            foreach ((var callId, var completionSource) in _calls.Where(_ => !_.Value.Task.IsCompleted).ToList())
+            {
+                _logger.Trace("Cancelling uncompleted call with reverse call id '{callId}'", callId);
+                completionSource.TrySetException(ex);
             }
         }
     }
