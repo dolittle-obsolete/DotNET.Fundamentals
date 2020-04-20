@@ -28,6 +28,8 @@ namespace Dolittle.Protobuf
                     MicroserviceId = executionContext.Microservice.ToProtobuf(),
                     TenantId = executionContext.Tenant.ToProtobuf(),
                     CorrelationId = executionContext.CorrelationId.ToProtobuf(),
+                    Environment = executionContext.Environment,
+                    Version = executionContext.Version.ToProtobuf()
                 };
             message.Claims.AddRange(executionContext.Claims.ToProtobuf());
 
