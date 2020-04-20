@@ -21,7 +21,7 @@ namespace Dolittle.Protobuf.for_Extensions
             execution_context = new ExecutionContext(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                Guid.NewGuid(),
+                Versioning.Version.NotSet,
                 Execution.Environment.Development,
                 Guid.NewGuid(),
                 new Claims(new[]
@@ -34,9 +34,9 @@ namespace Dolittle.Protobuf.for_Extensions
 
         Because of = () => result = execution_context.ToProtobuf();
 
-        It should_hold_the_correct_application = () => result.Application.To<Application>().ShouldEqual(execution_context.Application);
-        It should_hold_the_correct_microservice = () => result.Microservice.To<Microservice>().ShouldEqual(execution_context.Microservice);
-        It should_hold_the_correct_tenant = () => result.Tenant.To<TenantId>().ShouldEqual(execution_context.Tenant);
+        It should_hold_the_correct_microservice = () => result.MicroserviceId.To<Microservice>().ShouldEqual(execution_context.Microservice);
+        It should_hold_the_correct_tenant = () => result.TenantId.To<TenantId>().ShouldEqual(execution_context.Tenant);
+        It should_hold_the_correct_version = () => result.Version.ToVersion().ShouldEqual(execution_context.Version);
         It should_hold_the_correct_correlation_id = () => result.CorrelationId.To<CorrelationId>().ShouldEqual(execution_context.CorrelationId);
         It should_hold_the_correct_claims = () => result.Claims.ToClaims().ShouldEqual(execution_context.Claims);
     }

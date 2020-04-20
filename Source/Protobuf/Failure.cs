@@ -3,6 +3,7 @@
 
 extern alias contracts;
 
+using Dolittle.Concepts;
 using grpc = contracts::Dolittle.Protobuf.Contracts;
 
 namespace Dolittle.Protobuf
@@ -10,7 +11,7 @@ namespace Dolittle.Protobuf
     /// <summary>
     /// Represents a failure.
     /// </summary>
-    public class Failure
+    public class Failure : Value<Failure>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Failure"/> class.
