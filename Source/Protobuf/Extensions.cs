@@ -49,8 +49,7 @@ namespace Dolittle.Protobuf
         /// </summary>
         /// <param name="id"><see cref="ConceptAs{T}"/> of type <see cref="Guid"/> to convert.</param>
         /// <returns>Converted <see cref="grpc.Uuid"/>.</returns>
-        public static grpc.Uuid ToProtobuf(this ConceptAs<Guid> id) =>
-            new grpc.Uuid { Value = ByteString.CopyFrom(id.Value.ToByteArray()) };
+        public static grpc.Uuid ToProtobuf(this ConceptAs<Guid> id) => id.Value.ToProtobuf();
 
         /// <summary>
         /// Convert a <see cref="ConceptAs{T}" /> <see cref="string" /> to <see cref="grpc.Failure" /> with not set <see cref="Guid" /> as failure id.
