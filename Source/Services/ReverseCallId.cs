@@ -16,5 +16,11 @@ namespace Dolittle.Services
         /// </summary>
         /// <param name="id">The id.</param>
         public static implicit operator ReverseCallId(Guid id) => new ReverseCallId { Value = id };
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ReverseCallId"/>.
+        /// </summary>
+        /// <returns>A new <see cref="ReverseCallId"/>.</returns>
+        public static ReverseCallId New() => new ReverseCallId { Value = Guid.NewGuid() };
     }
 }
