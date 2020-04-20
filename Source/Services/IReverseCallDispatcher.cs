@@ -13,9 +13,9 @@ namespace Dolittle.Services
     /// <typeparam name="TClientMessage">Type of the <see cref="IMessage">messages</see> that is sent from the client to the server.</typeparam>
     /// <typeparam name="TServerMessage">Type of the <see cref="IMessage">messages</see> that is sent from the server to the client.</typeparam>
     /// <typeparam name="TConnectArguments">Type of the arguments that are sent along with the initial Connect call.</typeparam>
-    /// <typeparam name="TConnectResponse">Type of the response that is recieved after the initial Connect call.</typeparam>
+    /// <typeparam name="TConnectResponse">Type of the response that is received after the initial Connect call.</typeparam>
     /// <typeparam name="TRequest">Type of the requests sent from the server to the client using <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}.Call"/>.</typeparam>
-    /// <typeparam name="TResponse">Type of the responses recieved from the client using <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}.Call"/>.</typeparam>
+    /// <typeparam name="TResponse">Type of the responses received from the client using <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}.Call"/>.</typeparam>
     public interface IReverseCallDispatcher<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>
         where TClientMessage : IMessage, new()
         where TServerMessage : IMessage, new()
@@ -25,7 +25,7 @@ namespace Dolittle.Services
         where TResponse : class
     {
         /// <summary>
-        /// Gets the <typeparamref name="TConnectArguments"/> recieved from the initial Connect call from the client.
+        /// Gets the <typeparamref name="TConnectArguments"/> received from the initial Connect call from the client.
         /// </summary>
         TConnectArguments Arguments { get; }
 
