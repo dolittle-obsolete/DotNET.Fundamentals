@@ -1,8 +1,13 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+extern alias contracts;
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using contracts::Dolittle.Services.Contracts;
+using Dolittle.Protobuf;
 using Grpc.Core;
 using Machine.Specifications;
 using Moq;
@@ -46,15 +51,15 @@ namespace Dolittle.Services.Clients.for_ReverseCallClientManager
                 return Task.FromResult(true);
             });
 
-            request = new MyRequest { CallNumber = 42 };
+            request = new MyRequest { RequestContext = new ReverseCallRequestContext { CallId = Guid.NewGuid().ToProtobuf() } };
             request_stream_reader.SetupGet(_ => _.Current).Returns(request);
 
             result_source = new TaskCompletionSource<ReverseCall<MyResponse, MyRequest>>();
 
             manager.Handle(
                 streamingCall,
-                _ => _.CallNumber,
-                _ => _.CallNumber,
+                _ => _.ResponseContext,
+                _ => _.RequestContext,
                 reverseCall =>
                 {
                     result_source.SetResult(reverseCall);
@@ -69,6 +74,6 @@ namespace Dolittle.Services.Clients.for_ReverseCallClientManager
             result_source.Task.ContinueWith(_ => result = _.Result).Wait();
         };
 
-        It should_set_the_call_number = () => result.CallNumber.ShouldEqual(request.CallNumber);
+        It should_set_the_call_number = () => result.CallId.ShouldEqual(request.RequestContext.CallId.To<ReverseCallId>());
     }
 }

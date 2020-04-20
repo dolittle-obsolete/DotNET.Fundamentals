@@ -10,4 +10,7 @@
     <ProjectReference Include="..\..\Source\Services.Clients\Services.Clients.csproj" />
     <ProjectReference Include="..\..\Source\Types.Testing\Types.Testing.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Contracts" Version="$(ContractsVersion)" Alias="contracts"/>
+  </ItemGroup>
 </Project>

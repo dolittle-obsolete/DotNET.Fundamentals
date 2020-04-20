@@ -1,8 +1,11 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+extern alias contracts;
+
 using System.Threading;
 using System.Threading.Tasks;
+using contracts::Dolittle.Services.Contracts;
 using Dolittle.Logging;
 using Grpc.Core;
 using Machine.Specifications;
@@ -31,7 +34,7 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
             request_stream = new Mock<IServerStreamWriter<MyRequest>>();
             call_context = new CallContext();
 
-            response = new MyResponse();
+            response = new MyResponse { ResponseContext = new ReverseCallResponseContext() };
 
             var manualResetEvent = new ManualResetEventSlim(false);
 
@@ -44,11 +47,11 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
                 return Task.FromResult(true);
             });
 
-            request = new MyRequest();
+            request = new MyRequest { RequestContext = new ReverseCallRequestContext() };
             request_stream.Setup(_ => _.WriteAsync(Moq.It.IsAny<MyRequest>())).Callback((MyRequest _) =>
             {
                 request_sent = _;
-                response.CallNumber = _.CallNumber;
+                response.ResponseContext.CallId = _.RequestContext.CallId;
                 manualResetEvent.Set();
             });
 
@@ -56,19 +59,12 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
                 response_stream.Object,
                 request_stream.Object,
                 call_context,
-                _ => _.CallNumber,
-                _ => _.CallNumber,
+                _ => _.ResponseContext,
+                _ => _.RequestContext,
                 Mock.Of<ILogger>());
         };
 
-        Because of = () =>
-        {
-            dispatcher.Call(request, _ =>
-            {
-                result = _;
-                return Task.CompletedTask;
-            }).Wait();
-        };
+        Because of = () => result = dispatcher.Call(request).GetAwaiter().GetResult();
 
         It should_send_the_request = () => request_sent.ShouldEqual(request);
         It should_return_the_expected_result = () => result.ShouldEqual(response);
