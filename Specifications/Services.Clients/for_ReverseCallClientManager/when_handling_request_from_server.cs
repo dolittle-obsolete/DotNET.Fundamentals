@@ -59,6 +59,7 @@ namespace Dolittle.Services.Clients.for_ReverseCallClientManager
             manager.Handle(
                 streamingCall,
                 _ => _.ResponseContext,
+                (response, context) => response.ResponseContext = context,
                 _ => _.RequestContext,
                 reverseCall =>
                 {

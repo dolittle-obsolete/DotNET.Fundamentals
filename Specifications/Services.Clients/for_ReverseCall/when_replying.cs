@@ -4,7 +4,6 @@
 extern alias contracts;
 
 using System;
-using System.Linq.Expressions;
 using contracts::Dolittle.Services.Contracts;
 using Dolittle.Protobuf;
 using Grpc.Core;
@@ -27,13 +26,15 @@ namespace Dolittle.Services.Clients.for_ReverseCall
             request = new MyRequest();
             response_stream_writer = new Mock<IClientStreamWriter<MyResponse>>();
 
-            Expression<Func<MyResponse, ReverseCallResponseContext>> expression = _ => _.ResponseContext;
+            Func<MyResponse, ReverseCallResponseContext> get_response_context = _ => _.ResponseContext;
+            Action<MyResponse, ReverseCallResponseContext> set_response_context = (response, context) => response.ResponseContext = context;
 
             reverse_call = new ReverseCall<MyResponse, MyRequest>(
                 request,
                 response_stream_writer.Object,
                 call_id,
-                expression);
+                get_response_context,
+                set_response_context);
 
             response_stream_writer.Setup(_ => _.WriteAsync(Moq.It.IsAny<MyResponse>())).Callback((MyResponse _) => response = _);
         };
