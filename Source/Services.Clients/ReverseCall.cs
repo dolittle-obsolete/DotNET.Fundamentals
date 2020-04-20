@@ -4,11 +4,8 @@
 extern alias contracts;
 
 using System;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using Dolittle.Protobuf;
-using Dolittle.Reflection;
 using Google.Protobuf;
 using Grpc.Core;
 using grpc = contracts::Dolittle.Services.Contracts;
@@ -26,7 +23,7 @@ namespace Dolittle.Services.Clients
     {
         readonly IClientStreamWriter<TResponse> _streamWriter;
         readonly Func<TResponse, grpc.ReverseCallResponseContext> _getResponseContext;
-        readonly PropertyInfo _responseContextProperty;
+        readonly Action<TResponse, grpc.ReverseCallResponseContext> _setResponseContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCall{TResponse, TRequest}"/> class.
@@ -34,18 +31,20 @@ namespace Dolittle.Services.Clients
         /// <param name="request">The request coming from the server.</param>
         /// <param name="streamWriter"><see cref="IClientStreamWriter{T}"/> for replying on.</param>
         /// <param name="callId">The identifier of the call.</param>
-        /// <param name="responseContextProperty">An <see cref="Expression{T}"/> for describing what property on response message that will hold the <see cref="grpc.ReverseCallResponseContext" />.</param>
+        /// <param name="getResponseContext">A <see cref="Func{T1, T2}"/> for getting the <see cref="grpc.ReverseCallResponseContext" />.</param>
+        /// <param name="setResponseContext">An <see cref="Action{T1, T2}" /> for setting the <see cref="grpc.ReverseCallResponseContext" /> on the response.</param>
         public ReverseCall(
             TRequest request,
             IClientStreamWriter<TResponse> streamWriter,
             ReverseCallId callId,
-            Expression<Func<TResponse, grpc.ReverseCallResponseContext>> responseContextProperty)
+            Func<TResponse, grpc.ReverseCallResponseContext> getResponseContext,
+            Action<TResponse, grpc.ReverseCallResponseContext> setResponseContext)
         {
             Request = request;
             _streamWriter = streamWriter;
             CallId = callId;
-            _getResponseContext = responseContextProperty.Compile();
-            _responseContextProperty = responseContextProperty.GetPropertyInfo();
+            _getResponseContext = getResponseContext;
+            _setResponseContext = setResponseContext;
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace Dolittle.Services.Clients
         {
             var responseContext = _getResponseContext(reply);
             responseContext.CallId = CallId.ToProtobuf();
-            _responseContextProperty.SetValue(reply, responseContext);
+            _setResponseContext(reply, responseContext);
             return _streamWriter.WriteAsync(reply);
         }
     }

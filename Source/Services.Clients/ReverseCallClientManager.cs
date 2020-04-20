@@ -4,7 +4,6 @@
 extern alias contracts;
 
 using System;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Dolittle.Protobuf;
@@ -22,8 +21,9 @@ namespace Dolittle.Services.Clients
         /// <inheritdoc/>
         public Task Handle<TResponse, TRequest>(
             AsyncDuplexStreamingCall<TResponse, TRequest> call,
-            Expression<Func<TResponse, grpc.ReverseCallResponseContext>> responseContextProperty,
-            Expression<Func<TRequest, grpc.ReverseCallRequestContext>> requestContextProperty,
+            Func<TResponse, grpc.ReverseCallResponseContext> getResponseContext,
+            Action<TResponse, grpc.ReverseCallResponseContext> setResponseContext,
+            Func<TRequest, grpc.ReverseCallRequestContext> getRequestContext,
             Func<ReverseCall<TResponse, TRequest>, Task> callback,
             CancellationToken token)
             where TResponse : IMessage
@@ -35,8 +35,8 @@ namespace Dolittle.Services.Clients
                     while (await call.ResponseStream.MoveNext(token).ConfigureAwait(false))
                     {
                         var request = call.ResponseStream.Current;
-                        var callId = requestContextProperty.Compile()(request).CallId.To<ReverseCallId>();
-                        var reverseCall = new ReverseCall<TResponse, TRequest>(call.ResponseStream.Current, call.RequestStream, callId, responseContextProperty);
+                        var callId = getRequestContext(request).CallId.To<ReverseCallId>();
+                        var reverseCall = new ReverseCall<TResponse, TRequest>(call.ResponseStream.Current, call.RequestStream, callId, getResponseContext, setResponseContext);
                         await callback(reverseCall).ConfigureAwait(false);
                     }
                 }, token);
