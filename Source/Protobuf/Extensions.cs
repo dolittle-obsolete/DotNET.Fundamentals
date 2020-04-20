@@ -27,7 +27,7 @@ namespace Dolittle.Protobuf
         /// <param name="id"><see cref="grpc.Uuid"/> to convert.</param>
         /// <returns>Converted <see cref="ConceptAs{T}"/> of type <see cref="Guid"/>.</returns>
         public static T To<T>(this grpc.Uuid id)
-            where T : ConceptAs<System.Guid>, new() => new T { Value = new Guid(id.Value.ToByteArray()) };
+            where T : ConceptAs<System.Guid>, new() => new T { Value = id.ToGuid() };
 
         /// <summary>
         /// Convert a <see cref="grpc.Uuid"/> to <see cref="Guid"/>.
