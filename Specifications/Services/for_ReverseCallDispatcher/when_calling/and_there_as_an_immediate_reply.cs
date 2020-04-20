@@ -38,14 +38,14 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
 
             var manualResetEvent = new ManualResetEventSlim(false);
 
-            response_stream.SetupGet(_ => _.Current).Returns(response);
+            response_stream.SetupGet(_ => _.Current).Returns(() => response);
             response_stream.Setup(_ => _.MoveNext(Moq.It.IsAny<CancellationToken>())).Returns((CancellationToken _) =>
-            {
-                manualResetEvent.Wait();
-                manualResetEvent.Reset();
+                {
+                    manualResetEvent.Wait();
+                    manualResetEvent.Reset();
 
-                return Task.FromResult(true);
-            });
+                    return Task.FromResult(true);
+                });
 
             request = new MyRequest { RequestContext = new ReverseCallRequestContext() };
             request_stream.Setup(_ => _.WriteAsync(Moq.It.IsAny<MyRequest>())).Callback((MyRequest _) =>

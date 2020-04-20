@@ -104,7 +104,7 @@ namespace Dolittle.Services
         {
             try
             {
-                while (!await _responseStream.MoveNext(_context.CancellationToken).ConfigureAwait(false))
+                while (await _responseStream.MoveNext(_context.CancellationToken).ConfigureAwait(false))
                 {
                     var response = _responseStream.Current;
                     var responseContext = _getResponseContext(response);
