@@ -15,9 +15,11 @@ namespace Dolittle.Protobuf.for_Extensions
         {
             execution_context = new Execution.Contracts.ExecutionContext
             {
-                Tenant = Guid.NewGuid().ToProtobuf(),
-                Microservice = Guid.NewGuid().ToProtobuf(),
+                TenantId = Guid.NewGuid().ToProtobuf(),
+                MicroserviceId = Guid.NewGuid().ToProtobuf(),
                 CorrelationId = Guid.NewGuid().ToProtobuf(),
+                Environment = Execution.Environment.Development,
+                Version = Versioning.Version.NotSet.ToProtobuf()
             };
 
             execution_context.Claims.AddRange(new[]
