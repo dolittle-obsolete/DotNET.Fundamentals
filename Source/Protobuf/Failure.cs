@@ -1,10 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-extern alias contracts;
-
 using Dolittle.Concepts;
-using grpc = contracts::Dolittle.Protobuf.Contracts;
 
 namespace Dolittle.Protobuf
 {
@@ -35,15 +32,15 @@ namespace Dolittle.Protobuf
         public FailureReason Reason { get; }
 
         /// <summary>
-        /// Implicitly convert <see cref="Failure" /> to <see cref="grpc.Failure" />.
+        /// Implicitly convert <see cref="Failure" /> to <see cref="Contracts.Failure" />.
         /// </summary>
         /// <param name="failure"><see cref="Failure" /> to convert.</param>
-        public static implicit operator grpc.Failure(Failure failure) => new grpc.Failure { Id = failure.Id.ToProtobuf(), Reason = failure.Reason };
+        public static implicit operator Contracts.Failure(Failure failure) => new Contracts.Failure { Id = failure.Id.ToProtobuf(), Reason = failure.Reason };
 
         /// <summary>
-        /// Implicitly convert <see cref="grpc.Failure" /> to <see cref="Failure" />.
+        /// Implicitly convert <see cref="Contracts.Failure" /> to <see cref="Failure" />.
         /// </summary>
-        /// <param name="failure"><see cref="grpc.Failure" /> to convert.</param>
-        public static implicit operator Failure(grpc.Failure failure) => failure.ToFailure();
+        /// <param name="failure"><see cref="Contracts.Failure" /> to convert.</param>
+        public static implicit operator Failure(Contracts.Failure failure) => failure.ToFailure();
     }
 }
