@@ -1,12 +1,9 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-extern alias contracts;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using contracts::Dolittle.Services.Contracts;
 using Dolittle.Protobuf;
 using Grpc.Core;
 using Machine.Specifications;
@@ -51,7 +48,7 @@ namespace Dolittle.Services.Clients.for_ReverseCallClientManager
                 return Task.FromResult(true);
             });
 
-            request = new MyRequest { RequestContext = new ReverseCallRequestContext { CallId = Guid.NewGuid().ToProtobuf() } };
+            request = new MyRequest { RequestContext = new Contracts.ReverseCallRequestContext { CallId = Guid.NewGuid().ToProtobuf() } };
             request_stream_reader.SetupGet(_ => _.Current).Returns(request);
 
             result_source = new TaskCompletionSource<ReverseCall<MyResponse, MyRequest>>();

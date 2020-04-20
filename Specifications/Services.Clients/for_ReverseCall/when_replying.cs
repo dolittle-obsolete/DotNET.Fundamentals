@@ -1,11 +1,8 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-extern alias contracts;
-
 using System;
 using System.Linq.Expressions;
-using contracts::Dolittle.Services.Contracts;
 using Dolittle.Protobuf;
 using Grpc.Core;
 using Machine.Specifications;
@@ -27,7 +24,7 @@ namespace Dolittle.Services.Clients.for_ReverseCall
             request = new MyRequest();
             response_stream_writer = new Mock<IClientStreamWriter<MyResponse>>();
 
-            Expression<Func<MyResponse, ReverseCallResponseContext>> expression = _ => _.ResponseContext;
+            Expression<Func<MyResponse, Contracts.ReverseCallResponseContext>> expression = _ => _.ResponseContext;
 
             reverse_call = new ReverseCall<MyResponse, MyRequest>(
                 request,
@@ -38,7 +35,7 @@ namespace Dolittle.Services.Clients.for_ReverseCall
             response_stream_writer.Setup(_ => _.WriteAsync(Moq.It.IsAny<MyResponse>())).Callback((MyResponse _) => response = _);
         };
 
-        Because of = () => reverse_call.Reply(new MyResponse() { ResponseContext = new ReverseCallResponseContext() });
+        Because of = () => reverse_call.Reply(new MyResponse() { ResponseContext = new Contracts.ReverseCallResponseContext() });
 
         It should_set_the_call_id = () => response.ResponseContext.CallId.To<ReverseCallId>().ShouldEqual(call_id);
     }

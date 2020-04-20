@@ -1,11 +1,8 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-extern alias contracts;
-
 using System.Threading;
 using System.Threading.Tasks;
-using contracts::Dolittle.Services.Contracts;
 using Dolittle.Logging;
 using Grpc.Core;
 using Machine.Specifications;
@@ -34,7 +31,7 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
             request_stream = new Mock<IServerStreamWriter<MyRequest>>();
             call_context = new CallContext();
 
-            response = new MyResponse { ResponseContext = new ReverseCallResponseContext() };
+            response = new MyResponse { ResponseContext = new Contracts.ReverseCallResponseContext() };
 
             var manualResetEvent = new ManualResetEventSlim(false);
 
@@ -47,7 +44,7 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_calling
                     return Task.FromResult(true);
                 });
 
-            request = new MyRequest { RequestContext = new ReverseCallRequestContext() };
+            request = new MyRequest { RequestContext = new Contracts.ReverseCallRequestContext() };
             request_stream.Setup(_ => _.WriteAsync(Moq.It.IsAny<MyRequest>())).Callback((MyRequest _) =>
             {
                 request_sent = _;
