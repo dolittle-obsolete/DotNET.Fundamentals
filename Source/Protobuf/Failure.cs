@@ -1,12 +1,14 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Dolittle.Concepts;
+
 namespace Dolittle.Protobuf
 {
     /// <summary>
     /// Represents a failure.
     /// </summary>
-    public class Failure
+    public class Failure : Value<Failure>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Failure"/> class.
