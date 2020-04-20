@@ -16,9 +16,9 @@ namespace Dolittle.IO.Tenants.for_Files.given
 {
     public class a_tenant_aware_file_system
     {
-        protected static Application application = Guid.Parse("2f076202-7c0a-45e1-b6bb-218682f4d6a4");
         protected static Microservice microservice = Guid.Parse("d90df5d0-ed59-478a-98ed-967c1bd06364");
         protected static TenantId tenant = Guid.Parse("e00adddf-2fa5-472d-8d27-1314c6dacf0d");
+        protected static Versioning.Version version = Versioning.Version.NotSet;
         protected static ExecutionContext execution_context;
         protected static Mock<IFileSystem> file_system;
         protected static Mock<IExecutionContextManager> execution_context_manager;
@@ -28,9 +28,9 @@ namespace Dolittle.IO.Tenants.for_Files.given
         Establish context = () =>
         {
             execution_context = new ExecutionContext(
-                application,
                 microservice,
                 tenant,
+                version,
                 Execution.Environment.Development,
                 CorrelationId.New(),
                 Claims.Empty,
