@@ -1,8 +1,6 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-extern alias contracts;
-
 using System;
 using System.Linq.Expressions;
 using System.Threading;
@@ -10,7 +8,6 @@ using System.Threading.Tasks;
 using Dolittle.Protobuf;
 using Google.Protobuf;
 using Grpc.Core;
-using grpc = contracts::Dolittle.Services.Contracts;
 
 namespace Dolittle.Services.Clients
 {
@@ -22,8 +19,8 @@ namespace Dolittle.Services.Clients
         /// <inheritdoc/>
         public Task Handle<TResponse, TRequest>(
             AsyncDuplexStreamingCall<TResponse, TRequest> call,
-            Expression<Func<TResponse, grpc.ReverseCallResponseContext>> responseContextProperty,
-            Expression<Func<TRequest, grpc.ReverseCallRequestContext>> requestContextProperty,
+            Expression<Func<TResponse, Contracts.ReverseCallResponseContext>> responseContextProperty,
+            Expression<Func<TRequest, Contracts.ReverseCallRequestContext>> requestContextProperty,
             Func<ReverseCall<TResponse, TRequest>, Task> callback,
             CancellationToken token)
             where TResponse : IMessage

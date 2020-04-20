@@ -1,14 +1,11 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-extern alias contracts;
-
 using System;
 using System.Linq.Expressions;
 using Dolittle.Logging;
 using Google.Protobuf;
 using Grpc.Core;
-using grpc = contracts::Dolittle.Services.Contracts;
 
 namespace Dolittle.Services
 {
@@ -33,8 +30,8 @@ namespace Dolittle.Services
             IAsyncStreamReader<TResponse> responseStream,
             IServerStreamWriter<TRequest> requestStream,
             ServerCallContext context,
-            Expression<Func<TResponse, grpc.ReverseCallResponseContext>> responseContextProperty,
-            Expression<Func<TRequest, grpc.ReverseCallRequestContext>> requestContextProperty)
+            Expression<Func<TResponse, Contracts.ReverseCallResponseContext>> responseContextProperty,
+            Expression<Func<TRequest, Contracts.ReverseCallRequestContext>> requestContextProperty)
             where TResponse : IMessage
             where TRequest : IMessage
         {

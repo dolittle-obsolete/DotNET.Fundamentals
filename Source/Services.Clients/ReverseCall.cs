@@ -1,8 +1,6 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-extern alias contracts;
-
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -11,7 +9,6 @@ using Dolittle.Protobuf;
 using Dolittle.Reflection;
 using Google.Protobuf;
 using Grpc.Core;
-using grpc = contracts::Dolittle.Services.Contracts;
 
 namespace Dolittle.Services.Clients
 {
@@ -25,7 +22,7 @@ namespace Dolittle.Services.Clients
         where TRequest : IMessage
     {
         readonly IClientStreamWriter<TResponse> _streamWriter;
-        readonly Func<TResponse, grpc.ReverseCallResponseContext> _getResponseContext;
+        readonly Func<TResponse, Contracts.ReverseCallResponseContext> _getResponseContext;
         readonly PropertyInfo _responseContextProperty;
 
         /// <summary>
@@ -34,12 +31,12 @@ namespace Dolittle.Services.Clients
         /// <param name="request">The request coming from the server.</param>
         /// <param name="streamWriter"><see cref="IClientStreamWriter{T}"/> for replying on.</param>
         /// <param name="callId">The identifier of the call.</param>
-        /// <param name="responseContextProperty">An <see cref="Expression{T}"/> for describing what property on response message that will hold the <see cref="grpc.ReverseCallResponseContext" />.</param>
+        /// <param name="responseContextProperty">An <see cref="Expression{T}"/> for describing what property on response message that will hold the <see cref="Contracts.ReverseCallResponseContext" />.</param>
         public ReverseCall(
             TRequest request,
             IClientStreamWriter<TResponse> streamWriter,
             ReverseCallId callId,
-            Expression<Func<TResponse, grpc.ReverseCallResponseContext>> responseContextProperty)
+            Expression<Func<TResponse, Contracts.ReverseCallResponseContext>> responseContextProperty)
         {
             Request = request;
             _streamWriter = streamWriter;
