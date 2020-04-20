@@ -2,8 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Linq.Expressions;
 using Dolittle.Protobuf;
+using Dolittle.Services.Contracts;
 using Grpc.Core;
 using Machine.Specifications;
 using Moq;
@@ -24,13 +24,15 @@ namespace Dolittle.Services.Clients.for_ReverseCall
             request = new MyRequest();
             response_stream_writer = new Mock<IClientStreamWriter<MyResponse>>();
 
-            Expression<Func<MyResponse, Contracts.ReverseCallResponseContext>> expression = _ => _.ResponseContext;
+            Func<MyResponse, ReverseCallResponseContext> get_response_context = _ => _.ResponseContext;
+            Action<MyResponse, ReverseCallResponseContext> set_response_context = (response, context) => response.ResponseContext = context;
 
             reverse_call = new ReverseCall<MyResponse, MyRequest>(
                 request,
                 response_stream_writer.Object,
                 call_id,
-                expression);
+                get_response_context,
+                set_response_context);
 
             response_stream_writer.Setup(_ => _.WriteAsync(Moq.It.IsAny<MyResponse>())).Callback((MyResponse _) => response = _);
         };
