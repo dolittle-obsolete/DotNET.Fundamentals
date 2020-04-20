@@ -21,5 +21,12 @@ namespace Dolittle.Protobuf
         /// </summary>
         /// <param name="id"><see cref="Guid" /> to convert.</param>
         public static implicit operator FailureId(Guid id) => new FailureId { Value = id };
+
+        /// <summary>
+        /// Create a <see cref="FailureId" /> from a<see cref="string" /> representing a <see cref="Guid" /> .
+        /// </summary>
+        /// <param name="guidString">The <see cref="Guid" /> <see cref="string" />.</param>
+        /// <returns><see cref="FailureId" />.</returns>
+        public static FailureId Create(string guidString) => Guid.Parse(guidString);
     }
 }
