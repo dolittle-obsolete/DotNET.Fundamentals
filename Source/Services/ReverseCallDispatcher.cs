@@ -111,12 +111,12 @@ namespace Dolittle.Services
                     }
                     else
                     {
-                        _logger.Warning("Reieved arguments, but call execution context was not set.");
+                        _logger.Warning("Received arguments, but call execution context was not set.");
                     }
                 }
                 else
                 {
-                    _logger.Warning("Recieved initial message from client, but arguments was not set.");
+                    _logger.Warning("Received initial message from client, but arguments was not set.");
                 }
             }
 
@@ -212,17 +212,17 @@ namespace Dolittle.Services
                             }
                             else
                             {
-                                _logger.Warning("Could not find the call id from the recieved response from the client. The message will be ignored.");
+                                _logger.Warning("Could not find the call id from the received response from the client. The message will be ignored.");
                             }
                         }
                         else
                         {
-                            _logger.Warning("Recieved response from reverse call client, but the call context was not set.");
+                            _logger.Warning("Received response from reverse call client, but the call context was not set.");
                         }
                     }
                     else
                     {
-                        _logger.Warning("Recieved message from reverse call client, but it did not conatin a response.");
+                        _logger.Warning("Received message from reverse call client, but it did not contain a response.");
                     }
                 }
             }
