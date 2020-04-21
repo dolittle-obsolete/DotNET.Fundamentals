@@ -3,7 +3,7 @@
 
 using System;
 using System.Globalization;
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Execution;
 using Dolittle.Security;
 using Dolittle.Tenancy;

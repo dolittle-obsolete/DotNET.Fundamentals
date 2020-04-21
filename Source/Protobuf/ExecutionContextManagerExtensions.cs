@@ -3,7 +3,7 @@
 
 extern alias contracts;
 
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Execution;
 using Dolittle.Tenancy;
 using grpc = contracts::Dolittle.Execution.Contracts;
