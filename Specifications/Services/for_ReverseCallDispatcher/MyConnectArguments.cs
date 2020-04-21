@@ -5,8 +5,8 @@ using Dolittle.Services.Contracts;
 
 namespace Dolittle.Services.for_ReverseCallDispatcher
 {
-    public class MyResponse
+    public class MyConnectArguments
     {
-        public ReverseCallResponseContext Context { get; set; }
+        public ReverseCallArgumentsContext Context { get; set; }
     }
 }
