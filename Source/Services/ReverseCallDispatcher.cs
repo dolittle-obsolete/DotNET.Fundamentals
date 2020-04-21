@@ -47,6 +47,7 @@ namespace Dolittle.Services
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
         bool _completed;
+        bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}"/> class.
@@ -190,7 +191,25 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Dispose()
         {
-            _semaphore.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Dispose managed and unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">Whether to dispose managed resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _semaphore.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
 
         async Task HandleClientMessages(CancellationToken cancellationToken)
