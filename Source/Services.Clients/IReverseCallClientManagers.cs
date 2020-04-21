@@ -28,6 +28,7 @@ namespace Dolittle.Services.Clients
         /// <param name="getConnectResponse"><see cref="Func{T1, TReturn}" /> for getting the connect response from the server message.</param>
         /// <param name="getRequest"><see cref="Func{T1, TReturn}" /> for getting the request from the server message.</param>
         /// <param name="getRequestContext"><see cref="Func{T1, TReturn}" /> for getting the <see cref="ReverseCallRequestContext" /> from the request.</param>
+        /// <param name="setResponseContext"><see cref="Action{T1, T2}" /> for setting the <see cref="ReverseCallResponseContext" /> on the response.</param>
         /// <param name="setResponse"><see cref="Action{T1, T2}" /> for setting the response on the client message.</param>
         /// <returns>The <see cref="IReverseCallClientManager{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}" />.</returns>
         IReverseCallClientManager<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse> GetFor<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>(
@@ -37,6 +38,7 @@ namespace Dolittle.Services.Clients
             Func<TServerMessage, TConnectResponse> getConnectResponse,
             Func<TServerMessage, TRequest> getRequest,
             Func<TRequest, ReverseCallRequestContext> getRequestContext,
+            Action<TResponse, ReverseCallResponseContext> setResponseContext,
             Action<TClientMessage, TResponse> setResponse)
             where TClientMessage : IMessage, new()
             where TServerMessage : IMessage, new()

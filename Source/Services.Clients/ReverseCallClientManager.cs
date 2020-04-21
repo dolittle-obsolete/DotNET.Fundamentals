@@ -23,7 +23,7 @@ namespace Dolittle.Services.Clients
     /// <typeparam name="TRequest">Type of the requests sent from the server to the client using <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}.Call"/>.</typeparam>
     /// <typeparam name="TResponse">Type of the responses received from the client using <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}.Call"/>.</typeparam>
     public class ReverseCallClientManager<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>
-        : IReverseCallClientManager<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>
+        : IDisposable, IReverseCallClientManager<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>
         where TClientMessage : IMessage, new()
         where TServerMessage : IMessage, new()
         where TConnectArguments : class
@@ -38,9 +38,11 @@ namespace Dolittle.Services.Clients
         readonly Func<TServerMessage, TConnectResponse> _getConnectResponse;
         readonly Func<TServerMessage, TRequest> _getRequest;
         readonly Func<TRequest, ReverseCallRequestContext> _getRequestContext;
+        readonly Action<TResponse, ReverseCallResponseContext> _setResponseContext;
         readonly Action<TClientMessage, TResponse> _setResponse;
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
+        readonly SemaphoreSlim _writeResponseSemaphore = new SemaphoreSlim(1);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallClientManager{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}"/> class.
@@ -51,6 +53,7 @@ namespace Dolittle.Services.Clients
         /// <param name="getConnectResponse"><see cref="Func{T1, TReturn}" /> for getting the connect response from the server message.</param>
         /// <param name="getRequest"><see cref="Func{T1, TReturn}" /> for getting the request from the server message.</param>
         /// <param name="getRequestContext"><see cref="Func{T1, TReturn}" /> for getting the <see cref="ReverseCallRequestContext" /> from the request.</param>
+        /// <param name="setResponseContext"><see cref="Action{T1, T2}" /> for setting the <see cref="ReverseCallResponseContext" /> on the response.</param>
         /// <param name="setResponse"><see cref="Action{T1, T2}" /> for setting the response on the client message.</param>
         /// <param name="executionContextManager">The <see cref="IExecutionContextManager" />.</param>
         /// <param name="logger">The <see cref="ILogger" />.</param>
@@ -61,6 +64,7 @@ namespace Dolittle.Services.Clients
             Func<TServerMessage, TConnectResponse> getConnectResponse,
             Func<TServerMessage, TRequest> getRequest,
             Func<TRequest, ReverseCallRequestContext> getRequestContext,
+            Action<TResponse, ReverseCallResponseContext> setResponseContext,
             Action<TClientMessage, TResponse> setResponse,
             IExecutionContextManager executionContextManager,
             ILogger logger)
@@ -72,13 +76,14 @@ namespace Dolittle.Services.Clients
             _getConnectResponse = getConnectResponse;
             _getRequest = getRequest;
             _getRequestContext = getRequestContext;
+            _setResponseContext = setResponseContext;
             _setResponse = setResponse;
             _executionContextManager = executionContextManager;
             _logger = logger;
         }
 
         /// <inheritdoc/>
-        public async Task<TConnectResponse> Connect(TConnectArguments connectArguments, CancellationToken token)
+        public async Task<TConnectResponse> Connect(TConnectArguments connectArguments, CancellationToken cancellationToken)
         {
             var callContext = new ReverseCallArgumentsContext
                 {
@@ -90,7 +95,7 @@ namespace Dolittle.Services.Clients
 
             await _clientToServer.WriteAsync(message).ConfigureAwait(false);
             TConnectResponse response = null;
-            if (await _serverToClient.MoveNext(token).ConfigureAwait(false))
+            if (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
             {
                 response = _getConnectResponse(_serverToClient.Current);
             }
@@ -99,20 +104,45 @@ namespace Dolittle.Services.Clients
         }
 
         /// <inheritdoc/>
-        public async Task Handle(Func<TRequest, Task<TResponse>> callback, CancellationToken token)
+        public async Task Handle(Func<TRequest, Task<TResponse>> callback, CancellationToken cancellationToken)
         {
-            while (await _serverToClient.MoveNext(token).ConfigureAwait(false))
+            while (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
             {
-                var request = _getRequest(_serverToClient.Current);
-                var callContext = _getRequestContext(request);
-                _executionContextManager.CurrentFor(callContext.ExecutionContext);
+                _ = HandleRequest(callback, _getRequest(_serverToClient.Current), cancellationToken);
+            }
+        }
 
-                var response = await callback(request).ConfigureAwait(false);
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            _writeResponseSemaphore.Dispose();
+        }
 
+        async Task HandleRequest(Func<TRequest, Task<TResponse>> callback, TRequest request, CancellationToken cancellationToken)
+        {
+            var requestContext = _getRequestContext(request);
+            _executionContextManager.CurrentFor(requestContext.ExecutionContext);
+
+            var response = await callback(request).ConfigureAwait(false);
+
+            await _writeResponseSemaphore.WaitAsync().ConfigureAwait(false);
+            try
+            {
+                var responseContext = new ReverseCallResponseContext { CallId = requestContext.CallId };
+                _setResponseContext(response, responseContext);
                 var message = new TClientMessage();
                 _setResponse(message, response);
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.Debug("Reverse call cancelled before request '{callId}' could be handled", requestContext.CallId.To<ReverseCallId>());
+                    return;
+                }
 
                 await _clientToServer.WriteAsync(message).ConfigureAwait(false);
+            }
+            finally
+            {
+                _writeResponseSemaphore.Release();
             }
         }
     }
