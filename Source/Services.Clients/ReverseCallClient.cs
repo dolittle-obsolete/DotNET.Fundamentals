@@ -92,8 +92,8 @@ namespace Dolittle.Services.Clients
         public async Task<bool> Connect(TConnectArguments connectArguments, CancellationToken cancellationToken)
         {
             var streamingCall = _establishConnection();
-            _clientToServer = streamingCall.RequestStream;
-            _serverToClient = streamingCall.ResponseStream;
+            _clientToServer ??= streamingCall.RequestStream;
+            _serverToClient ??= streamingCall.ResponseStream;
             var callContext = new ReverseCallArgumentsContext
                 {
                     ExecutionContext = _executionContextManager.Current.ToProtobuf()
