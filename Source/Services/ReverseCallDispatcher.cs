@@ -46,8 +46,12 @@ namespace Dolittle.Services
         readonly Func<TResponse, ReverseCallResponseContext> _getResponseContex;
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
+        readonly object _acceptLock = new object();
+        readonly object _rejectLock = new object();
         bool _completed;
         bool _disposed;
+        bool _accepted;
+        bool _rejected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}"/> class.
@@ -127,6 +131,13 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public async Task Accept(TConnectResponse response, CancellationToken cancellationToken)
         {
+            if (_accepted) throw new ReverseCallDispatcherAlreadyAccepted();
+            lock (_acceptLock)
+            {
+                if (_accepted) throw new ReverseCallDispatcherAlreadyAccepted();
+                _accepted = true;
+            }
+
             var message = new TServerMessage();
             _setConnectResponse(message, response);
             await _serverStream.WriteAsync(message).ConfigureAwait(false);
@@ -136,6 +147,13 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public Task Reject(TConnectResponse response, CancellationToken cancellationToken)
         {
+            if (_rejected) throw new ReverseCallDispatcherAlreadyRejected();
+            lock (_rejectLock)
+            {
+                if (_rejected) throw new ReverseCallDispatcherAlreadyRejected();
+                _rejected = true;
+            }
+
             var message = new TServerMessage();
             _setConnectResponse(message, response);
             return _serverStream.WriteAsync(message);
