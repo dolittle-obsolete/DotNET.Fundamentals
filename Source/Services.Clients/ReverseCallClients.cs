@@ -11,50 +11,50 @@ using Grpc.Core;
 namespace Dolittle.Services.Clients
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IReverseCallClientManagers" />.
+    /// Represents an implementation of <see cref="IReverseCallClients" />.
     /// </summary>
-    public class ReverseCallClientManagers : IReverseCallClientManagers
+    public class ReverseCallClients : IReverseCallClients
     {
         readonly IExecutionContextManager _executionContextManager;
         readonly ILoggerManager _loggerManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReverseCallClientManagers"/> class.
+        /// Initializes a new instance of the <see cref="ReverseCallClients"/> class.
         /// </summary>
         /// <param name="executionContextManager">The <see cref="IExecutionContextManager" />.</param>
         /// <param name="loggerManager">The <see cref="ILoggerManager" />.</param>
-        public ReverseCallClientManagers(IExecutionContextManager executionContextManager, ILoggerManager loggerManager)
+        public ReverseCallClients(IExecutionContextManager executionContextManager, ILoggerManager loggerManager)
         {
             _executionContextManager = executionContextManager;
             _loggerManager = loggerManager;
         }
 
         /// <inheritdoc/>
-        public IReverseCallClientManager<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse> GetFor<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>(
+        public IReverseCallClient<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse> GetFor<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>(
             Func<AsyncDuplexStreamingCall<TClientMessage, TServerMessage>> establishConnection,
-            Action<TConnectArguments, ReverseCallArgumentsContext> setConnectArgumentsContext,
             Action<TClientMessage, TConnectArguments> setConnectArguments,
             Func<TServerMessage, TConnectResponse> getConnectResponse,
-            Func<TServerMessage, TRequest> getRequest,
+            Func<TServerMessage, TRequest> getMessageRequest,
+            Action<TClientMessage, TResponse> setMessageResponse,
+            Action<TConnectArguments, ReverseCallArgumentsContext> setArgumentsContext,
             Func<TRequest, ReverseCallRequestContext> getRequestContext,
-            Action<TResponse, ReverseCallResponseContext> setResponseContext,
-            Action<TClientMessage, TResponse> setResponse)
+            Action<TResponse, ReverseCallResponseContext> setResponseContext)
             where TClientMessage : IMessage, new()
             where TServerMessage : IMessage, new()
             where TConnectArguments : class
             where TConnectResponse : class
             where TRequest : class
             where TResponse : class =>
-                new ReverseCallClientManager<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>(
-                    establishConnection(),
-                    setConnectArgumentsContext,
+                new ReverseCallClient<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>(
+                    establishConnection,
                     setConnectArguments,
                     getConnectResponse,
-                    getRequest,
+                    getMessageRequest,
+                    setMessageResponse,
+                    setArgumentsContext,
                     getRequestContext,
                     setResponseContext,
-                    setResponse,
                     _executionContextManager,
-                    _loggerManager.CreateLogger<ReverseCallClientManager<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>>());
+                    _loggerManager.CreateLogger<ReverseCallClient<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>>());
     }
 }
