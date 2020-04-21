@@ -4,7 +4,7 @@
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
-namespace Dolittle.Services.for_ReverseCallClient
+namespace Dolittle.Services.for_ReverseCallDispatcher
 {
     public class MyClientMessage : IMessage
     {
