@@ -42,8 +42,10 @@ namespace Dolittle.Services.Clients
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
         readonly SemaphoreSlim _writeResponseSemaphore = new SemaphoreSlim(1);
+        readonly object _handleLock = new object();
         IClientStreamWriter<TClientMessage> _clientToServer;
         IAsyncStreamReader<TServerMessage> _serverToClient;
+        Task _handleRequests;
         bool _disposed;
 
         /// <summary>
@@ -113,24 +115,44 @@ namespace Dolittle.Services.Clients
                 else
                 {
                     _logger.Warning("Did not receive connect response. Server message did not contain the connect response");
-                    return false;
                 }
             }
             else
             {
                 _logger.Warning("Did not receive connect response. Server stream was empty");
-                return false;
             }
+
+            await _clientToServer.CompleteAsync().ConfigureAwait(false);
+            return false;
         }
 
         /// <inheritdoc/>
         public async Task Handle(Func<TRequest, CancellationToken, Task<TResponse>> callback, CancellationToken cancellationToken)
         {
-            while (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
+            if (ConnectResponse == null) throw new ReverseCallClientNotConnected();
+            if (_handleRequests != null)
             {
-                var request = _getMessageRequest(_serverToClient.Current);
-                _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
+                await _handleRequests.ConfigureAwait(false);
+                return;
             }
+
+            lock (_handleLock)
+            {
+                if (_handleRequests == null)
+                {
+                    _handleRequests = Task.Run(
+                        async () =>
+                        {
+                            while (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
+                            {
+                                var request = _getMessageRequest(_serverToClient.Current);
+                                _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
+                            }
+                        });
+                }
+            }
+
+            await _handleRequests.ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
