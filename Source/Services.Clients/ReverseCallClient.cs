@@ -42,9 +42,11 @@ namespace Dolittle.Services.Clients
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
         readonly SemaphoreSlim _writeResponseSemaphore = new SemaphoreSlim(1);
+        readonly object _connectLock = new object();
         readonly object _handleLock = new object();
         IClientStreamWriter<TClientMessage> _clientToServer;
         IAsyncStreamReader<TServerMessage> _serverToClient;
+        bool _alreadyConnected;
         Task _handleRequests;
         bool _disposed;
 
@@ -91,9 +93,16 @@ namespace Dolittle.Services.Clients
         /// <inheritdoc/>
         public async Task<bool> Connect(TConnectArguments connectArguments, CancellationToken cancellationToken)
         {
+            if (_alreadyConnected) throw new ReverseCallClientAlreadyCalledConnect();
+            lock (_connectLock)
+            {
+                if (_alreadyConnected) throw new ReverseCallClientAlreadyCalledConnect();
+                _alreadyConnected = true;
+            }
+
             var streamingCall = _establishConnection();
-            _clientToServer ??= streamingCall.RequestStream;
-            _serverToClient ??= streamingCall.ResponseStream;
+            _clientToServer = streamingCall.RequestStream;
+            _serverToClient = streamingCall.ResponseStream;
             var callContext = new ReverseCallArgumentsContext
                 {
                     ExecutionContext = _executionContextManager.Current.ToProtobuf()
