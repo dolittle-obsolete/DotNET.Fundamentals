@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../default.props"/>
   <PropertyGroup>
-    <AssemblyName>Dolittle.Applications</AssemblyName>
+    <AssemblyName>Dolittle.ApplicationModel</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

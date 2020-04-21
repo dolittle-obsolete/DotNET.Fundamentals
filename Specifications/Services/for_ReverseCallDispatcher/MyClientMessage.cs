@@ -4,11 +4,13 @@
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
-namespace Dolittle.Services.Clients.for_ReverseCall
+namespace Dolittle.Services.for_ReverseCallDispatcher
 {
-    public class MyRequest : IMessage
+    public class MyClientMessage : IMessage
     {
-        public Contracts.ReverseCallRequestContext RequestContext { get; set; }
+        public MyResponse Response { get; set; }
+
+        public MyConnectArguments Arguments { get; set; }
 
         public MessageDescriptor Descriptor => throw new System.NotImplementedException();
 

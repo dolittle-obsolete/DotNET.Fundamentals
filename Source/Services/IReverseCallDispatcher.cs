@@ -8,7 +8,7 @@ using Google.Protobuf;
 namespace Dolittle.Services
 {
     /// <summary>
-    /// Represents a dispatcher that is capable tracking calls from server to client.
+    /// Defines a dispatcher that is capable tracking calls from server to client.
     /// </summary>
     /// <typeparam name="TClientMessage">Type of the <see cref="IMessage">messages</see> that is sent from the client to the server.</typeparam>
     /// <typeparam name="TServerMessage">Type of the <see cref="IMessage">messages</see> that is sent from the server to the client.</typeparam>

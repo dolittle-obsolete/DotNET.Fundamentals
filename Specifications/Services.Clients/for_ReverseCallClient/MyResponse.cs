@@ -3,7 +3,7 @@
 
 using Dolittle.Services.Contracts;
 
-namespace Dolittle.Services.for_ReverseCallDispatcher
+namespace Dolittle.Services.Clients.for_ReverseCallClient
 {
     public class MyResponse
     {

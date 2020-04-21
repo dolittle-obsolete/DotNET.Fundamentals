@@ -3,7 +3,7 @@
 
 using System;
 using System.Globalization;
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Execution;
 using Dolittle.Security;
 using Dolittle.Tenancy;
@@ -15,13 +15,15 @@ namespace Dolittle.Protobuf.for_Extensions
     {
         static ExecutionContext execution_context;
         static Execution.Contracts.ExecutionContext result;
+        static Versioning.Version version;
 
         Establish context = () =>
         {
+            version = new Versioning.Version(1, 2, 3, 1, "test");
             execution_context = new ExecutionContext(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                Versioning.Version.NotSet,
+                version,
                 Execution.Environment.Development,
                 Guid.NewGuid(),
                 new Claims(new[]
