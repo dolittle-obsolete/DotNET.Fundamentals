@@ -14,9 +14,11 @@ namespace Dolittle.Services.Clients.for_ReverseCallClient.when_connecting
     {
         static bool result;
         static Execution.ExecutionContext execution_context;
+        static MyConnectArguments connect_arguments;
 
         Establish context = () =>
         {
+            connect_arguments = new MyConnectArguments();
             execution_context = new Execution.ExecutionContext(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
@@ -30,10 +32,10 @@ namespace Dolittle.Services.Clients.for_ReverseCallClient.when_connecting
             server_stream.SetupGet(_ => _.Current).Returns(new MyServerMessage { Request = new MyRequest() });
         };
 
-        Because of = () => result = reverse_call_client.Connect(new MyConnectArguments(), CancellationToken.None).GetAwaiter().GetResult();
+        Because of = () => result = reverse_call_client.Connect(connect_arguments, CancellationToken.None).GetAwaiter().GetResult();
 
         It should_return_false = () => result.ShouldBeFalse();
-        It should_write_to_server_once = () => client_stream.Verify(_ => _.WriteAsync(Moq.It.IsAny<MyClientMessage>()), Moq.Times.Once);
+        It should_write_to_server_once = () => client_stream.Verify(_ => _.WriteAsync(Moq.It.Is<MyClientMessage>(_ => _.Arguments.Equals(connect_arguments))), Moq.Times.Once);
         It should_read_from_server_once = () => server_stream.Verify(_ => _.MoveNext(Moq.It.IsAny<CancellationToken>()), Moq.Times.Once);
         It should_not_set_connect_response = () => reverse_call_client.ConnectResponse.ShouldBeNull();
     }

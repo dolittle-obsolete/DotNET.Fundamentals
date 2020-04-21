@@ -19,7 +19,7 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_accepting
 
         Because of = () => dispatcher.Accept(connect_response, CancellationToken.None).GetAwaiter().GetResult();
 
-        It should_write_one_message = () => server_stream.Verify(_ => _.WriteAsync(Moq.It.IsAny<MyServerMessage>()), Moq.Times.Once);
+        It should_write_one_message = () => server_stream.Verify(_ => _.WriteAsync(Moq.It.Is<MyServerMessage>(_ => _.ConnectResponse.Equals(connect_response))), Moq.Times.Once);
         It should_move_client_stream_once = () => client_stream.Verify(_ => _.MoveNext(Moq.It.IsAny<CancellationToken>()), Moq.Times.Once);
     }
 }
