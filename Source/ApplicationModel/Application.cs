@@ -4,8 +4,6 @@
 using System;
 using Dolittle.Concepts;
 
-// fra namespace Dolittle.Application
-// til:
 namespace Dolittle.ApplicationModel
 {
     /// <summary>
