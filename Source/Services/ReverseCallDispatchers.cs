@@ -30,7 +30,7 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public IReverseCallDispatcher<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse> GetDispatcherFor<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>(
+        public IReverseCallDispatcher<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse> GetFor<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>(
             IAsyncStreamReader<TClientMessage> clientStream,
             IServerStreamWriter<TServerMessage> serverStream,
             ServerCallContext context,
