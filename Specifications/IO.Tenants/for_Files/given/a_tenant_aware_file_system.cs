@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 using System.IO;
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Execution;
 using Dolittle.ResourceTypes.Configuration;
 using Dolittle.Security;

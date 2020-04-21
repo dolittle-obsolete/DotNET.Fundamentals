@@ -4,7 +4,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Protobuf;

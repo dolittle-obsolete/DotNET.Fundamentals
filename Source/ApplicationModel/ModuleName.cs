@@ -3,7 +3,7 @@
 
 using Dolittle.Concepts;
 
-namespace Dolittle.Applications
+namespace Dolittle.ApplicationModel
 {
     /// <summary>
     /// Represents the name of a <see cref="Feature"/>.

@@ -3,7 +3,7 @@
 
 using System.Globalization;
 using System.Threading;
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Lifecycle;
 using Dolittle.Logging;
 using Dolittle.Security;

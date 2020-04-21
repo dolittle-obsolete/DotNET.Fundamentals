@@ -4,7 +4,9 @@
 using System;
 using Dolittle.Concepts;
 
-namespace Dolittle.Applications
+// fra namespace Dolittle.Application
+// til:
+namespace Dolittle.ApplicationModel
 {
     /// <summary>
     /// Represents the concept of an application.

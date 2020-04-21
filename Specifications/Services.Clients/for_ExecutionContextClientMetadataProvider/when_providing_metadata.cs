@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
