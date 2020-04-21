@@ -6,6 +6,7 @@ using Dolittle.ApplicationModel;
 using Dolittle.Concepts;
 using Dolittle.Security;
 using Dolittle.Tenancy;
+using Dolittle.Versioning;
 
 namespace Dolittle.Execution
 {
@@ -17,35 +18,30 @@ namespace Dolittle.Execution
         /// <summary>
         /// Initializes a new instance of the <see cref="ExecutionContext"/> class.
         /// </summary>
-        /// <param name="application"><see cref="Application"/> that is currently executing.</param>
-        /// <param name="microservice"><see cref="ApplicationModel.Microservice"/> that is currently executing.</param>
+        /// <param name="microservice"><see cref="Microservice"/> that is currently executing.</param>
         /// <param name="tenant"><see cref="TenantId"/> that is currently part of the <see cref="ExecutionContext"/>.</param>
+        /// <param name="version"><see cref="Version" /> of the <see cref="Microservice" />.</param>
         /// <param name="environment"><see cref="Environment"/> for this <see cref="ExecutionContext"/>.</param>
         /// <param name="correlationId"><see cref="CorrelationId"/> for this <see cref="ExecutionContext"/>.</param>
         /// <param name="claims"><see cref="Claims"/> to populate with.</param>
         /// <param name="cultureInfo"><see cref="CultureInfo"/> for the <see cref="ExecutionContext"/>.</param>
         public ExecutionContext(
-            Application application,
             Microservice microservice,
             TenantId tenant,
+            Version version,
             Environment environment,
             CorrelationId correlationId,
             Claims claims,
             CultureInfo cultureInfo)
         {
-            Application = application;
             Microservice = microservice;
             Tenant = tenant;
+            Version = version;
             Environment = environment;
             CorrelationId = correlationId;
             Claims = claims;
             Culture = cultureInfo;
         }
-
-        /// <summary>
-        /// Gets the <see cref="Application"/> for the <see cref="ExecutionContext">execution context</see>.
-        /// </summary>
-        public Application Application { get; }
 
         /// <summary>
         /// Gets the <see cref="Microservice"/> for the <see cref="ExecutionContext">execution context</see>.
@@ -56,6 +52,11 @@ namespace Dolittle.Execution
         /// Gets the <see cref="TenantId"/> for the <see cref="ExecutionContext">execution context</see>.
         /// </summary>
         public TenantId Tenant { get; }
+
+        /// <summary>
+        /// Gets the <see cref="Version" /> of the <see cref="Microservice" />.
+        /// </summary>
+        public Version Version { get; }
 
         /// <summary>
         /// Gets the <see cref="Environment"/> for the <see cref="ExecutionContext">execution context</see>.

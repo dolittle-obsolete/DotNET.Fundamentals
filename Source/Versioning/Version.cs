@@ -34,6 +34,11 @@ namespace Dolittle.Versioning
         }
 
         /// <summary>
+        /// Gets a <see cref="Version" /> that is not set.
+        /// </summary>
+        public static Version NotSet => new Version(0, 0, 0, 0);
+
+        /// <summary>
         /// Gets the major version number of the software.
         /// </summary>
         public int Major { get; }

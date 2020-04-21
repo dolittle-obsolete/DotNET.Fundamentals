@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using Dolittle.Collections;
 using Dolittle.Logging;
-using Grpc.Core.Interceptors;
 using grpc = Grpc.Core;
 
 namespace Dolittle.Services
@@ -16,7 +15,6 @@ namespace Dolittle.Services
     public class Endpoint : IEndpoint
     {
         readonly ILogger _logger;
-        readonly ExecutionContextInterceptor _executionContextInterceptor;
         grpc::Server _server;
         bool _disposed;
 
@@ -24,13 +22,9 @@ namespace Dolittle.Services
         /// Initializes a new instance of the <see cref="Endpoint"/> class.
         /// </summary>
         /// <param name="logger"><see cref="ILogger"/> for logging.</param>
-        /// <param name="executionContextInterceptor">A <see cref="ExecutionContextInterceptor"/> instance.</param>
-        public Endpoint(
-            ILogger logger,
-            ExecutionContextInterceptor executionContextInterceptor)
+        public Endpoint(ILogger logger)
         {
             _logger = logger;
-            _executionContextInterceptor = executionContextInterceptor;
         }
 
         /// <summary>
@@ -77,8 +71,7 @@ namespace Dolittle.Services
                 services.ForEach(_ =>
                 {
                     _logger.Debug("Exposing service '{serviceName}'", _.Descriptor.FullName);
-                    var serverDefinition = _.ServerDefinition.Intercept(_executionContextInterceptor);
-                    _server.Services.Add(serverDefinition);
+                    _server.Services.Add(_.ServerDefinition);
                 });
 
                 _server.Start();
