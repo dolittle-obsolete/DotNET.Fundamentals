@@ -101,10 +101,9 @@ namespace Dolittle.Services.Clients
             _setConnectArguments(message, connectArguments);
 
             await _clientToServer.WriteAsync(message).ConfigureAwait(false);
-            TConnectResponse response = null;
             if (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
             {
-                response = _getConnectResponse(_serverToClient.Current);
+                var response = _getConnectResponse(_serverToClient.Current);
                 if (response != null)
                 {
                     _logger.Trace("Received connect response");
@@ -113,7 +112,7 @@ namespace Dolittle.Services.Clients
                 }
                 else
                 {
-                    _logger.Warning("Did not receive connect response");
+                    _logger.Warning("Did not receive connect response. Server message did not contain the connect response");
                     return false;
                 }
             }
@@ -161,6 +160,7 @@ namespace Dolittle.Services.Clients
         async Task HandleRequest(Func<TRequest, CancellationToken, Task<TResponse>> callback, TRequest request, CancellationToken cancellationToken)
         {
             var requestContext = _getRequestContext(request);
+            _logger.Trace("Handling request with call {callId}", requestContext.CallId.To<ReverseCallId>());
             _executionContextManager.CurrentFor(requestContext.ExecutionContext);
 
             var response = await callback(request, cancellationToken).ConfigureAwait(false);
@@ -178,6 +178,7 @@ namespace Dolittle.Services.Clients
                     return;
                 }
 
+                _logger.Trace("Writing response request with call {callId}", responseContext.CallId.To<ReverseCallId>());
                 await _clientToServer.WriteAsync(message).ConfigureAwait(false);
             }
             finally
