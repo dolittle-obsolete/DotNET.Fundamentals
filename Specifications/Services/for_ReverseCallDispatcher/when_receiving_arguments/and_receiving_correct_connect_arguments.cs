@@ -1,11 +1,9 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Dolittle.Protobuf;
-using Dolittle.Security;
 using Dolittle.Services.Contracts;
 using Machine.Specifications;
 
@@ -19,15 +17,7 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.when_receiving_arguments
 
         Establish context = () =>
         {
-            execution_context = new Execution.Contracts.ExecutionContext
-                {
-                    CorrelationId = Guid.NewGuid().ToProtobuf(),
-                    Environment = "some env",
-                    MicroserviceId = Guid.NewGuid().ToProtobuf(),
-                    TenantId = Guid.NewGuid().ToProtobuf(),
-                    Version = Versioning.Version.NotSet.ToProtobuf()
-                };
-            execution_context.Claims.Add(Claims.Empty.ToProtobuf());
+            execution_context = given.execution_contexts.create_protobuf();
             arguments = new MyConnectArguments { Context = new ReverseCallArgumentsContext { ExecutionContext = execution_context } };
 
             client_stream.Setup(_ => _.MoveNext(Moq.It.IsAny<CancellationToken>())).Returns(Task.FromResult(true));

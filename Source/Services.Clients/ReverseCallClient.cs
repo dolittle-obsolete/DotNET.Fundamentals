@@ -42,8 +42,13 @@ namespace Dolittle.Services.Clients
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
         readonly SemaphoreSlim _writeResponseSemaphore = new SemaphoreSlim(1);
+        readonly object _connectLock = new object();
+        readonly object _handleLock = new object();
         IClientStreamWriter<TClientMessage> _clientToServer;
         IAsyncStreamReader<TServerMessage> _serverToClient;
+        bool _connecting;
+        bool _connectionEstablished;
+        bool _startedHandling;
         bool _disposed;
 
         /// <summary>
@@ -89,6 +94,13 @@ namespace Dolittle.Services.Clients
         /// <inheritdoc/>
         public async Task<bool> Connect(TConnectArguments connectArguments, CancellationToken cancellationToken)
         {
+            ThrowIfConnecting();
+            lock (_connectLock)
+            {
+                ThrowIfConnecting();
+                _connecting = true;
+            }
+
             var streamingCall = _establishConnection();
             _clientToServer = streamingCall.RequestStream;
             _serverToClient = streamingCall.ResponseStream;
@@ -108,24 +120,35 @@ namespace Dolittle.Services.Clients
                 {
                     _logger.Trace("Received connect response");
                     ConnectResponse = response;
+                    _connectionEstablished = true;
                     return true;
                 }
                 else
                 {
                     _logger.Warning("Did not receive connect response. Server message did not contain the connect response");
-                    return false;
                 }
             }
             else
             {
                 _logger.Warning("Did not receive connect response. Server stream was empty");
-                return false;
             }
+
+            await _clientToServer.CompleteAsync().ConfigureAwait(false);
+            return false;
         }
 
         /// <inheritdoc/>
         public async Task Handle(Func<TRequest, CancellationToken, Task<TResponse>> callback, CancellationToken cancellationToken)
         {
+            ThrowIfConnectionNotEstablished();
+            ThrowIfAlreadyStartedHandling();
+
+            lock (_handleLock)
+            {
+                ThrowIfAlreadyStartedHandling();
+                _startedHandling = true;
+            }
+
             while (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
             {
                 var request = _getMessageRequest(_serverToClient.Current);
@@ -184,6 +207,30 @@ namespace Dolittle.Services.Clients
             finally
             {
                 _writeResponseSemaphore.Release();
+            }
+        }
+
+        void ThrowIfConnecting()
+        {
+            if (_connecting)
+            {
+                throw new ReverseCallClientAlreadyCalledConnect();
+            }
+        }
+
+        void ThrowIfAlreadyStartedHandling()
+        {
+            if (_startedHandling)
+            {
+                throw new ReverseCallClientAlreadyStartedHandling();
+            }
+        }
+
+        void ThrowIfConnectionNotEstablished()
+        {
+            if (!_connectionEstablished)
+            {
+                throw new ReverseCallClientNotConnected();
             }
         }
     }
