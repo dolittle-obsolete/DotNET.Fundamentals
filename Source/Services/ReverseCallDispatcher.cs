@@ -46,10 +46,12 @@ namespace Dolittle.Services
         readonly Func<TResponse, ReverseCallResponseContext> _getResponseContex;
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
+        readonly object _receiveArgumentsLock = new object();
         readonly object _respondLock = new object();
         bool _completed;
         bool _disposed;
 
+        bool _receivingArguments;
         bool _accepted;
         bool _rejected;
 
@@ -102,6 +104,13 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public async Task<bool> ReceiveArguments(CancellationToken cancellationToken)
         {
+            ThrowIfReceivingArguments();
+            lock (_receiveArgumentsLock)
+            {
+                ThrowIfReceivingArguments();
+                _receivingArguments = true;
+            }
+
             if (await _clientStream.MoveNext(cancellationToken).ConfigureAwait(false))
             {
                 var arguments = _getConnectArguments(_clientStream.Current);
@@ -277,6 +286,14 @@ namespace Dolittle.Services
                     {
                     }
                 }
+            }
+        }
+
+        void ThrowIfReceivingArguments()
+        {
+            if (_receivingArguments)
+            {
+                throw new ReverseCallDispatcherAlreadyTriedToReceiveArguments();
             }
         }
 
