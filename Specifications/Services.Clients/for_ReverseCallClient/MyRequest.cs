@@ -3,10 +3,10 @@
 
 using Dolittle.Services.Contracts;
 
-namespace Dolittle.Services.for_ReverseCallDispatcher
+namespace Dolittle.Services.Clients.for_ReverseCallClient
 {
-    public class MyResponse
+    public class MyRequest
     {
-        public ReverseCallResponseContext Context { get; set; }
+        public ReverseCallRequestContext Context { get; set; }
     }
 }

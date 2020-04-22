@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Linq.Expressions;
+using Dolittle.Services.Contracts;
 using Google.Protobuf;
 using Grpc.Core;
 
@@ -14,23 +14,41 @@ namespace Dolittle.Services
     public interface IReverseCallDispatchers
     {
         /// <summary>
-        /// Get a <see cref="IReverseCallDispatcher{TResponse, TRequest}"/> for specific request and response streams.
+        /// Get a <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}"/> for specific request and response streams.
         /// </summary>
-        /// <param name="responseStream">The <see cref="IAsyncStreamReader{T}"/> for responses coming from the client.</param>
-        /// <param name="requestStream">The <see cref="IServerStreamWriter{T}"/> for requests going to the client.</param>
-        /// <param name="context">Original <see cref="ServerCallContext"/>.</param>
-        /// <param name="responseProperty">An <see cref="Expression{T}"/> for describing what property on response message that will hold the unique call identifier.</param>
-        /// <param name="requestProperty">An <see cref="Expression{T}"/> for describing what property on request message that will hold the unique call identifier.</param>
-        /// <typeparam name="TResponse">Type of <see cref="IMessage"/> for the responses from the client.</typeparam>
-        /// <typeparam name="TRequest">Type of <see cref="IMessage"/> for the requests to the client.</typeparam>
-        /// <returns>A <see cref="IReverseCallDispatcher{TResponse, TRequest}"/>.</returns>
-        IReverseCallDispatcher<TResponse, TRequest> GetDispatcherFor<TResponse, TRequest>(
-            IAsyncStreamReader<TResponse> responseStream,
-            IServerStreamWriter<TRequest> requestStream,
-            ServerCallContext context,
-            Expression<Func<TResponse, ulong>> responseProperty,
-            Expression<Func<TRequest, ulong>> requestProperty)
-            where TResponse : IMessage
-            where TRequest : IMessage;
+        /// <param name="clientStream">The <see cref="IAsyncStreamReader{TClientMessage}"/> to read client messages from.</param>
+        /// <param name="serverStream">The <see cref="IServerStreamWriter{TServerMessage}"/> to write server messages to.</param>
+        /// <param name="context">The connection <see cref="ServerCallContext">context</see>.</param>
+        /// <param name="getConnectArguments">A delegate to get the <typeparamref name="TConnectArguments"/> from a <typeparamref name="TClientMessage"/>.</param>
+        /// <param name="setConnectResponse">A delegate to set the <typeparamref name="TConnectResponse"/> on a <typeparamref name="TServerMessage"/>.</param>
+        /// <param name="setMessageRequest">A delegate to set the <typeparamref name="TRequest"/> on a <typeparamref name="TServerMessage"/>.</param>
+        /// <param name="getMessageResponse">A delegate to get the <typeparamref name="TResponse"/> from a <typeparamref name="TClientMessage"/>.</param>
+        /// <param name="getArgumentsContext">A delegate to get the <see cref="ReverseCallArgumentsContext"/> from a <typeparamref name="TConnectArguments"/>.</param>
+        /// <param name="setRequestContext">A delegate to set the <see cref="ReverseCallRequestContext"/> on a <typeparamref name="TRequest"/>.</param>
+        /// <param name="getResponseContex">A delegate to get the <see cref="ReverseCallResponseContext"/> from a <typeparamref name="TResponse"/>.</param>
+        /// <typeparam name="TClientMessage">Type of the <see cref="IMessage">messages</see> that is sent from the client to the server.</typeparam>
+        /// <typeparam name="TServerMessage">Type of the <see cref="IMessage">messages</see> that is sent from the server to the client.</typeparam>
+        /// <typeparam name="TConnectArguments">Type of the arguments that are sent along with the initial Connect call.</typeparam>
+        /// <typeparam name="TConnectResponse">Type of the response that is received after the initial Connect call.</typeparam>
+        /// <typeparam name="TRequest">Type of the requests sent from the server to the client using <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}.Call"/>.</typeparam>
+        /// <typeparam name="TResponse">Type of the responses received from the client using <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}.Call"/>.</typeparam>
+        /// <returns>A <see cref="IReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}"/>.</returns>
+        IReverseCallDispatcher<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse> GetFor<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>(
+                IAsyncStreamReader<TClientMessage> clientStream,
+                IServerStreamWriter<TServerMessage> serverStream,
+                ServerCallContext context,
+                Func<TClientMessage, TConnectArguments> getConnectArguments,
+                Action<TServerMessage, TConnectResponse> setConnectResponse,
+                Action<TServerMessage, TRequest> setMessageRequest,
+                Func<TClientMessage, TResponse> getMessageResponse,
+                Func<TConnectArguments, ReverseCallArgumentsContext> getArgumentsContext,
+                Action<TRequest, ReverseCallRequestContext> setRequestContext,
+                Func<TResponse, ReverseCallResponseContext> getResponseContex)
+            where TClientMessage : IMessage, new()
+            where TServerMessage : IMessage, new()
+            where TConnectArguments : class
+            where TConnectResponse : class
+            where TRequest : class
+            where TResponse : class;
     }
 }
