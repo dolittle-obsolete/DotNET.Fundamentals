@@ -212,17 +212,26 @@ namespace Dolittle.Services.Clients
 
         void ThrowIfAlreadyConnected()
         {
-            if (_alreadyConnected) throw new ReverseCallClientAlreadyCalledConnect();
+            if (_alreadyConnected)
+            {
+                throw new ReverseCallClientAlreadyCalledConnect();
+            }
         }
 
         void ThrowIfAlreadyStartedHandling()
         {
-            if (_startedHandling) throw new ReverseCallClientAlreadyStartedHandling();
+            if (_startedHandling)
+            {
+                throw new ReverseCallClientAlreadyStartedHandling();
+            }
         }
 
         void ThrowIfConnectionNotEstablished()
         {
-            if (!_connectionEstablished) throw new ReverseCallClientNotConnected();
+            if (!_connectionEstablished)
+            {
+                throw new ReverseCallClientNotConnected();
+            }
         }
     }
 }

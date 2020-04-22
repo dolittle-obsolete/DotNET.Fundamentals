@@ -162,10 +162,7 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public async Task<TResponse> Call(TRequest request, CancellationToken cancellationToken)
         {
-            if (_completed)
-            {
-                throw new CannotPerformCallOnCompletedReverseCallConnection();
-            }
+            ThrowIfCompletedCall();
 
             var completionSource = new TaskCompletionSource<TResponse>();
             var callId = ReverseCallId.New();
@@ -285,8 +282,22 @@ namespace Dolittle.Services
 
         void ThrowIfResponded()
         {
-            if (_accepted) throw new ReverseCallDispatcherAlreadyAccepted();
-            else if (_rejected) throw new ReverseCallDispatcherAlreadyRejected();
+            if (_accepted)
+            {
+                throw new ReverseCallDispatcherAlreadyAccepted();
+            }
+            else if (_rejected)
+            {
+                throw new ReverseCallDispatcherAlreadyRejected();
+            }
+        }
+
+        void ThrowIfCompletedCall()
+        {
+            if (_completed)
+            {
+                throw new CannotPerformCallOnCompletedReverseCallConnection();
+            }
         }
     }
 }
