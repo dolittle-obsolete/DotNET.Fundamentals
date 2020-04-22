@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Contracts" Version="$(ContractsVersion)" Alias="contracts"/>
+    <PackageReference Include="Dolittle.Contracts" Version="$(ContractsVersion)" />
     <PackageReference Include="Google.Protobuf" Version="3.11.2" />
   </ItemGroup>
 </Project>

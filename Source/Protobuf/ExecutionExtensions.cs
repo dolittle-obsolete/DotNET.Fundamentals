@@ -1,13 +1,10 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-extern alias contracts;
-
 using System.Globalization;
 using Dolittle.ApplicationModel;
 using Dolittle.Execution;
 using Dolittle.Tenancy;
-using grpc = contracts::Dolittle.Execution.Contracts;
 
 namespace Dolittle.Protobuf
 {
@@ -17,13 +14,13 @@ namespace Dolittle.Protobuf
     public static class ExecutionExtensions
     {
         /// <summary>
-        /// Convert a <see cref="ExecutionContext"/> to <see cref="grpc.ExecutionContext"/>.
+        /// Convert a <see cref="ExecutionContext"/> to <see cref="Execution.Contracts.ExecutionContext"/>.
         /// </summary>
         /// <param name="executionContext"><see cref="ExecutionContext"/> to convert from.</param>
-        /// <returns>Converted <see cref="grpc.ExecutionContext"/>.</returns>
-        public static grpc.ExecutionContext ToProtobuf(this ExecutionContext executionContext)
+        /// <returns>Converted <see cref="Execution.Contracts.ExecutionContext"/>.</returns>
+        public static Execution.Contracts.ExecutionContext ToProtobuf(this ExecutionContext executionContext)
         {
-            var message = new grpc.ExecutionContext
+            var message = new Execution.Contracts.ExecutionContext
                 {
                     MicroserviceId = executionContext.Microservice.ToProtobuf(),
                     TenantId = executionContext.Tenant.ToProtobuf(),
@@ -37,11 +34,11 @@ namespace Dolittle.Protobuf
         }
 
         /// <summary>
-        /// Convert a <see cref="grpc.ExecutionContext"/> to <see cref="ExecutionContext"/>.
+        /// Convert a <see cref="Execution.Contracts.ExecutionContext"/> to <see cref="ExecutionContext"/>.
         /// </summary>
-        /// <param name="executionContext"><see cref="grpc.ExecutionContext"/> to convert from.</param>
+        /// <param name="executionContext"><see cref="Execution.Contracts.ExecutionContext"/> to convert from.</param>
         /// <returns>Converted <see cref="ExecutionContext"/>.</returns>
-        public static ExecutionContext ToExecutionContext(this grpc.ExecutionContext executionContext) =>
+        public static ExecutionContext ToExecutionContext(this Execution.Contracts.ExecutionContext executionContext) =>
             new ExecutionContext(
                 executionContext.MicroserviceId.To<Microservice>(),
                 executionContext.TenantId.To<TenantId>(),
