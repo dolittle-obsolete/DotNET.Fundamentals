@@ -47,7 +47,8 @@ namespace Dolittle.Services.Clients
         IClientStreamWriter<TClientMessage> _clientToServer;
         IAsyncStreamReader<TServerMessage> _serverToClient;
         bool _alreadyConnected;
-        Task _handleRequests;
+        bool _connectionEstablished;
+        bool _startedHandling;
         bool _disposed;
 
         /// <summary>
@@ -93,10 +94,10 @@ namespace Dolittle.Services.Clients
         /// <inheritdoc/>
         public async Task<bool> Connect(TConnectArguments connectArguments, CancellationToken cancellationToken)
         {
-            if (_alreadyConnected) throw new ReverseCallClientAlreadyCalledConnect();
+            ThrowIfAlreadyConnected();
             lock (_connectLock)
             {
-                if (_alreadyConnected) throw new ReverseCallClientAlreadyCalledConnect();
+                ThrowIfAlreadyConnected();
                 _alreadyConnected = true;
             }
 
@@ -119,6 +120,7 @@ namespace Dolittle.Services.Clients
                 {
                     _logger.Trace("Received connect response");
                     ConnectResponse = response;
+                    _connectionEstablished = true;
                     return true;
                 }
                 else
@@ -138,30 +140,20 @@ namespace Dolittle.Services.Clients
         /// <inheritdoc/>
         public async Task Handle(Func<TRequest, CancellationToken, Task<TResponse>> callback, CancellationToken cancellationToken)
         {
-            if (ConnectResponse == null) throw new ReverseCallClientNotConnected();
-            if (_handleRequests != null)
-            {
-                await _handleRequests.ConfigureAwait(false);
-                return;
-            }
+            ThrowIfConnectionNotEstablished();
+            ThrowIfAlreadyStartedHandling();
 
             lock (_handleLock)
             {
-                if (_handleRequests == null)
-                {
-                    _handleRequests = Task.Run(
-                        async () =>
-                        {
-                            while (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
-                            {
-                                var request = _getMessageRequest(_serverToClient.Current);
-                                _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
-                            }
-                        });
-                }
+                ThrowIfAlreadyStartedHandling();
+                _startedHandling = true;
             }
 
-            await _handleRequests.ConfigureAwait(false);
+            while (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
+            {
+                var request = _getMessageRequest(_serverToClient.Current);
+                _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
+            }
         }
 
         /// <inheritdoc/>
@@ -216,6 +208,21 @@ namespace Dolittle.Services.Clients
             {
                 _writeResponseSemaphore.Release();
             }
+        }
+
+        void ThrowIfAlreadyConnected()
+        {
+            if (_alreadyConnected) throw new ReverseCallClientAlreadyCalledConnect();
+        }
+
+        void ThrowIfAlreadyStartedHandling()
+        {
+            if (_startedHandling) throw new ReverseCallClientAlreadyStartedHandling();
+        }
+
+        void ThrowIfConnectionNotEstablished()
+        {
+            if (!_connectionEstablished) throw new ReverseCallClientNotConnected();
         }
     }
 }
