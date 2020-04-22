@@ -1,11 +1,8 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
-using Dolittle.Security;
 using Machine.Specifications;
 
 namespace Dolittle.Services.Clients.for_ReverseCallClient.when_connecting
@@ -17,14 +14,7 @@ namespace Dolittle.Services.Clients.for_ReverseCallClient.when_connecting
 
         Establish context = () =>
         {
-            execution_context = new Execution.ExecutionContext(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                Versioning.Version.NotSet,
-                "",
-                Guid.NewGuid(),
-                Claims.Empty,
-                CultureInfo.InvariantCulture);
+            execution_context = given.execution_contexts.create();
             execution_context_manager.SetupGet(_ => _.Current).Returns(execution_context);
             server_stream.Setup(_ => _.MoveNext(Moq.It.IsAny<CancellationToken>())).Returns(Task.FromResult(false));
         };

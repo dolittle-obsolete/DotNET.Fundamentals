@@ -46,8 +46,12 @@ namespace Dolittle.Services
         readonly Func<TResponse, ReverseCallResponseContext> _getResponseContex;
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
+        readonly object _respondLock = new object();
         bool _completed;
         bool _disposed;
+
+        bool _accepted;
+        bool _rejected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallDispatcher{TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse}"/> class.
@@ -127,6 +131,13 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public async Task Accept(TConnectResponse response, CancellationToken cancellationToken)
         {
+            ThrowIfResponded();
+            lock (_respondLock)
+            {
+                ThrowIfResponded();
+                _accepted = true;
+            }
+
             var message = new TServerMessage();
             _setConnectResponse(message, response);
             await _serverStream.WriteAsync(message).ConfigureAwait(false);
@@ -136,6 +147,13 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public Task Reject(TConnectResponse response, CancellationToken cancellationToken)
         {
+            ThrowIfResponded();
+            lock (_respondLock)
+            {
+                ThrowIfResponded();
+                _rejected = true;
+            }
+
             var message = new TServerMessage();
             _setConnectResponse(message, response);
             return _serverStream.WriteAsync(message);
@@ -144,10 +162,7 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public async Task<TResponse> Call(TRequest request, CancellationToken cancellationToken)
         {
-            if (_completed)
-            {
-                throw new CannotPerformCallOnCompletedReverseCallConnection();
-            }
+            ThrowIfCompletedCall();
 
             var completionSource = new TaskCompletionSource<TResponse>();
             var callId = ReverseCallId.New();
@@ -262,6 +277,26 @@ namespace Dolittle.Services
                     {
                     }
                 }
+            }
+        }
+
+        void ThrowIfResponded()
+        {
+            if (_accepted)
+            {
+                throw new ReverseCallDispatcherAlreadyAccepted();
+            }
+            else if (_rejected)
+            {
+                throw new ReverseCallDispatcherAlreadyRejected();
+            }
+        }
+
+        void ThrowIfCompletedCall()
+        {
+            if (_completed)
+            {
+                throw new CannotPerformCallOnCompletedReverseCallConnection();
             }
         }
     }
