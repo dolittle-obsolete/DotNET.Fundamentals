@@ -46,10 +46,10 @@ namespace Dolittle.Services
         readonly Func<TResponse, ReverseCallResponseContext> _getResponseContex;
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
-        readonly object _acceptLock = new object();
-        readonly object _rejectLock = new object();
+        readonly object _respondLock = new object();
         bool _completed;
         bool _disposed;
+
         bool _accepted;
         bool _rejected;
 
@@ -131,10 +131,10 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public async Task Accept(TConnectResponse response, CancellationToken cancellationToken)
         {
-            if (_accepted) throw new ReverseCallDispatcherAlreadyAccepted();
-            lock (_acceptLock)
+            ThrowIfResponded();
+            lock (_respondLock)
             {
-                if (_accepted) throw new ReverseCallDispatcherAlreadyAccepted();
+                ThrowIfResponded();
                 _accepted = true;
             }
 
@@ -147,10 +147,10 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public Task Reject(TConnectResponse response, CancellationToken cancellationToken)
         {
-            if (_rejected) throw new ReverseCallDispatcherAlreadyRejected();
-            lock (_rejectLock)
+            ThrowIfResponded();
+            lock (_respondLock)
             {
-                if (_rejected) throw new ReverseCallDispatcherAlreadyRejected();
+                ThrowIfResponded();
                 _rejected = true;
             }
 
@@ -281,6 +281,12 @@ namespace Dolittle.Services
                     }
                 }
             }
+        }
+
+        void ThrowIfResponded()
+        {
+            if (_accepted) throw new ReverseCallDispatcherAlreadyAccepted();
+            else if (_rejected) throw new ReverseCallDispatcherAlreadyRejected();
         }
     }
 }
