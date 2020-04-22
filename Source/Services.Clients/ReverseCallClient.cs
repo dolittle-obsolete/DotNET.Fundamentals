@@ -46,7 +46,7 @@ namespace Dolittle.Services.Clients
         readonly object _handleLock = new object();
         IClientStreamWriter<TClientMessage> _clientToServer;
         IAsyncStreamReader<TServerMessage> _serverToClient;
-        bool _alreadyConnected;
+        bool _connecting;
         bool _connectionEstablished;
         bool _startedHandling;
         bool _disposed;
@@ -94,11 +94,11 @@ namespace Dolittle.Services.Clients
         /// <inheritdoc/>
         public async Task<bool> Connect(TConnectArguments connectArguments, CancellationToken cancellationToken)
         {
-            ThrowIfAlreadyConnected();
+            ThrowIfConnecting();
             lock (_connectLock)
             {
-                ThrowIfAlreadyConnected();
-                _alreadyConnected = true;
+                ThrowIfConnecting();
+                _connecting = true;
             }
 
             var streamingCall = _establishConnection();
@@ -210,9 +210,9 @@ namespace Dolittle.Services.Clients
             }
         }
 
-        void ThrowIfAlreadyConnected()
+        void ThrowIfConnecting()
         {
-            if (_alreadyConnected)
+            if (_connecting)
             {
                 throw new ReverseCallClientAlreadyCalledConnect();
             }
