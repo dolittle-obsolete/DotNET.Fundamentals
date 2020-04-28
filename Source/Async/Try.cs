@@ -4,12 +4,17 @@
 namespace Dolittle.Async
 {
     /// <summary>
-    /// Represents 
+    /// Represents something.
     /// </summary>
-    /// <typeparam name="TResult"></typeparam>
+    /// <typeparam name="TResult">The result type.</typeparam>
     public class Try<TResult>
         where TResult : class
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Try{TResult}"/> class.
+        /// </summary>
+        /// <param name="success">Whether the try-get operation was successful.</param>
+        /// <param name="result">The result.</param>
         public Try(bool success, TResult result)
         {
             Success = success;
