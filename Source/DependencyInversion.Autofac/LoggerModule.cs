@@ -14,13 +14,20 @@ namespace Dolittle.DependencyInversion.Autofac
     /// </summary>
     public class LoggerModule : Module
     {
-        /// <inheritdoc/>
-        protected override void AttachToComponentRegistration(IComponentRegistryBuilder componentRegistry, IComponentRegistration registration)
+        /// <summary>
+        /// Attaches to the <see cref="IComponentRegistration.Preparing"/> event to provide the correctly typed <see cref="ILogger{T}"/> of the type of component being constructed, when an untyped <see cref="ILogger"/> is used as a dependency.
+        /// </summary>
+        /// <param name="registration">The <see cref="IComponentRegistration"/> to attach to.</param>
+        internal static void ResolveUntypedLoggersFor(IComponentRegistration registration)
         {
             registration.Preparing += OnComponentPreparing;
         }
 
-        void OnComponentPreparing(object sender, PreparingEventArgs e)
+        /// <inheritdoc/>
+        protected override void AttachToComponentRegistration(IComponentRegistryBuilder componentRegistry, IComponentRegistration registration)
+            => ResolveUntypedLoggersFor(registration);
+
+        static void OnComponentPreparing(object sender, PreparingEventArgs e)
         {
             e.Parameters = e.Parameters.Append(
                 new ResolvedParameter(
