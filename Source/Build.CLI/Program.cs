@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Runtime.Loader;
 using Dolittle.Assemblies;
 using Dolittle.Booting;
+using Dolittle.Logging.Internal;
 
 namespace Dolittle.Build.CLI
 {
@@ -51,7 +52,7 @@ namespace Dolittle.Build.CLI
                     Console.WriteLine($"    {pluginAssembly}");
 
                 var bootLoaderResult = Bootloader.Configure(_ => _
-                    .WithAssemblyProvider(new AssemblyProvider(new Dolittle.Logging.NullLogger(), pluginAssemblies))
+                    .WithAssemblyProvider(new AssemblyProvider(NullLoggerManager.Instance.CreateLogger<AssemblyProvider>(), pluginAssemblies))
                     .NoLogging()
                     .SkipBootprocedures()).Start();
 

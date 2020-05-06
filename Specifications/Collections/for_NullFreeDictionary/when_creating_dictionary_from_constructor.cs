@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Machine.Specifications;
 
-namespace Dolittle.Collections.Specs.for_NullFreeDictionary
+namespace Dolittle.Collections.for_NullFreeDictionary
 {
     public class when_creating_dictionary_from_constructor
     {

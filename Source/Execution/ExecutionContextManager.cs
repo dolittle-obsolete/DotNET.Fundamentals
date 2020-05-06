@@ -2,13 +2,13 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Threading;
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Lifecycle;
 using Dolittle.Logging;
 using Dolittle.Security;
 using Dolittle.Tenancy;
+using Dolittle.Versioning;
 
 namespace Dolittle.Execution
 {
@@ -23,9 +23,8 @@ namespace Dolittle.Execution
         static bool _initialExecutionContextSet = false;
 
         readonly ILogger _logger;
-
-        Application _application;
-        BoundedContext _boundedContext;
+        Microservice _microservice;
+        Version _version;
         Environment _environment;
 
         /// <summary>
@@ -35,8 +34,8 @@ namespace Dolittle.Execution
         public ExecutionContextManager(ILogger logger)
         {
             _logger = logger;
-            _application = Application.NotSet;
-            _boundedContext = BoundedContext.NotSet;
+            _microservice = Microservice.NotSet;
+            _version = Version.NotSet;
             _environment = Environment.Undetermined;
         }
 
@@ -63,27 +62,22 @@ namespace Dolittle.Execution
         /// <summary>
         /// Set the initial <see cref="ExecutionContext"/>.
         /// </summary>
-        /// <param name="filePath">The path of the file setting the initial <see cref="ExecutionContext"/>.</param>
-        /// <param name="lineNumber">The line number into the file.</param>
-        /// <param name="member">The member in the file.</param>
+        /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         /// <remarks>
         /// This can only be called once per process and is typically called by entrypoints into Dolittle itself.
         /// </remarks>
         /// <returns>An <see cref="ExecutionContext"/> instance.</returns>
-        public static ExecutionContext SetInitialExecutionContext(
-            [CallerFilePath] string filePath = "",
-            [CallerLineNumber] int lineNumber = 0,
-            [CallerMemberName] string member = "")
+        public static ExecutionContext SetInitialExecutionContext(ILogger logger)
         {
-            Logger.Internal.Trace($"Setting initial execution context - called from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
+            logger.Trace("Setting initial execution context");
             if (_initialExecutionContextSet) throw new InitialExecutionContextHasAlreadyBeenSet();
 
             _initialExecutionContextSet = true;
 
             _executionContext.Value = new ExecutionContext(
-                Application.NotSet,
-                BoundedContext.NotSet,
+                Microservice.NotSet,
                 TenantId.System,
+                Version.NotSet,
                 Environment.Undetermined,
                 CorrelationId.System,
                 Claims.Empty,
@@ -94,62 +88,50 @@ namespace Dolittle.Execution
 
         /// <inheritdoc/>
         public void SetConstants(
-            Application application,
-            BoundedContext boundedContext,
+            Microservice microservice,
+            Version version,
             Environment environment)
         {
-            _application = application;
-            _boundedContext = boundedContext;
+            _microservice = microservice;
+            _version = version;
             _environment = environment;
         }
 
         /// <inheritdoc/>
-        public ExecutionContext System(
-            string filePath,
-            int lineNumber,
-            string member)
-        {
-            return CurrentFor(TenantId.System, CorrelationId.System, filePath, lineNumber, member);
-        }
+        public ExecutionContext System(string filePath, int lineNumber, string member) =>
+            CurrentFor(TenantId.System, CorrelationId.System, filePath, lineNumber, member);
 
         /// <inheritdoc/>
-        public ExecutionContext System(
-            CorrelationId correlationId,
-            string filePath,
-            int lineNumber,
-            string member)
-        {
-            return CurrentFor(TenantId.System, correlationId, filePath, lineNumber, member);
-        }
+        public ExecutionContext System(CorrelationId correlationId, string filePath, int lineNumber, string member) =>
+            CurrentFor(TenantId.System, correlationId, filePath, lineNumber, member);
 
         /// <inheritdoc/>
-        public ExecutionContext CurrentFor(
-            TenantId tenant,
-            string filePath,
-            int lineNumber,
-            string member)
-        {
-            return CurrentFor(tenant, CorrelationId.New(), Claims.Empty, filePath, lineNumber, member);
-        }
+        public ExecutionContext CurrentFor(TenantId tenant, string filePath, int lineNumber, string member) =>
+            CurrentFor(_microservice, tenant, CorrelationId.New(), Claims.Empty, filePath, lineNumber, member);
 
         /// <inheritdoc/>
-        public ExecutionContext CurrentFor(
-            TenantId tenant,
-            CorrelationId correlationId,
-            string filePath,
-            int lineNumber,
-            string member)
-        {
-            return CurrentFor(tenant, correlationId, Claims.Empty, filePath, lineNumber, member);
-        }
+        public ExecutionContext CurrentFor(Microservice microservice, TenantId tenant, string filePath, int lineNumber, string member) =>
+            CurrentFor(microservice, tenant, CorrelationId.New(), Claims.Empty, filePath, lineNumber, member);
 
         /// <inheritdoc/>
-        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, Claims claims, string filePath, int lineNumber, string member)
+        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, string filePath, int lineNumber, string member) =>
+            CurrentFor(_microservice, tenant, correlationId, Claims.Empty, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(Microservice microservice, TenantId tenant, CorrelationId correlationId, string filePath, int lineNumber, string member) =>
+            CurrentFor(microservice, tenant, correlationId, Claims.Empty, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(TenantId tenant, CorrelationId correlationId, Claims claims, string filePath, int lineNumber, string member) =>
+            CurrentFor(_microservice, tenant, correlationId, claims, filePath, lineNumber, member);
+
+        /// <inheritdoc/>
+        public ExecutionContext CurrentFor(Microservice microservice, TenantId tenant, CorrelationId correlationId, Claims claims, string filePath, int lineNumber, string member)
         {
             var executionContext = new ExecutionContext(
-                _application,
-                _boundedContext,
+                microservice,
                 tenant,
+                _version,
                 _environment,
                 correlationId,
                 claims,
@@ -165,7 +147,7 @@ namespace Dolittle.Execution
             int lineNumber,
             string member)
         {
-            _logger.Trace($"Setting execution context ({context}) - from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
+            _logger.Trace("Setting execution context ({context}) - from: ({filePath}, {lineNumber}, {member}) ", filePath, lineNumber, member);
             Current = context;
             return context;
         }

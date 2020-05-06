@@ -1,0 +1,21 @@
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+syntax = "proto3";
+
+package contracts;
+
+option csharp_namespace = "Contracts";
+
+message Request {
+    string name = 1;
+}
+
+message Response {
+    string message = 1;
+}
+
+service TestService {
+    rpc SayHelloTo(Request) returns(Response);
+    rpc SayHelloToStream(stream Request) returns(stream Response);
+}

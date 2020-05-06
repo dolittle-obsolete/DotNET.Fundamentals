@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Assemblies\Assemblies.csproj" />
     <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />

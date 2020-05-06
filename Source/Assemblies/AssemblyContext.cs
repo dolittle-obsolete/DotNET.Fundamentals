@@ -36,12 +36,12 @@ namespace Dolittle.Assemblies
 
             _assemblyResolver = new CompositeAssemblyResolver(new ICompilationAssemblyResolver[]
             {
+                new PackageRuntimeShareAssemblyResolver(),
                 new AppBaseCompilationAssemblyResolver(basePath),
-                new ReferenceAssemblyPathResolver(),
                 new PackageCompilationAssemblyResolver(),
+                new ReferenceAssemblyPathResolver(),
                 new NuGetFallbackFolderAssemblyResolver(),
-                new PackageRuntimeStoreAssemblyResolver(),
-                new PackageRuntimeShareAssemblyResolver()
+                new PackageRuntimeStoreAssemblyResolver()
             });
             AssemblyLoadContext = AssemblyLoadContext.GetLoadContext(assembly);
             AssemblyLoadContext.Resolving += OnResolving;
@@ -128,6 +128,7 @@ namespace Dolittle.Assemblies
         {
             var compilationLibrary = GetCompilationLibraryFrom(name);
             var assemblies = new List<string>();
+
             _assemblyResolver.TryResolveAssemblyPaths(compilationLibrary, assemblies);
             if (assemblies.Count > 0)
             {
@@ -136,7 +137,14 @@ namespace Dolittle.Assemblies
                     var assembly = assemblies[0];
                     var segments = assembly.Split(Path.DirectorySeparatorChar);
                     var hasRef = segments.Any(_ => _.Equals("ref", StringComparison.InvariantCultureIgnoreCase));
-                    if (hasRef) assembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}", $"lib{Path.DirectorySeparatorChar}");
+                    if (hasRef)
+                    {
+                        var libAssembly = assembly.Replace($"ref{Path.DirectorySeparatorChar}", $"lib{Path.DirectorySeparatorChar}", StringComparison.InvariantCulture);
+                        if (File.Exists(libAssembly))
+                        {
+                            assembly = libAssembly;
+                        }
+                    }
 
                     return AssemblyLoadContext.LoadFromAssemblyPath(assembly);
                 }

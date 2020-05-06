@@ -1,7 +1,6 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dolittle.Collections;
@@ -56,14 +55,6 @@ namespace Dolittle.Services
             _boundServices = boundServices;
         }
 
-        /// <summary>
-        /// Finalizes an instance of the <see cref="Endpoints"/> class.
-        /// </summary>
-        ~Endpoints()
-        {
-            Dispose();
-        }
-
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -73,7 +64,7 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Start()
         {
-            _logger.Information("Starting all endpoints");
+            _logger.Debug("Starting all endpoints");
 
             var servicesByVisibility = new Dictionary<EndpointVisibility, List<Service>>();
 
@@ -82,7 +73,7 @@ namespace Dolittle.Services
                 var configuration = _configuration[type];
                 if (configuration.Enabled)
                 {
-                    _logger.Information($"Preparing endpoint for {type} - running on port {configuration.Port}");
+                    _logger.Debug("Preparing endpoint for {type} visibility - running on port {port}", type, configuration.Port);
                     var endpoint = GetEndpointFor(type);
 
                     serviceTypeRepresenters.ForEach(representer =>
@@ -96,7 +87,7 @@ namespace Dolittle.Services
                 }
                 else
                 {
-                    _logger.Information($"{type} endpoint is disabled");
+                    _logger.Debug("{type} endpoint is disabled", type);
                 }
             }
 
@@ -108,10 +99,7 @@ namespace Dolittle.Services
         }
 
         /// <inheritdoc/>
-        public IEnumerable<EndpointInfo> GetEndpoints()
-        {
-            return _endpointInfos;
-        }
+        public IEnumerable<EndpointInfo> GetEndpoints() => _endpointInfos;
 
         IEndpoint GetEndpointFor(EndpointVisibility type)
         {
@@ -128,12 +116,12 @@ namespace Dolittle.Services
             var binders = _typeFinder.FindMultiple(representer.BindingInterface);
             binders.ForEach(_ =>
             {
-                _logger.Information($"Bind services from {_.AssemblyQualifiedName}");
+                _logger.Debug("Bind services from {implementation}", _.AssemblyQualifiedName);
 
                 var binder = _container.Get(_) as ICanBindServices;
 
                 var boundServices = binder.BindServices();
-                boundServices.ForEach(service => _logger.Information($"Service : {service.Descriptor?.FullName ?? "Unknown"}"));
+                boundServices.ForEach(service => _logger.Trace("Service : {serviceName}", service.Descriptor?.FullName ?? "Unknown"));
 
                 services.AddRange(boundServices);
             });

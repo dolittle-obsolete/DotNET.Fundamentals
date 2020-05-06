@@ -10,11 +10,13 @@
     <ProjectReference Include="../Concepts/Concepts.csproj"/>
     <ProjectReference Include="../Configuration/Configuration.csproj"/>
     <ProjectReference Include="../Serialization.Json/Serialization.Json.csproj"/>
+    <ProjectReference Include="../Protobuf/Protobuf.csproj"/>
     <ProjectReference Include="../Types/Types.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.5.1" />
-    <PackageReference Include="Grpc" Version="2.23.0" />
+    <PackageReference Include="Dolittle.Contracts" Version="$(ContractsVersion)" />
+    <PackageReference Include="Google.Protobuf" Version="3.11.2" />
+    <PackageReference Include="Grpc" Version="2.26.0" />
   </ItemGroup>
 </Project>

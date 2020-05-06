@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../Common/common.props"/>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SourceFolder)Assemblies\Assemblies.csproj" />
+        <ProjectReference Include="$(SourceFolder)Logging\Logging.csproj" />
+    </ItemGroup>
+</Project>

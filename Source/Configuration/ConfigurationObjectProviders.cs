@@ -41,7 +41,7 @@ namespace Dolittle.Configuration
             _providers = _typeFinder.FindMultiple<ICanProvideConfigurationObjects>()
                 .Select(_ =>
                 {
-                    _logger.Trace($"Configuration Object provider : {_.AssemblyQualifiedName}");
+                    _logger.Trace("Configuration Object provider : {configurationObjectProviderType}", _.AssemblyQualifiedName);
                     return _container.Get(_) as ICanProvideConfigurationObjects;
                 }).ToArray();
         }
@@ -49,7 +49,7 @@ namespace Dolittle.Configuration
         /// <inheritdoc/>
         public object Provide(Type type)
         {
-            _logger.Trace($"Try to provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
+            _logger.Trace("Try to provide '{configurationObjectName} - {configurationObjectType}'", type.GetFriendlyConfigurationName(), type.AssemblyQualifiedName);
             var provider = GetProvidersFor(type).SingleOrDefault();
             if (provider == null)
             {
@@ -57,7 +57,7 @@ namespace Dolittle.Configuration
                 throw new MissingProviderForConfigurationObject(type);
             }
 
-            _logger.Trace($"Provide '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}' using {provider.GetType().AssemblyQualifiedName}");
+            _logger.Trace("Provide '{configurationObjectName} - {configurationObjectType}' using {configurationObjectProviderType}", type.GetFriendlyConfigurationName(), type.AssemblyQualifiedName, provider.GetType().AssemblyQualifiedName);
             return provider.Provide(type);
         }
 
@@ -82,7 +82,7 @@ namespace Dolittle.Configuration
         {
             var providers = _providers.Where(_ =>
             {
-                _logger.Trace((string)$"Ask '{_.GetType().AssemblyQualifiedName}' if it can provide the configuration type '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
+                _logger.Trace("Ask '{configurationObjectProviderType}' if it can provide the configuration type '{configurationObjectName} - {configurationObjectTypeName}'", _.GetType().AssemblyQualifiedName, type.GetFriendlyConfigurationName(), type.AssemblyQualifiedName);
                 return _.CanProvide(type);
             });
             ThrowIfMultipleProvidersCanProvide(type, providers);

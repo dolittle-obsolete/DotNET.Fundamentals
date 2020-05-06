@@ -30,17 +30,15 @@ namespace Dolittle.Services
         /// <inheritdoc/>
         public void Register(ServiceType type, IEnumerable<Service> services)
         {
-            services.ForEach(service => _logger.Information($"Registering bound service '{service.Descriptor?.Name ?? "unknown"}'"));
+            services.ForEach(service => _logger.Trace("Registering bound service '{serviceName}'", service.Descriptor?.Name ?? "unknown"));
 
             if (!_servicesPerServiceType.ContainsKey(type)) _servicesPerServiceType[type] = new List<Service>();
             _servicesPerServiceType[type].AddRange(services);
         }
 
         /// <inheritdoc/>
-        public bool HasFor(ServiceType type)
-        {
-            return _servicesPerServiceType.ContainsKey(type);
-        }
+        public bool HasFor(ServiceType type) =>
+            _servicesPerServiceType.ContainsKey(type);
 
         /// <inheritdoc/>
         public IEnumerable<Service> GetFor(ServiceType type)

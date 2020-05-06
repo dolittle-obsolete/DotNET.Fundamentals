@@ -136,7 +136,7 @@ namespace Dolittle.Concepts
         string RemoveBackingAutoBackingFieldPropertyName(string fieldName)
         {
             var field = fieldName.TrimStart('<');
-            return field.Replace(">k__BackingField", string.Empty);
+            return field.Replace(">k__BackingField", string.Empty, StringComparison.InvariantCulture);
         }
     }
 }

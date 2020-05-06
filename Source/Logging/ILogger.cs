@@ -2,106 +2,102 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Dolittle.Logging
 {
     /// <summary>
-    /// Defines a logging system.
+    /// Defines a system for writing log messages.
     /// </summary>
     public interface ILogger
     {
         /// <summary>
-        /// Output a trace message.
+        /// Formats and writes a trace log message.
         /// </summary>
-        /// <param name="message">Message to output.</param>
-        /// <param name="filePath">FilePath of the caller.</param>
-        /// <param name="lineNumber">Linenumber in the file of the caller.</param>
-        /// <param name="member">Membername of the caller.</param>
-        void Trace(
-            string message,
-            [CallerFilePath]string filePath = "",
-            [CallerLineNumber]int lineNumber = 0,
-            [CallerMemberName]string member = "");
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Trace(string message, params object[] args);
 
         /// <summary>
-        /// Output a debug message.
+        /// Formats and writes a trace log message.
         /// </summary>
-        /// <param name="message">Message to output.</param>
-        /// <param name="filePath">FilePath of the caller.</param>
-        /// <param name="lineNumber">Linenumber in the file of the caller.</param>
-        /// <param name="member">Membername of the caller.</param>
-        void Debug(
-            string message,
-            [CallerFilePath]string filePath = "",
-            [CallerLineNumber]int lineNumber = 0,
-            [CallerMemberName]string member = "");
+        /// <param name="exception">The exception to log.</param>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Trace(Exception exception, string message, params object[] args);
 
         /// <summary>
-        /// Output an informational message.
+        /// Formats and writes a debug log message.
         /// </summary>
-        /// <param name="message">Message to output.</param>
-        /// <param name="filePath">FilePath of the caller.</param>
-        /// <param name="lineNumber">Linenumber in the file of the caller.</param>
-        /// <param name="member">Membername of the caller.</param>
-        void Information(
-            string message,
-            [CallerFilePath]string filePath = "",
-            [CallerLineNumber]int lineNumber = 0,
-            [CallerMemberName]string member = "");
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Debug(string message, params object[] args);
 
         /// <summary>
-        /// Output an warning message.
+        /// Formats and writes a debug log message.
         /// </summary>
-        /// <param name="message">Message to output.</param>
-        /// <param name="filePath">FilePath of the caller.</param>
-        /// <param name="lineNumber">Linenumber in the file of the caller.</param>
-        /// <param name="member">Membername of the caller.</param>
-        void Warning(
-            string message,
-            [CallerFilePath]string filePath = "",
-            [CallerLineNumber]int lineNumber = 0,
-            [CallerMemberName]string member = "");
+        /// <param name="exception">The exception to log.</param>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Debug(Exception exception, string message, params object[] args);
 
         /// <summary>
-        /// Output a critical message.
+        /// Formats and writes a information log message.
         /// </summary>
-        /// <param name="message">Message to output.</param>
-        /// <param name="filePath">FilePath of the caller.</param>
-        /// <param name="lineNumber">Linenumber in the file of the caller.</param>
-        /// <param name="member">Membername of the caller.</param>
-        void Critical(
-            string message,
-            [CallerFilePath]string filePath = "",
-            [CallerLineNumber]int lineNumber = 0,
-            [CallerMemberName]string member = "");
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Information(string message, params object[] args);
 
         /// <summary>
-        /// Output an error message.
+        /// Formats and writes a information log message.
         /// </summary>
-        /// <param name="message">Message to output.</param>
-        /// <param name="filePath">FilePath of the caller.</param>
-        /// <param name="lineNumber">Linenumber in the file of the caller.</param>
-        /// <param name="member">Membername of the caller.</param>
-        void Error(
-            string message,
-            [CallerFilePath]string filePath = "",
-            [CallerLineNumber]int lineNumber = 0,
-            [CallerMemberName]string member = "");
+        /// <param name="exception">The exception to log.</param>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Information(Exception exception, string message, params object[] args);
 
         /// <summary>
-        /// Output an informational message.
+        /// Formats and writes a warning log message.
         /// </summary>
-        /// <param name="exception">Related exception to the message.</param>
-        /// <param name="message">Message to output.</param>
-        /// <param name="filePath">FilePath of the caller.</param>
-        /// <param name="lineNumber">Linenumber in the file of the caller.</param>
-        /// <param name="member">Membername of the caller.</param>
-        void Error(
-            Exception exception,
-            string message,
-            [CallerFilePath]string filePath = "",
-            [CallerLineNumber]int lineNumber = 0,
-            [CallerMemberName]string member = "");
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Warning(string message, params object[] args);
+
+        /// <summary>
+        /// Formats and writes a warning log message.
+        /// </summary>
+        /// <param name="exception">The exception to log.</param>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Warning(Exception exception, string message, params object[] args);
+
+        /// <summary>
+        /// Formats and writes a critical log message.
+        /// </summary>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Critical(string message, params object[] args);
+
+        /// <summary>
+        /// Formats and writes a critical log message.
+        /// </summary>
+        /// <param name="exception">The exception to log.</param>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Critical(Exception exception, string message, params object[] args);
+
+        /// <summary>
+        /// Formats and writes a error log message.
+        /// </summary>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Error(string message, params object[] args);
+
+        /// <summary>
+        /// Formats and writes a error log message.
+        /// </summary>
+        /// <param name="exception">The exception to log.</param>
+        /// <param name="message">Format string of the log message in message template format.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        void Error(Exception exception, string message, params object[] args);
     }
 }

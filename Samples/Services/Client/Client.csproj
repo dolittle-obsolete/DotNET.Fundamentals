@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../Common/common.props"/>
+
+    <ItemGroup>
+        <ProjectReference Include="../Contracts/Contracts.csproj"/>
+
+        <ProjectReference Include="../../../Source/Services.Clients/Services.Clients.csproj"/>
+    </ItemGroup>
+
+</Project>
