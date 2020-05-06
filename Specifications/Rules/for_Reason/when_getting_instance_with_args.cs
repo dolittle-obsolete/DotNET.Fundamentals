@@ -1,7 +1,6 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using Machine.Specifications;
 
 namespace Dolittle.Rules.Specs.for_Reason
@@ -12,7 +11,7 @@ namespace Dolittle.Rules.Specs.for_Reason
         const string description = "With a description";
         const string first_argument = "Fourty Two";
         const int second_argument = 42;
-        static Reason reason = Reason.Create(new Guid("2319436d-91c8-43f6-b342-d38906bb0c3f"), title, description);
+        static Reason reason = Reason.Create("2319436d-91c8-43f6-b342-d38906bb0c3f", title, description);
 
         static object args;
 

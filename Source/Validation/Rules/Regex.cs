@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Reflection;
 using Dolittle.Rules;
 
@@ -15,7 +14,7 @@ namespace Dolittle.Validation.Rules
         /// <summary>
         /// When a string does not conform to the specified expression, this is the reason given.
         /// </summary>
-        public static Reason NotConformingToExpression = Reason.Create(new Guid("BE58A125-40DB-47EA-B260-37F7AF4455C5"), "Value '{Value}' does not conform to regular expression");
+        public static Reason NotConformingToExpression = Reason.Create("BE58A125-40DB-47EA-B260-37F7AF4455C5", "Value '{Value}' does not conform to regular expression");
 
         readonly System.Text.RegularExpressions.Regex _actualRegex;
 

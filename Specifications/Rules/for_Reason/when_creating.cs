@@ -15,7 +15,7 @@ namespace Dolittle.Rules.Specs.for_Reason
 
         Because of = () => reason = Reason.Create(id, title, description);
 
-        It should_have_the_id_set = () => reason.Id.ShouldEqual(id);
+        It should_have_the_id_set = () => reason.Id.Value.ShouldEqual(id);
         It should_have_title_set = () => reason.Title.ShouldEqual(title);
         It should_have_description_set = () => reason.Description.ShouldEqual(description);
     }

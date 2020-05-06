@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Reflection;
 using Dolittle.Rules;
 
@@ -15,7 +14,7 @@ namespace Dolittle.Validation
         /// <summary>
         /// When a value is of the wrong type, this is the reason given for breaking a rule.
         /// </summary>
-        public static Reason ValueTypeMismatch = Reason.Create(new Guid("150757B0-8118-42FB-A8C4-2D49E7AC3AFD"), "Value type mismatch - expected {Expected} got {Type}");
+        public static Reason ValueTypeMismatch = Reason.Create("150757B0-8118-42FB-A8C4-2D49E7AC3AFD", "Value type mismatch - expected {Expected} got {Type}");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueRule"/> class.

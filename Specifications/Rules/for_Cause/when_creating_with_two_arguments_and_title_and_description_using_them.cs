@@ -1,7 +1,6 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using Machine.Specifications;
 
 namespace Dolittle.Rules.for_Cause
@@ -15,7 +14,7 @@ namespace Dolittle.Rules.for_Cause
         static string expected_title = $"The answer is {answer}, the question is {question}. Does that {answer}?";
         static string expected_description = $"The long answer is {answer} with the longer question is {question}. Does that {answer}?";
 
-        static Reason reason = Reason.Create(new Guid("d05cb07b-55f7-4c80-b306-408c69a0ea9d"), title, description);
+        static Reason reason = Reason.Create("d05cb07b-55f7-4c80-b306-408c69a0ea9d", title, description);
         static Cause instance;
         Because of = () => instance = reason.WithArgs(new { Answer = answer, Question = question });
         It should_have_the_correct_interpolated_title = () => instance.Title.ShouldEqual(expected_title);
