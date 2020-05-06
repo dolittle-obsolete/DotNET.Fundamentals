@@ -3,7 +3,7 @@ title: Exposing service type
 description: How to expose a service type
 keywords: Overview, gRPC
 author: einari
-weight: 1
+weight: 2
 aliases: 
     - /fundamentals/dotnet.fundamentals/services/exposing_service_type
 ---

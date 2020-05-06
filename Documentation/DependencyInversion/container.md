@@ -56,7 +56,7 @@ It is still being governed by the container itself, and all rules it decides on 
 There is another way to get the container, typically used if you have callback bindings,
 but can be used in any setting. There are two different types of containers at play; one for
 booting and used while building everything up and one for after booting. If your code runs
-as part of the boot sequence - for instance in something that [provides bindings]({{< relref provide_bindings >}}),
+as part of the boot sequence - for instance in something that [provides bindings]({{< relref providing_bindings >}}),
 you can take a dependency to something called `GetContainer`. This is a delegate you can call
 whenever it suits you and you'll get the current container instance:
 

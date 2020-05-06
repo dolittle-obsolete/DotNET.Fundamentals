@@ -3,7 +3,7 @@ title: Binding services
 description: How to bind your gRPC for a service type
 keywords: Overview, gRPC
 author: einari
-weight: 1
+weight: 2
 aliases: 
     - /fundamentals/dotnet.fundamentals/services/binding_services
 ---

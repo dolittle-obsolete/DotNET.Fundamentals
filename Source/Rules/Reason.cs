@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-
 namespace Dolittle.Rules
 {
     /// <summary>
@@ -23,7 +21,7 @@ namespace Dolittle.Rules
         /// <summary>
         /// Gets the identifier for the <see cref="Reason"/>.
         /// </summary>
-        public Guid Id { get; private set; }
+        public ReasonId Id { get; private set; }
 
         /// <summary>
         /// Gets the title of the <see cref="BrokenRule"/>.
@@ -38,19 +36,15 @@ namespace Dolittle.Rules
         /// <summary>
         /// Creates a new instance of <see cref="Reason"/> from a given unique identifier.
         /// </summary>
-        /// <param name="id">Unique identifier of the reason - this has to be a valid Guid in string format.</param>
+        /// <param name="id"><see cref="ReasonId">Unique identifier</see> of the reason.</param>
         /// <param name="title">Title to use for the <see cref="Reason"/>.</param>
         /// <param name="description">Optional detailed description to use in the <see cref="Reason"/>.</param>
         /// <returns>A <see cref="Reason"/> instance.</returns>
-        /// <remarks>
-        /// The format of the Guid has to be :
-        /// 00000000-0000-0000-0000-000000000000.
-        /// </remarks>
-        public static Reason Create(string id, string title, string description = "")
+        public static Reason Create(ReasonId id, string title, string description = "")
         {
             return new Reason
             {
-                Id = Guid.Parse(id),
+                Id = id,
                 Title = title,
                 Description = description
             };
