@@ -35,12 +35,15 @@ namespace Dolittle.Protobuf
         /// Implicitly convert <see cref="Failure" /> to <see cref="Contracts.Failure" />.
         /// </summary>
         /// <param name="failure"><see cref="Failure" /> to convert.</param>
-        public static implicit operator Contracts.Failure(Failure failure) => new Contracts.Failure { Id = failure.Id.ToProtobuf(), Reason = failure.Reason };
+        public static implicit operator Contracts.Failure(Failure failure) =>
+            failure != null ?
+                new Contracts.Failure { Id = failure.Id.ToProtobuf(), Reason = failure.Reason }
+                : null;
 
         /// <summary>
         /// Implicitly convert <see cref="Contracts.Failure" /> to <see cref="Failure" />.
         /// </summary>
         /// <param name="failure"><see cref="Contracts.Failure" /> to convert.</param>
-        public static implicit operator Failure(Contracts.Failure failure) => failure.ToFailure();
+        public static implicit operator Failure(Contracts.Failure failure) => failure?.ToFailure();
     }
 }
