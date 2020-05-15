@@ -17,7 +17,17 @@ namespace Dolittle.Protobuf
         /// <param name="reason"><see cref="FailureReason" />.</param>
         public Failure(FailureId id, FailureReason reason)
         {
-            Id = id;
+            Id = id ?? Failures.Unknown;
+            Reason = reason;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Failure"/> class.
+        /// </summary>
+        /// <param name="reason"><see cref="FailureReason" />.</param>
+        public Failure(FailureReason reason)
+        {
+            Id = Failures.Unknown;
             Reason = reason;
         }
 
