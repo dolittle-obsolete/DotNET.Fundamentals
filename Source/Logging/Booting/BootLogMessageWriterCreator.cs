@@ -47,8 +47,14 @@ namespace Dolittle.Logging.Booting
 
                 for (var i = 0; i < writers.Length; ++i)
                 {
-                    if (message.Exception == null) writers[i].Write(message.LogLevel, message.Message, message.Arguments);
-                    else writers[i].Write(message.LogLevel, message.Exception, message.Message, message.Arguments);
+                    try
+                    {
+                        if (message.Exception == null) writers[i].Write(message.LogLevel, message.Message, message.Arguments);
+                        else writers[i].Write(message.LogLevel, message.Exception, message.Message, message.Arguments);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
         }
