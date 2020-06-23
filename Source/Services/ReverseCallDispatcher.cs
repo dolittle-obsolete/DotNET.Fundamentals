@@ -128,7 +128,19 @@ namespace Dolittle.Services
                 if (arguments != null)
                 {
                     var callContext = _getArgumentsContext(arguments);
-                    ThrowIfInvalidPingInterval(callContext);
+                    if (callContext?.PingInterval == null)
+                    {
+                        _logger.Warning("Received arguments, but ping interval was not set");
+                        return false;
+                    }
+
+                    var interval = callContext.PingInterval.ToTimeSpan();
+                    if (interval.TotalMilliseconds <= 0)
+                    {
+                        _logger.Warning("Received arguments, but ping interval is less than or equal to zero milliseconds");
+                        return false;
+                    }
+
                     _pingInterval = callContext.PingInterval.ToTimeSpan();
 
                     if (callContext?.ExecutionContext != null)
@@ -353,13 +365,6 @@ namespace Dolittle.Services
                     }
                 }
             }
-        }
-
-        void ThrowIfInvalidPingInterval(ReverseCallArgumentsContext callContext)
-        {
-            if (callContext?.PingInterval == null) throw new ReverseCallArgumentsContextMissingPingInterval();
-            var interval = callContext.PingInterval.ToTimeSpan();
-            if (interval.TotalMilliseconds <= 0) throw new PingIntervalNotGreaterThanZero();
         }
 
         void ThrowIfReceivingArguments()
