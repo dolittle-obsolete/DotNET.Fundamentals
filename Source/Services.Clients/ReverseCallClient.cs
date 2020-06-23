@@ -177,7 +177,7 @@ namespace Dolittle.Services.Clients
                     var request = _getMessageRequest(message);
                     if (ping != null)
                     {
-                        _logger.Trace("Received ping from server");
+                        _logger.Trace("Received ping from reverse call dispatcher");
                         _ = WritePong(cancellationToken);
                     }
                     else if (request != null)
@@ -186,7 +186,7 @@ namespace Dolittle.Services.Clients
                     }
                     else
                     {
-                        throw new ServerMessageIsNotPingOrRequest(typeof(TServerMessage), typeof(TRequest));
+                        _logger.Warning("Received message from reverse call dispatcher, but it was not a request or a ping");
                     }
 
                     pingCts.Dispose();
