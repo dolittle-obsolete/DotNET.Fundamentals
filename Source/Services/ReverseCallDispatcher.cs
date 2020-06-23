@@ -52,7 +52,7 @@ namespace Dolittle.Services
 
         readonly object _receiveArgumentsLock = new object();
         readonly object _respondLock = new object();
-        TimeSpan _pingInterval;
+        TimeSpan _pingInterval = new TimeSpan(0, 0, 1);
         bool _completed;
         bool _disposed;
 
