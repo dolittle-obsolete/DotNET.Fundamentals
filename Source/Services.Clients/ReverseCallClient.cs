@@ -9,6 +9,7 @@ using Dolittle.Logging;
 using Dolittle.Protobuf;
 using Dolittle.Services.Contracts;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 
 namespace Dolittle.Services.Clients
@@ -38,6 +39,9 @@ namespace Dolittle.Services.Clients
         readonly Func<TServerMessage, TRequest> _getMessageRequest;
         readonly Func<TRequest, ReverseCallRequestContext> _getRequestContext;
         readonly Action<TResponse, ReverseCallResponseContext> _setResponseContext;
+        readonly Func<TServerMessage, Ping> _getPing;
+        readonly Action<TClientMessage, Pong> _setPong;
+        readonly TimeSpan _pingInterval;
         readonly Action<TClientMessage, TResponse> _setMessageResponse;
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
@@ -62,6 +66,9 @@ namespace Dolittle.Services.Clients
         /// <param name="setArgumentsContext">A delegate to set the <see cref="ReverseCallArgumentsContext" /> on a <typeparamref name="TConnectArguments" />.</param>
         /// <param name="getRequestContext">A delegate to get the <see cref="ReverseCallRequestContext" /> from the <typeparamref name="TRequest" />.</param>
         /// <param name="setResponseContext">A delegate to set the <see cref="ReverseCallResponseContext" /> on a <typeparamref name="TResponse" />.</param>
+        /// <param name="getPing">A delegate to get the <see cref="Ping" /> from the <typeparamref name="TServerMessage" />.</param>
+        /// <param name="setPong">A delegate to set the <see cref="Ping" /> on a <typeparamref name="TClientMessage" />.</param>
+        /// <param name="pingInterval">A <see cref="TimeSpan" /> for the interval between pings from the server.</param>
         /// <param name="executionContextManager">The <see cref="IExecutionContextManager" />.</param>
         /// <param name="logger">The <see cref="ILogger" />.</param>
         public ReverseCallClient(
@@ -73,9 +80,13 @@ namespace Dolittle.Services.Clients
             Action<TConnectArguments, ReverseCallArgumentsContext> setArgumentsContext,
             Func<TRequest, ReverseCallRequestContext> getRequestContext,
             Action<TResponse, ReverseCallResponseContext> setResponseContext,
+            Func<TServerMessage, Ping> getPing,
+            Action<TClientMessage, Pong> setPong,
+            TimeSpan pingInterval,
             IExecutionContextManager executionContextManager,
             ILogger logger)
         {
+            ThrowIfInvalidPingInterval(pingInterval);
             _establishConnection = establishConnection;
             _setConnectArguments = setConnectArguments;
             _getConnectResponse = getConnectResponse;
@@ -84,6 +95,8 @@ namespace Dolittle.Services.Clients
             _setArgumentsContext = setArgumentsContext;
             _getRequestContext = getRequestContext;
             _setResponseContext = setResponseContext;
+            _getPing = getPing;
+            _setPong = setPong;
             _executionContextManager = executionContextManager;
             _logger = logger;
         }
@@ -106,14 +119,19 @@ namespace Dolittle.Services.Clients
             _serverToClient = streamingCall.ResponseStream;
             var callContext = new ReverseCallArgumentsContext
                 {
-                    ExecutionContext = _executionContextManager.Current.ToProtobuf()
+                    ExecutionContext = _executionContextManager.Current.ToProtobuf(),
+                    PingInterval = Duration.FromTimeSpan(_pingInterval)
                 };
             _setArgumentsContext(connectArguments, callContext);
             var message = new TClientMessage();
             _setConnectArguments(message, connectArguments);
 
             await _clientToServer.WriteAsync(message).ConfigureAwait(false);
-            if (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
+
+            using var pingCts = new CancellationTokenSource(_pingInterval.Multiply(3));
+            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, pingCts.Token);
+
+            if (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
             {
                 var response = _getConnectResponse(_serverToClient.Current);
                 if (response != null)
@@ -142,17 +160,45 @@ namespace Dolittle.Services.Clients
         {
             ThrowIfConnectionNotEstablished();
             ThrowIfAlreadyStartedHandling();
-
             lock (_handleLock)
             {
                 ThrowIfAlreadyStartedHandling();
                 _startedHandling = true;
             }
 
-            while (await _serverToClient.MoveNext(cancellationToken).ConfigureAwait(false))
+            var pingCts = new CancellationTokenSource(_pingInterval.Multiply(3));
+            var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, pingCts.Token);
+            try
             {
-                var request = _getMessageRequest(_serverToClient.Current);
-                _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
+                while (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
+                {
+                    var message = _serverToClient.Current;
+                    var ping = _getPing(message);
+                    var request = _getMessageRequest(message);
+                    if (ping != null)
+                    {
+                        _logger.Trace("Received ping from server");
+                        _ = Task.Run(() => WritePong(cancellationToken));
+                    }
+                    else if (request != null)
+                    {
+                        _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
+                    }
+                    else
+                    {
+                        throw new ServerMessageIsNotPingOrRequest(typeof(TServerMessage), typeof(TRequest));
+                    }
+
+                    pingCts.Dispose();
+                    linkedCts.Dispose();
+                    pingCts = new CancellationTokenSource(_pingInterval.Multiply(3));
+                    linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, pingCts.Token);
+                }
+            }
+            finally
+            {
+                pingCts.Dispose();
+                linkedCts.Dispose();
             }
         }
 
@@ -177,6 +223,28 @@ namespace Dolittle.Services.Clients
                 }
 
                 _disposed = true;
+            }
+        }
+
+        async void WritePong(CancellationToken cancellationToken)
+        {
+            await _writeResponseSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                var message = new TClientMessage();
+                _setPong(message, new Pong());
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.Debug("Reverse call cancelled before i could respond with pong");
+                    return;
+                }
+
+                _logger.Trace("Writing pong");
+                await _clientToServer.WriteAsync(message).ConfigureAwait(false);
+            }
+            finally
+            {
+                _writeResponseSemaphore.Release();
             }
         }
 
@@ -208,6 +276,11 @@ namespace Dolittle.Services.Clients
             {
                 _writeResponseSemaphore.Release();
             }
+        }
+
+        void ThrowIfInvalidPingInterval(TimeSpan pingInterval)
+        {
+            if (pingInterval.TotalMilliseconds <= 0) throw new PingIntervalNotGreaterThanZero();
         }
 
         void ThrowIfConnecting()

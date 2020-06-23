@@ -24,6 +24,9 @@ namespace Dolittle.Services.Clients
         /// <param name="setArgumentsContext">A delegate to set the <see cref="ReverseCallArgumentsContext" /> on a <typeparamref name="TConnectArguments" />.</param>
         /// <param name="getRequestContext">A delegate to get the <see cref="ReverseCallRequestContext" /> from the <typeparamref name="TRequest" />.</param>
         /// <param name="setResponseContext">A delegate to set the <see cref="ReverseCallResponseContext" /> on a <typeparamref name="TResponse" />.</param>
+        /// <param name="getPing">A delegate to get the <see cref="Ping" /> from the <typeparamref name="TServerMessage" />.</param>
+        /// <param name="setPong">A delegate to set the <see cref="Ping" /> on a <typeparamref name="TClientMessage" />.</param>
+        /// <param name="pingInterval">A <see cref="TimeSpan" /> for the interval between pings from the server.</param>
         /// <typeparam name="TClientMessage">Type of the <see cref="IMessage">messages</see> that is sent from the client to the server.</typeparam>
         /// <typeparam name="TServerMessage">Type of the <see cref="IMessage">messages</see> that is sent from the server to the client.</typeparam>
         /// <typeparam name="TConnectArguments">Type of the arguments that are sent along with the initial Connect call.</typeparam>
@@ -39,7 +42,10 @@ namespace Dolittle.Services.Clients
             Action<TClientMessage, TResponse> setMessageResponse,
             Action<TConnectArguments, ReverseCallArgumentsContext> setArgumentsContext,
             Func<TRequest, ReverseCallRequestContext> getRequestContext,
-            Action<TResponse, ReverseCallResponseContext> setResponseContext)
+            Action<TResponse, ReverseCallResponseContext> setResponseContext,
+            Func<TServerMessage, Ping> getPing,
+            Action<TClientMessage, Pong> setPong,
+            TimeSpan pingInterval = default)
             where TClientMessage : IMessage, new()
             where TServerMessage : IMessage, new()
             where TConnectArguments : class
