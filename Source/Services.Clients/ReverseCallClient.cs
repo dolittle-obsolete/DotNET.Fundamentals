@@ -178,7 +178,7 @@ namespace Dolittle.Services.Clients
                     if (ping != null)
                     {
                         _logger.Trace("Received ping from server");
-                        _ = Task.Run(() => WritePong(cancellationToken));
+                        _ = WritePong(cancellationToken);
                     }
                     else if (request != null)
                     {
@@ -226,7 +226,7 @@ namespace Dolittle.Services.Clients
             }
         }
 
-        async void WritePong(CancellationToken cancellationToken)
+        async Task WritePong(CancellationToken cancellationToken)
         {
             await _writeResponseSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
