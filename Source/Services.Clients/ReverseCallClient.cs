@@ -129,8 +129,8 @@ namespace Dolittle.Services.Clients
 
             await _clientToServer.WriteAsync(message).ConfigureAwait(false);
 
-            using var pingCts = new CancellationTokenSource(_pingInterval.Multiply(3));
-            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, pingCts.Token);
+            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            linkedCts.CancelAfter(_pingInterval.Multiply(3));
 
             if (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
             {
@@ -167,8 +167,8 @@ namespace Dolittle.Services.Clients
                 _startedHandling = true;
             }
 
-            using var pingCts = new CancellationTokenSource(_pingInterval.Multiply(3));
-            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, pingCts.Token);
+            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            linkedCts.CancelAfter(_pingInterval.Multiply(3));
             while (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
             {
                 var message = _serverToClient.Current;
@@ -181,14 +181,14 @@ namespace Dolittle.Services.Clients
                 }
                 else if (request != null)
                 {
-                    _ = Task.Run(() => HandleRequest(callback, request, linkedCts.Token));
+                    _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
                 }
                 else
                 {
                     _logger.Warning("Received message from reverse call dispatcher, but it was not a request or a ping");
                 }
 
-                pingCts.CancelAfter(_pingInterval.Multiply(3));
+                linkedCts.CancelAfter(_pingInterval.Multiply(3));
             }
         }
 
