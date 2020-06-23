@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Dolittle.Services.Clients
+namespace Dolittle.Services
 {
     /// <summary>
     /// Exception that gets thrown when the ping interval is not greater than zero milliesecond.

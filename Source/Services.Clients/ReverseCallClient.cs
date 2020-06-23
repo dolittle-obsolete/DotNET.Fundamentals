@@ -97,6 +97,7 @@ namespace Dolittle.Services.Clients
             _setResponseContext = setResponseContext;
             _getPing = getPing;
             _setPong = setPong;
+            _pingInterval = pingInterval;
             _executionContextManager = executionContextManager;
             _logger = logger;
         }

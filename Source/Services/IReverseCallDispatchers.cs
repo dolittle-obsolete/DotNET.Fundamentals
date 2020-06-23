@@ -26,6 +26,8 @@ namespace Dolittle.Services
         /// <param name="getArgumentsContext">A delegate to get the <see cref="ReverseCallArgumentsContext"/> from a <typeparamref name="TConnectArguments"/>.</param>
         /// <param name="setRequestContext">A delegate to set the <see cref="ReverseCallRequestContext"/> on a <typeparamref name="TRequest"/>.</param>
         /// <param name="getResponseContex">A delegate to get the <see cref="ReverseCallResponseContext"/> from a <typeparamref name="TResponse"/>.</param>
+        /// <param name="setPing">A delegate to set the <see cref="Ping" /> on a <typeparamref name="TServerMessage" />.</param>
+        /// <param name="getPong">A delegate to get the <see cref="Pong" /> from a <typeparamref name="TClientMessage" />.</param>
         /// <typeparam name="TClientMessage">Type of the <see cref="IMessage">messages</see> that is sent from the client to the server.</typeparam>
         /// <typeparam name="TServerMessage">Type of the <see cref="IMessage">messages</see> that is sent from the server to the client.</typeparam>
         /// <typeparam name="TConnectArguments">Type of the arguments that are sent along with the initial Connect call.</typeparam>
@@ -43,7 +45,9 @@ namespace Dolittle.Services
                 Func<TClientMessage, TResponse> getMessageResponse,
                 Func<TConnectArguments, ReverseCallArgumentsContext> getArgumentsContext,
                 Action<TRequest, ReverseCallRequestContext> setRequestContext,
-                Func<TResponse, ReverseCallResponseContext> getResponseContex)
+                Func<TResponse, ReverseCallResponseContext> getResponseContex,
+                Action<TServerMessage, Ping> setPing,
+                Func<TClientMessage, Pong> getPong)
             where TClientMessage : IMessage, new()
             where TServerMessage : IMessage, new()
             where TConnectArguments : class
