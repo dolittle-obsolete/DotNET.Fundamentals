@@ -78,20 +78,20 @@ namespace Dolittle.Services
         /// <param name="executionContextManager">The <see cref="IExecutionContextManager"/> to use.</param>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         public ReverseCallDispatcher(
-                IAsyncStreamReader<TClientMessage> clientStream,
-                IServerStreamWriter<TServerMessage> serverStream,
-                ServerCallContext context,
-                Func<TClientMessage, TConnectArguments> getConnectArguments,
-                Action<TServerMessage, TConnectResponse> setConnectResponse,
-                Action<TServerMessage, TRequest> setMessageRequest,
-                Func<TClientMessage, TResponse> getMessageResponse,
-                Func<TConnectArguments, ReverseCallArgumentsContext> getArgumentsContext,
-                Action<TRequest, ReverseCallRequestContext> setRequestContext,
-                Func<TResponse, ReverseCallResponseContext> getResponseContex,
-                Action<TServerMessage, Ping> setPing,
-                Func<TClientMessage, Pong> getPong,
-                IExecutionContextManager executionContextManager,
-                ILogger logger)
+            IAsyncStreamReader<TClientMessage> clientStream,
+            IServerStreamWriter<TServerMessage> serverStream,
+            ServerCallContext context,
+            Func<TClientMessage, TConnectArguments> getConnectArguments,
+            Action<TServerMessage, TConnectResponse> setConnectResponse,
+            Action<TServerMessage, TRequest> setMessageRequest,
+            Func<TClientMessage, TResponse> getMessageResponse,
+            Func<TConnectArguments, ReverseCallArgumentsContext> getArgumentsContext,
+            Action<TRequest, ReverseCallRequestContext> setRequestContext,
+            Func<TResponse, ReverseCallResponseContext> getResponseContex,
+            Action<TServerMessage, Ping> setPing,
+            Func<TClientMessage, Pong> getPong,
+            IExecutionContextManager executionContextManager,
+            ILogger logger)
         {
             _clientStream = clientStream;
             _serverStream = serverStream;
