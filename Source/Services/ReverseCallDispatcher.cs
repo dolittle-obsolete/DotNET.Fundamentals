@@ -33,7 +33,6 @@ namespace Dolittle.Services
         where TResponse : class
     {
         readonly SemaphoreSlim _writeSemaphore = new SemaphoreSlim(1);
-        readonly SemaphoreSlim _pingSemaphore = new SemaphoreSlim(0, 1);
         readonly ConcurrentDictionary<ReverseCallId, TaskCompletionSource<TResponse>> _calls = new ConcurrentDictionary<ReverseCallId, TaskCompletionSource<TResponse>>();
         readonly IAsyncStreamReader<TClientMessage> _clientStream;
         readonly IServerStreamWriter<TServerMessage> _serverStream;
@@ -176,10 +175,8 @@ namespace Dolittle.Services
             var message = new TServerMessage();
             _setConnectResponse(message, response);
             await _serverStream.WriteAsync(message).ConfigureAwait(false);
-            using var pingCts = new CancellationTokenSource(_pingInterval.Multiply(3));
-            using var jointCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, pingCts.Token);
-            _ = StartPinging(jointCts.Token);
-            await HandleClientMessages(pingCts, jointCts.Token).ConfigureAwait(false);
+            _ = Task.Run(() => StartPinging(cancellationToken));
+            await HandleClientMessages(cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -258,7 +255,6 @@ namespace Dolittle.Services
                 if (disposing)
                 {
                     _writeSemaphore.Dispose();
-                    _pingSemaphore.Dispose();
                 }
 
                 _disposed = true;
@@ -269,11 +265,11 @@ namespace Dolittle.Services
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await _pingSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+                await Task.Delay(_pingInterval).ConfigureAwait(false);
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    _pingSemaphore.Release();
-                    break;
+                    _logger.Warning("Cancellation is requested. Stopping pinging");
+                    return;
                 }
 
                 await _writeSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -291,14 +287,14 @@ namespace Dolittle.Services
             }
         }
 
-        async Task HandleClientMessages(CancellationTokenSource pingCts, CancellationToken cancellationToken)
+        async Task HandleClientMessages(CancellationToken cancellationToken)
         {
+            using var jointCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            jointCts.CancelAfter(_pingInterval.Multiply(3));
             try
             {
-                while (!cancellationToken.IsCancellationRequested && await _clientStream.MoveNext(cancellationToken).ConfigureAwait(false))
+                while (!jointCts.IsCancellationRequested && await _clientStream.MoveNext(jointCts.Token).ConfigureAwait(false))
                 {
-                    pingCts.CancelAfter(_pingInterval.Multiply(3));
-                    _pingSemaphore.Release();
                     var message = _clientStream.Current;
                     var pong = _getPong(message);
                     var response = _getMessageResponse(_clientStream.Current);
@@ -331,6 +327,8 @@ namespace Dolittle.Services
                     {
                         _logger.Warning("Received message from reverse call client, but it did not contain a response.");
                     }
+
+                    jointCts.CancelAfter(_pingInterval.Multiply(3));
                 }
             }
             catch (Exception ex)
@@ -340,18 +338,9 @@ namespace Dolittle.Services
             finally
             {
                 _completed = true;
-                if (pingCts.IsCancellationRequested)
+                if (jointCts.IsCancellationRequested)
                 {
-                    _logger.Warning("Exceeded ping delay");
-                }
-                else
-                {
-                    pingCts.Cancel();
-                }
-
-                if (_pingSemaphore.CurrentCount == 0)
-                {
-                    _pingSemaphore.Release();
+                    _logger.Warning("Ping timedout");
                 }
 
                 foreach ((_, var completionSource) in _calls)
