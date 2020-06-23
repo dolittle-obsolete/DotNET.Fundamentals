@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Threading.Tasks;
 using Dolittle.Execution;
 using Dolittle.Logging;
@@ -31,6 +32,9 @@ namespace Dolittle.Services.Clients.for_ReverseCallClient.given
                 (arguments, context) => arguments.Context = context,
                 request => request.Context,
                 (response, context) => response.Context = context,
+                message => message.Ping,
+                (message, pong) => message.Pong = pong,
+                new TimeSpan(0, 0, 0, 0, 500),
                 execution_context_manager.Object,
                 Mock.Of<ILogger>());
         };
