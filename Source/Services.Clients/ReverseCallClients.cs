@@ -17,7 +17,7 @@ namespace Dolittle.Services.Clients
     {
         readonly IExecutionContextManager _executionContextManager;
         readonly ILoggerManager _loggerManager;
-        readonly TimeSpan _defaultPingInterval = new TimeSpan(0, 0, 0, 0, 500);
+        readonly TimeSpan _defaultPingInterval = TimeSpan.FromSeconds(5);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallClients"/> class.

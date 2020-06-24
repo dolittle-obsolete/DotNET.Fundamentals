@@ -176,7 +176,7 @@ namespace Dolittle.Services.Clients
                 var request = _getMessageRequest(message);
                 if (ping != null)
                 {
-                    _logger.Trace("Received ping from reverse call dispatcher");
+                    _logger.Trace("Received ping");
                     await WritePong(cancellationToken).ConfigureAwait(false);
                 }
                 else if (request != null)

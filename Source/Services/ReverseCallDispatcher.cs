@@ -51,7 +51,7 @@ namespace Dolittle.Services
 
         readonly object _receiveArgumentsLock = new object();
         readonly object _respondLock = new object();
-        TimeSpan _pingInterval = new TimeSpan(0, 0, 1);
+        TimeSpan _pingInterval = TimeSpan.FromSeconds(5);
         bool _completed;
         bool _disposed;
 
@@ -300,11 +300,11 @@ namespace Dolittle.Services
                     var response = _getMessageResponse(_clientStream.Current);
                     if (pong != null)
                     {
-                        _logger.Trace("Received ping from reverse call client");
+                        _logger.Trace("Received pong");
                     }
                     else if (response != null)
                     {
-                        _logger.Trace("Received response from reverse call client");
+                        _logger.Trace("Received response");
                         var callContext = _getResponseContex(response);
                         if (callContext?.CallId != null)
                         {
