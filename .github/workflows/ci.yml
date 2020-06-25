@@ -53,4 +53,4 @@ jobs:
       - name: Create packages
         run: dotnet pack --configuration Release -o Artifacts/NuGet /p:PackageVersion=${{ steps.increment-version.outputs.version }} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
       - name: Push NuGet packages
-        run: dotnet nuget push Artifacts/NuGet/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push 'Artifacts/NuGet/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
