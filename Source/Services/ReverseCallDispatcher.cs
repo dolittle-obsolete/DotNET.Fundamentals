@@ -32,7 +32,7 @@ namespace Dolittle.Services
         where TRequest : class
         where TResponse : class
     {
-        readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        readonly SemaphoreSlim _writeSemaphore = new SemaphoreSlim(1);
         readonly ConcurrentDictionary<ReverseCallId, TaskCompletionSource<TResponse>> _calls = new ConcurrentDictionary<ReverseCallId, TaskCompletionSource<TResponse>>();
         readonly IAsyncStreamReader<TClientMessage> _clientStream;
         readonly IServerStreamWriter<TServerMessage> _serverStream;
@@ -44,10 +44,14 @@ namespace Dolittle.Services
         readonly Func<TConnectArguments, ReverseCallArgumentsContext> _getArgumentsContext;
         readonly Action<TRequest, ReverseCallRequestContext> _setRequestContext;
         readonly Func<TResponse, ReverseCallResponseContext> _getResponseContex;
+        readonly Action<TServerMessage, Ping> _setPing;
+        readonly Func<TClientMessage, Pong> _getPong;
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
+
         readonly object _receiveArgumentsLock = new object();
         readonly object _respondLock = new object();
+        TimeSpan _pingInterval = TimeSpan.FromSeconds(5);
         bool _completed;
         bool _disposed;
 
@@ -68,21 +72,25 @@ namespace Dolittle.Services
         /// <param name="getArgumentsContext">A delegate to get the <see cref="ReverseCallArgumentsContext"/> from a <typeparamref name="TConnectArguments"/>.</param>
         /// <param name="setRequestContext">A delegate to set the <see cref="ReverseCallRequestContext"/> on a <typeparamref name="TRequest"/>.</param>
         /// <param name="getResponseContex">A delegate to get the <see cref="ReverseCallResponseContext"/> from a <typeparamref name="TResponse"/>.</param>
+        /// <param name="setPing">A delegate to set the <see cref="Ping" /> on a <typeparamref name="TServerMessage" />.</param>
+        /// <param name="getPong">A delegate to get the <see cref="Pong" /> from a <typeparamref name="TClientMessage" />.</param>
         /// <param name="executionContextManager">The <see cref="IExecutionContextManager"/> to use.</param>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         public ReverseCallDispatcher(
-                IAsyncStreamReader<TClientMessage> clientStream,
-                IServerStreamWriter<TServerMessage> serverStream,
-                ServerCallContext context,
-                Func<TClientMessage, TConnectArguments> getConnectArguments,
-                Action<TServerMessage, TConnectResponse> setConnectResponse,
-                Action<TServerMessage, TRequest> setMessageRequest,
-                Func<TClientMessage, TResponse> getMessageResponse,
-                Func<TConnectArguments, ReverseCallArgumentsContext> getArgumentsContext,
-                Action<TRequest, ReverseCallRequestContext> setRequestContext,
-                Func<TResponse, ReverseCallResponseContext> getResponseContex,
-                IExecutionContextManager executionContextManager,
-                ILogger logger)
+            IAsyncStreamReader<TClientMessage> clientStream,
+            IServerStreamWriter<TServerMessage> serverStream,
+            ServerCallContext context,
+            Func<TClientMessage, TConnectArguments> getConnectArguments,
+            Action<TServerMessage, TConnectResponse> setConnectResponse,
+            Action<TServerMessage, TRequest> setMessageRequest,
+            Func<TClientMessage, TResponse> getMessageResponse,
+            Func<TConnectArguments, ReverseCallArgumentsContext> getArgumentsContext,
+            Action<TRequest, ReverseCallRequestContext> setRequestContext,
+            Func<TResponse, ReverseCallResponseContext> getResponseContex,
+            Action<TServerMessage, Ping> setPing,
+            Func<TClientMessage, Pong> getPong,
+            IExecutionContextManager executionContextManager,
+            ILogger logger)
         {
             _clientStream = clientStream;
             _serverStream = serverStream;
@@ -94,6 +102,8 @@ namespace Dolittle.Services
             _getArgumentsContext = getArgumentsContext;
             _setRequestContext = setRequestContext;
             _getResponseContex = getResponseContex;
+            _setPing = setPing;
+            _getPong = getPong;
             _executionContextManager = executionContextManager;
             _logger = logger;
         }
@@ -117,6 +127,21 @@ namespace Dolittle.Services
                 if (arguments != null)
                 {
                     var callContext = _getArgumentsContext(arguments);
+                    if (callContext?.PingInterval == null)
+                    {
+                        _logger.Warning("Received arguments, but ping interval was not set");
+                        return false;
+                    }
+
+                    var interval = callContext.PingInterval.ToTimeSpan();
+                    if (interval.TotalMilliseconds <= 0)
+                    {
+                        _logger.Warning("Received arguments, but ping interval is less than or equal to zero milliseconds");
+                        return false;
+                    }
+
+                    _pingInterval = callContext.PingInterval.ToTimeSpan();
+
                     if (callContext?.ExecutionContext != null)
                     {
                         _executionContextManager.CurrentFor(callContext.ExecutionContext.ToExecutionContext());
@@ -150,6 +175,7 @@ namespace Dolittle.Services
             var message = new TServerMessage();
             _setConnectResponse(message, response);
             await _serverStream.WriteAsync(message).ConfigureAwait(false);
+            _ = Task.Run(() => StartPinging(cancellationToken));
             await HandleClientMessages(cancellationToken).ConfigureAwait(false);
         }
 
@@ -182,8 +208,7 @@ namespace Dolittle.Services
 
             try
             {
-                await _semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
-
+                await _writeSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
                 try
                 {
                     var callContext = new ReverseCallRequestContext
@@ -195,12 +220,12 @@ namespace Dolittle.Services
 
                     var message = new TServerMessage();
                     _setMessageRequest(message, request);
-
+                    _logger.Trace("Writing request with CallId: {CallId}", callId);
                     await _serverStream.WriteAsync(message).ConfigureAwait(false);
                 }
                 finally
                 {
-                    _semaphore.Release();
+                    _writeSemaphore.Release();
                 }
 
                 return await completionSource.Task.ConfigureAwait(false);
@@ -229,22 +254,57 @@ namespace Dolittle.Services
             {
                 if (disposing)
                 {
-                    _semaphore.Dispose();
+                    _writeSemaphore.Dispose();
                 }
 
                 _disposed = true;
             }
         }
 
+        async Task StartPinging(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await Task.Delay(_pingInterval).ConfigureAwait(false);
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.Warning("Cancellation is requested. Stopping pinging");
+                    return;
+                }
+
+                await _writeSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+                try
+                {
+                    var message = new TServerMessage();
+                    _setPing(message, new Ping());
+                    _logger.Trace("Writing ping");
+                    await _serverStream.WriteAsync(message).ConfigureAwait(false);
+                }
+                finally
+                {
+                    _writeSemaphore.Release();
+                }
+            }
+        }
+
         async Task HandleClientMessages(CancellationToken cancellationToken)
         {
+            using var jointCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            jointCts.CancelAfter(_pingInterval.Multiply(3));
             try
             {
-                while (!cancellationToken.IsCancellationRequested && await _clientStream.MoveNext(cancellationToken).ConfigureAwait(false))
+                while (!jointCts.IsCancellationRequested && await _clientStream.MoveNext(jointCts.Token).ConfigureAwait(false))
                 {
+                    var message = _clientStream.Current;
+                    var pong = _getPong(message);
                     var response = _getMessageResponse(_clientStream.Current);
-                    if (response != null)
+                    if (pong != null)
                     {
+                        _logger.Trace("Received pong");
+                    }
+                    else if (response != null)
+                    {
+                        _logger.Trace("Received response");
                         var callContext = _getResponseContex(response);
                         if (callContext?.CallId != null)
                         {
@@ -267,6 +327,8 @@ namespace Dolittle.Services
                     {
                         _logger.Warning("Received message from reverse call client, but it did not contain a response.");
                     }
+
+                    jointCts.CancelAfter(_pingInterval.Multiply(3));
                 }
             }
             catch (Exception ex)
@@ -276,6 +338,11 @@ namespace Dolittle.Services
             finally
             {
                 _completed = true;
+                if (jointCts.IsCancellationRequested)
+                {
+                    _logger.Warning("Ping timedout");
+                }
+
                 foreach ((_, var completionSource) in _calls)
                 {
                     try

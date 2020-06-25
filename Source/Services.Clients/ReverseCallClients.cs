@@ -17,6 +17,7 @@ namespace Dolittle.Services.Clients
     {
         readonly IExecutionContextManager _executionContextManager;
         readonly ILoggerManager _loggerManager;
+        readonly TimeSpan _defaultPingInterval = TimeSpan.FromSeconds(5);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCallClients"/> class.
@@ -38,7 +39,10 @@ namespace Dolittle.Services.Clients
             Action<TClientMessage, TResponse> setMessageResponse,
             Action<TConnectArguments, ReverseCallArgumentsContext> setArgumentsContext,
             Func<TRequest, ReverseCallRequestContext> getRequestContext,
-            Action<TResponse, ReverseCallResponseContext> setResponseContext)
+            Action<TResponse, ReverseCallResponseContext> setResponseContext,
+            Func<TServerMessage, Ping> getPing,
+            Action<TClientMessage, Pong> setPong,
+            TimeSpan pingInterval = default)
             where TClientMessage : IMessage, new()
             where TServerMessage : IMessage, new()
             where TConnectArguments : class
@@ -54,6 +58,9 @@ namespace Dolittle.Services.Clients
                     setArgumentsContext,
                     getRequestContext,
                     setResponseContext,
+                    getPing,
+                    setPong,
+                    pingInterval == default ? _defaultPingInterval : pingInterval,
                     _executionContextManager,
                     _loggerManager.CreateLogger<ReverseCallClient<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>>());
     }

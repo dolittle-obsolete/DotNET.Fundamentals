@@ -40,7 +40,9 @@ namespace Dolittle.Services
             Func<TClientMessage, TResponse> getMessageResponse,
             Func<TConnectArguments, ReverseCallArgumentsContext> getArgumentsContext,
             Action<TRequest, ReverseCallRequestContext> setRequestContext,
-            Func<TResponse, ReverseCallResponseContext> getResponseContex)
+            Func<TResponse, ReverseCallResponseContext> getResponseContex,
+            Action<TServerMessage, Ping> setPing,
+            Func<TClientMessage, Pong> getPong)
             where TClientMessage : IMessage, new()
             where TServerMessage : IMessage, new()
             where TConnectArguments : class
@@ -58,6 +60,8 @@ namespace Dolittle.Services
                 getArgumentsContext,
                 setRequestContext,
                 getResponseContex,
+                setPing,
+                getPong,
                 _executionContextManager,
                 _loggerManager.CreateLogger<ReverseCallDispatcher<TClientMessage, TServerMessage, TConnectArguments, TConnectResponse, TRequest, TResponse>>());
     }

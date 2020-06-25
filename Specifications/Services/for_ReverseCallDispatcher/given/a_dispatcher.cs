@@ -32,6 +32,8 @@ namespace Dolittle.Services.for_ReverseCallDispatcher.given
                 arguments => arguments.Context,
                 (request, context) => request.Context = context,
                 response => response.Context,
+                (message, ping) => message.Ping = ping,
+                message => message.Pong,
                 execution_context_manager.Object,
                 Mock.Of<ILogger>());
         };
