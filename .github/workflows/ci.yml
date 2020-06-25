@@ -27,6 +27,8 @@ jobs:
     - name: Establish context
       id: context
       uses: dolittle/establish-context-action@v2 # Replace with ./ if used withing dolittle/establish-context-action
+      with:
+        prerelease-branches: experimental,alpha,beta,rc
 
   release:
     name: CD
