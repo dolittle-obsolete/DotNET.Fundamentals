@@ -1,6 +1,6 @@
 # DotNET.Fundamentals
 
-[![Build Status](https://dolittle.visualstudio.com/Dolittle%20open-source%20repositories/_apis/build/status/dolittle-fundamentals.DotNET.Fundamentals?branchName=master)](https://dolittle.visualstudio.com/Dolittle%20open-source%20repositories/_build/latest?definitionId=8&branchName=master)
+![.NET Library CI/CD](https://github.com/dolittle/DotNET.Fundamentals/workflows/.NET%20Library%20CI/CD/badge.svg)
 
 [![codecov](https://codecov.io/gh/dolittle/dotnet.fundamentals/branch/master/graph/badge.svg)](https://codecov.io/gh/dolittle/dotnet.fundamentals)
 
