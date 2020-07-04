@@ -340,7 +340,7 @@ namespace Dolittle.Services
                 _completed = true;
                 if (jointCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Warning("Ping timedout");
+                    _logger.Debug("Ping timedout");
                 }
 
                 foreach ((_, var completionSource) in _calls)

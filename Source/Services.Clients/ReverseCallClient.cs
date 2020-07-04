@@ -169,26 +169,44 @@ namespace Dolittle.Services.Clients
 
             using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             linkedCts.CancelAfter(_pingInterval.Multiply(3));
-            while (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
+            try
             {
-                var message = _serverToClient.Current;
-                var ping = _getPing(message);
-                var request = _getMessageRequest(message);
-                if (ping != null)
+                while (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
                 {
-                    _logger.Trace("Received ping");
-                    await WritePong(cancellationToken).ConfigureAwait(false);
+                    var message = _serverToClient.Current;
+                    var ping = _getPing(message);
+                    var request = _getMessageRequest(message);
+                    if (ping != null)
+                    {
+                        _logger.Trace("Received ping");
+                        await WritePong(cancellationToken).ConfigureAwait(false);
+                    }
+                    else if (request != null)
+                    {
+                        _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
+                    }
+                    else
+                    {
+                        _logger.Warning("Received message from reverse call dispatcher, but it was not a request or a ping");
+                    }
+
+                    linkedCts.CancelAfter(_pingInterval.Multiply(3));
                 }
-                else if (request != null)
+            }
+            catch (Exception)
+            {
+                if (linkedCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
                 {
-                    _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
+                    _logger.Debug("Pong timedout");
+                    return;
                 }
-                else
+                else if (cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Warning("Received message from reverse call dispatcher, but it was not a request or a ping");
+                    _logger.Debug("Reverse call client was cancelled by client");
+                    return;
                 }
 
-                linkedCts.CancelAfter(_pingInterval.Multiply(3));
+                throw;
             }
         }
 
