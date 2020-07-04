@@ -268,7 +268,7 @@ namespace Dolittle.Services
                 await Task.Delay(_pingInterval).ConfigureAwait(false);
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Warning("Cancellation is requested. Stopping pinging");
+                    _logger.Debug("Cancellation is requested. Stopping pinging");
                     return;
                 }
 
@@ -338,7 +338,7 @@ namespace Dolittle.Services
             finally
             {
                 _completed = true;
-                if (jointCts.IsCancellationRequested)
+                if (jointCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
                 {
                     _logger.Warning("Ping timedout");
                 }
