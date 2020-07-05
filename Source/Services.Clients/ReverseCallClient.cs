@@ -197,11 +197,11 @@ namespace Dolittle.Services.Clients
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Debug("Reverse call was client cancelled by client");
+                    _logger.Debug("Reverse call was cancelled by client");
                 }
                 else
                 {
-                    _logger.Debug("Reverse call was client cancelled by server");
+                    _logger.Debug("Reverse call was cancelled by server");
                 }
             }
             catch (Exception)
