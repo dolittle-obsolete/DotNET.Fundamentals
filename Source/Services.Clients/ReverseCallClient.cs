@@ -132,28 +132,44 @@ namespace Dolittle.Services.Clients
             using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             linkedCts.CancelAfter(_pingInterval.Multiply(3));
 
-            if (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
+            try
             {
-                var response = _getConnectResponse(_serverToClient.Current);
-                if (response != null)
+                if (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
                 {
-                    _logger.Trace("Received connect response");
-                    ConnectResponse = response;
-                    _connectionEstablished = true;
-                    return true;
+                    var response = _getConnectResponse(_serverToClient.Current);
+                    if (response != null)
+                    {
+                        _logger.Trace("Received connect response");
+                        ConnectResponse = response;
+                        _connectionEstablished = true;
+                        return true;
+                    }
+                    else
+                    {
+                        _logger.Warning("Did not receive connect response. Server message did not contain the connect response");
+                    }
                 }
                 else
                 {
-                    _logger.Warning("Did not receive connect response. Server message did not contain the connect response");
+                    _logger.Warning("Did not receive connect response. Server stream was empty");
                 }
-            }
-            else
-            {
-                _logger.Warning("Did not receive connect response. Server stream was empty");
-            }
 
-            await _clientToServer.CompleteAsync().ConfigureAwait(false);
-            return false;
+                await _clientToServer.CompleteAsync().ConfigureAwait(false);
+                return false;
+            }
+            catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.Debug("Reverse call client connect was cancelled by client");
+                }
+                else
+                {
+                    _logger.Debug("Reverse call client connect was cancelled by server");
+                }
+
+                return false;
+            }
         }
 
         /// <inheritdoc/>
@@ -197,11 +213,11 @@ namespace Dolittle.Services.Clients
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Debug("Reverse call was cancelled by client");
+                    _logger.Debug("Reverse call client was cancelled by client");
                 }
                 else
                 {
-                    _logger.Debug("Reverse call was cancelled by server");
+                    _logger.Debug("Reverse call client was cancelled by server");
                 }
             }
             catch (Exception)
