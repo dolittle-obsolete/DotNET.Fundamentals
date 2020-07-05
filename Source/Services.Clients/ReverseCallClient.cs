@@ -193,6 +193,17 @@ namespace Dolittle.Services.Clients
                     linkedCts.CancelAfter(_pingInterval.Multiply(3));
                 }
             }
+            catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.Debug("Reverse call was client cancelled by client");
+                }
+                else
+                {
+                    _logger.Debug("Reverse call was client cancelled by server");
+                }
+            }
             catch (Exception)
             {
                 if (linkedCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
