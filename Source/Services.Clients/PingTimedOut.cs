@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.Services.Clients
 {
     /// <summary>
-    /// Exception that gets thrown when ping timedout.
+    /// Exception that gets thrown when ping timed out.
     /// </summary>
     public class PingTimedOut : Exception
     {
