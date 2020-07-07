@@ -132,28 +132,44 @@ namespace Dolittle.Services.Clients
             using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             linkedCts.CancelAfter(_pingInterval.Multiply(3));
 
-            if (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
+            try
             {
-                var response = _getConnectResponse(_serverToClient.Current);
-                if (response != null)
+                if (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
                 {
-                    _logger.Trace("Received connect response");
-                    ConnectResponse = response;
-                    _connectionEstablished = true;
-                    return true;
+                    var response = _getConnectResponse(_serverToClient.Current);
+                    if (response != null)
+                    {
+                        _logger.Trace("Received connect response");
+                        ConnectResponse = response;
+                        _connectionEstablished = true;
+                        return true;
+                    }
+                    else
+                    {
+                        _logger.Warning("Did not receive connect response. Server message did not contain the connect response");
+                    }
                 }
                 else
                 {
-                    _logger.Warning("Did not receive connect response. Server message did not contain the connect response");
+                    _logger.Warning("Did not receive connect response. Server stream was empty");
                 }
-            }
-            else
-            {
-                _logger.Warning("Did not receive connect response. Server stream was empty");
-            }
 
-            await _clientToServer.CompleteAsync().ConfigureAwait(false);
-            return false;
+                await _clientToServer.CompleteAsync().ConfigureAwait(false);
+                return false;
+            }
+            catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.Debug("Reverse Call Client was cancelled by client while connecting");
+                }
+                else
+                {
+                    _logger.Warning("Reverse Call Client was cancelled by server while connecting");
+                }
+
+                return false;
+            }
         }
 
         /// <inheritdoc/>
@@ -169,26 +185,45 @@ namespace Dolittle.Services.Clients
 
             using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             linkedCts.CancelAfter(_pingInterval.Multiply(3));
-            while (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
+            try
             {
-                var message = _serverToClient.Current;
-                var ping = _getPing(message);
-                var request = _getMessageRequest(message);
-                if (ping != null)
+                while (await _serverToClient.MoveNext(linkedCts.Token).ConfigureAwait(false))
                 {
-                    _logger.Trace("Received ping");
-                    await WritePong(cancellationToken).ConfigureAwait(false);
+                    var message = _serverToClient.Current;
+                    var ping = _getPing(message);
+                    var request = _getMessageRequest(message);
+                    if (ping != null)
+                    {
+                        _logger.Trace("Received ping");
+                        await WritePong(cancellationToken).ConfigureAwait(false);
+                    }
+                    else if (request != null)
+                    {
+                        _ = Task.Run(() => OnReceivedRequest(callback, request, cancellationToken));
+                    }
+                    else
+                    {
+                        _logger.Warning("Received message from Reverse Call Dispatcher, but it was not a request or a ping");
+                    }
+
+                    linkedCts.CancelAfter(_pingInterval.Multiply(3));
                 }
-                else if (request != null)
+            }
+            catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
+            {
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    _ = Task.Run(() => HandleRequest(callback, request, cancellationToken));
-                }
-                else
-                {
-                    _logger.Warning("Received message from reverse call dispatcher, but it was not a request or a ping");
+                    _logger.Debug("Reverse Call Client was cancelled by client while handling requests");
+                    return;
                 }
 
-                linkedCts.CancelAfter(_pingInterval.Multiply(3));
+                if (!linkedCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+                {
+                    _logger.Warning("Reverse Call Client was cancelled by server while handling requests");
+                    return;
+                }
+
+                throw new PingTimedOut();
             }
         }
 
@@ -223,7 +258,7 @@ namespace Dolittle.Services.Clients
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Debug("Reverse call client was cancelled before it could respond with pong");
+                    _logger.Debug("Reverse Call Client was cancelled before it could respond with pong");
                     return;
                 }
 
@@ -239,34 +274,62 @@ namespace Dolittle.Services.Clients
             }
         }
 
-        async Task HandleRequest(Func<TRequest, CancellationToken, Task<TResponse>> callback, TRequest request, CancellationToken cancellationToken)
+        async Task OnReceivedRequest(
+            Func<TRequest, CancellationToken, Task<TResponse>> callback,
+            TRequest request,
+            CancellationToken cancellationToken)
         {
-            var requestContext = _getRequestContext(request);
-            _logger.Trace("Handling request with call {callId}", requestContext.CallId.To<ReverseCallId>());
-            _executionContextManager.CurrentFor(requestContext.ExecutionContext);
-
-            var response = await callback(request, cancellationToken).ConfigureAwait(false);
-
-            await _writeResponseSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
-                var responseContext = new ReverseCallResponseContext { CallId = requestContext.CallId };
-                _setResponseContext(response, responseContext);
-                var message = new TClientMessage();
-                _setMessageResponse(message, response);
-                if (cancellationToken.IsCancellationRequested)
+                var requestContext = _getRequestContext(request);
+                var callId = requestContext.CallId.To<ReverseCallId>();
+                TResponse response;
+                try
                 {
-                    _logger.Debug("Reverse call cancelled before request '{callId}' could be handled", requestContext.CallId.To<ReverseCallId>());
+                    _logger.Trace("Handling request with call '{CallId}'", callId);
+                    _executionContextManager.CurrentFor(requestContext.ExecutionContext);
+                    response = await callback(request, cancellationToken).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warning(ex, "An error occurred while invoking request handler callback for request '{CallId}'", callId);
                     return;
                 }
 
-                _logger.Trace("Writing response request with call {callId}", responseContext.CallId.To<ReverseCallId>());
-                await _clientToServer.WriteAsync(message).ConfigureAwait(false);
+                await _writeResponseSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+                try
+                {
+                    await WriteResponse(response, callId, cancellationToken).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warning(ex, "Error occurred while writing response for request '{CallId}'", callId);
+                }
+                finally
+                {
+                    _writeResponseSemaphore.Release();
+                }
             }
-            finally
+            catch (Exception ex)
             {
-                _writeResponseSemaphore.Release();
+                _logger.Warning(ex, "An error occurred while handling received request");
             }
+        }
+
+        Task WriteResponse(TResponse response, ReverseCallId callId, CancellationToken cancellationToken)
+        {
+            var responseContext = new ReverseCallResponseContext { CallId = callId.ToProtobuf() };
+            _setResponseContext(response, responseContext);
+            var message = new TClientMessage();
+            _setMessageResponse(message, response);
+            if (!cancellationToken.IsCancellationRequested)
+            {
+                _logger.Trace("Writing response for request '{CallId}'", callId);
+                return _clientToServer.WriteAsync(message);
+            }
+
+            _logger.Debug("Reverse Call Client was cancelled before response could be written for request '{CallId}'", callId);
+            return Task.CompletedTask;
         }
 
         void ThrowIfInvalidPingInterval(TimeSpan pingInterval)

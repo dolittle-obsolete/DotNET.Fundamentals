@@ -263,26 +263,36 @@ namespace Dolittle.Services
 
         async Task StartPinging(CancellationToken cancellationToken)
         {
-            while (!cancellationToken.IsCancellationRequested)
+            try
             {
-                await Task.Delay(_pingInterval).ConfigureAwait(false);
-                if (cancellationToken.IsCancellationRequested)
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Warning("Cancellation is requested. Stopping pinging");
-                    return;
-                }
+                    await Task.Delay(_pingInterval).ConfigureAwait(false);
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        _logger.Debug("Stopping pinging");
+                        return;
+                    }
 
-                await _writeSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
-                try
-                {
-                    var message = new TServerMessage();
-                    _setPing(message, new Ping());
-                    _logger.Trace("Writing ping");
-                    await _serverStream.WriteAsync(message).ConfigureAwait(false);
+                    await _writeSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var message = new TServerMessage();
+                        _setPing(message, new Ping());
+                        _logger.Trace("Writing ping");
+                        await _serverStream.WriteAsync(message).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        _writeSemaphore.Release();
+                    }
                 }
-                finally
+            }
+            catch (Exception ex)
+            {
+                if (!cancellationToken.IsCancellationRequested)
                 {
-                    _writeSemaphore.Release();
+                    _logger.Warning(ex, "An error occurred while pinging");
                 }
             }
         }
@@ -333,14 +343,17 @@ namespace Dolittle.Services
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Exception during handling of client messages");
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    _logger.Warning(ex, "An error occurred during handling of client messages");
+                }
             }
             finally
             {
                 _completed = true;
-                if (jointCts.IsCancellationRequested)
+                if (jointCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Warning("Ping timedout");
+                    _logger.Debug("Ping timed out");
                 }
 
                 foreach ((_, var completionSource) in _calls)
