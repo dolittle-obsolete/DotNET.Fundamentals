@@ -14,7 +14,7 @@ namespace Dolittle.Services.Clients
         /// Initializes a new instance of the <see cref="PingTimedOut"/> class.
         /// </summary>
         public PingTimedOut()
-            : base("Ping timedout")
+            : base("Ping timed out")
         {
         }
     }
