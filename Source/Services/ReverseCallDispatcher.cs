@@ -353,7 +353,7 @@ namespace Dolittle.Services
                 _completed = true;
                 if (jointCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
                 {
-                    _logger.Debug("Ping timedout");
+                    _logger.Debug("Ping timed out");
                 }
 
                 foreach ((_, var completionSource) in _calls)
