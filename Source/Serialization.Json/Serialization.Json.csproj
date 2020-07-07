@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,7 +15,6 @@
     <ProjectReference Include="..\DependencyInversion\DependencyInversion.csproj" />
     <ProjectReference Include="..\Strings\Strings.csproj" />
     <ProjectReference Include="..\Types\Types.csproj" />
-    <ProjectReference Include="..\PropertyBags\PropertyBags.csproj" />
   </ItemGroup>
 
 </Project>

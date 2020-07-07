@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using Dolittle.Concepts;
 using Google.Protobuf;
 
@@ -12,45 +13,50 @@ namespace Dolittle.Protobuf
     public static class Extensions
     {
         /// <summary>
-        /// Convert a <see cref="ByteString"/> to a <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/>.
+        /// Convert a <see cref="ByteString"/> to a <see cref="ConceptAs{T}"/> of type <see cref="Guid"/>.
         /// </summary>
         /// <typeparam name="T">Type to convert to.</typeparam>
-        /// <param name="idAsBytes"><see cref="ByteString"/> to convert.</param>
-        /// <returns>Converted <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/>.</returns>
-        public static T To<T>(this ByteString idAsBytes)
-            where T : ConceptAs<System.Guid>, new()
-        {
-            return new T { Value = new System.Guid(idAsBytes.ToByteArray()) };
-        }
+        /// <param name="id"><see cref="Contracts.Uuid"/> to convert.</param>
+        /// <returns>Converted <see cref="ConceptAs{T}"/> of type <see cref="Guid"/>.</returns>
+        public static T To<T>(this Contracts.Uuid id)
+            where T : ConceptAs<Guid>, new() => new T { Value = id.ToGuid() };
 
         /// <summary>
-        /// Convert a <see cref="ByteString"/> to <see cref="System.Guid"/>.
+        /// Convert a <see cref="Contracts.Uuid"/> to <see cref="Guid"/>.
         /// </summary>
-        /// <param name="idAsBytes"><see cref="ByteString"/> to convert.</param>
-        /// <returns>Converted <see cref="System.Guid"/>.</returns>
-        public static System.Guid ToGuid(this ByteString idAsBytes)
-        {
-            return new System.Guid(idAsBytes.ToByteArray());
-        }
+        /// <param name="id"><see cref="Contracts.Uuid"/> to convert.</param>
+        /// <returns>Converted <see cref="Guid"/>.</returns>
+        public static Guid ToGuid(this Contracts.Uuid id) => new Guid(id.Value.ToByteArray());
 
         /// <summary>
-        /// Convert a <see cref="System.Guid"/> to <see cref="ByteString"/>.
+        /// Convert a <see cref="Guid"/> to <see cref="Contracts.Uuid"/>.
         /// </summary>
-        /// <param name="id"><see cref="System.Guid"/> to convert.</param>
-        /// <returns>Converted <see cref="ByteString"/>.</returns>
-        public static ByteString ToProtobuf(this System.Guid id)
-        {
-            return ByteString.CopyFrom(id.ToByteArray());
-        }
+        /// <param name="id"><see cref="Guid"/> to convert.</param>
+        /// <returns>Converted <see cref="Contracts.Uuid"/>.</returns>
+        public static Contracts.Uuid ToProtobuf(this Guid id) =>
+            new Contracts.Uuid { Value = ByteString.CopyFrom(id.ToByteArray()) };
 
         /// <summary>
-        /// Convert a <see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/> to <see cref="ByteString"/>.
+        /// Convert a <see cref="ConceptAs{T}"/> of type <see cref="Guid"/> to <see cref="Contracts.Uuid"/>.
         /// </summary>
-        /// <param name="id"><see cref="ConceptAs{T}"/> of type <see cref="System.Guid"/> to convert.</param>
-        /// <returns>Converted <see cref="ByteString"/>.</returns>
-        public static ByteString ToProtobuf(this ConceptAs<System.Guid> id)
-        {
-            return ByteString.CopyFrom(id.Value.ToByteArray());
-        }
+        /// <param name="id"><see cref="ConceptAs{T}"/> of type <see cref="Guid"/> to convert.</param>
+        /// <returns>Converted <see cref="Contracts.Uuid"/>.</returns>
+        public static Contracts.Uuid ToProtobuf(this ConceptAs<Guid> id) => id.Value.ToProtobuf();
+
+        /// <summary>
+        /// Convert a <see cref="Failure" /> to <see cref="Contracts.Failure" />.
+        /// </summary>
+        /// <param name="failure"><see cref="Failure" /> to convert.</param>
+        /// <returns>Converted <see cref="Contracts.Failure" />.</returns>
+        public static Contracts.Failure ToProtobuf(this Failure failure) =>
+            new Contracts.Failure { Id = failure.Id.ToProtobuf(), Reason = failure.Reason };
+
+        /// <summary>
+        /// Convert a <see cref="Contracts.Failure" /> to <see cref="Failure" />.
+        /// </summary>
+        /// <param name="failure"><see cref="Contracts.Failure" /> to convert.</param>
+        /// <returns>Converted <see cref="Failure" />.</returns>
+        public static Failure ToFailure(this Contracts.Failure failure) =>
+            new Failure(failure.Id.To<FailureId>(), failure.Reason);
     }
 }

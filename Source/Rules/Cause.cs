@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Dolittle.Collections;
@@ -58,7 +59,7 @@ namespace Dolittle.Rules
                 var propertyName = match.Groups[1].Value;
                 if (_arguments.ContainsKey(propertyName))
                 {
-                    result = result.Replace(match.Groups[0].Value, _arguments[propertyName]);
+                    result = result.Replace(match.Groups[0].Value, _arguments[propertyName], StringComparison.InvariantCulture);
                 }
             }
 

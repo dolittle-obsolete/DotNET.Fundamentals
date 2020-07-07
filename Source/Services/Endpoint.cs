@@ -16,6 +16,7 @@ namespace Dolittle.Services
     {
         readonly ILogger _logger;
         grpc::Server _server;
+        bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Endpoint"/> class.
@@ -31,13 +32,14 @@ namespace Dolittle.Services
         /// </summary>
         ~Endpoint()
         {
-            Dispose();
+            Dispose(false);
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            _server?.ShutdownAsync().Wait();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>
@@ -64,16 +66,31 @@ namespace Dolittle.Services
                 _server
                     .Ports
                     .ForEach(_ =>
-                        _logger.Information($"Starting {type} host on {_.Host}" + (_.Port > 0 ? $" for port {_.Port}" : string.Empty)));
+                        _logger.Information("Starting {endpointVisibility} host on {host}" + (_.Port > 0 ? " for port {port}" : string.Empty), type, _.Host, _.Port));
 
-                services.ForEach(_ => _server.Services.Add(_.ServerDefinition));
+                services.ForEach(_ =>
+                {
+                    _logger.Debug("Exposing service '{serviceName}'", _.Descriptor.FullName);
+                    _server.Services.Add(_.ServerDefinition);
+                });
 
                 _server.Start();
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"Couldn't start {type} host");
+                _logger.Error(ex, "Couldn't start {type} host", type);
             }
+        }
+
+        /// <summary>
+        /// Disposes resources.
+        /// </summary>
+        /// <param name="disposeManagedResources">Whether to dispose managed resources.</param>
+        protected virtual void Dispose(bool disposeManagedResources)
+        {
+            if (_disposed) return;
+            _server.ShutdownAsync().GetAwaiter().GetResult();
+            _disposed = true;
         }
     }
 }

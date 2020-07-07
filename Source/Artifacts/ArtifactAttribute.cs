@@ -28,7 +28,7 @@ namespace Dolittle.Artifacts
         /// </summary>
         /// <param name="id"><see cref="ArtifactId"/> of the artifact.</param>
         /// <param name="generation"><see cref="ArtifactGeneration"/>.</param>
-        public ArtifactAttribute(string id, int generation)
+        public ArtifactAttribute(string id, uint generation)
         {
             Artifact = new Artifact(Guid.Parse(id), generation);
         }

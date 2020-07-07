@@ -45,6 +45,7 @@ namespace Dolittle.DependencyInversion.Autofac
             containerBuilder.RegisterSource(new FactoryForRegistrationSource());
             containerBuilder.RegisterSource(new OpenGenericCallbackRegistrationSource());
             containerBuilder.RegisterSource(new OpenGenericTypeCallbackRegistrationSource());
+            containerBuilder.RegisterModule(new LoggerModule());
             DiscoverAndRegisterRegistrationSources(containerBuilder, allAssemblies);
 
             RegisterUpBindingsIntoContainerBuilder(bindings, containerBuilder);
@@ -76,7 +77,9 @@ namespace Dolittle.DependencyInversion.Autofac
                     {
                         case Strategies.Type type:
                             {
-                                var registrationBuilder = containerBuilder.RegisterGeneric(type.Target).As(binding.Service);
+                                var registrationBuilder = containerBuilder.RegisterGeneric(type.Target)
+                                    .AsSelf()
+                                    .As(binding.Service);
                                 if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
                             }
 
@@ -117,7 +120,9 @@ namespace Dolittle.DependencyInversion.Autofac
                     {
                         case Strategies.Type type:
                             {
-                                var registrationBuilder = containerBuilder.RegisterType(type.Target).As(binding.Service);
+                                var registrationBuilder = containerBuilder.RegisterType(type.Target)
+                                    .AsSelf()
+                                    .As(binding.Service);
                                 if (binding.Scope is Scopes.Singleton) registrationBuilder = registrationBuilder.SingleInstance();
                             }
 
@@ -173,7 +178,7 @@ namespace Dolittle.DependencyInversion.Autofac
                     ThrowIfRegistrationSourceProviderTypeIsMissingDefaultConstructor(registrationSourceProviderType);
                     var registrationSourceProvider = Activator.CreateInstance(registrationSourceProviderType) as ICanProvideRegistrationSources;
                     var registrationSources = registrationSourceProvider.Provide();
-                    registrationSources.ForEach(containerBuilder.RegisterSource);
+                    registrationSources.ForEach(_ => containerBuilder.RegisterSource(_));
                 });
             });
         }

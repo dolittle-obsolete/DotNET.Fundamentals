@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props"/>
+
+  <PropertyGroup>
+    <AssemblyName>Dolittle.Services.Clients</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Services/Services.csproj"/>
+    <ProjectReference Include="../DependencyInversion/DependencyInversion.csproj"/>
+    <ProjectReference Include="../Resilience/Resilience.csproj"/>
+    <ProjectReference Include="../Reflection/Reflection.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Contracts" Version="$(ContractsVersion)" />
+    <PackageReference Include="Google.Protobuf" Version="3.11.2" />
+    <PackageReference Include="Grpc" Version="2.26.0" />
+  </ItemGroup>
+</Project>

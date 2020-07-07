@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../default.props"/>
+    <Import Project="../../default.props"/>
 
-  <PropertyGroup>
-    <AssemblyName>Dolittle.Rules.Machine.Specifications</AssemblyName>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>Dolittle.Rules.Machine.Specifications</AssemblyName>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Machine.Specifications" Version="0.12.0" />
-    <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
-    <PackageReference Include="moq" Version="4.7.*" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Machine.Specifications" Version="1.0.0" />
+        <PackageReference Include="Machine.Specifications.Should" Version="1.0.0" />
+        <PackageReference Include="moq" Version="4.13.*" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../Rules/Rules.csproj"/>
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="../Rules/Rules.csproj"/>
+    </ItemGroup>
 </Project>

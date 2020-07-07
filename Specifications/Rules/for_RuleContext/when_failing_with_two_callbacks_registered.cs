@@ -23,7 +23,7 @@ namespace Dolittle.Rules.for_RuleContext
         {
             rule_mock = new Mock<IRule>();
             instance = new object();
-            reason = Reason.Create(Guid.NewGuid().ToString(), "Some reason");
+            reason = Reason.Create(Guid.NewGuid(), "Some reason");
             cause = reason.NoArgs();
             rule_context = new RuleContext(instance);
 

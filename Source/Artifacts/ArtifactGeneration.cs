@@ -8,7 +8,7 @@ namespace Dolittle.Artifacts
     /// <summary>
     /// Represents the generation of an <see cref="Artifact"/>.
     /// </summary>
-    public class ArtifactGeneration : ConceptAs<int>
+    public class ArtifactGeneration : ConceptAs<uint>
     {
         /// <summary>
         /// Gets the first generation representation.
@@ -16,9 +16,9 @@ namespace Dolittle.Artifacts
         public static readonly ArtifactGeneration First = new ArtifactGeneration { Value = 1 };
 
         /// <summary>
-        /// Implicitly converts <see cref="int"/> to an <see cref="ArtifactGeneration"/>.
+        /// Implicitly converts <see cref="uint"/> to an <see cref="ArtifactGeneration"/>.
         /// </summary>
         /// <param name="value">Converted <see cref="ArtifactGeneration"/>.</param>
-        public static implicit operator ArtifactGeneration(int value) => new ArtifactGeneration { Value = value };
+        public static implicit operator ArtifactGeneration(uint value) => new ArtifactGeneration { Value = value };
     }
 }

@@ -47,7 +47,7 @@ namespace Dolittle.Configuration.Files
         /// <inheritdoc/>
         public object Parse(Type type, string filename, string content)
         {
-            _logger.Information($"Parsing '{filename}' into '{type.GetFriendlyConfigurationName()} - {type.AssemblyQualifiedName}'");
+            _logger.Trace("Parsing '{filename}' into '{configurationObjectName} - {configurationObjectType}'", filename, type.GetFriendlyConfigurationName(), type.AssemblyQualifiedName);
             return _serializer.FromJson(type, content, _serializationOptions);
         }
     }

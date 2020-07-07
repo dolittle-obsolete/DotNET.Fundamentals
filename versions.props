@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <MicrosoftExtensionsVersion>3.1.2</MicrosoftExtensionsVersion>
+        <ContractsVersion>5.*</ContractsVersion>
+    </PropertyGroup>
+</Project>

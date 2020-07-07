@@ -97,7 +97,9 @@ namespace Dolittle.DependencyInversion.Autofac
 
             var builder = RegistrationBuilder.ForType(ts.ServiceType);
             RegistrationConfiguration?.Invoke(builder);
-            return new[] { builder.CreateRegistration() };
+            var registration = builder.CreateRegistration();
+            LoggerModule.ResolveUntypedLoggersFor(registration);
+            return new[] { registration };
         }
 
         /// <summary>

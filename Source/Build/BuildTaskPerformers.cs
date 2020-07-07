@@ -36,7 +36,7 @@ namespace Dolittle.Build
             _buildMessages.Indent();
             _performers.ForEach(_ =>
             {
-                _buildMessages.Information($"{_.Message} (Task: '{_.GetType().AssemblyQualifiedName}')");
+                _buildMessages.Trace($"{_.Message} (Task: '{_.GetType().AssemblyQualifiedName}')");
                 _buildMessages.Indent();
                 _.Perform();
                 _buildMessages.Unindent();

@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -51,7 +52,7 @@ namespace Dolittle.Assemblies
         public Assembly GetByName(string name)
         {
             var query = from a in _assemblies
-                        where a.FullName.Contains(name)
+                        where a.FullName.Contains(name, StringComparison.InvariantCulture)
                         select a;
 
             return query.SingleOrDefault();

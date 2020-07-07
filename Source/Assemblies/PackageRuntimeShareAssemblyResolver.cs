@@ -4,7 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using Dolittle.Versioning;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.DependencyModel.Resolution;
 
@@ -12,13 +14,15 @@ namespace Dolittle.Assemblies
 {
     /// <summary>
     /// Represents a <see cref="ICompilationAssemblyResolver"/> that tries to resolve from the package runtime shared store.
+    /// </summary>
     /// <remarks>
     /// Read more here https://natemcmaster.com/blog/2018/08/29/netcore-primitives-2/
-    /// https://github.com/dotnet/corefx/issues/11639
+    /// https://github.com/dotnet/corefx/issues/11639.
     /// </remarks>
-    /// </summary>
     public class PackageRuntimeShareAssemblyResolver : ICompilationAssemblyResolver
     {
+        static readonly VersionConverter _versionConverter = new VersionConverter();
+
         /// <inheritdoc/>
         public bool TryResolveAssemblyPaths(CompilationLibrary library, List<string> assemblies)
         {
@@ -43,17 +47,25 @@ namespace Dolittle.Assemblies
             foreach (var path in Directory.GetDirectories(basePath))
             {
                 if (found) break;
-                var versionDir = Path.Combine(path, library.Version);
-                if (Directory.Exists(versionDir))
+
+                var version = _versionConverter.FromString(library.Version);
+                var versionDir = Path.Combine(path, $"{version.Major}.");
+
+                var targetDirectoryToCheck = Directory.GetDirectories(path)
+                                                    .Where(_ => _.StartsWith(versionDir, StringComparison.InvariantCultureIgnoreCase))
+                                                    .OrderByDescending(_ => _)
+                                                    .FirstOrDefault();
+
+                if (targetDirectoryToCheck != default)
                 {
-                    foreach (var file in Directory.GetFiles(versionDir))
+                    var assemblyFileToSearchFor = $"{library.Name}.dll";
+
+                    var file = Directory.GetFiles(targetDirectoryToCheck)
+                                .SingleOrDefault(_ => Path.GetFileName(_).Equals(assemblyFileToSearchFor, StringComparison.InvariantCultureIgnoreCase));
+                    if (file != null)
                     {
-                        if (found) break;
-                        if (Path.GetFileName(file).Equals($"{library.Name}.dll", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            assemblies.Add(file);
-                            found = true;
-                        }
+                        found = true;
+                        assemblies.Add(file);
                     }
                 }
             }

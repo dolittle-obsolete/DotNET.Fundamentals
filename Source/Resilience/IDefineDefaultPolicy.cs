@@ -11,7 +11,7 @@ namespace Dolittle.Resilience
         /// <summary>
         /// Define the default policy.
         /// </summary>
-        /// <returns>The defined <see cref="Polly.Policy"/>.</returns>
-        Polly.Policy Define();
+        /// <returns>The defined <see cref="Polly.ISyncPolicy"/>.</returns>
+        Polly.ISyncPolicy Define();
     }
 }

@@ -1,0 +1,24 @@
+<Project>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <NoWarn>$(NoWarn);CS0618;SA1600;CS1591</NoWarn>
+    <SourceFolder>$(MSBuildThisFileDirectory)../../Source/</SourceFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="2.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(SourceFolder)Booting\Booting.csproj" />
+    <ProjectReference Include="$(SourceFolder)Collections\Collections.csproj" />
+    <ProjectReference Include="$(SourceFolder)Configuration\Configuration.csproj" />
+    <ProjectReference Include="$(SourceFolder)DependencyInversion.Booting\DependencyInversion.Booting.csproj" />
+    <ProjectReference Include="$(SourceFolder)DependencyInversion.Autofac\DependencyInversion.Autofac.csproj" />
+  </ItemGroup>
+
+</Project>
