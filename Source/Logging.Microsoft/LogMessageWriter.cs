@@ -25,6 +25,10 @@ namespace Dolittle.Logging.Microsoft
         }
 
         /// <inheritdoc/>
+        public IDisposable BeginScope(string messageFormat, params object[] args)
+            => _logger.BeginScope(messageFormat, args);
+
+        /// <inheritdoc/>
         public void Write(LogLevel logLevel, string message, params object[] args)
             => _logger.Log(TranslateLogLevel(logLevel), message, args);
 

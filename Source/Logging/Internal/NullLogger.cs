@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Reactive.Disposables;
 
 namespace Dolittle.Logging.Internal
 {
@@ -81,5 +82,8 @@ namespace Dolittle.Logging.Internal
         public void Error(Exception exception, string message, params object[] args)
         {
         }
+
+        /// <inheritdoc/>
+        public IDisposable BeginScope(string messageFormat, params object[] args) => Disposable.Empty;
     }
 }
