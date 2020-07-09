@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Reactive.Disposables;
 
 namespace Dolittle.Logging.Booting
 {
@@ -23,6 +24,10 @@ namespace Dolittle.Logging.Booting
             _creator = creator;
             _type = type;
         }
+
+        /// <inheritdoc/>
+        public IDisposable BeginScope(string messageFormat, params object[] args)
+            => Disposable.Empty;
 
         /// <inheritdoc/>
         public void Write(LogLevel logLevel, string message, params object[] args)

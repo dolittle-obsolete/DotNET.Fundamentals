@@ -26,5 +26,13 @@ namespace Dolittle.Logging
         /// <param name="message">Format string of the log message in message template format.</param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         void Write(LogLevel logLevel, Exception exception, string message, params object[] args);
+
+        /// <summary>
+        /// Formats the message and creates a scope.
+        /// </summary>
+        /// <param name="messageFormat">The <see cref="string" >format string</see>of the log message in message template format.</param>
+        /// <param name="args">The object array that contains zero or more objects to format.</param>
+        /// <returns>A disposable scope object. Can be null.</returns>
+        IDisposable BeginScope(string messageFormat, params object[] args);
     }
 }

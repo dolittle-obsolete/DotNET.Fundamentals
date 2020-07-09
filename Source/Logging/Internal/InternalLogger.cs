@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Linq;
+using System.Reactive.Disposables;
 
 namespace Dolittle.Logging.Internal
 {
@@ -59,6 +61,10 @@ namespace Dolittle.Logging.Internal
 
         /// <inheritdoc/>
         public void Error(Exception exception, string message, params object[] args) => Write(LogLevel.Error, exception, message, args);
+
+        /// <inheritdoc/>
+        public IDisposable BeginScope(string messageFormat, params object[] args)
+            => new CompositeDisposable(LogMessageWriters.Select(_ => _.BeginScope(messageFormat, args)).Where(_ => _ != default).ToArray());
 
         /// <summary>
         /// Writes the log message to the log message writers in <see cref="LogMessageWriters"/>.
