@@ -1,4 +1,4 @@
-name: .NET Library CI/CD
+name: Fundamentals
 
 env:
   PRERELEASE_BRANCHES: experimental,alpha,beta,rc,net5 # Comma separated list of prerelease branch names. 'alpha,rc, ...'
