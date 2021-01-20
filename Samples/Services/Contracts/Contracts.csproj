@@ -8,6 +8,6 @@
 
     <ItemGroup>
         <PackageReference Include="Dolittle.Common" Version="2.*"/>
-        <PackageReference Include="Dolittle.Protobuf.MSBuild" Version="1.*"/>
+        <PackageReference Include="Dolittle.Protobuf.MSBuild" Version="1.1.0-updategrpc.0"/>
     </ItemGroup>
 </Project>
