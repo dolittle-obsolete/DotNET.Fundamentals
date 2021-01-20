@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
         <MicrosoftExtensionsVersion>3.1.2</MicrosoftExtensionsVersion>
-        <ContractsVersion>5.*</ContractsVersion>
+        <ContractsVersion>5.2.0-updategrpc.2</ContractsVersion>
     </PropertyGroup>
 </Project>
